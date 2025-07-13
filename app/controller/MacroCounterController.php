@@ -1,8 +1,16 @@
 <?php
 
 require_once "app/model/MacrosCounter.php";
+require_once "app/view/MacroCounterView.php";
+require_once "app/helpers/htmlHelper.php";
 
 class MacroCounterController {
+    private MacroCounterView $macroView;
+
+    public function __construct() {
+        $this->macroView = new MacroCounterView();
+    }
+
     public function createMacros(array $macroName, array $macroCount, array $macroGoals): MacroCounter {
         return new MacroCounter($macroName, $macroCount, $macroGoals);
     }
@@ -13,12 +21,8 @@ class MacroCounterController {
 
     public function showMacrosAndCalories(MacroCounter $macroCounter): void {
         $macrosList = $macroCounter->buildAssociativeArrayWithMacros();
-        $calories = $macroCounter->calculateCalories();
+        $caloiesConsumed = $macroCounter->calculateCalories();
 
-        echo "Macros and Goals:\n";
-        foreach ($macrosList as $macroName => $data) {
-            echo "<p>{$macroName}: Count = {$data['count']}, Goal = {$data['goal']}<p>\n";
-        }
-        echo "Total Calories: {$calories}\n";
+        echo $this->macroView->displayMacrosAndCalories($macrosList, $caloiesConsumed);
     }
 }
