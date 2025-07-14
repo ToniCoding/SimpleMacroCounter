@@ -19,7 +19,7 @@ class MacroCounterController {
         return $macroCounter->calculateCalories();
     }
 
-    public function showMacrosAndCalories(MacroCounter $macroCounter): void {
+    public function displayMacrosAndCalories(MacroCounter $macroCounter): void {
         $macrosList = $macroCounter->buildAssociativeArrayWithMacros();
         $caloiesConsumed = $macroCounter->calculateCalories();
 
