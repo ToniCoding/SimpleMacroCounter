@@ -1,0 +1,17 @@
+--- Main page ---
+> Macro counts and objetives.
+> Add macros.
+> Redirect to registerMacros.php.
+> Instant redirect back to main page with updated macros.
+
+--- Register macros page ---
+> Get data by POST.
+> Parse data to difference between the different macros.
+> Update database.
+> Redirect to main page.
+
+--- Next steps ---
+> Change macros view to show macros with the following format: macro / goal.
+> Create a relational database with MySQL.
+> Connect PHP to database with a common PDO connector.
+> 

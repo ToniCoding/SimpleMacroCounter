@@ -25,4 +25,8 @@ class MacroCounterController {
 
         echo $this->macroView->displayMacrosAndCalories($macrosList, $caloiesConsumed);
     }
+
+    public function displayIngestedMacrosForm(): void {
+        echo $this->macroView->displayIngestedMacrosForm();
+    }
 }

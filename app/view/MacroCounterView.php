@@ -1,4 +1,6 @@
 <?php
+    require_once 'app/helpers/htmlHelper.php';
+
     class MacroCounterView {
         public function displayMacrosAndCalories(array $macrosList, int $calories): string {
             $macroCounterResult = "";
@@ -12,5 +14,14 @@
             $macroCounterResult .= "<tbody></table>" . htag_p("Total Calories - {$calories}");
 
             return $macroCounterResult;
+        }
+
+        public function displayIngestedMacrosForm(): string {
+            return generateForm(
+                action: 'action.php',
+                method: 'POST',
+                inputLabels: ["Macro name", "Count", "Goal"],
+                inputType: 'text'
+            );
         }
     }
