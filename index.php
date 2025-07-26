@@ -7,3 +7,4 @@ $macros = $macroController->createMacros(["protein","carbs", "fat"], [140, 150, 
 
 $macroController->displayMacrosAndCalories($macros);
 $macroController->displayIngestedMacrosForm();
+$macroController->displayDate();

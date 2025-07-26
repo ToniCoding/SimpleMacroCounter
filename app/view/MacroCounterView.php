@@ -1,7 +1,14 @@
 <?php
     require_once 'app/helpers/htmlHelper.php';
+    require_once 'app/helpers/dateParser.php';
 
     class MacroCounterView {
+        private Object $dateParser;
+
+        public function __construct() {
+            $this->dateParser = new DateParser();
+        }
+
         public function displayMacrosAndCalories(array $macrosList, int $calories): string {
             $macroCounterResult = "";
             $macroCounterResult .= htag_p("Macros and Goals")
@@ -23,5 +30,9 @@
                 inputLabels: ["Macro name", "Count", "Goal"],
                 inputType: 'text'
             );
+        }
+
+        public function displayDate(): string {
+            return $this->dateParser->getDate();
         }
     }

@@ -29,4 +29,8 @@ class MacroCounterController {
     public function displayIngestedMacrosForm(): void {
         echo $this->macroView->displayIngestedMacrosForm();
     }
+
+    public function displayDate():void {
+        echo $this->macroView->displayDate();
+    }
 }
