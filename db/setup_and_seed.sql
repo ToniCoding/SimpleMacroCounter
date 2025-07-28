@@ -1,5 +1,10 @@
 --- DATABASE INITIAL DESIGN SMC ---
 
+--- Create database and administrator user ---
+CREATE USER 'op_user'@'localhost' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON SMC.* TO 'op_user'@'localhost';
+FLUSH PRIVILEGES;
+
 --- Users table ---
 CREATE OR REPLACE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,9 +1,9 @@
 <?php
 
 $serverName = "localhost";
-$username = "dbAdmin";
+$username = "op_user";
 $password = "1234";
-$databaseName = "macroCounterDB";
+$databaseName = "smc";
 
 class DbConnection {
     private PDO $dbPdo;
@@ -22,9 +22,10 @@ class DbConnection {
     public function connect(): PDO {
         try {
             $dbPdo = new PDO(
-                "mysql:host={$this->serverName}; dbname={$this->databaseName}, charset_utf8",
+                "mysql:host={$this->serverName}; dbname={$this->databaseName}; charset=utf8",
                 $this->username,
                 $this->password);
+
             $dbPdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
             echo "Connected successfully to the database: {$this->databaseName}";
@@ -37,3 +38,6 @@ class DbConnection {
     }
 }
 
+//$db = new DbConnection($serverName, $username, $password, $databaseName);
+$pdo = new DbConnection($serverName, $username, $password, $databaseName);
+$test = $pdo->connect();
