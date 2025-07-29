@@ -1,6 +1,6 @@
 <?php
     class User {
-        private int $userId;
+        private ?int $userId;
         private string $username;
         private string $password;
         private string $userAlias;
@@ -10,8 +10,7 @@
         private DateTime $lastLogin;
         private bool $isActive;
 
-        public function __construct(int $userId, string $username, string $password, string $userAlias, string $email, int $age, DateTime $createdTime, DateTime $lastLogin, bool $isActive) {
-            $this->userId = $userId;
+        public function __construct(string $username, string $password, string $userAlias, string $email, int $age, DateTime $createdTime, DateTime $lastLogin, bool $isActive) {
             $this->username = $username;
             $this->password = $password;
             $this->userAlias = $userAlias;
@@ -22,7 +21,7 @@
             $this->isActive = $isActive;
         }
 
-        public function getUserId(): int {
+        public function getUserId(): ?int {
             return $this->userId;
         }
 
