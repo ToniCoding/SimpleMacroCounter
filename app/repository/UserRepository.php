@@ -20,6 +20,18 @@ class UserRepository {
         ]);
     }
 
+    public function delete(User $user): bool {
+        $userId = $user->getUserId();
+
+        $sqlStmt = $this->connectionPDO->prepare('DELETE FROM users WHERE id = :id');
+        
+        if ($sqlStmt->execute(['id' => $userId])) {
+            return true;
+        }
+        
+        return false;
+    }
+
     public function findUserById(User $user): array {
         $userId = $user->getUserId();
         $sqlStmt = $this->connectionPDO->prepare('SELECT username, alias, email, age FROM smc.users WHERE id = :id');

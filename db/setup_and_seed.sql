@@ -75,3 +75,6 @@ VALUES
 ('Chicken Breast', 'Mercadona', 165, 31.0, 0.0, 3.6, 0.0),
 ('Brown Rice', 'Carrefour', 112, 2.6, 23.0, 0.9, 1.8),
 ('Almonds', 'Lidl', 579, 21.1, 21.7, 49.9, 12.5);
+
+--- Restart users ID autoincrement ---
+ALTER TABLE smc.users AUTO_INCREMENT = 1;

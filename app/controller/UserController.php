@@ -22,6 +22,10 @@ class UserController {
         return $this->userRepository->create($user);
     }
 
+    public function deleteUser(User $user): bool {
+        return $this->userRepository->delete($user);
+    }
+
     public function retrieveUser(User $user) {
         return $this->userRepository->findUserById($user);
     }
