@@ -9,4 +9,3 @@ function normalize_input(string $input): string {
 function check_integer(string $userStr): bool {
     return filter_var($userStr, FILTER_VALIDATE_INT) !== false;
 }
-

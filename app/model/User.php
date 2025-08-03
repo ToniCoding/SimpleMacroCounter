@@ -11,8 +11,8 @@ class User {
     private string $userAlias;
     private string $email;
     private int $age;
-    private DateTime $createdTime;
-    private DateTime $lastLogin;
+    private string $createdTime;
+    private string $lastLogin;
     private bool $isActive;
 
     /**
@@ -23,11 +23,11 @@ class User {
      * @param string $userAlias Display name or alias.
      * @param string $email User email address.
      * @param int $age User age.
-     * @param DateTime $createdTime Account creation timestamp.
-     * @param DateTime $lastLogin Last login timestamp.
+     * @param string $createdTime Account creation timestamp.
+     * @param string $lastLogin Last login timestamp.
      * @param bool $isActive Account active status.
      */
-    public function __construct(string $username, string $password, string $userAlias, string $email, int $age, DateTime $createdTime, DateTime $lastLogin, bool $isActive) {
+    public function __construct(string $username, string $password, string $userAlias, string $email, int $age, string $createdTime, string $lastLogin, bool $isActive) {
         $this->userId = null;
         $this->username = $username;
         $this->password = $password;
@@ -88,19 +88,19 @@ class User {
         $this->age = $age;
     }
 
-     public function getCreatedTime(): DateTime {
+     public function getCreatedTime(): string {
         return $this->createdTime;
     }
 
-     public function setCreatedTime(DateTime $createdTime): void {
+     public function setCreatedTime(string $createdTime): void {
         $this->createdTime = $createdTime;
     }
 
-     public function getLastLogin(): DateTime {
+     public function getLastLogin(): string {
         return $this->lastLogin;
     }
 
-     public function setLastLogin(DateTime $lastLogin): void {
+     public function setLastLogin(string $lastLogin): void {
         $this->lastLogin = $lastLogin;
     }
 
