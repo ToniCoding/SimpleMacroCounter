@@ -26,6 +26,10 @@ class UserController {
         return $this->userRepository->delete($user);
     }
 
+    public function editUser(User $user, string $field, int $age): bool {
+        return $this->userRepository->edit($user, $field, $age);
+    }
+
     public function retrieveUser(User $user) {
         return $this->userRepository->findUserById($user);
     }

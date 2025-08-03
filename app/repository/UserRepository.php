@@ -1,5 +1,7 @@
 <?php
 
+require_once 'app/helpers/userInputs.php';
+
 class UserRepository {
     private PDO $connectionPDO;
 
@@ -32,9 +34,53 @@ class UserRepository {
         return false;
     }
 
+    public function edit(User $user, string $field, string $newValue): bool {
+        $userId = $user->getUserId();
+        $validFields = array("username", "password", "age", "email");
+
+        if (!in_array($field, $validFields)) {
+            throw new Exception("Invalid fields.");
+        }
+
+        switch ($field) {
+            case 'age': {
+                if(!check_integer($newValue)) {
+                    return false;
+                }
+                $newValue = (int)$newValue;
+                break;
+            }
+
+            case 'email': {
+                if (!filter_var($newValue, FILTER_VALIDATE_EMAIL)) {
+                    return false;
+                }
+                break;
+            }
+
+            case 'username':
+            case 'password':
+                if (empty($newValue)) {
+                    return false;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        $sql = "UPDATE users SET $field = :newValue WHERE id = :id";
+        $sqlStmt = $this->connectionPDO->prepare($sql);
+
+        return $sqlStmt->execute([
+            'newValue' => $newValue,
+            'id' => $userId
+        ]);
+    }
+
     public function findUserById(User $user): array {
         $userId = $user->getUserId();
-        $sqlStmt = $this->connectionPDO->prepare('SELECT username, alias, email, age FROM smc.users WHERE id = :id');
+        $sqlStmt = $this->connectionPDO->prepare('SELECT username, alias, email, age FROM users WHERE id = :id');
 
         $sqlStmt->execute(['id' => $userId]);
         $sqlResult = $sqlStmt->fetchAll(PDO::FETCH_ASSOC);
