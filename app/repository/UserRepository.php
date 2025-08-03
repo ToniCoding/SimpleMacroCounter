@@ -51,7 +51,6 @@ class UserRepository {
      */
     public function delete(User $user): bool {
         $userId = $user->getUserId();
-        echo "UID: " . $userId;
         $sqlStmt = $this->connectionPDO->prepare('DELETE FROM users WHERE id = :id');
         return $sqlStmt->execute(['id' => $userId]);
     }
