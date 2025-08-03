@@ -11,6 +11,7 @@
         private bool $isActive;
 
         public function __construct(string $username, string $password, string $userAlias, string $email, int $age, DateTime $createdTime, DateTime $lastLogin, bool $isActive) {
+            $this->userId = null;
             $this->username = $username;
             $this->password = $password;
             $this->userAlias = $userAlias;

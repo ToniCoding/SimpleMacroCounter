@@ -5,3 +5,8 @@ function normalize_input(string $input): string {
 
     return $result;
 }
+
+function check_integer(string $userStr): bool {
+    return filter_var($userStr, FILTER_VALIDATE_INT) !== false;
+}
+
