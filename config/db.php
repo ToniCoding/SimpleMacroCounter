@@ -37,7 +37,3 @@ class DbConnection {
         }
     }
 }
-
-//$db = new DbConnection($serverName, $username, $password, $databaseName);
-$pdo = new DbConnection($serverName, $username, $password, $databaseName);
-$test = $pdo->connect();
