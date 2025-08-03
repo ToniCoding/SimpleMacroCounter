@@ -19,7 +19,7 @@ class UserRepository {
     }
 
     /**
-     * Inserts a new user into the database.
+     * Inserts a new user into the database. Then gets the user id and sets it to the user instance.
      *
      * @param User $user User entity.
      * @return bool True on success, false otherwise.
@@ -27,14 +27,20 @@ class UserRepository {
     public function create(User $user): bool {
         $sqlStmt = $this->connectionPDO->prepare('INSERT INTO users (username, alias, email, password, age, status) VALUES (?, ?, ?, ?, ?, ?)');
 
-        return $sqlStmt->execute([
+        if ($sqlStmt->execute([
             $user->getUsername(),
             $user->getUserAlias(),
             $user->getEmail(),
             $user->getPassword(),
             $user->getAge(),
             $user->getIsActive() ? 1 : 0
-        ]);
+        ])) {
+            $sqlStmt = $this->connectionPDO->prepare('SELECT id FROM users WHERE username = :username;');
+            $sqlStmt->execute(['username' => $user->getUsername()]);
+            $user->setUserId($sqlStmt->fetch(PDO::FETCH_ASSOC)['id']);
+
+            return true;
+        }
     }
 
     /**
@@ -45,6 +51,7 @@ class UserRepository {
      */
     public function delete(User $user): bool {
         $userId = $user->getUserId();
+        echo "UID: " . $userId;
         $sqlStmt = $this->connectionPDO->prepare('DELETE FROM users WHERE id = :id');
         return $sqlStmt->execute(['id' => $userId]);
     }

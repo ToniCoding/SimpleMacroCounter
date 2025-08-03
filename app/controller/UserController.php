@@ -50,11 +50,11 @@ class UserController {
      *
      * @param User $user User instance.
      * @param string $field Field name to edit.
-     * @param int $age New value for the field.
+     * @param string $newValue New value for the field.
      * @return bool Operation result.
      */
-    public function editUser(User $user, string $field, int $age): bool {
-        return $this->userRepository->edit($user, $field, $age);
+    public function editUser(User $user, string $field, string $newValue): bool {
+        return $this->userRepository->edit($user, $field, $newValue);
     }
 
     /**
