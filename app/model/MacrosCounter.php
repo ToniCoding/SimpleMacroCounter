@@ -1,10 +1,13 @@
 <?php
 
+/**
+ * MacroCounter class managing multiple macros and calculating total calories.
+ */
 class MacroCounter {
-    private $macrosNames = [];
-    private $macroCounts = [];
-    private $macroGoals = [];
-    private $calories;
+    private array $macrosNames = [];
+    private array $macroCounts = [];
+    private array $macroGoals = [];
+    private int $calories;
 
     public function __construct(array $macrosNames, array $macroCounts, array $macroGoals) {
         $this->macrosNames = $macrosNames;
@@ -13,6 +16,11 @@ class MacroCounter {
         $this->calories = 0;
     }
 
+    /**
+     * Builds an associative array with macros data.
+     *
+     * @return array Associative array with keys: name, count and goal.
+     */
     public function buildAssociativeArrayWithMacros(): array {
         $assocMacros = [];
 
@@ -26,6 +34,11 @@ class MacroCounter {
         return $assocMacros;
     }
 
+    /**
+     * Calculates the total calories based on macros.
+     *
+     * @return int Total calories.
+     */
     public function calculateCalories(): int {
         $calories = 0;
         $macrosList = $this->buildAssociativeArrayWithMacros();
@@ -42,6 +55,7 @@ class MacroCounter {
 
                 case 'fat':
                     $calories += $macroData['count'] * 9;
+                    break;
             }
         }
 

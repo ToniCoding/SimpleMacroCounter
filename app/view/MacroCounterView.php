@@ -1,38 +1,63 @@
 <?php
+
     require_once 'app/helpers/htmlHelper.php';
     require_once 'app/helpers/dateParser.php';
 
-    class MacroCounterView {
-        private Object $dateParser;
+/**
+ * Class MacroCounterView
+ * Responsible for displaying macros and related information.
+ */
+class MacroCounterView {
+    private object $dateParser;
 
-        public function __construct() {
-            $this->dateParser = new DateParser();
-        }
-
-        public function displayMacrosAndCalories(array $macrosList, int $calories): string {
-            $macroCounterResult = "";
-            $macroCounterResult .= htag_p("Macros and Goals")
-            . "<table><thead><tr><th>Macro name</th></th><th>Count</th><th>Goal</th></tr></thead><tbody>";
-
-            foreach ($macrosList as $macroName => $data) {
-                $macroCounterResult .= "<tr><td>{$macroName}</td></td><td>{$data['count']}</td><td>{$data['goal']}</td></tr>";
-            }
-
-            $macroCounterResult .= "<tbody></table>" . htag_p("Total Calories - {$calories}");
-
-            return $macroCounterResult;
-        }
-
-        public function displayIngestedMacrosForm(): string {
-            return generateForm(
-                action: 'action.php',
-                method: 'POST',
-                inputLabels: ["Macro name", "Count", "Goal"],
-                inputType: 'text'
-            );
-        }
-
-        public function displayDate(): string {
-            return $this->dateParser->getDate();
-        }
+    /**
+     * Constructor initializes the date parser.
+     */
+    public function __construct() {
+        $this->dateParser = new DateParser();
     }
+
+    /**
+     * Displays a table of macros and their calories.
+     *
+     * @param array $macrosList Associative array of macros with counts and goals.
+     * @param int $calories Total calories.
+     * @return string HTML content.
+     */
+    public function displayMacrosAndCalories(array $macrosList, int $calories): string {
+        $result = "";
+        $result .= htag_p("Macros and Goals")
+            . "<table><thead><tr><th>Macro name</th><th>Count</th><th>Goal</th></tr></thead><tbody>";
+
+        foreach ($macrosList as $macroName => $data) {
+            $result .= "<tr><td>{$macroName}</td><td>{$data['count']}</td><td>{$data['goal']}</td></tr>";
+        }
+
+        $result .= "</tbody></table>" . htag_p("Total Calories - {$calories}");
+
+        return $result;
+    }
+
+    /**
+     * Displays a form for entering macros.
+     *
+     * @return string HTML form.
+     */
+    public function displayIngestedMacrosForm(): string {
+        return generateForm(
+            action: 'action.php',
+            method: 'POST',
+            inputLabels: ["Macro name", "Count", "Goal"],
+            inputType: 'text'
+        );
+    }
+
+    /**
+     * Returns the current date as a string.
+     *
+     * @return string Date string.
+     */
+    public function displayDate(): string {
+        return $this->dateParser->getDate();
+    }
+}

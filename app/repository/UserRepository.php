@@ -2,13 +2,28 @@
 
 require_once 'app/helpers/userInputs.php';
 
+/**
+ * Class UserRepository
+ * Handles database operations related to User entities.
+ */
 class UserRepository {
     private PDO $connectionPDO;
 
+    /**
+     * Constructor injecting PDO connection.
+     *
+     * @param PDO $pdo Database connection.
+     */
     public function __construct(PDO $pdo) {
         $this->connectionPDO = $pdo;
     }
 
+    /**
+     * Inserts a new user into the database.
+     *
+     * @param User $user User entity.
+     * @return bool True on success, false otherwise.
+     */
     public function create(User $user): bool {
         $sqlStmt = $this->connectionPDO->prepare('INSERT INTO users (username, alias, email, password, age, status) VALUES (?, ?, ?, ?, ?, ?)');
 
@@ -22,50 +37,54 @@ class UserRepository {
         ]);
     }
 
+    /**
+     * Deletes a user by ID.
+     *
+     * @param User $user User entity.
+     * @return bool True on success, false otherwise.
+     */
     public function delete(User $user): bool {
         $userId = $user->getUserId();
-
         $sqlStmt = $this->connectionPDO->prepare('DELETE FROM users WHERE id = :id');
-        
-        if ($sqlStmt->execute(['id' => $userId])) {
-            return true;
-        }
-        
-        return false;
+        return $sqlStmt->execute(['id' => $userId]);
     }
 
+    /**
+     * Updates a specified field of a user.
+     *
+     * @param User $user User entity.
+     * @param string $field Field name to update (username, password, age, email).
+     * @param string $newValue New value for the field.
+     * @return bool True on success, false otherwise.
+     * @throws Exception On invalid field.
+     */
     public function edit(User $user, string $field, string $newValue): bool {
         $userId = $user->getUserId();
-        $validFields = array("username", "password", "age", "email");
+        $validFields = ["username", "password", "age", "email"];
 
         if (!in_array($field, $validFields)) {
-            throw new Exception("Invalid fields.");
+            throw new Exception("Invalid field.");
         }
 
         switch ($field) {
-            case 'age': {
-                if(!check_integer($newValue)) {
+            case 'age':
+                if (!check_integer($newValue)) {
                     return false;
                 }
                 $newValue = (int)$newValue;
                 break;
-            }
 
-            case 'email': {
+            case 'email':
                 if (!filter_var($newValue, FILTER_VALIDATE_EMAIL)) {
                     return false;
                 }
                 break;
-            }
 
             case 'username':
             case 'password':
                 if (empty($newValue)) {
                     return false;
                 }
-                break;
-
-            default:
                 break;
         }
 
@@ -78,13 +97,17 @@ class UserRepository {
         ]);
     }
 
+    /**
+     * Finds a user by ID and returns basic info.
+     *
+     * @param User $user User entity.
+     * @return array Result set with username, alias, email, and age.
+     */
     public function findUserById(User $user): array {
         $userId = $user->getUserId();
         $sqlStmt = $this->connectionPDO->prepare('SELECT username, alias, email, age FROM users WHERE id = :id');
 
         $sqlStmt->execute(['id' => $userId]);
-        $sqlResult = $sqlStmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $sqlResult;
+        return $sqlStmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
