@@ -5,18 +5,22 @@ $username = "op_user";
 $password = "1234";
 $databaseName = "smc";
 
+require_once __DIR__ . '/../app/logging/Logger.php';
+
 class DbConnection {
     private PDO $dbPdo;
     private string $serverName;
     private string $username;
     private string $password;
     private string $databaseName;
+    private readonly Logger $log;
 
     public function __construct(string $serverName, string $username, string $password, string $databaseName) {
         $this->serverName = $serverName;
         $this->username = $username;
         $this->password = $password;
         $this->databaseName = $databaseName;
+        $this->log = new Logger();
     }
 
     public function connect(): PDO {
@@ -28,7 +32,7 @@ class DbConnection {
 
             $dbPdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-            echo "Connected successfully to the database: {$this->databaseName}";
+            $this->log->info("Connected successfully to the database: {$this->databaseName}");
 
             return $dbPdo;
         } catch (PDOException $err) {

@@ -17,4 +17,8 @@ class DateParser {
     public function getTime(): string {
         return $this->dateTime->format(self::TIME_FORMAT);
     }
+
+    public function getDateTime(): string {
+        return $this->getDate() . "T" . $this->getTime();
+    }
 }
