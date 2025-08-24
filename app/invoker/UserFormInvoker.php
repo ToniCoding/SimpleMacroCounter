@@ -1,0 +1,20 @@
+<?php
+
+require_once "../controller/UserController.php";
+require_once "../handlers/UserFormHandler.php";
+require_once "../repository/UserRepository.php";
+require_once "../../config/db.php";
+
+// !!! THIS MUST BE OBTAINED THROUGH ENV VARS OR PROPERTIES --- EXPERIMENTAL CREDENTIALS !!!
+$serverName = "localhost";
+$username = "op_user";
+$password = "1234";
+$databaseName = "smc";
+$dsn = "mysql:host=$serverName;dbname=$databaseName;charset=utf8";
+
+$dbConnection = new DbConnection($serverName, $username, $password, $databaseName);
+$userRepository = new UserRepository($dbConnection->connect());
+$userFormHandler = new UserFormHandler();
+$userController = new UserController($dbConnection, $userRepository, $userFormHandler);
+
+$userController->createUser($userFormHandler->handle($_POST));

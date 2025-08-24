@@ -1,16 +1,17 @@
 <?php
 
-require_once 'app/model/User.php';
-require_once 'app/repository/UserRepository.php';
-require_once 'config/db.php';
+require_once '../model/User.php';
+require_once '../repository/UserRepository.php';
+require_once '../../config/db.php';
 
 /**
  * Class UserController
  * Controller that manages user CRUD operations using UserRepository and database connection.
  */
 class UserController {
-    private UserRepository $userRepository;
     private DbConnection $dbConnection;
+    private UserRepository $userRepository;
+    private UserFormHandler $userFormHandler;
 
     private string $serverName = "localhost";
     private string $username = "op_user";
@@ -20,9 +21,10 @@ class UserController {
     /**
      * Constructor that initializes the database connection and repository.
      */
-    public function __construct() {
-        $this->dbConnection = new DbConnection($this->serverName, $this->username, $this->password, $this->databaseName);
-        $this->userRepository = new UserRepository($this->dbConnection->connect());
+    public function __construct(DbConnection $dbConnection, UserRepository $userRepository, UserFormHandler $userFormHandler) {
+        $this->dbConnection = $dbConnection;
+        $this->userRepository = $userRepository;
+        $this->userFormHandler = $userFormHandler;
     }
 
     /**

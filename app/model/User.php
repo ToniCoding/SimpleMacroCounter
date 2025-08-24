@@ -111,4 +111,21 @@ class User {
      public function setIsActive(bool $isActive): void {
         $this->isActive = $isActive;
     }
+    
+    /**
+     * Returns a string representation of the User object.
+     */
+    public function __toString(): string {
+        return sprintf(
+            "User[id=%s, username=%s, alias=%s, email=%s, age=%d, created=%s, lastLogin=%s, active=%s]",
+            $this->userId ?? 'null',
+            $this->username,
+            $this->userAlias,
+            $this->email,
+            $this->age,
+            $this->createdTime,
+            $this->lastLogin,
+            $this->isActive ? 'true' : 'false'
+        );
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'app/helpers/userInputs.php';
+require_once '../helpers/userInputs.php';
 
 /**
  * Class UserRepository
@@ -8,6 +8,7 @@ require_once 'app/helpers/userInputs.php';
  */
 class UserRepository {
     private PDO $connectionPDO;
+    private Logger $log;
 
     /**
      * Constructor injecting PDO connection.
