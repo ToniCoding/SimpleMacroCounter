@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../helpers/dateParser.php';
+require_once __DIR__ . "/../../config.php";
+
+require_once BASE_PATH . 'app/helpers/dateParser.php';
 
 /**
  * Logger class to record messages into a log file.

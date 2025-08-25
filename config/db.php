@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../app/logging/Logger.php';
+require_once __DIR__ . '/../config.php';
+
+require_once BASE_PATH . 'app/logging/Logger.php';
 
 $serverName = "localhost";
 $username = "op_user";

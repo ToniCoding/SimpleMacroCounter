@@ -1,6 +1,8 @@
 <?php
 
-require_once "app/helpers/userInputs.php";
+require_once __DIR__ . "/../../config.php";
+
+require_once BASE_PATH . "app/helpers/userInputs.php";
 
 /**
  * Function that wraps a text inside a <p> tag.

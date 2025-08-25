@@ -1,7 +1,9 @@
 <?php
 
-    require_once 'app/helpers/htmlHelper.php';
-    require_once 'app/helpers/dateParser.php';
+require_once __DIR__ . "/../../config.php";
+
+require_once BASE_PATH . 'app/helpers/htmlHelper.php';
+require_once BASE_PATH . 'app/helpers/dateParser.php';
 
 /**
  * Class MacroCounterView

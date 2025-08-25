@@ -1,7 +1,9 @@
 <?php
 
-require_once '../helpers/dateParser.php';
-require_once '../model/User.php';
+require_once __DIR__ . "/../../config.php";
+
+require_once BASE_PATH . 'app/helpers/dateParser.php';
+require_once BASE_PATH . 'app/model/User.php';
 
 class UserFormHandler {
     private readonly DateParser $dateParser;

@@ -1,8 +1,10 @@
 <?php
 
-require_once "app/model/MacrosCounter.php";
-require_once "app/view/MacroCounterView.php";
-require_once "app/helpers/htmlHelper.php";
+require_once __DIR__ . "/../../config.php";
+
+require_once BASE_PATH . "app/model/MacrosCounter.php";
+require_once BASE_PATH . "app/view/MacroCounterView.php";
+require_once BASE_PATH . "app/helpers/htmlHelper.php";
 
 /**
  * Class MacroCounterController

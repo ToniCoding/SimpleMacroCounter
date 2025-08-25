@@ -1,9 +1,11 @@
 <?php
 
-require_once "../controller/UserController.php";
-require_once "../handlers/UserFormHandler.php";
-require_once "../repository/UserRepository.php";
-require_once "../../config/db.php";
+require_once __DIR__ . "/../../config.php";
+
+require_once BASE_PATH . "app/controller/UserController.php";
+require_once BASE_PATH . "app/handlers/UserFormHandler.php";
+require_once BASE_PATH . "app/repository/UserRepository.php";
+require_once BASE_PATH . "config/db.php";
 
 // !!! THIS MUST BE OBTAINED THROUGH ENV VARS OR PROPERTIES --- EXPERIMENTAL CREDENTIALS !!!
 $serverName = "localhost";
