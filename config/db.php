@@ -29,12 +29,12 @@ class DbConnection {
      * @param string $password Database password.
      * @param string $databaseName Database name.
      */
-    public function __construct(string $serverName, string $username, string $password, string $databaseName) {
+    public function __construct(string $serverName, string $username, string $password, string $databaseName, Logger $logger) {
         $this->serverName = $serverName;
         $this->username = $username;
         $this->password = $password;
         $this->databaseName = $databaseName;
-        $this->log = new Logger();
+        $this->log = $logger;
     }
 
     /**

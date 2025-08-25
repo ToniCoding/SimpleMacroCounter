@@ -15,8 +15,8 @@ class MacroCounterView {
     /**
      * Constructor initializes the date parser.
      */
-    public function __construct() {
-        $this->dateParser = new DateParser();
+    public function __construct(DateParser $dateParser) {
+        $this->dateParser = $dateParser;
     }
 
     /**

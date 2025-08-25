@@ -17,9 +17,9 @@ class Logger {
     /**
      * Constructor that initializes the log file and date parser.
      */
-    public function __construct() {
+    public function __construct(DateParser $dateParser) {
         $this->logFile = __DIR__ . '/../../data/program.log';
-        $this->dateParser = new DateParser();
+        $this->dateParser = $dateParser;
     }
 
     /**

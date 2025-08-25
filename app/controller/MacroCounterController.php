@@ -16,8 +16,8 @@ class MacroCounterController {
     /**
      * Constructor that initializes the view.
      */
-    public function __construct() {
-        $this->macroView = new MacroCounterView();
+    public function __construct(MacroCounterView $macroCounterView) {
+        $this->macroView = $macroCounterView;
     }
 
     /**

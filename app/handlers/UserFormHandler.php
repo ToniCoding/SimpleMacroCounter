@@ -2,14 +2,13 @@
 
 require_once __DIR__ . "/../../config.php";
 
-require_once BASE_PATH . 'app/helpers/dateParser.php';
 require_once BASE_PATH . 'app/model/User.php';
 
 class UserFormHandler {
     private readonly DateParser $dateParser;
 
-    public function __construct() {
-        $this->dateParser = new DateParser();
+    public function __construct(DateParser $dateParser) {
+        $this->dateParser = $dateParser;
     }
 
     public function handle(array $postData): User {
