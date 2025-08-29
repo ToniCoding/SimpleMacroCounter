@@ -31,7 +31,7 @@ SimpleMacroCounter/
 │   ├── css
 │   ├── html
 ├── .gitignore
-├── config.php
+├── AppConstants.php
 └── index.php
 └── LICENSE
 └── nextSteps.txt
@@ -68,26 +68,32 @@ SimpleMacroCounter/
 ## Project milestones
 
 ### Generic macros and software foundation.
-Generic macro administration and calorie calculation is now possible following the project MVC pattern.<br/>
-Reached on version 0.1.0.<br/>
-Reach date: Tuesday, 29 July 2025.
+Generic macro administration and calorie calculation is now possible following the project MVC pattern.\
+Reached on version 0.1.0.\
+Reach date: Tuesday, 29 July 2025.\
 
 ### User creation and administration overhaul.
-The user can now register through UI and can be administrated at database level.<br/>
-Reached on version ---<br/>
+The user can now register through UI and can be administrated at database level.\
+Reached on version ---\
 Reach date: Not reached.
 
 ### User registration and login.
-Any user can now register and login through dedicated UI.
-Reached on version ---<br/>
+Any user can now register and login through dedicated UI.\
+Reached on version ---\
 Reach date: Not reached.
 
 ### User connected macros.
-Any user can know their daily macros and calorie intake.
-Reached on version ---<br/>
+Any user can know their daily macros and calorie intake.\
+Reached on version ---\
 Reach date: Not reached.
 
 ### Streaks
-Any user can know their current creatine and proteine streak. The streak breaks if the user don't take it for more than 2 days.
-Reached on version ---<br/>
+Any user can know their current creatine and proteine streak. The streak breaks if the user don't take it for more than 2 days.\
+Reached on version ---\
 Reach date: Not reached.
+
+## Future improvements
+*Implement project structure validation.*\
+*Implement JWT for user tokens.*\
+*Implement Symfony or Laravel.*\
+*Improve logging system.*

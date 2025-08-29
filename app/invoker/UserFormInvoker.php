@@ -1,7 +1,8 @@
 <?php
 
-require_once __DIR__ . "/../../config.php";
+require_once __DIR__ . "../../AppConstants.php";
 
+require_once BASE_PATH . "config.php";
 require_once BASE_PATH . "app/controller/UserController.php";
 require_once BASE_PATH . "app/handlers/UserFormHandler.php";
 require_once BASE_PATH . "app/repository/UserRepository.php";
