@@ -1,14 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../config.php';
-
-require_once BASE_PATH . 'app/logging/Logger.php';
-
-$serverName = "localhost";
-$username = "op_user";
-$password = "1234";
-$databaseName = "smc";
-
 /**
  * Class DbConnection
  * Manages the database connection using PDO and logs connection status.

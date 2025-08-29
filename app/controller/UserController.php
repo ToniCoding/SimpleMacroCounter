@@ -1,12 +1,5 @@
 <?php
 
-require_once __DIR__ . "../../AppConstants.php";
-
-require_once BASE_PATH . "config.php";
-require_once BASE_PATH . 'app/model/User.php';
-require_once BASE_PATH . 'app/repository/UserRepository.php';
-require_once BASE_PATH . 'config/db.php';
-
 /**
  * Class UserController
  * Controller that manages user CRUD operations using UserRepository and database connection.

@@ -1,10 +1,5 @@
 <?php
 
-require_once __DIR__ . "../../AppConstants.php";
-
-require_once BASE_PATH . "config.php";
-require_once BASE_PATH . 'app/helpers/userInputs.php';
-
 /**
  * Class UserRepository
  * Handles database operations related to User entities.

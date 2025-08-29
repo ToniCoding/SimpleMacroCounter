@@ -1,11 +1,5 @@
 <?php
 
-require_once __DIR__ . "../../AppConstants.php";
-
-require_once BASE_PATH . "config.php";
-require_once BASE_PATH . 'app/helpers/htmlHelper.php';
-require_once BASE_PATH . 'app/helpers/dateParser.php';
-
 /**
  * Class MacroCounterView
  * Responsible for displaying macros and related information.

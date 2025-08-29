@@ -1,12 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../config.php";
-
-require_once BASE_PATH . 'config/ObjectFactories.php';
-require_once BASE_PATH . 'app/logging/Logger.php';
-require_once BASE_PATH . 'app/helpers/dateParser.php';
-require_once BASE_PATH . "config/db.php";
-
 // NOTE: UserRepository is not taken into account here as we do not consider it to be used across the necessary files to be taken
 // into consideration for the service container.
 

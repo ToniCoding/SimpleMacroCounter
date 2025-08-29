@@ -1,56 +1,49 @@
 <?php
 
-require_once __DIR__ . "../../AppConstants.php";
-
-require_once BASE_PATH . "config.php";
-require_once BASE_PATH . "app/model/MacrosCounter.php";
-require_once BASE_PATH . "app/view/MacroCounterView.php";
-require_once BASE_PATH . "app/helpers/htmlHelper.php";
-
 /**
- * Class MacroCounterController
- * Controller that manages the interaction between the MacroCounter model and the MacroCounterView.
+ * Class MacrosCounterController
+ * Controller that manages the interaction between the MacrosCounter model and the MacrosCounterView.
  */
-class MacroCounterController {
+class MacrosCounterController {
     private MacroCounterView $macroView;
 
     /**
      * Constructor that initializes the view.
      */
-    public function __construct(MacroCounterView $macroCounterView) {
-        $this->macroView = $macroCounterView;
+    public function __construct(MacroCounterView $MacrosCounterView) {
+        $this->macroView = $MacrosCounterView;
     }
 
     /**
-     * Creates a MacroCounter instance with the provided data.
+     * Creates a MacrosCounter instance with the provided data.
      *
      * @param array $macroName Names of the macros.
      * @param array $macroCount Amounts of each macro.
      * @param array $macroGoals Goals for each macro.
-     * @return MacroCounter New instance of MacroCounter.
+     * @return MacrosCounter New instance of MacrosCounter.
      */
-    public function createMacros(array $macroName, array $macroCount, array $macroGoals): MacroCounter {
-        return new MacroCounter($macroName, $macroCount, $macroGoals);
+    public function createMacros(array $macroName, array $macroCount, array $macroGoals): MacrosCounter {
+        return new MacrosCounter($macroName, $macroCount, $macroGoals);
     }
 
     /**
      * Calculates the total calories using the model.
      *
-     * @param MacroCounter $macroCounter Model instance.
+     * @param MacrosCounter $MacrosCounter Model instance.
      * @return int Total calculated calories.
      */
-    public function calculateTotalCalories(MacroCounter $macroCounter): int {
-        return $macroCounter->calculateCalories();
+    public function calculateTotalCalories(MacrosCounter $MacrosCounter): int {
+        return $MacrosCounter->calculateCalories();
     }
 
     /**
      * Displays macros and calories through the view.
      *
-     * @param MacroCounter $macroCounter Model instance.
+     * @param MacrosCounter $MacrosCounter Model instance.
      */
-    public function displayMacrosAndCalories(MacroCounter $macroCounter): void {
-        $macrosList = $macroCounter->buildAssociativeArrayWithMacros();
-        $caloriesConsumed = $macroCounter->calculateCalories();
+    public function displayMacrosAndCalories(MacrosCounter $MacrosCounter): void {
+        $macrosList = $MacrosCounter->buildAssociativeArrayWithMacros();
+        $caloriesConsumed = $MacrosCounter->calculateCalories();
         echo $this->macroView->displayMacrosAndCalories($macrosList, $caloriesConsumed);
     }
 

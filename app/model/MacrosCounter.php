@@ -3,7 +3,7 @@
 /**
  * MacroCounter class managing multiple macros and calculating total calories.
  */
-class MacroCounter {
+class MacrosCounter {
     private array $macrosNames = [];
     private array $macroCounts = [];
     private array $macroGoals = [];
