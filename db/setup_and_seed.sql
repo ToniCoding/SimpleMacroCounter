@@ -12,9 +12,11 @@ CREATE OR REPLACE TABLE users (
     alias VARCHAR(30) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    auth_token VARCHAR(255) NULL UNIQUE,
     age INT DEFAULT 18,
     status ENUM('active','inactive','banned') DEFAULT 'active',
     registered_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    token_expires DATETIME NULL
 );
 
 --- Metrics table ---
