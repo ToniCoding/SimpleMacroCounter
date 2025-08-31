@@ -34,15 +34,22 @@ require_once BASE_PATH . "app/view/MacroCounterView.php";
 // DB connections.
 require_once BASE_PATH . "/config/db.php";
 
+// Authenticate.
+require_once BASE_PATH . "app/auth/AuthService.php";
+require_once BASE_PATH . "app/auth/Auth.php";
+
 // Invokers.
 require_once BASE_PATH . "app/invoker/UserFormInvoker.php";
 
 
 /** @var DateParser $dateParser */
-$dateParser = $container->getService("dateParser");
+$dateParser = $globalContainer->getService("dateParser");
 
 /** @var Logger $logger */
-$logger = $container->getService("logger");
+$logger = $globalContainer->getService("logger");
 
 /** @var DbConnection $dbConnection */
-$dbConnection = $container->getService("db");
+$dbConnection = $globalContainer->getService("db");
+
+/** @var AuthService $auth */
+$auth = $globalContainer->getService('auth');

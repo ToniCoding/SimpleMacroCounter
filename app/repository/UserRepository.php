@@ -104,6 +104,17 @@ class UserRepository {
         ]);
     }
 
+    public function checkPassword(int $userId, string $enteredPassword): bool {
+        $stmt = $this->connectionPDO->prepare("SELECT password FROM users WHERE id = :id");
+        $stmt->execute(['id' => $userId]);
+        $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$userRow) return false;
+
+        return password_verify($enteredPassword, $userRow['password']);
+}
+
+
     /**
      * Finds a user by ID and returns basic info.
      *
@@ -115,6 +126,19 @@ class UserRepository {
         $sqlStmt = $this->connectionPDO->prepare('SELECT username, alias, email, age FROM users WHERE id = :id');
 
         $sqlStmt->execute(['id' => $userId]);
+        return $sqlStmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Finds a user by username and returns its ID.
+     *
+     * @param string $username User entity.
+     * @return array Result set with id.
+     */
+    public function findUserIdByName(String $username): array {
+        $sqlStmt = $this->connectionPDO->prepare('SELECT id FROM users WHERE username = :username');
+
+        $sqlStmt->execute(['username' => $username]);
         return $sqlStmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

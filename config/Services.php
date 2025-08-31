@@ -3,21 +3,31 @@
 // NOTE: UserRepository is not taken into account here as we do not consider it to be used across the necessary files to be taken
 // into consideration for the service container.
 
-$container = new Container();
+$globalContainer = new Container();
 
-$container->setService('dateParser', function($container): DateParser {
+$globalContainer->setService('dateParser', function($globalContainer): DateParser {
     return new DateParser();
 });
 
-$container->setService('logger', function($container): Logger {
-    $dateParserObj = $container->getService('dateParser');
+$globalContainer->setService('logger', function($globalContainer): Logger {
+    $dateParserObj = $globalContainer->getService('dateParser');
     
     return new Logger($dateParserObj);
 });
 
-$container->setService('db', function($container) {
-    $loggerObj = $container->getService('logger');
-    $credConfs = $container->getCredConf();
+$globalContainer->setService('db', function($globalContainer): DbConnection {
+    $loggerObj = $globalContainer->getService('logger');
+    $credConfs = $globalContainer->getCredConf();
 
     return new DbConnection($credConfs['dbHost'], $credConfs['username'], $credConfs['password'], $credConfs['databaseName'], $loggerObj);
+});
+
+$globalContainer->setService('auth', function($globalContainer): AuthService {
+    $dbPDO = $globalContainer->getService('db');
+    
+    return new AuthService($dbPDO);
+});
+
+$globalContainer->setService('fullAuth', function($globalContainer): Auth { 
+    return new Auth($globalContainer);
 });

@@ -8,11 +8,11 @@ class UserFormInvoker {
     private UserController $userController;
     private Logger $logger;
 
-    public function __construct(UserRepository $userRepository, UserFormHandler $userFormHandler, UserController $userController, $container) {
+    public function __construct(Container $globalContainer, UserRepository $userRepository, UserFormHandler $userFormHandler, UserController $userController) {
         $this->userRepository = $userRepository;
         $this->userFormHandler = $userFormHandler;
         $this->userController = $userController;
-        $this->logger = $container->getService("logger");
+        $this->logger = $globalContainer->getService("logger");
     }
 
     public function handleUserCreation(array $postData): bool {
@@ -26,9 +26,12 @@ class UserFormInvoker {
     }
 }
 
-$userRepository = new UserRepository($dbConnection->connect());
-$userFormHandler = new UserFormHandler($dateParser);
-$userController = new UserController($dbConnection, $userRepository, $userFormHandler);
+$userRepository = new UserRepository($globalContainer->getService("db")->connect());
+$userFormHandler = new UserFormHandler($globalContainer->getService("dateParser"));
+$userController = new UserController(
+    $globalContainer->getService("db"),
+    $userRepository
+);
 
-$userFormInvoker = new UserFormInvoker($userRepository, $userFormHandler, $userController, $container);
+$userFormInvoker = new UserFormInvoker($globalContainer, $userRepository, $userFormHandler, $userController);
 $userFormInvoker->handleUserCreation($_POST);

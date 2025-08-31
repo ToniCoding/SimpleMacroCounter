@@ -9,18 +9,12 @@ class UserController {
     private UserRepository $userRepository;
     private UserFormHandler $userFormHandler;
 
-    private string $serverName = "localhost";
-    private string $username = "op_user";
-    private string $password = "1234";
-    private string $databaseName = "smc";
-
     /**
      * Constructor that initializes the database connection and repository.
      */
-    public function __construct(DbConnection $dbConnection, UserRepository $userRepository, UserFormHandler $userFormHandler) {
+    public function __construct(DbConnection $dbConnection, UserRepository $userRepository) {
         $this->dbConnection = $dbConnection;
         $this->userRepository = $userRepository;
-        $this->userFormHandler = $userFormHandler;
     }
 
     /**
