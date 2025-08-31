@@ -22,12 +22,12 @@ $globalContainer->setService('db', function($globalContainer): DbConnection {
     return new DbConnection($credConfs['dbHost'], $credConfs['username'], $credConfs['password'], $credConfs['databaseName'], $loggerObj);
 });
 
-$globalContainer->setService('auth', function($globalContainer): AuthService {
+$globalContainer->setService('authService', function($globalContainer): AuthService {
     $dbPDO = $globalContainer->getService('db');
     
     return new AuthService($dbPDO);
 });
 
-$globalContainer->setService('fullAuth', function($globalContainer): Auth { 
+$globalContainer->setService('auth', function($globalContainer): Auth { 
     return new Auth($globalContainer);
 });

@@ -5,15 +5,13 @@
  * Controller that manages user CRUD operations using UserRepository and database connection.
  */
 class UserController {
-    private DbConnection $dbConnection;
     private UserRepository $userRepository;
     private UserFormHandler $userFormHandler;
 
     /**
      * Constructor that initializes the database connection and repository.
      */
-    public function __construct(DbConnection $dbConnection, UserRepository $userRepository) {
-        $this->dbConnection = $dbConnection;
+    public function __construct(UserRepository $userRepository) {
         $this->userRepository = $userRepository;
     }
 
@@ -55,7 +53,11 @@ class UserController {
      * @param User $user User instance.
      * @return mixed Search result.
      */
-    public function retrieveUser(User $user) {
+    public function retrieveUser(User $user): array {
         return $this->userRepository->findUserById($user);
+    }
+
+    public function retrieveUserByUsername(string $username): array {
+        return $this->userRepository->findUserIdByName($username);
     }
 }

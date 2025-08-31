@@ -15,9 +15,9 @@ class UserFormInvoker {
         $this->logger = $globalContainer->getService("logger");
     }
 
-    public function handleUserCreation(array $postData): bool {
+    public function handleUserCreation(User $user): bool {
         try {
-            $this->userController->createUser($this->userFormHandler->handle($postData));
+            $this->userController->createUser($user);
             return true;
         } catch (Exception $ex) {
             $this->logger->info("[UserFormInvoker] An exception happened:\n $ex");
@@ -25,13 +25,3 @@ class UserFormInvoker {
         }
     }
 }
-
-$userRepository = new UserRepository($globalContainer->getService("db")->connect());
-$userFormHandler = new UserFormHandler($globalContainer->getService("dateParser"));
-$userController = new UserController(
-    $globalContainer->getService("db"),
-    $userRepository
-);
-
-$userFormInvoker = new UserFormInvoker($globalContainer, $userRepository, $userFormHandler, $userController);
-$userFormInvoker->handleUserCreation($_POST);

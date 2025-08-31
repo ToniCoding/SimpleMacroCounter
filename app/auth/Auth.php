@@ -12,19 +12,32 @@ class Auth {
         $this->authContainer = new Container();
 
         $this->logger = $globalContainer->getService('logger');
-        $this->authService = $globalContainer->getService('auth');
+        $this->authService = $globalContainer->getService('authService');
     }
 
     public function register(array $postData): bool {
         $this->setServices('register', $this->globalContainer, $this->authContainer);
 
+        /** @var UserFormHandler $userFormHandler */
         $userFormHandler = $this->authContainer->getService('userFormHandler');
+
+        /** @var UserController $userController */
         $userController = $this->authContainer->getService('userController');
 
-        $user = $userFormHandler->handle($postData);
-        $userController->createUser($user);
+        /** @var UserFormInvoker $userFormInvoker */
+        $userFormInvoker = $this->authContainer->getService('userFormInvoker');
 
-        $this->authService->loginTkn($user->getId());
+        /**
+         * Service cascade:
+         *      - Creates the user object.
+         *      - Creates the user at database level.
+         *      - Gives the user an auth token.
+         */
+        /** @var User $user */
+        $user = $userFormHandler->handle($postData);
+        $userFormInvoker->handleUserCreation($user);
+        $userId = $userController->retrieveUserByUsername($user->getUsername())[0]['id'];
+        $this->authService->loginTkn($userId); // User object does not have the id yet.
 
         return true;
     }
@@ -59,13 +72,20 @@ class Auth {
 
         $this->authContainer->setService('userController', function() use ($authContainer, $globalContainer): UserController {
             return new UserController(
-                $globalContainer->getService('db')->connect(),
                 $authContainer->getService('userRepository'));
         });
 
         if($action == "register") {
             $this->authContainer->setService('userFormHandler', function() use ($globalContainer): UserFormHandler {
                 return new UserFormHandler($globalContainer->getService('dateParser'));
+            });
+
+            $userRepository = $this->authContainer->getService('userRepository');
+            $userController = $this->authContainer->getService('userController');
+            $userFormHandler = $this->authContainer->getService('userFormHandler');
+
+            $this->authContainer->setService('userFormInvoker', function() use ($globalContainer, $userRepository, $userFormHandler, $userController): UserFormInvoker {
+                return new UserFormInvoker($globalContainer, $userRepository, $userFormHandler, $userController);
             });
         }
     }

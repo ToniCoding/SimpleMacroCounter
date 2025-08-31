@@ -52,4 +52,4 @@ $logger = $globalContainer->getService("logger");
 $dbConnection = $globalContainer->getService("db");
 
 /** @var AuthService $auth */
-$auth = $globalContainer->getService('auth');
+$auth = $globalContainer->getService('authService');
