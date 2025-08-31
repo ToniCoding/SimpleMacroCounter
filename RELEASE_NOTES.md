@@ -13,14 +13,33 @@
 ```
 SimpleMacroCounter/
 ├── app/
+│   └── auth
+│   └──  ─── Auth.php
+│   └──  ─── AuthService.php 
 │   └── controller
+│   └──  ─── MacroCounterController.php
+│   └──  ─── StreakController.php
+│   └──  ─── UserController.php 
 │   └── handlers
+│   └──  ─── UserFormHandler.php
 │   └── helpers
+│   └──  ─── dateParser.php
+│   └──  ─── htmlHelper.php
+│   └──  ─── userInputs.php
 │   └── invoker
+│   └──  ─── UserFormInvoker.php
 │   └── logging
+│   └──  ─── Logger.php
 │   └── model
+│   └──  ─── Macro.php
+│   └──  ─── MacrosCounter.php
+│   └──  ─── Streak.php
+│   └──  ─── User.php
 │   └── repository
+│   └──  ─── TableManagementRepository.php
+│   └──  ─── UserRepository.php
 │   └── view
+│   └──  ─── MacroCounterView.php
 ├── config/
 │   ├── db.php
 │   ├── ObjectFactories.php
@@ -32,9 +51,9 @@ SimpleMacroCounter/
 │   ├── html
 ├── .gitignore
 ├── AppConstants.php
+├── bootstrap.php
 └── index.php
 └── LICENSE
-└── nextSteps.txt
 └── README.md
 └── RELEASE_NOTES.md
 ```
@@ -50,12 +69,28 @@ SimpleMacroCounter/
 
 ## Project Versions
 
-### v0.2.0 (Unreleased)
+### v0.2.0 (31-08-2025)
 **Features Added:**
-- User profile creation through UI.
-- Better code documentation.
-- Replaced the plain text file 'nextSteps' with the better option 'RELEASE_NOTES.md'.
-- Created a service container.
+- Implemented a service container.
+- Implemented a bootstrap service.
+- Implemented user registration and login system.
+- Implemented user tokenization session.
+- Improved code documentation.
+- Improved app constants access and file.
+- Replaced the plain text file `nextSteps.txt` with the better option `RELEASE_NOTES.md`.
+- Deleted `nextSteps.txt`.
+
+**Known issues:**
+- Multiple database connections are being made. It is needed to change that to hold one lazy connection to it.
+
+**Next version:**
+- Fix the multiple connections to database.
+- First user forms for register and login.
+- More use of the logging module to control what's happening in the app.
+- Implement repositories for the rest of the database tables.
+- Consistent file and classes naming.
+- Document all the code.
+- Improve `README.md` and `RELEASE_NOTES.md` more.
 
 ### v0.1.0 (29-07-2025)
 **Features Added:**

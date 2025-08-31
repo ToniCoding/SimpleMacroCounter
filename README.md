@@ -32,6 +32,6 @@ Version 0.1.0 - The Core Foundation
 - Frontend: Not implemented.
 
 Version 0.2.0 - The user experience overhaul
-- Release date: Unreleased.
+- Release date: 31-08-2025.
 - Backed added/modified: Yes.
 - Frontend: Not implemented.
