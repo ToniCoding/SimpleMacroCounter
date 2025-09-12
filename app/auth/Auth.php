@@ -37,7 +37,7 @@ class Auth {
         $user = $userFormHandler->handle($postData);
         $userFormInvoker->handleUserCreation($user);
         $userId = $userController->retrieveUserByUsername($user->getUsername())[0]['id'];
-        $this->authService->loginTkn($userId); // User object does not have the id yet.
+        $this->authService->loginTkn($userId);
 
         return true;
     }
@@ -57,7 +57,6 @@ class Auth {
         return true;
     }
 
-    // Need check...
     public function logout(): void {
         $userId = $this->authService->checkAuthTkn();
         if ($userId) {
