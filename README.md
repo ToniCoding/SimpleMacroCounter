@@ -7,12 +7,18 @@ SMC is a software that allows you to add the amounts and foods that you have eat
 - Connecting to the SMC database.
 - Creating, deleting and retrieving information about users at database level.
 - Calculating the calorie intake based on macro-nutrients.
+- Register and login at database level.
 
 ### Technologies used.
 - Backend:
     - PHP.
     - PHP PDO (databases).
+    - Apache.
     - MySQL.
+
+- Frontend (Not implemented but will be):
+    - Tailwind CSS.
+    - SASS.
 
 ### Roadmap
 - Total control over users.
@@ -33,5 +39,10 @@ Version 0.1.0 - The Core Foundation
 
 Version 0.2.0 - The user experience overhaul
 - Release date: 31-08-2025.
-- Backed added/modified: Yes.
+- Backend added/modified: Yes.
 - Frontend: Not implemented.
+
+Version 0.3.0 - Routing and data juggling
+- Release date: Unreleased.
+- Backend added/modified: Yes.
+- Frontend: Implementation in progress.

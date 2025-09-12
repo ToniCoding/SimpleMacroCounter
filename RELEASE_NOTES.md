@@ -64,10 +64,21 @@ SimpleMacroCounter/
 
 - **v0.1.0**: Initial release with basic macro tracking.
 - **v0.2.0**: User registration and administration.
+- **v0.3.0**: Routing and data management.
 
 ---
 
 ## Project Versions
+
+### v0.3.0 (Unreleased)
+**Features added**
+- Implemented PHP path router.
+- Added new Apache configurations through .htaccess.
+- Added new public dedicated pages.
+    - Register form.
+    - Login form.
+    - Not found.
+- Added additional authentication file to process the both register and login form data.
 
 ### v0.2.0 (31-08-2025)
 **Features Added:**
