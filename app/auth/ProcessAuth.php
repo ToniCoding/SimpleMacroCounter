@@ -1,5 +1,29 @@
 <?php
 
+/**
+ * Validate the form token.
+ * 
+ * - Check that the token sent via POST exists.
+ * - Check that the token stored in the session exists.
+ * - Verify that both tokens match using hash_equals().
+ * 
+ * This verifications will avoid Cross-Site Request Forgery (CSRF) and also avoid resubmissions.
+ */
+
+session_start();
+
+$formTknRequisites = empty($_SESSION["registerFormTkn"]) 
+                    || !isset($_POST["registerFormTkn"]) 
+                    || !hash_equals($_SESSION["registerFormTkn"], $_POST["registerFormTkn"]);
+
+if ($formTknRequisites) {
+    http_response_code(400);
+    exit("Invalid request");
+}
+
+unset($_SESSION["registerFormTkn"]);
+
+
 /** @var Auth $login */
 $login = $globalContainer->getService('auth');
 

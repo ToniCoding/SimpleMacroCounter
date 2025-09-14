@@ -1,3 +1,10 @@
+<?php
+    session_start();
+
+    $formTkn = bin2hex(random_bytes(32));
+    $_SESSION['registerFormTkn'] = $formTkn;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,6 +15,7 @@
     <body>
         <form action="/regprocess" method="post">
             <input type="hidden" name="action" value="register">
+            <input type="hidden" name="form_token" value="<?= htmlspecialchars($token) ?>">
         
             <label for="username">Username</label>
             <input type="text" name="username" id="username">
