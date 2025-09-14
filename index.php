@@ -16,6 +16,7 @@ $uri = strtolower(trim($uri, '/'));
 
 if ($uri == "regprocess") {
     require BASE_PATH . "app/auth/ProcessAuth.php";
+    exit;
 }
 
 $basePath = __DIR__ . '/public/pages/' . ($uri ?: 'home');

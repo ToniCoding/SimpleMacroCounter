@@ -15,7 +15,7 @@
     <body>
         <form action="/regprocess" method="post">
             <input type="hidden" name="action" value="register">
-            <input type="hidden" name="form_token" value="<?= htmlspecialchars($token) ?>">
+            <input type="hidden" name="registerFormTkn" value="<?= htmlspecialchars($formTkn) ?>">
         
             <label for="username">Username</label>
             <input type="text" name="username" id="username">

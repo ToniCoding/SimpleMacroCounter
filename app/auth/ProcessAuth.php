@@ -12,8 +12,8 @@
 
 session_start();
 
-$formTknRequisites = empty($_SESSION["registerFormTkn"]) 
-                    || !isset($_POST["registerFormTkn"]) 
+$formTknRequisites = empty($_SESSION["registerFormTkn"])
+                    || !isset($_POST["registerFormTkn"])
                     || !hash_equals($_SESSION["registerFormTkn"], $_POST["registerFormTkn"]);
 
 if ($formTknRequisites) {
@@ -23,21 +23,20 @@ if ($formTknRequisites) {
 
 unset($_SESSION["registerFormTkn"]);
 
-
 /** @var Auth $login */
 $login = $globalContainer->getService('auth');
 
 if($_POST['action'] == "register") {
     if(!$login->register($_POST)) {
-        echo "There was a problem trying to register the user.";
+        echo "There was a problem registering the user, try again later.";
     } else {
-        echo "User registered successfully.";
+        echo "Successfully registered the user.";
     }
 }
 
 if($_POST['action'] == "login") {
     if(!$login->login($_POST)) {
-        echo "Wrong credentials";
+        echo "Incorrect email or password.";
     } else {
         echo "Logged in successfully.";
     }
