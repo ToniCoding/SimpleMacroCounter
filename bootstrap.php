@@ -19,8 +19,9 @@ require_once BASE_PATH . 'app/helpers/htmlHelper.php';
 require_once BASE_PATH . 'app/helpers/dateParser.php';
 
 // Repositories.
-require_once BASE_PATH . "app/repository/UserRepository.php";
+require_once BASE_PATH . "app/repository/CaloriesIntakeRepository.php";
 require_once BASE_PATH . "app/repository/MetricsRepository.php";
+require_once BASE_PATH . "app/repository/UserRepository.php";
 
 // Handlers and services.
 require_once BASE_PATH . "app/handlers/UserFormHandler.php";
