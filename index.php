@@ -25,7 +25,7 @@ $phpPath = "$basePath.php";
 
 $testActive = false;
 if($testActive){
-    require __DIR__ . "/test.php";
+    // Logic to test...
 }
 
 if (file_exists($htmlPath)) {
