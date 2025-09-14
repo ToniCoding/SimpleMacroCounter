@@ -1,5 +1,6 @@
 <?php
 
+// App constants.
 require_once __DIR__ . "/AppConstants.php";
 
 // Configurations.
@@ -41,6 +42,11 @@ require_once BASE_PATH . "app/auth/Auth.php";
 // Invokers.
 require_once BASE_PATH . "app/invoker/UserFormInvoker.php";
 
+// Index router.
+require_once BASE_PATH . "index.php";
+
+// Testing.
+require_once BASE_PATH . "test.php";
 
 /** @var DateParser $dateParser */
 $dateParser = $globalContainer->getService("dateParser");
