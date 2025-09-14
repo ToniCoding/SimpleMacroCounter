@@ -7,7 +7,6 @@ class AuthService {
         $this->dbConnection = $dbConnection->connect();
     }
 
-    // Implement check password.
     public function loginTkn(int $userId): string {
         $authToken = bin2hex(random_bytes(32));
 
