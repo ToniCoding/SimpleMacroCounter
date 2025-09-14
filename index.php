@@ -14,7 +14,7 @@ require_once __DIR__ . "/bootstrap.php";
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = strtolower(trim($uri, '/'));
 
-if ($uri == "regprocess") {
+if (in_array($uri, ["regprocess", "logout"])) {
     require BASE_PATH . "app/auth/ProcessAuth.php";
     exit;
 }

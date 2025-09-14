@@ -12,21 +12,43 @@
 
 session_start();
 
-$formTknRequisites = empty($_SESSION["registerFormTkn"])
-                    || !isset($_POST["registerFormTkn"])
-                    || !hash_equals($_SESSION["registerFormTkn"], $_POST["registerFormTkn"]);
-
-if ($formTknRequisites) {
-    http_response_code(400);
-    exit("Invalid request");
-}
-
-unset($_SESSION["registerFormTkn"]);
-
 /** @var Auth $login */
 $login = $globalContainer->getService('auth');
 
-if($_POST['action'] == "register") {
+/** @var Logger $log */
+$log = $globalContainer->getService('logger');
+
+$formAction = strtolower($_POST['action']);
+
+if($formAction == "register") {
+    $formTknRequisites = empty($_SESSION["registerFormTkn"])
+                        || !isset($_POST["registerFormTkn"])
+                        || !hash_equals($_SESSION["registerFormTkn"], $_POST["registerFormTkn"]);
+
+    if ($formTknRequisites) {
+        http_response_code(400);
+        exit("Invalid request");
+    }
+
+    unset($_SESSION["registerFormTkn"]);
+}
+
+if($formAction == "logout") {
+    $formTknRequisites = empty($_SESSION["logoutFormTkn"])
+                        || !isset($_POST["logoutFormTkn"])
+                        || !hash_equals($_SESSION["logoutFormTkn"], $_POST["logoutFormTkn"]);
+
+    if ($formTknRequisites) {
+        http_response_code(400);
+        exit("Invalid request");
+    }
+
+    unset($_SESSION["logoutFormTkn"]);
+}
+
+
+
+if($formAction == "register") {
     if(!$login->register($_POST)) {
         echo "There was a problem registering the user, try again later.";
     } else {
@@ -34,10 +56,15 @@ if($_POST['action'] == "register") {
     }
 }
 
-if($_POST['action'] == "login") {
+if($formAction == "login") {
     if(!$login->login($_POST)) {
         echo "Incorrect email or password.";
     } else {
         echo "Logged in successfully.";
     }
+}
+
+if($formAction == "logout") {
+    $log->info("Executed logout action");
+    $login->logout();
 }

@@ -1,5 +1,8 @@
 <?php
+    session_start();
 
+    $logoutFormTkn = bin2hex(random_bytes(32));
+    $_SESSION['logoutFormTkn'] = $logoutFormTkn;
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +14,14 @@
         <title>Home - Simple Macro Counter</title>
     </head>
     <body>
-        <h3>Welcome to SMC main page</h3>
+        <?php
+            $username = $globalContainer->getService('userRepository')->getByAuthToken($_COOKIE['auth_token']);
+            echo "<h3>Welcome to SMC main page " . $username['username'] . "</h3>";
+        ?>
+        <form action="/logout" method="post"> 
+           <input type="hidden" name="action" value="Logout">
+           <input type="hidden" name="logoutFormTkn" value="<?= htmlspecialchars($logoutFormTkn) ?>">
+           <input type="submit" value="Logout">
+        </form>
     </body>
 </html>
