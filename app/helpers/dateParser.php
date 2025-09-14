@@ -10,8 +10,12 @@ class DateParser {
         $this->dateTime = new DateTime();
     }
 
-    public function getDate(): string {
-        return $this->dateTime->format(self::DATE_FORMAT);
+    public function getDate($format = null): string {
+        if($format == null) {
+            return $this->dateTime->format(self::DATE_FORMAT);
+        }
+
+        return $this->dateTime->format($format);
     }
 
     public function getTime(): string {
