@@ -7,7 +7,6 @@ class AuthService {
         $this->dbConnection = $dbConnection->connect();
     }
 
-
     // Implement check password.
     public function loginTkn(int $userId): string {
         $authToken = bin2hex(random_bytes(32));
@@ -29,7 +28,7 @@ class AuthService {
             return null;
         }
 
-        $tokenStmt = $this->dbConnection->prepare("SELECT id FROM users WHERE token = ?");
+        $tokenStmt = $this->dbConnection->prepare("SELECT id FROM users WHERE auth_token = ?");
         $tokenStmt->execute([$_COOKIE['auth_token']]);
         $userToken = $tokenStmt->fetch();
 

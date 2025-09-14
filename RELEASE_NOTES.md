@@ -86,6 +86,14 @@ SimpleMacroCounter/
 - Added security in registration form against resubmissions and CSRF.
 - Added database control repositories for the following tables:
     - User metrics.
+- Added favicon.
+
+**Changed**
+- Apache now ignores all the favicon requests in order to serve it as a static file.
+
+**Fixed issues**
+- Fixed the issue for duplicated database connection by caching the connection for the same request.
+- Fixed the issue for duplicated GET request as the browsers could not find the favicon.
 
 ### v0.2.0 (31-08-2025)
 **Features Added:**

@@ -5,7 +5,7 @@
  * Manages the database connection using PDO and logs connection status.
  */
 class DbConnection {
-    private PDO $dbPdo;
+    private ?PDO $dbPdo = null;
     private string $serverName;
     private string $username;
     private string $password;
@@ -30,25 +30,30 @@ class DbConnection {
 
     /**
      * Establishes a PDO connection.
+     * It also implements the use of lazy connections.
      *
      * @return PDO Connected PDO instance.
      */
     public function connect(): PDO {
-        try {
-            $dbPdo = new PDO(
-                "mysql:host={$this->serverName};dbname={$this->databaseName};charset=utf8",
-                $this->username,
-                $this->password
-            );
+        if($this->dbPdo == null) {
+            try {
+                $this->dbPdo = new PDO(
+                    "mysql:host={$this->serverName};dbname={$this->databaseName};charset=utf8",
+                    $this->username,
+                    $this->password
+                );
 
-            $dbPdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->dbPdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $this->log->info("Connected successfully to the database: {$this->databaseName}");
+                $this->log->info("Connected successfully to the database: {$this->databaseName}");
 
-            return $dbPdo;
-        } catch (PDOException $err) {
-            echo "Connection failed due to: " . $err->getMessage();
-            exit();
+                return $this->dbPdo;
+            } catch (PDOException $err) {
+                echo "Connection failed due to: " . $err->getMessage();
+                exit();
+            }
         }
+
+        return $this->dbPdo;
     }
 }
