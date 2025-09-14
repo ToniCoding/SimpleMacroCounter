@@ -1,7 +1,5 @@
 # SimpleMacroCounter Release Notes
 
----
-
 ## Project Description
 
 **SimpleMacroCounter** is a lightweight application designed to help users track and manage their daily macronutrient intake. The project focuses on simplicity, ease of use, and providing essential features for nutrition tracking.
@@ -16,6 +14,7 @@ SimpleMacroCounter/
 │   └── auth
 │   └──  ─── Auth.php
 │   └──  ─── AuthService.php 
+│   └──  ─── ProcessAuth.php
 │   └── controller
 │   └──  ─── MacroCounterController.php
 │   └──  ─── StreakController.php
@@ -38,6 +37,7 @@ SimpleMacroCounter/
 │   └── repository
 │   └──  ─── TableManagementRepository.php
 │   └──  ─── UserRepository.php
+│   └──  ─── MetricsRepository.php
 │   └── view
 │   └──  ─── MacroCounterView.php
 ├── config/
@@ -48,8 +48,12 @@ SimpleMacroCounter/
 │   ├── setup_and_seed.sql
 ├── public/
 │   ├── css
-│   ├── html
+│   ├── pages
+│   └──  ─── 404.html
+│   └──  ─── home.php
+│   └──  ─── register.php
 ├── .gitignore
+├── .htaccess
 ├── AppConstants.php
 ├── bootstrap.php
 └── index.php
@@ -79,6 +83,9 @@ SimpleMacroCounter/
     - Login form.
     - Not found.
 - Added additional authentication file to process the both register and login form data.
+- Added security in registration form against resubmissions and CSRF.
+- Added database control repositories for the following tables:
+    - User metrics.
 
 ### v0.2.0 (31-08-2025)
 **Features Added:**
@@ -116,7 +123,7 @@ SimpleMacroCounter/
 ### Generic macros and software foundation.
 Generic macro administration and calorie calculation is now possible following the project MVC pattern.\
 Reached on version 0.1.0.\
-Reach date: Tuesday, 29 July 2025.\
+Reach date: Tuesday, 29 July 2025.
 
 ### User creation and administration overhaul.
 The user can now register through UI and can be administrated at database level.\
