@@ -75,25 +75,28 @@ SimpleMacroCounter/
 ## Project Versions
 
 ### v0.3.0 (Unreleased)
-**Features added**
-- Implemented PHP path router.
-- Added new Apache configurations through .htaccess.
-- Added new public dedicated pages.
-    - Register form.
-    - Login form.
-    - Not found.
-- Added additional authentication file to process the both register and login form data.
-- Added security in registration form against resubmissions and CSRF.
-- Added database control repositories for the following tables:
-    - User metrics.
-- Added favicon.
+**Features Added**  
+- Implemented a PHP path router.  
+- Added new Apache configurations via `.htaccess`.  
+- Added dedicated public pages:  
+  - Registration form.  
+  - Login form.  
+  - 404 Not Found page.  
+- Added a separate PHP file to handle both registration and login form submissions.  
+- Added security to the registration form against resubmissions and CSRF attacks.  
+- Added database repositories for the following tables:  
+  - User metrics.  
+  - User daily calorie intake.  
+- Added a favicon.  
+- Initialized user metrics automatically upon registration.  
 
-**Changed**
-- Apache now ignores all the favicon requests in order to serve it as a static file.
+**Changed**  
+- Apache now ignores all favicon requests to serve it as a static file.  
 
-**Fixed issues**
-- Fixed the issue for duplicated database connection by caching the connection for the same request.
-- Fixed the issue for duplicated GET request as the browsers could not find the favicon.
+**Fixed Issues**  
+- Fixed duplicated database connections by caching the PDO instance within the same request.  
+- Fixed duplicate GET requests caused by browsers requesting a missing favicon.  
+- Fixed the issue where `auth_token` was not being cleared after logout.  
 
 ### v0.2.0 (31-08-2025)
 **Features Added:**

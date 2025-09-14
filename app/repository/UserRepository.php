@@ -112,8 +112,21 @@ class UserRepository {
         if (!$userRow) return false;
 
         return password_verify($enteredPassword, $userRow['password']);
-}
+    }
 
+    public function getById(int $userId): ?array {
+        $stmt = $this->connectionPDO->prepare("SELECT username FROM users WHERE id = ?");
+        $stmt->execute(params: [$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+
+    public function getByAuthToken(string $token): ?array {
+        $stmt = $this->connectionPDO->prepare("SELECT username FROM users WHERE auth_token = ?");
+        $stmt->execute([$token]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
 
     /**
      * Finds a user by ID and returns basic info.

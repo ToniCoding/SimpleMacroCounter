@@ -31,3 +31,7 @@ $globalContainer->setService('authService', function($globalContainer): AuthServ
 $globalContainer->setService('auth', function($globalContainer): Auth { 
     return new Auth($globalContainer);
 });
+
+$globalContainer->setService('userRepository', function($globalContainer): UserRepository {
+    return new UserRepository($globalContainer->getService('db')->connect());
+});
