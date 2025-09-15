@@ -96,7 +96,10 @@ SimpleMacroCounter/
 **Fixed Issues**  
 - Fixed duplicated database connections by caching the PDO instance within the same request.  
 - Fixed duplicate GET requests caused by browsers requesting a missing favicon.  
-- Fixed the issue where `auth_token` was not being cleared after logout.  
+- Fixed the issue where `auth_token` was not being cleared after logout.
+
+**Improvements to be done**
+- Combine register and login page, filtering the shown form by the URI.
 
 ### v0.2.0 (31-08-2025)
 **Features Added:**

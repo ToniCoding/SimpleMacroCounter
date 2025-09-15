@@ -11,7 +11,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="public/imag/favicon.ico" type="image/x-icon">
-        <title>Document</title>
+        <title>Register - Simple Macro Counter</title>
     </head>
     <body>
         <form action="/regprocess" method="post">

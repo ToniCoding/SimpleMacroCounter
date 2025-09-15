@@ -58,13 +58,15 @@ if($formAction == "register") {
 
 if($formAction == "login") {
     if(!$login->login($_POST)) {
-        echo "Incorrect email or password.";
+        header('Location: /login?status=failed');
     } else {
-        echo "Logged in successfully.";
+        header('Location: /home?status=success');
     }
 }
 
 if($formAction == "logout") {
     $log->info("Executed logout action");
     $login->logout();
+    
+    echo "Logged out successfully";
 }
