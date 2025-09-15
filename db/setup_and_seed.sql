@@ -28,7 +28,7 @@ CREATE OR REPLACE TABLE users_metrics (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
---- Calories per day table ---
+--- Calories per day table (v1 - Old version) ---
 CREATE OR REPLACE TABLE kcals_daily (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -39,6 +39,22 @@ CREATE OR REPLACE TABLE kcals_daily (
   
   UNIQUE (user_id, date)
 );
+
+--- Calories per day table (v2 - New version) ---
+CREATE OR REPLACE TABLE kcals_daily (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  date DATE NOT NULL,
+  kcals SMALLINT NOT NULL DEFAULT 0,
+  protein INT NOT NULL DEFAULT 0,
+  carbs   INT NOT NULL DEFAULT 0,
+  fats    INT NOT NULL DEFAULT 0,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  
+  UNIQUE (user_id, date)
+);
+
 
 --- Products table (per 100g) ---
 CREATE OR REPLACE TABLE products (
@@ -53,6 +69,12 @@ CREATE OR REPLACE TABLE products (
 
     UNIQUE (product_name, market)
 );
+
+--- Alter table to add macros to kcal_daily table ---
+ALTER TABLE kcals_daily
+  ADD COLUMN protein INT NOT NULL DEFAULT 0,
+  ADD COLUMN carbs   INT NOT NULL DEFAULT 0,
+  ADD COLUMN fats    INT NOT NULL DEFAULT 0;
 
 --- Test inserts ---
 
