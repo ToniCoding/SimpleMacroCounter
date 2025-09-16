@@ -5,56 +5,33 @@
  * Responsible for displaying macros and related information.
  */
 class MacroCounterView {
-    private object $dateParser;
-
     /**
-     * Constructor initializes the date parser.
-     */
-    public function __construct(DateParser $dateParser) {
-        $this->dateParser = $dateParser;
-    }
-
-    /**
-     * Displays a table of macros and their calories.
+     * Renders an HTML table of macros and their goals.
      *
-     * @param array $macrosList Associative array of macros with counts and goals.
-     * @param int $calories Total calories.
-     * @return string HTML content.
+     * @param array $macrosData Array in the format ["macroType" => ["amount" => int, "goal" => int]]
+     * @return void
      */
-    public function displayMacrosAndCalories(array $macrosList, int $calories): string {
-        $result = "";
-        $result .= htag_p("Macros and Goals")
-            . "<table><thead><tr><th>Macro name</th><th>Count</th><th>Goal</th></tr></thead><tbody>";
+    public function renderMacrosTable(array $macrosData): void {
+        $htmlRender = '<table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+        <tr>
+        <th>Macronutrient</th>
+        <th>Amount</th>
+        <th>Goal</th>
+        </tr>
+        </thead>
+        <tbody>';
 
-        foreach ($macrosList as $macroName => $data) {
-            $result .= "<tr><td>{$macroName}</td><td>{$data['count']}</td><td>{$data['goal']}</td></tr>";
+        foreach ($macrosData as $macroType => $values) {
+            $htmlRender .= '<tr>
+            <td>' . htmlspecialchars(ucfirst($macroType)) . '</td>
+            <td>' . htmlspecialchars($values['amount']) . '</td>
+            <td>' . htmlspecialchars($values['goal']) . '</td>
+            </tr>';
         }
 
-        $result .= "</tbody></table>" . htag_p("Total Calories - {$calories}");
+        $htmlRender .= '</tbody></table>';
 
-        return $result;
-    }
-
-    /**
-     * Displays a form for entering macros.
-     *
-     * @return string HTML form.
-     */
-    public function displayIngestedMacrosForm(): string {
-        return generateForm(
-            action: 'action.php',
-            method: 'POST',
-            inputLabels: ["Macro name", "Count", "Goal"],
-            inputType: 'text'
-        );
-    }
-
-    /**
-     * Returns the current date as a string.
-     *
-     * @return string Date string.
-     */
-    public function displayDate(): string {
-        return $this->dateParser->getDate();
+        echo $htmlRender;
     }
 }

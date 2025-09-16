@@ -48,4 +48,37 @@ class CaloriesIntakeRepository {
 
         return false;
     }
+
+    public function addMacroNutrient(int $userId, string $macro, int $amount): bool {
+        $currentDate = $this->dateParser->getDate("Y-m-d");
+        
+        if ($this->checkIfUserRegisteredIntake($userId, $currentDate)) {
+            $sqlStmt = $this->connectionPDO->prepare("UPDATE kcals_daily SET $macro = $macro + :amount WHERE user_id = :userId");
+            if ($sqlStmt->execute([
+                "amount" => $amount,
+                "userId" => $userId
+            ])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getMacros(int $userId): array {
+        $currentDate = $this->dateParser->getDate("Y-m-d");
+
+        if ($this->checkIfUserRegisteredIntake($userId, $currentDate)) {
+            $sqlStmt = $this->connectionPDO->prepare("SELECT protein, carbs, fats FROM kcals_daily WHERE user_id = :userId AND `date` = :currentDate");
+
+            if ($sqlStmt->execute([
+                "userId" => $userId,
+                "currentDate" => $currentDate
+            ])) {
+                return $sqlStmt->fetch(PDO::FETCH_ASSOC);
+            }
+        }
+
+        return [];
+    }
 }

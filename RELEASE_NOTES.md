@@ -75,27 +75,31 @@ SimpleMacroCounter/
 ## Project Versions
 
 ### v0.3.0 (Unreleased)
-**Features Added**  
-- Implemented a PHP path router.  
-- Added new Apache configurations via `.htaccess`.  
-- Added dedicated public pages:  
-  - Registration form.  
-  - Login form.  
-  - 404 Not Found page.  
-- Added a separate PHP file to handle both registration and login form submissions.  
-- Added security to the registration form against resubmissions and CSRF attacks.  
-- Added database repositories for the following tables:  
+**Features Added**
+- Implemented a PHP path router.
+- Added new Apache configurations via `.htaccess`.
+- Added dedicated public pages:
+  - Registration form.
+  - Login form.
+  - 404 Not Found page.
+- Added a separate PHP file to handle both registration and login form submissions.
+- Added security to the registration form against resubmissions and CSRF attacks.
+- Added new table `user_goals` to SMC database.
+- Added database repositories for the following tables:
   - User metrics.  
-  - User daily calorie intake.  
-- Added a favicon.  
-- Initialized user metrics automatically upon registration.  
+  - User daily calorie intake.
+  - User macro-nutrients goals.
+- Added a favicon.
+- Initialized user metrics and goals automatically upon registration.
 
 **Changed**  
-- Apache now ignores all favicon requests to serve it as a static file.  
+- Apache now ignores all favicon requests to serve it as a static file.
+- The table `kcals_daily` now have macronutrients columns added.
+- Complete refactor for `MacrosCounter` to correctly represent a macro and its controller and view class.
 
 **Fixed Issues**  
-- Fixed duplicated database connections by caching the PDO instance within the same request.  
-- Fixed duplicate GET requests caused by browsers requesting a missing favicon.  
+- Fixed duplicated database connections by caching the PDO instance within the same request.
+- Fixed duplicate GET requests caused by browsers requesting a missing favicon.
 - Fixed the issue where `auth_token` was not being cleared after logout.
 
 **Improvements to be done**
@@ -141,13 +145,13 @@ Reach date: Tuesday, 29 July 2025.
 
 ### User creation and administration overhaul.
 The user can now register through UI and can be administrated at database level.\
-Reached on version ---\
-Reach date: Not reached.
+Reached on version 0.3.0\
+Reach date: Monday, 15 September 2025.
 
 ### User registration and login.
 Any user can now register and login through dedicated UI.\
-Reached on version ---\
-Reach date: Not reached.
+Reached on version 0.3.0\
+Reach date: Monday, 15 September 2025.
 
 ### User connected macros.
 Any user can know their daily macros and calorie intake.\

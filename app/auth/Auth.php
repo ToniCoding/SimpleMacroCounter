@@ -30,6 +30,9 @@ class Auth {
         /** @var MetricsRepository $metricsRepository */
         $metricsRepository = $this->authContainer->getService('metricsRepo');
 
+        /** @var UserGoalsRepository $userGoalsRepository */
+        $userGoalsRepository = $this->authContainer->getService('goalsRepo');
+
         /**
          * Service cascade:
          *      - Creates the user object.
@@ -46,6 +49,7 @@ class Auth {
         $this->authService->loginTkn($userId);
 
         $metricsRepository->initializeUser($userId);
+        $userGoalsRepository->initializeUser($userId);
 
         return true;
     }
@@ -97,6 +101,10 @@ class Auth {
 
             $this->authContainer->setService('metricsRepo', function() use ($globalContainer): MetricsRepository {
                 return new MetricsRepository($globalContainer->getService('db')->connect());
+            });
+            
+            $this->authContainer->setService('goalsRepo', function() use ($globalContainer): UserGoalsRepository {
+                return new UserGoalsRepository($globalContainer->getService('db')->connect());
             });
         }
     }

@@ -70,6 +70,17 @@ CREATE OR REPLACE TABLE products (
     UNIQUE (product_name, market)
 );
 
+--- User goals table --- 
+CREATE TABLE user_goals (
+    user_id INT NOT NULL,
+    protein INT NOT NULL DEFAULT 0,
+    carbs INT NOT NULL DEFAULT 0,
+    fats INT NOT NULL DEFAULT 0,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(user_id),
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
 --- Alter table to add macros to kcal_daily table ---
 ALTER TABLE kcals_daily
   ADD COLUMN protein INT NOT NULL DEFAULT 0,
