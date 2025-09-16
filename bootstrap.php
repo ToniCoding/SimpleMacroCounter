@@ -21,13 +21,14 @@ require_once BASE_PATH . 'app/helpers/dateParser.php';
 // Repositories.
 require_once BASE_PATH . "app/repository/CaloriesIntakeRepository.php";
 require_once BASE_PATH . "app/repository/MetricsRepository.php";
+require_once BASE_PATH . "app/repository/UserGoalsRepository.php";
 require_once BASE_PATH . "app/repository/UserRepository.php";
 
 // Handlers and services.
 require_once BASE_PATH . "app/handlers/UserFormHandler.php";
 
 // Controllers.
-require_once BASE_PATH . "app/controller/MacroCounterController.php";
+require_once BASE_PATH . "app/controller/MacroController.php";
 require_once BASE_PATH . "app/controller/UserController.php";
 require_once BASE_PATH . "app/controller/StreakController.php";
 
@@ -43,6 +44,7 @@ require_once BASE_PATH . "app/auth/Auth.php";
 
 // Invokers.
 require_once BASE_PATH . "app/invoker/UserFormInvoker.php";
+require_once BASE_PATH . "app/invoker/MacroFormInvoker.php";
 
 // Index router.
 require_once BASE_PATH . "index.php";
