@@ -33,6 +33,9 @@ class Auth {
         /** @var UserGoalsRepository $userGoalsRepository */
         $userGoalsRepository = $this->authContainer->getService('goalsRepo');
 
+        /** @var CaloriesIntakeRepository $calorieIntakeRepository */
+        $calorieIntakeRepository = $this->authContainer->getService('kcalRepo');
+        
         /**
          * Service cascade:
          *      - Creates the user object.
@@ -50,6 +53,7 @@ class Auth {
 
         $metricsRepository->initializeUser($userId);
         $userGoalsRepository->initializeUser($userId);
+        $calorieIntakeRepository->initializeDay($userId);
 
         return true;
     }
@@ -105,6 +109,11 @@ class Auth {
             
             $this->authContainer->setService('goalsRepo', function() use ($globalContainer): UserGoalsRepository {
                 return new UserGoalsRepository($globalContainer->getService('db')->connect());
+            });
+
+            $this->authContainer->setService('kcalRepo', function() use ($globalContainer): CaloriesIntakeRepository {
+                $dateParser = $globalContainer->getService('dateParser');
+                return new CaloriesIntakeRepository($globalContainer->getService('db')->connect(), $dateParser);
             });
         }
     }

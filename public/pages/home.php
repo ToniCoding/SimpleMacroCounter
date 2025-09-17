@@ -7,6 +7,7 @@
     if (array_key_exists('status', $_GET) && $_GET['status'] == "success") {
         echo "Successfully logged in.";
     };
+
 ?>
 
 <!DOCTYPE html>
@@ -32,5 +33,17 @@
            <input type="hidden" name="logoutFormTkn" value="<?= htmlspecialchars($logoutFormTkn) ?>">
            <input type="submit" value="Logout">
         </form>
+        <?php
+            $macroMock = new Macro("protein", 100, 120);
+            $dbConnection = $globalContainer->getService('db')->connect();
+            $dateParser = $globalContainer->getService('dateParser');
+            $macroCounterView = new MacroCounterView();
+            $calorieIntakeRepo = new CaloriesIntakeRepository($dbConnection, $dateParser);
+            $userGoalsRepo = new UserGoalsRepository($dbConnection);
+            $macroController = new MacroController($macroMock, $macroCounterView, $calorieIntakeRepo, $userGoalsRepo);
+            $username = $globalContainer->getService('userRepository')->getByAuthToken($_COOKIE['auth_token']);
+            $userId = $globalContainer->getService('userRepository')->findUserIdByName($username['username']);
+            echo $macroController->displayMacrosTable($userId[0]['id']);
+        ?>
     </body>
 </html>
