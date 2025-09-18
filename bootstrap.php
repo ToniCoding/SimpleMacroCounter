@@ -26,6 +26,7 @@ require_once BASE_PATH . "app/repository/UserRepository.php";
 
 // Handlers and services.
 require_once BASE_PATH . "app/handlers/UserFormHandler.php";
+require_once BASE_PATH . "app/handlers/MacroFormHandler.php";
 
 // Controllers.
 require_once BASE_PATH . "app/controller/MacroController.php";
@@ -41,6 +42,9 @@ require_once BASE_PATH . "/config/db.php";
 // Authenticate.
 require_once BASE_PATH . "app/auth/AuthService.php";
 require_once BASE_PATH . "app/auth/Auth.php";
+
+// Containers.
+require_once BASE_PATH . "app/containers/MacroContainer.php";
 
 // Invokers.
 require_once BASE_PATH . "app/invoker/UserFormInvoker.php";
