@@ -68,15 +68,17 @@ class CaloriesIntakeRepository {
     public function getMacros(int $userId): array {
         $currentDate = $this->dateParser->getDate("Y-m-d");
 
-        if ($this->checkIfUserRegisteredIntake($userId, $currentDate)) {
-            $sqlStmt = $this->connectionPDO->prepare("SELECT protein, carbs, fats FROM kcals_daily WHERE user_id = :userId AND `date` = :currentDate");
+        if (!$this->checkIfUserRegisteredIntake($userId, $currentDate)) {
+            $this->initializeDay($userId);
+        }
 
-            if ($sqlStmt->execute([
-                "userId" => $userId,
-                "currentDate" => $currentDate
-            ])) {
-                return $sqlStmt->fetch(PDO::FETCH_ASSOC);
-            }
+        $sqlStmt = $this->connectionPDO->prepare("SELECT protein, carbs, fats FROM kcals_daily WHERE user_id = :userId AND `date` = :currentDate");
+
+        if ($sqlStmt->execute([
+            "userId" => $userId,
+            "currentDate" => $currentDate
+        ])) {
+            return $sqlStmt->fetch(PDO::FETCH_ASSOC);
         }
 
         return [];
