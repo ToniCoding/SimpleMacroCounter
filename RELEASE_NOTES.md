@@ -91,11 +91,16 @@ SimpleMacroCounter/
   - User macro-nutrients goals.
 - Added a favicon.
 - Initialized user metrics and goals automatically upon registration.
+- SMC is now able to process all the three macro-nutrients thanks to `CombinedMacros` integration.
+- Implemented a new service container for macro management.
+- Added integration for dynamic and efficent view for macros consumed and their goals.
 
 **Changed**  
 - Apache now ignores all favicon requests to serve it as a static file.
 - The table `kcals_daily` now have macronutrients columns added.
 - Complete refactor for `MacrosCounter` to correctly represent a macro and its controller and view class.
+- `Macro` class now works alogside with `CombinedMacros` to represent and manage all three macro-nutrients with a single controller.
+- SMC now checks if the user has registered data in `kcals_daily` in the current date and if not, one registry is inserted.
 
 **Fixed Issues**  
 - Fixed duplicated database connections by caching the PDO instance within the same request.

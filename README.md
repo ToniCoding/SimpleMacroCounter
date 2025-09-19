@@ -15,6 +15,7 @@ SMC is a software that allows you to add the amounts and foods that you have eat
     - PHP PDO (databases).
     - Apache.
     - MySQL.
+    - Symfony (Decision made for future implementation).
 
 - Frontend (Not implemented but will be):
     - Tailwind CSS.
