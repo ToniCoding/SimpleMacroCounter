@@ -8,6 +8,7 @@ class MacroContainer extends Container {
     private CaloriesIntakeRepository $caloriesIntakeRepository;
     private UserGoalsRepository $userGoalsRepository;
     private MacroController $macroController;
+    private CombinedMacroController $combinedMacroController;
 
     private PDO $dbConnection;
     private DateParser $dateParser;
@@ -29,26 +30,44 @@ class MacroContainer extends Container {
             return new UserGoalsRepository($this->dbConnection);
         });
 
-        $this->setService('mockMacro', function(string $macroName, int $qty, int $goal): Macro {
-            return new Macro($macroName, $qty, $goal);
+        $this->setService('macroController', function(): MacroController {
+            $defaultMacro = new Macro("protein", 0, 150);
+            return new MacroController(
+            $defaultMacro,
+            $this->getService('macroCounterView'),
+            $this->getService('caloriesIntakeRepository'),
+            $this->getService('userGoalsRepository')
+            );
         });
 
-        $this->setService('macroController', function($macroServiceContainer){
-            return new MacroController(
-            new Macro("protein", 0, 0),
-            $macroServiceContainer->getService('macroCounterView'),
-            $macroServiceContainer->getService('caloriesIntakeRepository'),
-            $macroServiceContainer->getService('userGoalsRepository')
-            );
+        $this->setService('combinedMacros', function(): CombinedMacros {
+            $initialData = [
+                'protein' => [0, 150],
+                'carbs' => [0, 250],
+                'fats' => [0, 70]
+            ];
+
+            return new CombinedMacros($initialData);
+        });
+
+        $this->setService('combinedMacroController', function($c): CombinedMacroController {
+            $combinedMacros = $c->getService('combinedMacros');
+            $caloriesRepo = $c->getService('caloriesIntakeRepository');
+            $userGoalsRepo = $c->getService('userGoalsRepository');
+            $macroCounterView = $c->getService('macroCounterView');
+            return new CombinedMacroController($combinedMacros, $caloriesRepo, $userGoalsRepo, $macroCounterView);
         });
 
         $this->macroCounterView = $this->getService('macroCounterView');
         $this->caloriesIntakeRepository = $this->getService('caloriesIntakeRepository');
         $this->userGoalsRepository = $this->getService('userGoalsRepository');
-        $this->macroController = $this->getService('macroController');
     }
 
     public function getMacroController(): MacroController {
-        return $this->macroController;
+        return $this->getService('macroController');
+    }
+
+    public function getCombinedMacroController(): CombinedMacroController {
+        return $this->getService('combinedMacroController');
     }
 }

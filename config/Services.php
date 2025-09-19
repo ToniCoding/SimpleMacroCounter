@@ -35,3 +35,11 @@ $globalContainer->setService('auth', function($globalContainer): Auth {
 $globalContainer->setService('userRepository', function($globalContainer): UserRepository {
     return new UserRepository($globalContainer->getService('db')->connect());
 });
+
+$globalContainer->setService('combinedMacroController', function($c) {
+    return new CombinedMacroController(
+        $c->getService('combinedMacros'),
+        $c->getService('caloriesIntakeRepository')
+    );
+});
+

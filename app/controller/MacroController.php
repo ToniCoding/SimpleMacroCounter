@@ -64,7 +64,7 @@ class MacroController {
 
         return $totalCalories;
     }
-
+    
     private function formMacrosDataArray(array $allMacros, array $macrosGoals): array {
         $macrosData = [];
 
@@ -78,13 +78,5 @@ class MacroController {
         }
 
         return $macrosData;
-    }
-
-    public function displayMacrosTable(int $userId): void {
-        $allMacros = $this->caloriesIntakeRepository->getMacros($userId);
-        $macrosGoals = $this->userGoalsRepository->getUserGoals($userId);
-        $macrosDataArray = $this->formMacrosDataArray($allMacros, $macrosGoals);
-        
-        $this->macroView->renderMacrosTable($macrosDataArray);
     }
 }

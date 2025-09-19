@@ -34,11 +34,14 @@
            <input type="submit" value="Logout">
         </form>
         <?php
-            $userId = $globalContainer->getService('userRepository')->findUserIdByName($username['username']);
-            $macroControllerService = new MacroContainer($globalContainer);
-            $macroControllerService = $macroControllerService->getMacroController();
+            $macroContainer = new MacroContainer($globalContainer);
+            $userId = $globalContainer->getService('userRepository')->findUserIdByName($username['username'])[0]['id'];
+            $combinedController = $macroContainer->getCombinedMacroController();
+            $macroController = $macroContainer->getMacroController();
+            $consumedMacros = $combinedController->getMacroData($userId);
+            $goalMacros = $combinedController->getMacroGoal($userId);
             
-            echo $macroControllerService->displayMacrosTable($userId[0]['id']);
+            echo $combinedController->displayMacrosTable($consumedMacros, $goalMacros);
         ?>
     </body>
 </html>

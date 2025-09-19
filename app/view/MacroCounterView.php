@@ -8,25 +8,27 @@ class MacroCounterView {
     /**
      * Renders an HTML table of macros and their goals.
      *
-     * @param array $macrosData Array in the format ["macroType" => ["amount" => int, "goal" => int]]
+     * @param array $macrosData Array in the format ["macroType" => int];
      * @return void
      */
-    public function renderMacrosTable(array $macrosData): void {
+    public function renderMacrosTable(array $macrosData, array $goalMacros): void {
         $htmlRender = '<table border="1" cellpadding="5" cellspacing="0">
         <thead>
-        <tr>
-        <th>Macronutrient</th>
-        <th>Amount</th>
-        <th>Goal</th>
-        </tr>
+            <tr>
+                <th>Macronutrient</th>
+                <th>Amount</th>
+                <th>Goal</th>
+            </tr>
         </thead>
         <tbody>';
 
-        foreach ($macrosData as $macroType => $values) {
+        foreach ($macrosData as $macroType => $amount) {
+            $goal = $goalMacros[$macroType] ?? 0;
+
             $htmlRender .= '<tr>
-            <td>' . htmlspecialchars(ucfirst($macroType)) . '</td>
-            <td>' . htmlspecialchars($values['amount']) . '</td>
-            <td>' . htmlspecialchars($values['goal']) . '</td>
+                <td>' . htmlspecialchars(ucfirst($macroType)) . '</td>
+                <td>' . htmlspecialchars($amount) . '</td>
+                <td>' . htmlspecialchars($goal) . '</td>
             </tr>';
         }
 

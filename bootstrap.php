@@ -9,6 +9,7 @@ require_once BASE_PATH . "/config/Services.php";
 
 // Models.
 require_once BASE_PATH . "app/model/Macro.php";
+require_once BASE_PATH . "app/model/CombinedMacros.php";
 require_once BASE_PATH . "app/model/MacrosCounter.php";
 require_once BASE_PATH . "app/model/Streak.php";
 require_once BASE_PATH . "app/model/User.php";
@@ -30,6 +31,7 @@ require_once BASE_PATH . "app/handlers/MacroFormHandler.php";
 
 // Controllers.
 require_once BASE_PATH . "app/controller/MacroController.php";
+require_once BASE_PATH . "app/controller/CombinedMacroController.php";
 require_once BASE_PATH . "app/controller/UserController.php";
 require_once BASE_PATH . "app/controller/StreakController.php";
 

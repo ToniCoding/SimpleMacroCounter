@@ -32,6 +32,15 @@ class CaloriesIntakeRepository {
         return $sqlStmt->fetch(PDO::FETCH_ASSOC) != false;
     }
 
+    public function getTodaysRegisteredData(int $userId, string $date): array {
+        $sqlStmt = $this->connectionPDO->prepare("SELECT protein, carbs, fats FROM kcals_daily WHERE user_id = :id AND `date` = :dayDate");
+        $sqlStmt->execute([
+            "id" => $userId,
+            "dayDate" => $date]);
+
+        return $sqlStmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     /**
      * Initialize the user in the table. This will be triggered only if the user registers calories in the day.
      *
