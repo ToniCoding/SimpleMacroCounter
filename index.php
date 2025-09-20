@@ -14,19 +14,30 @@ require_once __DIR__ . "/bootstrap.php";
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = strtolower(trim($uri, '/'));
 
+$testActive = false;
+$debugData = false;
+
+if($testActive){
+    // Logic to test...
+}
+
+if($debugData) {
+    echo $uri;
+}
+
 if (in_array($uri, ["regprocess", "logout"])) {
     require BASE_PATH . "app/auth/ProcessAuth.php";
+    exit;
+}
+
+if ($uri == "modifygoals") {
+    require BASE_PATH . "app/view/ModifyGoalsForm.php";
     exit;
 }
 
 $basePath = __DIR__ . '/public/pages/' . ($uri ?: 'home');
 $htmlPath = "$basePath.html";
 $phpPath = "$basePath.php";
-
-$testActive = false;
-if($testActive){
-    // Logic to test...
-}
 
 if (file_exists($htmlPath)) {
     require $htmlPath;    

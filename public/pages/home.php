@@ -43,5 +43,6 @@
             
             echo $combinedController->displayMacrosTable($consumedMacros, $goalMacros);
         ?>
+        <button onclick="window.location.href='/modifyGoals';">Modify macro goals</button>
     </body>
 </html>

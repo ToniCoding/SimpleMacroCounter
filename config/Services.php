@@ -36,10 +36,16 @@ $globalContainer->setService('userRepository', function($globalContainer): UserR
     return new UserRepository($globalContainer->getService('db')->connect());
 });
 
-$globalContainer->setService('combinedMacroController', function($c) {
+$globalContainer->setService('userGoalsRepository', function($globalContainer): UserGoalsRepository {
+    return new UserGoalsRepository($globalContainer->getService('db')->connect());
+});
+
+$globalContainer->setService('combinedMacroController', function($c, $globalContainer): CombinedMacroController {
     return new CombinedMacroController(
         $c->getService('combinedMacros'),
-        $c->getService('caloriesIntakeRepository')
+        $c->getService('caloriesIntakeRepository'),
+        $globalContainer->getService('userGoalsRepository'),
+        $c->getService('macroCounterView')
     );
 });
 

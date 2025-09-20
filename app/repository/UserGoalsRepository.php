@@ -27,4 +27,23 @@ class UserGoalsRepository {
 
         return [];
     }
+
+    public function setUserGoal(int $userId, Macro $macro): bool {
+        $allowed = ['protein', 'carbs', 'fats'];
+        $column  = $macro->getMacroName();
+        if (!in_array($column, $allowed)) {
+            throw new InvalidArgumentException('Invalid macro');
+        }
+
+        $sql = "UPDATE user_goals SET `$column` = :goal WHERE user_id = :userId";
+        $stmt = $this->connectionPDO->prepare($sql);
+        if ($stmt->execute([
+            ':goal'  => $macro->getMacroGoal(),
+            ':userId'=> $userId
+        ])){
+            return true;
+        };
+
+        return false;
+    }
 }

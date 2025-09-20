@@ -37,6 +37,7 @@ require_once BASE_PATH . "app/controller/StreakController.php";
 
 // Views.
 require_once BASE_PATH . "app/view/MacroCounterView.php";
+//require_once BASE_PATH . "app/view/ModifyGoalsForm.php";
 
 // DB connections.
 require_once BASE_PATH . "/config/db.php";
@@ -51,6 +52,7 @@ require_once BASE_PATH . "app/containers/MacroContainer.php";
 // Invokers.
 require_once BASE_PATH . "app/invoker/UserFormInvoker.php";
 require_once BASE_PATH . "app/invoker/MacroFormInvoker.php";
+require_once BASE_PATH . "app/invoker/ModifyGoalsFormInvoker.php";
 
 // Index router.
 require_once BASE_PATH . "index.php";
