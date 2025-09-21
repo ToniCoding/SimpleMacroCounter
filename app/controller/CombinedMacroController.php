@@ -5,12 +5,14 @@ class CombinedMacroController {
     private CaloriesIntakeRepository $caloriesRepo;
     private UserGoalsRepository $userGoalsRepository;
     private MacroCounterView $macroCounterView;
+    private DateParser $dateParser;
     private array $allowedMacros = ['protein', 'carbs', 'fats'];
 
-    public function __construct(CombinedMacros $combinedMacros, CaloriesIntakeRepository $caloriesRepo, UserGoalsRepository $userGoalsRepository, MacroCounterView $macroCounterView) {
+    public function __construct(CombinedMacros $combinedMacros, CaloriesIntakeRepository $caloriesRepo, UserGoalsRepository $userGoalsRepository, DateParser $dateParser, MacroCounterView $macroCounterView) {
         $this->combinedMacros = $combinedMacros;
         $this->caloriesRepo = $caloriesRepo;
         $this->userGoalsRepository = $userGoalsRepository;
+        $this->dateParser = $dateParser;
         $this->macroCounterView = $macroCounterView;
     }
 
@@ -40,7 +42,17 @@ class CombinedMacroController {
         $this->combinedMacros->setSpecificMacro($macro);
     }
 
-    public function displayMacrosTable(array $consumedMacros, array $goalMacros): void {
+    public function getConsumedCalories(int $userId): int {
+        $currentDate = $this->dateParser->getDate("Y:m:d");
+        $consumedMacros = $this->caloriesRepo->getTodaysRegisteredData($userId, $currentDate);
+        $consumedCalories = calculateCalorieIntake($consumedMacros);
+
+        return $consumedCalories;
+    }
+
+    public function displayMacrosTable(array $consumedMacros, array $goalMacros, int $userId): void {
+        $consumedCalories = $this->getConsumedCalories($userId);
         $this->macroCounterView->renderMacrosTable($consumedMacros, $goalMacros);
+        $this->macroCounterView->renderTotalMacros($consumedCalories);
     }
 }

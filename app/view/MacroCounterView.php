@@ -36,4 +36,10 @@ class MacroCounterView {
 
         echo $htmlRender;
     }
+
+    public function renderTotalMacros(int $consumedCalories): void {
+        $htmlRender = "Total calories consumed today: " . $consumedCalories;
+
+        echo $htmlRender;
+    }
 }

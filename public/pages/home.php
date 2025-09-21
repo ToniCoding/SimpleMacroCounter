@@ -41,7 +41,7 @@
             $consumedMacros = $combinedController->getMacroData($userId);
             $goalMacros = $combinedController->getMacroGoal($userId);
             
-            echo $combinedController->displayMacrosTable($consumedMacros, $goalMacros);
+            echo $combinedController->displayMacrosTable($consumedMacros, $goalMacros, $userId);
         ?>
         <button onclick="window.location.href='/modifyGoals';">Modify macro goals</button>
     </body>

@@ -50,12 +50,14 @@ class MacroContainer extends Container {
             return new CombinedMacros($initialData);
         });
 
-        $this->setService('combinedMacroController', function($c): CombinedMacroController {
+        $this->setService('combinedMacroController', function($c) use ($globalContainer): CombinedMacroController {
             $combinedMacros = $c->getService('combinedMacros');
             $caloriesRepo = $c->getService('caloriesIntakeRepository');
             $userGoalsRepo = $c->getService('userGoalsRepository');
             $macroCounterView = $c->getService('macroCounterView');
-            return new CombinedMacroController($combinedMacros, $caloriesRepo, $userGoalsRepo, $macroCounterView);
+            $dateParser = $globalContainer->getService('dateParser');
+
+            return new CombinedMacroController($combinedMacros, $caloriesRepo, $userGoalsRepo, $dateParser, $macroCounterView);
         });
 
         $this->macroCounterView = $this->getService('macroCounterView');

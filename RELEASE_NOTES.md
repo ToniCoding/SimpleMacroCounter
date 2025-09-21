@@ -94,6 +94,7 @@ SimpleMacroCounter/
 - SMC is now able to process all the three macro-nutrients thanks to `CombinedMacros` integration.
 - Implemented a new service container for macro management.
 - Added integration for dynamic and efficent view for macros consumed and their goals.
+- Added the option for the users to change their macro goals.
 
 **Changed**  
 - Apache now ignores all favicon requests to serve it as a static file.
@@ -109,6 +110,7 @@ SimpleMacroCounter/
 
 **Improvements to be done**
 - Combine register and login page, filtering the shown form by the URI.
+- One function that allows to set and make sure the form sent cannot be sent twice.
 
 ### v0.2.0 (31-08-2025)
 **Features Added:**

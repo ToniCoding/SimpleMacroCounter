@@ -18,6 +18,7 @@ require_once BASE_PATH . "app/model/User.php";
 require_once BASE_PATH . "app/logging/Logger.php";
 require_once BASE_PATH . 'app/helpers/htmlHelper.php';
 require_once BASE_PATH . 'app/helpers/dateParser.php';
+require_once BASE_PATH . 'app/helpers/caloriesCalculator.php';
 
 // Repositories.
 require_once BASE_PATH . "app/repository/CaloriesIntakeRepository.php";
@@ -37,7 +38,6 @@ require_once BASE_PATH . "app/controller/StreakController.php";
 
 // Views.
 require_once BASE_PATH . "app/view/MacroCounterView.php";
-//require_once BASE_PATH . "app/view/ModifyGoalsForm.php";
 
 // DB connections.
 require_once BASE_PATH . "/config/db.php";
