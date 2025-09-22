@@ -6,9 +6,6 @@
         exit;
     }
 
-    echo $_SESSION["modGoalFormTkn"] . "<br/>";
-    echo $_POST["modGoalFormTkn"] . "<br/>";
-
     $formTknRequisites = empty($_SESSION["modGoalFormTkn"])
                         || !isset($_POST["modGoalFormTkn"])
                         || !hash_equals($_SESSION["modGoalFormTkn"], $_POST["modGoalFormTkn"]);
@@ -22,12 +19,17 @@
 
     $userRepository = $globalContainer->getService('userRepository');
     $userGoalsRepository = $globalContainer->getService('userGoalsRepository');
+    $caloriesIntakeRepository = $globalContainer->getService('caloriesIntakeRepository');
     $username = $userRepository->getByAuthToken($_COOKIE['auth_token']);
-    $formDataInvoker = new ModifyGoalsFormInvoker($userRepository, $userGoalsRepository);
-    $formDataInvoker = $formDataInvoker->handleModGoalsData($_POST);
-
-    if ($formDataInvoker) {
+    $modAction = $_POST['modAction'];
+    $formDataInvoker = new ModifyGoalsFormInvoker($userRepository, $caloriesIntakeRepository, $userGoalsRepository);
+    
+    if ($modAction == "modGoals" && $formDataInvoker->handleModGoalsData($_POST)) {
         echo "Successfuly updated the macro goal!";
+    }
+
+    if ($modAction == "modMacros" && $formDataInvoker->handleMacroConsumed($_POST)) {
+        echo "Successfully updated the consumed macros!";
     }
 ?>
 

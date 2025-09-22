@@ -74,6 +74,18 @@ class CaloriesIntakeRepository {
         return false;
     }
 
+    public function updateMacroCount(array $params, string $setParts): bool {
+        $currentDate = $this->dateParser->getDate('Y-m-d');
+        $params[':currentDate'] = $currentDate;
+
+        $sqlStmt = $this->connectionPDO->prepare(
+            "UPDATE kcals_daily SET $setParts WHERE user_id = :userId AND `date` = :currentDate"
+        );
+
+        return $sqlStmt->execute($params);
+    }
+
+
     public function getMacros(int $userId): array {
         $currentDate = $this->dateParser->getDate("Y-m-d");
 

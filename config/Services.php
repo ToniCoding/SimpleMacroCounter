@@ -40,11 +40,16 @@ $globalContainer->setService('userGoalsRepository', function($globalContainer): 
     return new UserGoalsRepository($globalContainer->getService('db')->connect());
 });
 
+$globalContainer->setService('caloriesIntakeRepository', function($globalContainer): CaloriesIntakeRepository {
+    return new CaloriesIntakeRepository($globalContainer->getService('db')->connect(), $globalContainer->getService('dateParser'));
+});
+
 $globalContainer->setService('combinedMacroController', function($c, $globalContainer): CombinedMacroController {
     return new CombinedMacroController(
         $c->getService('combinedMacros'),
         $c->getService('caloriesIntakeRepository'),
         $globalContainer->getService('userGoalsRepository'),
+        $globalContainer->getService('dateParser'),
         $c->getService('macroCounterView')
     );
 });
