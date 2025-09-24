@@ -51,7 +51,6 @@ require_once BASE_PATH . "app/containers/MacroContainer.php";
 
 // Invokers.
 require_once BASE_PATH . "app/invoker/UserFormInvoker.php";
-require_once BASE_PATH . "app/invoker/MacroFormInvoker.php";
 require_once BASE_PATH . "app/invoker/ModifyGoalsFormInvoker.php";
 
 // Index router.

@@ -7,7 +7,6 @@ class MacroContainer extends Container {
     private MacroCounterView $macroCounterView;
     private CaloriesIntakeRepository $caloriesIntakeRepository;
     private UserGoalsRepository $userGoalsRepository;
-    private MacroController $macroController;
     private CombinedMacroController $combinedMacroController;
 
     private PDO $dbConnection;
@@ -22,24 +21,6 @@ class MacroContainer extends Container {
             return new MacroCounterView();
         });
 
-        $this->setService('caloriesIntakeRepository', function(): CaloriesIntakeRepository {
-            return new CaloriesIntakeRepository($this->dbConnection, $this->dateParser);
-        });
-
-        $this->setService('userGoalsRepository', function(): UserGoalsRepository {
-            return new UserGoalsRepository($this->dbConnection);
-        });
-
-        $this->setService('macroController', function(): MacroController {
-            $defaultMacro = new Macro("protein", 0, 150);
-            return new MacroController(
-            $defaultMacro,
-            $this->getService('macroCounterView'),
-            $this->getService('caloriesIntakeRepository'),
-            $this->getService('userGoalsRepository')
-            );
-        });
-
         $this->setService('combinedMacros', function(): CombinedMacros {
             $initialData = [
                 'protein' => [0, 150],
@@ -52,8 +33,8 @@ class MacroContainer extends Container {
 
         $this->setService('combinedMacroController', function($c) use ($globalContainer): CombinedMacroController {
             $combinedMacros = $c->getService('combinedMacros');
-            $caloriesRepo = $c->getService('caloriesIntakeRepository');
-            $userGoalsRepo = $c->getService('userGoalsRepository');
+            $caloriesRepo = $globalContainer->getService('caloriesIntakeRepository');
+            $userGoalsRepo = $globalContainer->getService('userGoalsRepository');
             $macroCounterView = $c->getService('macroCounterView');
             $dateParser = $globalContainer->getService('dateParser');
 
@@ -61,12 +42,8 @@ class MacroContainer extends Container {
         });
 
         $this->macroCounterView = $this->getService('macroCounterView');
-        $this->caloriesIntakeRepository = $this->getService('caloriesIntakeRepository');
-        $this->userGoalsRepository = $this->getService('userGoalsRepository');
-    }
-
-    public function getMacroController(): MacroController {
-        return $this->getService('macroController');
+        $this->caloriesIntakeRepository = $globalContainer->getService('caloriesIntakeRepository');
+        $this->userGoalsRepository = $globalContainer->getService('userGoalsRepository');
     }
 
     public function getCombinedMacroController(): CombinedMacroController {

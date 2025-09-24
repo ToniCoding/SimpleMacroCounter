@@ -37,7 +37,6 @@
             $macroContainer = new MacroContainer($globalContainer);
             $userId = $globalContainer->getService('userRepository')->findUserIdByName($username['username'])[0]['id'];
             $combinedController = $macroContainer->getCombinedMacroController();
-            $macroController = $macroContainer->getMacroController();
             $consumedMacros = $combinedController->getMacroData($userId);
             $goalMacros = $combinedController->getMacroGoal($userId);
             

@@ -8,7 +8,6 @@ class MacroFormInvoker {
 
     public function __construct(Container $globalContainer, MacroContainer $macroContainer, MacroFormHandler $macroFormHandler) {
         $this->macroFormHandler = $macroFormHandler;
-        $this->macroController = $macroContainer->getMacroController();
         $this->logger = $globalContainer->getService('logger');
     }
 }

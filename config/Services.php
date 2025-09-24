@@ -47,7 +47,7 @@ $globalContainer->setService('caloriesIntakeRepository', function($globalContain
 $globalContainer->setService('combinedMacroController', function($c, $globalContainer): CombinedMacroController {
     return new CombinedMacroController(
         $c->getService('combinedMacros'),
-        $c->getService('caloriesIntakeRepository'),
+        $globalContainer->getService('caloriesIntakeRepository'),
         $globalContainer->getService('userGoalsRepository'),
         $globalContainer->getService('dateParser'),
         $c->getService('macroCounterView')
