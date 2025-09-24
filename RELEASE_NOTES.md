@@ -1,10 +1,13 @@
 # SimpleMacroCounter Release Notes
 
-## Project Description
+## Description
 
-**SimpleMacroCounter** is a lightweight application designed to help users track and manage their daily macronutrient intake. The project focuses on simplicity, ease of use, and providing essential features for nutrition tracking.
+SimpleMacroCounter is a simple macro and calorie tracker designed to help users monitor their fitness progress.
 
----
+Currently, SMC allows you to:
+1. Track daily calorie and macronutrient (protein, carbs and fats).
+2. Set and track daily macronutrient goals.
+3. Add N quantities to each macronutrients and instantly view total calories.
 
 ## Project Tree
 
@@ -12,65 +15,31 @@
 SimpleMacroCounter/
 ├── app/
 │   └── auth
-│   └──  ─── Auth.php
-│   └──  ─── AuthService.php 
-│   └──  ─── ProcessAuth.php
 │   └── controller
-│   └──  ─── MacroCounterController.php
-│   └──  ─── StreakController.php
-│   └──  ─── UserController.php 
 │   └── handlers
-│   └──  ─── UserFormHandler.php
 │   └── helpers
-│   └──  ─── dateParser.php
-│   └──  ─── htmlHelper.php
-│   └──  ─── userInputs.php
 │   └── invoker
-│   └──  ─── UserFormInvoker.php
 │   └── logging
-│   └──  ─── Logger.php
 │   └── model
-│   └──  ─── Macro.php
-│   └──  ─── MacrosCounter.php
-│   └──  ─── Streak.php
-│   └──  ─── User.php
 │   └── repository
-│   └──  ─── TableManagementRepository.php
-│   └──  ─── UserRepository.php
-│   └──  ─── MetricsRepository.php
 │   └── view
-│   └──  ─── MacroCounterView.php
 ├── config/
-│   ├── db.php
-│   ├── ObjectFactories.php
-│   └── Services.php
 ├── db/
-│   ├── setup_and_seed.sql
 ├── public/
-│   ├── css
-│   ├── pages
-│   └──  ─── 404.html
-│   └──  ─── home.php
-│   └──  ─── register.php
-├── .gitignore
-├── .htaccess
-├── AppConstants.php
+│   └── css
+│   └── imag
+│   └── pages
 ├── bootstrap.php
-└── index.php
-└── LICENSE
+├── index.php
 └── README.md
-└── RELEASE_NOTES.md
 ```
-
----
 
 ## Project Roadmap
 
 - **v0.1.0**: Initial release with basic macro tracking.
 - **v0.2.0**: User registration and administration.
 - **v0.3.0**: Routing and data management.
-
----
+- **v0.4.0**: SMC general enhancement.
 
 ## Project Versions
 
@@ -94,7 +63,8 @@ SimpleMacroCounter/
 - SMC is now able to process all the three macro-nutrients thanks to `CombinedMacros` integration.
 - Implemented a new service container for macro management.
 - Added integration for dynamic and efficent view for macros consumed and their goals.
-- Added the option for the users to change their macro goals.
+- Added the option for the users to change their macro goals and consumed macros in the current day.
+- Users can now see the calories they consumed in a day.
 
 **Changed**  
 - Apache now ignores all favicon requests to serve it as a static file.
@@ -108,9 +78,16 @@ SimpleMacroCounter/
 - Fixed duplicate GET requests caused by browsers requesting a missing favicon.
 - Fixed the issue where `auth_token` was not being cleared after logout.
 
-**Improvements to be done**
-- Combine register and login page, filtering the shown form by the URI.
-- One function that allows to set and make sure the form sent cannot be sent twice.
+**Next version**
+- [UPGRADE] Combine register and login page into one.
+- [UPGRADE] Avoid showing both change macronutrient goal and add amount, only show one.
+- [UPGRADE] Write a function that allows to set the form cookies to avoid duplicated requests.
+- [UPGRADE] Write a cleaner PHP router.
+- [UPGRADE] Show a message when the user does not add amounts to any macronutrient.
+- [UPGRADE] Auto-logging in if the authenticate token is setted instead of showing the login page.
+- [BUG] Catch length exception in *"modGoalsForm > handleModGoalsData > More than 4 length input exception"*.
+- [BUG] Throw and catch exceptin in *"modGoalsForm > handleModGoalsData > Add macronutrient amount"*.
+- [BUG] Check and throw exception for empty amount in modify goals form.
 
 ### v0.2.0 (31-08-2025)
 **Features Added:**
@@ -141,8 +118,6 @@ SimpleMacroCounter/
 - Macro calorie calculation.
 - Construction of project structure.
 
----
-
 ## Project milestones
 
 ### Generic macros and software foundation.
@@ -162,16 +137,17 @@ Reach date: Monday, 15 September 2025.
 
 ### User connected macros.
 Any user can know their daily macros and calorie intake.\
-Reached on version ---\
-Reach date: Not reached.
+Reached on version 0.3.0\
+Reach date: Sunday, 21 September 2025.
 
 ### Streaks
-Any user can know their current creatine and proteine streak. The streak breaks if the user don't take it for more than 2 days.\
+Any user can know their current creatine and protein streak. The streak breaks if the user don't take it for more than 2 days.\
 Reached on version ---\
 Reach date: Not reached.
 
 ## Future improvements
 *Implement project structure validation.*\
 *Implement JWT for user tokens.*\
-*Implement Symfony or Laravel.*\
-*Improve logging system.*
+*Implement Symfony.*\
+*Improve and extensive use of logging system.*\
+*Improve the exception throwing and managing.*
