@@ -27,17 +27,33 @@ class Auth {
         /** @var UserFormInvoker $userFormInvoker */
         $userFormInvoker = $this->authContainer->getService('userFormInvoker');
 
+        /** @var MetricsRepository $metricsRepository */
+        $metricsRepository = $this->authContainer->getService('metricsRepo');
+
+        /** @var UserGoalsRepository $userGoalsRepository */
+        $userGoalsRepository = $this->authContainer->getService('goalsRepo');
+
+        /** @var CaloriesIntakeRepository $calorieIntakeRepository */
+        $calorieIntakeRepository = $this->authContainer->getService('kcalRepo');
+        
         /**
          * Service cascade:
          *      - Creates the user object.
          *      - Creates the user at database level.
          *      - Gives the user an auth token.
+         *      - Initialize the user in user metrics table.
          */
+
         /** @var User $user */
         $user = $userFormHandler->handle($postData);
         $userFormInvoker->handleUserCreation($user);
+
         $userId = $userController->retrieveUserByUsername($user->getUsername())[0]['id'];
         $this->authService->loginTkn($userId);
+
+        $metricsRepository->initializeUser($userId);
+        $userGoalsRepository->initializeUser($userId);
+        $calorieIntakeRepository->initializeDay($userId);
 
         return true;
     }
@@ -85,6 +101,19 @@ class Auth {
 
             $this->authContainer->setService('userFormInvoker', function() use ($globalContainer, $userRepository, $userFormHandler, $userController): UserFormInvoker {
                 return new UserFormInvoker($globalContainer, $userRepository, $userFormHandler, $userController);
+            });
+
+            $this->authContainer->setService('metricsRepo', function() use ($globalContainer): MetricsRepository {
+                return new MetricsRepository($globalContainer->getService('db')->connect());
+            });
+            
+            $this->authContainer->setService('goalsRepo', function() use ($globalContainer): UserGoalsRepository {
+                return new UserGoalsRepository($globalContainer->getService('db')->connect());
+            });
+
+            $this->authContainer->setService('kcalRepo', function() use ($globalContainer): CaloriesIntakeRepository {
+                $dateParser = $globalContainer->getService('dateParser');
+                return new CaloriesIntakeRepository($globalContainer->getService('db')->connect(), $dateParser);
             });
         }
     }

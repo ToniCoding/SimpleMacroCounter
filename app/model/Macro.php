@@ -1,9 +1,9 @@
 <?php
 
 /**
- * MacroCounter class representing a macronutrient with its amount and goal.
+ * Macro class representing a macronutrient with its amount and goal.
  */
-class MacroCounter {
+class Macro {
     private string $macroName;
     private int $macroCount;
     private int $macroGoal;

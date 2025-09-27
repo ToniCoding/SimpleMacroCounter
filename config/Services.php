@@ -31,3 +31,26 @@ $globalContainer->setService('authService', function($globalContainer): AuthServ
 $globalContainer->setService('auth', function($globalContainer): Auth { 
     return new Auth($globalContainer);
 });
+
+$globalContainer->setService('userRepository', function($globalContainer): UserRepository {
+    return new UserRepository($globalContainer->getService('db')->connect());
+});
+
+$globalContainer->setService('userGoalsRepository', function($globalContainer): UserGoalsRepository {
+    return new UserGoalsRepository($globalContainer->getService('db')->connect());
+});
+
+$globalContainer->setService('caloriesIntakeRepository', function($globalContainer): CaloriesIntakeRepository {
+    return new CaloriesIntakeRepository($globalContainer->getService('db')->connect(), $globalContainer->getService('dateParser'));
+});
+
+$globalContainer->setService('combinedMacroController', function($c, $globalContainer): CombinedMacroController {
+    return new CombinedMacroController(
+        $c->getService('combinedMacros'),
+        $globalContainer->getService('caloriesIntakeRepository'),
+        $globalContainer->getService('userGoalsRepository'),
+        $globalContainer->getService('dateParser'),
+        $c->getService('macroCounterView')
+    );
+});
+
