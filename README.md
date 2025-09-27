@@ -33,17 +33,18 @@ SMC is a software that allows you to add the amounts and foods that you have eat
 - Foods database.
 
 ### Versions
-Version 0.1.0 - The Core Foundation
-- Release date: 29-07-2025.
+
+Version 0.3.0 - Routing and data juggling
+- Release date: 27-09-2025.
 - Backend added/modified: Yes.
-- Frontend: Not implemented.
+- Frontend: Implementation in progress.
 
 Version 0.2.0 - The user experience overhaul
 - Release date: 31-08-2025.
 - Backend added/modified: Yes.
 - Frontend: Not implemented.
 
-Version 0.3.0 - Routing and data juggling
-- Release date: Unreleased.
+Version 0.1.0 - The Core Foundation
+- Release date: 29-07-2025.
 - Backend added/modified: Yes.
-- Frontend: Implementation in progress.
+- Frontend: Not implemented.

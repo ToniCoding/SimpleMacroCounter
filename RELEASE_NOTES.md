@@ -43,7 +43,7 @@ SimpleMacroCounter/
 
 ## Project Versions
 
-### v0.3.0 (Unreleased)
+### v0.3.0 (27-09-2025)
 **Features Added**
 - Implemented a PHP path router.
 - Added new Apache configurations via `.htaccess`.
