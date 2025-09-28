@@ -25,12 +25,25 @@
         $modAction = $_POST['modAction'];
         $formDataInvoker = new ModifyGoalsFormInvoker($userRepository, $caloriesIntakeRepository, $userGoalsRepository);
         
-        if ($modAction == 'modGoals' && $formDataInvoker->handleModGoalsData($_POST)) {
-            $modResult = 'Successfuly updated the macro goal!';
-        }
-    
-        if ($modAction == 'modMacros' && $formDataInvoker->handleMacroConsumed($_POST)) {
-            $modResult = 'Successfully updated the consumed macros!';
+        try {
+            $actionsHandled = [
+                'modGoals' => fn($data): bool => $formDataInvoker->handleModGoalsData($data),
+                'modMacros' => fn($data): bool => $formDataInvoker->handleMacroConsumed($data)
+            ];
+
+            $actionMessages = [
+                'modGoals' => 'Successfully updated the macro goal!',
+                'modMacros' => 'Successfully updated the consumed macros!'
+            ];
+
+            if (isset($actionsHandled[$modAction]) && $actionsHandled[$modAction]($_POST)) {
+                $modResult = $actionMessages[$modAction];
+            }
+
+        } catch (LengthException $ex) {
+            $modResult = 'Numbers longer than 4 characters are not allowed.';
+        } catch (ExceededMacroLimitException $ex) {
+            $modResult = $ex->getMessage();
         }
 
         require_once BASE_PATH . 'public/templates/ModGoalsPageTemplate.php';

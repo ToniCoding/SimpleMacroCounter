@@ -18,8 +18,12 @@ class ModifyGoalsFormInvoker {
         $username = $this->userRepository->getByAuthToken($_COOKIE['auth_token']);
         $userId = $this->userRepository->findUserIdByName($username['username'])[0]['id'];
 
-        if (strlen($macroGoal) > 4) {
+        if (strlen($macroGoal) >= 4) {
             throw new LengthException('Number length cannot be longer than 4 characters.');
+        }
+
+        if ((int)$macroGoal > 400) {
+            throw new ExceededMacroLimitException("We doubt you can consume more than 500 of {$macroName} ;(");
         }
         
         return $this->updateMacroGoal($macroComposed, $userId);
@@ -29,12 +33,24 @@ class ModifyGoalsFormInvoker {
         $username = $this->userRepository->getByAuthToken($_COOKIE['auth_token']);
         $userId = $this->userRepository->findUserIdByName($username['username'])[0]['id'];
         
-        $proteinsQty = (int)filter_var($postData['proteins'] ?? null, FILTER_SANITIZE_NUMBER_INT);
-        $carbsQty = (int)filter_var($postData['carbs'] ?? null, FILTER_SANITIZE_NUMBER_INT);
-        $fatsQty = (int)filter_var($postData['fats'] ?? null, FILTER_SANITIZE_NUMBER_INT);
+        $proteins = $postData['proteins'] ?? '';
+        $carbs = $postData['carbs'] ?? '';
+        $fats = $postData['fats'] ?? '';
+
+        if ($proteins >= 4 && $carbs >= 4 && $fats >= 4) {
+            throw new LengthException('Macro-nutrient quantities cannot exceed 500.');
+        }
+
+        $proteinsQty = (int)filter_var($proteins ?? null, FILTER_SANITIZE_NUMBER_INT);
+        $carbsQty = (int)filter_var($carbs ?? null, FILTER_SANITIZE_NUMBER_INT);
+        $fatsQty = (int)filter_var($fats ?? null, FILTER_SANITIZE_NUMBER_INT);
 
         if (!is_numeric($proteinsQty) || !is_numeric($carbsQty) || !is_numeric($fatsQty)) {
             throw new Exception('The prompted amounts are not numeric.');
+        }
+
+        if ($proteinsQty > 400 || $carbsQty > 400 || $fatsQty > 400) {
+            throw new ExceededMacroLimitException('Are you sure you consumed more than 500 in a day?');
         }
 
         $macrosNumber = [
