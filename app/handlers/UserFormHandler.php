@@ -15,11 +15,11 @@ class UserFormHandler {
         $age = (int)($postData['age']);
 
         if (!$username || !$password) {
-            throw new Exception("Username and password must have a value");
+            throw new Exception('Username and password must have a value');
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception("Incorrect mail format.");
+            throw new Exception('Incorrect mail format.');
         }
 
         $dateTime = $this->dateParser->getDate();

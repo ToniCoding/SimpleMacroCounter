@@ -67,10 +67,10 @@ class UserRepository {
      */
     public function edit(User $user, string $field, string $newValue): bool {
         $userId = $user->getUserId();
-        $validFields = ["username", "password", "age", "email"];
+        $validFields = ['username', 'password', 'age', 'email'];
 
         if (!in_array($field, $validFields)) {
-            throw new Exception("Invalid field.");
+            throw new Exception('Invalid field.');
         }
 
         switch ($field) {
@@ -105,7 +105,7 @@ class UserRepository {
     }
 
     public function checkPassword(int $userId, string $enteredPassword): bool {
-        $stmt = $this->connectionPDO->prepare("SELECT password FROM users WHERE id = :id");
+        $stmt = $this->connectionPDO->prepare('SELECT password FROM users WHERE id = :id');
         $stmt->execute(['id' => $userId]);
         $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -115,14 +115,14 @@ class UserRepository {
     }
 
     public function getById(int $userId): ?array {
-        $stmt = $this->connectionPDO->prepare("SELECT username FROM users WHERE id = ?");
+        $stmt = $this->connectionPDO->prepare('SELECT username FROM users WHERE id = ?');
         $stmt->execute(params: [$userId]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user ?: null;
     }
 
     public function getByAuthToken(string $token): ?array {
-        $stmt = $this->connectionPDO->prepare("SELECT username FROM users WHERE auth_token = ?");
+        $stmt = $this->connectionPDO->prepare('SELECT username FROM users WHERE auth_token = ?');
         $stmt->execute([$token]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user ?: null;

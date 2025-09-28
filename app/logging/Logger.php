@@ -26,7 +26,7 @@ class Logger {
      * @return string Formatted message.
      */
     private function formatLogMessage(string $message, string $mode): string {
-        return "[" . $mode . "] " . $this->dateParser->getDateTime() . " >>> " . $message . "\n"; 
+        return '[' . $mode . '] ' . $this->dateParser->getDateTime() . ' >>> ' . $message . '\n'; 
     }
 
     /**
@@ -36,12 +36,12 @@ class Logger {
      * @throws Exception If writing to the log file fails.
      */
     public function info($contents): void {
-        $this->mode = "info";
+        $this->mode = 'info';
         if (!file_put_contents(
             $this->logFile,
             $this->formatLogMessage($contents, strtoupper($this->mode)),
             FILE_APPEND)) {
-                throw new Exception("There was an error writing to log.");
+                throw new Exception('There was an error writing to log.');
         }
     }
 }

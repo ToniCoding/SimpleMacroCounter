@@ -14,10 +14,10 @@ class AuthService {
         $tokenStmt = $this->dbConnection->prepare("UPDATE users SET auth_token = ?, token_expires = ? WHERE id = ?");
         $tokenStmt->execute([$authToken, $tokenExpires, $userId]);
 
-        setcookie("auth_token", $authToken, [
-            "expires" => time() + 3600,
-            "httponly" => true,
-            "samesite" => "Strict"
+        setcookie('auth_token', $authToken, [
+            'expires' => time() + 3600,
+            'httponly' => true,
+            'samesite' => 'Strict'
         ]);
 
         return $authToken;
@@ -29,7 +29,7 @@ class AuthService {
         }
     
         $tokenStmt = $this->dbConnection->prepare(
-            "SELECT id, token_expires FROM users WHERE auth_token = ?"
+            'SELECT id, token_expires FROM users WHERE auth_token = ?'
         );
         $tokenStmt->execute([$_COOKIE['auth_token']]);
         $userToken = $tokenStmt->fetch(PDO::FETCH_ASSOC);
@@ -50,7 +50,7 @@ class AuthService {
         $stmt = $this->dbConnection->prepare("UPDATE users SET auth_token = NULL WHERE id = ?");
         $stmt->execute([$userId]);
 
-        setcookie("auth_token", "", time() - 3600, "/");
+        setcookie('auth_token', '', time() - 3600, '/');
 
         session_unset();
         session_destroy();

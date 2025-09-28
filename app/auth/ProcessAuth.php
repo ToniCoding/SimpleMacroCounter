@@ -20,43 +20,43 @@ $log = $globalContainer->getService('logger');
 
 $formAction = strtolower($_POST['action']);
 
-if($formAction == "register") {
-    $formTknRequisites = empty($_SESSION["registerFormTkn"])
-                        || !isset($_POST["registerFormTkn"])
-                        || !hash_equals($_SESSION["registerFormTkn"], $_POST["registerFormTkn"]);
+if($formAction == 'register') {
+    $formTknRequisites = empty($_SESSION['registerFormTkn'])
+                        || !isset($_POST['registerFormTkn'])
+                        || !hash_equals($_SESSION['registerFormTkn'], $_POST['registerFormTkn']);
 
     if ($formTknRequisites) {
         http_response_code(400);
-        exit("Invalid request");
+        exit('Invalid request');
     }
 
-    unset($_SESSION["registerFormTkn"]);
+    unset($_SESSION['registerFormTkn']);
 }
 
-if($formAction == "logout") {
-    $formTknRequisites = empty($_SESSION["logoutFormTkn"])
-                        || !isset($_POST["logoutFormTkn"])
-                        || !hash_equals($_SESSION["logoutFormTkn"], $_POST["logoutFormTkn"]);
+if($formAction == 'logout') {
+    $formTknRequisites = empty($_SESSION['logoutFormTkn'])
+                        || !isset($_POST['logoutFormTkn'])
+                        || !hash_equals($_SESSION['logoutFormTkn'], $_POST['logoutFormTkn']);
 
     if ($formTknRequisites) {
         http_response_code(400);
-        exit("Invalid request");
+        exit('Invalid request');
     }
 
-    unset($_SESSION["logoutFormTkn"]);
+    unset($_SESSION['logoutFormTkn']);
 }
 
 
 
-if($formAction == "register") {
+if($formAction == 'register') {
     if(!$login->register($_POST)) {
-        echo "There was a problem registering the user, try again later.";
+        echo 'There was a problem registering the user, try again later.';
     } else {
-        echo "Successfully registered the user.";
+        echo 'Successfully registered the user.';
     }
 }
 
-if($formAction == "login") {
+if($formAction == 'login') {
     if(!$login->login($_POST)) {
         header('Location: /login?status=failed');
     } else {
@@ -64,9 +64,9 @@ if($formAction == "login") {
     }
 }
 
-if($formAction == "logout") {
-    $log->info("Executed logout action");
+if($formAction == 'logout') {
+    $log->info('Executed logout action');
     $login->logout();
     
-    echo "Logged out successfully";
+    echo 'Logged out successfully';
 }

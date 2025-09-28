@@ -30,20 +30,20 @@ class CombinedMacroController {
 
     public function getSpecificMacro(string $macroName): Macro {
         if (!in_array($macroName, $this->allowedMacros)) {
-            throw new InvalidArgumentException("The selected macro is not allowed.");
+            throw new InvalidArgumentException('The selected macro is not allowed.');
         }
         return $this->combinedMacros->getSpecificMacro($macroName);
     }
 
     public function setSpecificMacro(Macro $macro): void {
         if (!in_array($macro->getMacroName(), $this->allowedMacros)) {
-            throw new InvalidArgumentException("The selected macro is not allowed.");
+            throw new InvalidArgumentException('The selected macro is not allowed.');
         }
         $this->combinedMacros->setSpecificMacro($macro);
     }
 
     public function getConsumedCalories(int $userId): int {
-        $currentDate = $this->dateParser->getDate("Y:m:d");
+        $currentDate = $this->dateParser->getDate('Y:m:d');
         $consumedMacros = $this->caloriesRepo->getTodaysRegisteredData($userId, $currentDate);
         $consumedCalories = calculateCalorieIntake($consumedMacros);
 

@@ -63,7 +63,7 @@ class Auth {
 
         $userRepository = $this->authContainer->getService('userRepository');
         $user = $userRepository->findUserIdByName($postData['username'] ?? '');
-        $userId = $user[0]["id"];
+        $userId = $user[0]['id'];
 
         if (!$user) return false;
         if (!$userRepository->checkPassword($userId, $postData['password'])) return false;
@@ -90,7 +90,7 @@ class Auth {
                 $authContainer->getService('userRepository'));
         });
 
-        if($action == "register") {
+        if($action == 'register') {
             $this->authContainer->setService('userFormHandler', function() use ($globalContainer): UserFormHandler {
                 return new UserFormHandler($globalContainer->getService('dateParser'));
             });

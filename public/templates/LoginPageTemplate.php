@@ -1,22 +1,10 @@
-<?php
-
-session_start();
-
-    $formTkn = bin2hex(random_bytes(32));
-    $_SESSION['loginFormTkn'] = $formTkn;
-
-    if (array_key_exists('status', $_GET) && $_GET['status'] == "failed") {
-        echo "Incorrect email or password";
-    };
-?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="public/imag/favicon.ico" type="image/x-icon">
-        <title>Login - Simple Macro Counter</title>
+        <title>Login - SMC</title>
     </head>
     <body>
         <form action="/regprocess" method="post">

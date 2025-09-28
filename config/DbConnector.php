@@ -49,7 +49,7 @@ class DbConnection {
 
                 return $this->dbPdo;
             } catch (PDOException $err) {
-                echo "Connection failed due to: " . $err->getMessage();
+                echo "Connection failed due to: {$err->getMessage()}";
                 exit();
             }
         }

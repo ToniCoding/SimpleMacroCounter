@@ -117,7 +117,7 @@ class User {
      */
     public function __toString(): string {
         return sprintf(
-            "User[id=%s, username=%s, alias=%s, email=%s, age=%d, created=%s, lastLogin=%s, active=%s]",
+            'User[id=%s, username=%s, alias=%s, email=%s, age=%d, created=%s, lastLogin=%s, active=%s]',
             $this->userId ?? 'null',
             $this->username,
             $this->userAlias,

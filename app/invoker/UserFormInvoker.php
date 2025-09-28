@@ -10,7 +10,7 @@ class UserFormInvoker {
         $this->userRepository = $userRepository;
         $this->userFormHandler = $userFormHandler;
         $this->userController = $userController;
-        $this->logger = $globalContainer->getService("logger");
+        $this->logger = $globalContainer->getService('logger');
     }
 
     public function handleUserCreation(User $user): bool {

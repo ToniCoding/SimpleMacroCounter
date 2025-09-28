@@ -14,14 +14,14 @@ class UserGoalsRepository {
     }
 
     public function initializeUser(int $userId): bool {
-        $sqlStmt = $this->connectionPDO->prepare("INSERT INTO user_goals(user_id, protein, carbs, fats) VALUES (?, 0, 0, 0)");
+        $sqlStmt = $this->connectionPDO->prepare('INSERT INTO user_goals(user_id, protein, carbs, fats) VALUES (?, 0, 0, 0)');
         
         return $sqlStmt->execute([$userId]);
     }
 
     public function getUserGoals(int $userId): array {
-        $sqlStmt = $this->connectionPDO->prepare("SELECT protein, carbs, fats FROM user_goals WHERE user_id = :userId");
-        if ($sqlStmt->execute(["userId" => $userId])) {
+        $sqlStmt = $this->connectionPDO->prepare('SELECT protein, carbs, fats FROM user_goals WHERE user_id = :userId');
+        if ($sqlStmt->execute(['userId' => $userId])) {
             return $sqlStmt->fetch(PDO::FETCH_ASSOC);
         }
 
@@ -38,8 +38,8 @@ class UserGoalsRepository {
         $sql = "UPDATE user_goals SET `$column` = :goal WHERE user_id = :userId";
         $stmt = $this->connectionPDO->prepare($sql);
         if ($stmt->execute([
-            ':goal'  => $macro->getMacroGoal(),
-            ':userId'=> $userId
+            ":goal"  => $macro->getMacroGoal(),
+            ":userId"=> $userId
         ])){
             return true;
         };

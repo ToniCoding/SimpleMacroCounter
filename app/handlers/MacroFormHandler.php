@@ -12,27 +12,27 @@ class MacroFormHandler {
     }
 
     public function handle(array $postData): Macro {
-        $macroType = filter_var(trim($postData["macro"] ?? '', FILTER_SANITIZE_STRING));
-        $macroAmount = filter_var(trim($postData["amount"] ?? '', FILTER_SANITIZE_STRING));
-        $macroGoal = filter_var(trim($postData["goal"] ?? '', FILTER_SANITIZE_STRING));
+        $macroType = filter_var(trim($postData['macro'] ?? '', FILTER_SANITIZE_STRING));
+        $macroAmount = filter_var(trim($postData['amount'] ?? '', FILTER_SANITIZE_STRING));
+        $macroGoal = filter_var(trim($postData['goal'] ?? '', FILTER_SANITIZE_STRING));
 
         if (!$macroType || !$macroAmount) {
-            throw new Exception("Macro and amount must have a value");
+            throw new Exception('Macro and amount must have a value');
         }
         
         if (!$macroGoal) {
             switch($macroType) {
-                case "protein":
+                case 'protein':
                     $macroGoal = 100;
                     break;
-                case "carbs":
+                case 'carbs':
                     $macroGoal = 210;
                     break;
-                case "fats":
+                case 'fats':
                     $macroGoal = 50;
                     break;
                 default:
-                    throw new InvalidArgumentException("Unrecognized macro type.");
+                    throw new InvalidArgumentException('Unrecognized macro type.');
             }
         }
 

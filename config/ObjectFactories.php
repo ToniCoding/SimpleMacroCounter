@@ -55,7 +55,7 @@ class Container {
      */
     public function getCredConf(): array {
         if (empty($this->credCache)) {
-            $this->credCache = parse_ini_file(BASE_PATH . "config.ini");
+            $this->credCache = parse_ini_file(BASE_PATH . 'config.ini');
         }
 
         return $this->credCache;

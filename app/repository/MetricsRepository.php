@@ -24,7 +24,7 @@ class MetricsRepository {
      * @return bool True on success, false otherwise.
      */
     public function initializeUser(int $userId): bool {
-        $sqlStmt = $this->connectionPDO->prepare("INSERT INTO user_metrics(user_id, creatine_streak, experience) VALUES (?, 0, 0)");
+        $sqlStmt = $this->connectionPDO->prepare('INSERT INTO user_metrics(user_id, creatine_streak, experience) VALUES (?, 0, 0)');
         
         if ($sqlStmt->execute([$userId])) {
             return true;
@@ -43,8 +43,8 @@ class MetricsRepository {
     public function addCreatineStreak(int $userId, int $amount): bool {
         $sqlStmt = $this->connectionPDO->prepare("UPDATE user_metrics SET creatine_streak = creatine_streak + :daysToAdd WHERE user_id = :userId");
         if ($sqlStmt->execute([
-            "daysToAdd" => $amount,
-            "userId" => $userId
+            'daysToAdd' => $amount,
+            'userId' => $userId
         ])) {
             return true;
         }
@@ -62,8 +62,8 @@ class MetricsRepository {
         $sqlStmt = $this->connectionPDO->prepare("UPDATE user_metrics SET experience = experience + :expToAdd WHERE user_id = :userId");
         
         if ($sqlStmt->execute([
-            "expToAdd" => $amount,
-            "userId" => $userId
+            'expToAdd' => $amount,
+            'userId' => $userId
         ])){
             return true;
         }
