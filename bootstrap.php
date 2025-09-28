@@ -54,6 +54,9 @@ require_once BASE_PATH . 'app/containers/MacroContainer.php';
 require_once BASE_PATH . 'app/invoker/UserFormInvoker.php';
 require_once BASE_PATH . 'app/invoker/ModifyGoalsFormInvoker.php';
 
+// Exceptions.
+require_once BASE_PATH . 'app/exceptions/ExceededMacroLimitException.php';
+
 // Index router.
 require_once BASE_PATH . 'index.php';
 
