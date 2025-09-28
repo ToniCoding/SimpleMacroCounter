@@ -2,47 +2,39 @@
 
 require_once __DIR__ . "/bootstrap.php";
 
-/** 
- * Path router.
- * This route works with Apache's mod_rewrite directives so in order to work correctly the corresponding
- * configuration must be tested and done.
- * The require paths will work with all the paths within the project.
- * 
- * The router recognizes special routes like the registering form.
-*/
+$uri = strtolower(trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$uri = strtolower(trim($uri, '/'));
+$specialRoutes = [
+    'regprocess'   => BASE_PATH . 'app/auth/ProcessAuth.php',
+    'logout'       => BASE_PATH . 'app/auth/ProcessAuth.php',
+    'modifygoals'  => BASE_PATH . 'app/view/ModifyGoalsForm.php',
+    'modgoals'     => BASE_PATH . 'app/public/pages/ModGoalsPage.php',
+];
 
-$testActive = false;
-$debugData = false;
+/**
+ * This function works as a simple router to require the files needed for each functionality.
+ * @param string $uri The requested URI after the domain name.
+ * @param Container $globalContainer The global service container.
+ * @param array $specialRoutes Special routes that redirect to actions that cannot be performed in index file.
+ * @return void
+ */
+function pathRouter(string $uri, Container $globalContainer, array $specialRoutes): void {
+    $sanitizedUri = preg_replace('/[^a-z0-9_-]/', '', $uri);
 
-if($testActive){
-    // Logic to test...
+    if (isset($specialRoutes[$sanitizedUri]) && file_exists($specialRoutes[$sanitizedUri])) {
+        require $specialRoutes[$sanitizedUri];
+        return;
+    }
+
+    $pagePath = BASE_PATH . '/public/pages/' . ($sanitizedUri ?: 'home') . "Page.php";
+
+    if (file_exists($pagePath)) {
+        require $pagePath;
+        renderPage($globalContainer);
+        return;
+    }
+
+    require NOT_FOUND_PAGE;
 }
 
-if($debugData) {
-    echo $uri;
-}
-
-if (in_array($uri, ["regprocess", "logout"])) {
-    require BASE_PATH . "app/auth/ProcessAuth.php";
-    exit;
-}
-
-if ($uri == "modifygoals") {
-    require BASE_PATH . "app/view/ModifyGoalsForm.php";
-    exit;
-}
-
-$basePath = __DIR__ . '/public/pages/' . ($uri ?: 'home');
-$htmlPath = "$basePath.html";
-$phpPath = "$basePath.php";
-
-if (file_exists($htmlPath)) {
-    require $htmlPath;    
-} elseif(file_exists($phpPath)) {
-    require $phpPath;
-} else {
-    require __DIR__ . '/public/pages/404.html';
-}
+pathRouter($uri, $globalContainer, $specialRoutes);
