@@ -1,4 +1,11 @@
 <?php
+    namespace Public\Pages;
+
+    use App\Invoker\ModifyGoalsFormInvoker;
+    use App\Exceptions\ExceededMacroLimitException;
+
+    use LengthException;
+
     session_start();
 
     if (!array_key_exists('auth_token', $_COOKIE) || $_COOKIE['auth_token'] == null) {
@@ -17,34 +24,36 @@
 
     unset($_SESSION['modGoalFormTkn']);
 
-    function renderPage($globalContainer): void {
-        $userRepository = $globalContainer->getService('userRepository');
-        $userGoalsRepository = $globalContainer->getService('userGoalsRepository');
-        $caloriesIntakeRepository = $globalContainer->getService('caloriesIntakeRepository');
-        $username = $userRepository->getByAuthToken($_COOKIE['auth_token']);
-        $modAction = $_POST['modAction'];
-        $formDataInvoker = new ModifyGoalsFormInvoker($userRepository, $caloriesIntakeRepository, $userGoalsRepository);
-        
-        try {
-            $actionsHandled = [
-                'modGoals' => fn($data): bool => $formDataInvoker->handleModGoalsData($data),
-                'modMacros' => fn($data): bool => $formDataInvoker->handleMacroConsumed($data)
-            ];
+    class ModGoalsPage {
+        public function renderPage($globalContainer): void {
+            $userRepository = $globalContainer->getService('userRepository');
+            $userGoalsRepository = $globalContainer->getService('userGoalsRepository');
+            $caloriesIntakeRepository = $globalContainer->getService('caloriesIntakeRepository');
+            $username = $userRepository->getByAuthToken($_COOKIE['auth_token']);
+            $modAction = $_POST['modAction'];
+            $formDataInvoker = new ModifyGoalsFormInvoker($userRepository, $caloriesIntakeRepository, $userGoalsRepository);
 
-            $actionMessages = [
-                'modGoals' => 'Successfully updated the macro goal!',
-                'modMacros' => 'Successfully updated the consumed macros!'
-            ];
+            try {
+                $actionsHandled = [
+                    'modGoals' => fn($data): bool => $formDataInvoker->handleModGoalsData($data),
+                    'modMacros' => fn($data): bool => $formDataInvoker->handleMacroConsumed($data)
+                ];
 
-            if (isset($actionsHandled[$modAction]) && $actionsHandled[$modAction]($_POST)) {
-                $modResult = $actionMessages[$modAction];
+                $actionMessages = [
+                    'modGoals' => 'Successfully updated the macro goal!',
+                    'modMacros' => 'Successfully updated the consumed macros!'
+                ];
+
+                if (isset($actionsHandled[$modAction]) && $actionsHandled[$modAction]($_POST)) {
+                    $modResult = $actionMessages[$modAction];
+                }
+
+            } catch (LengthException $ex) {
+                $modResult = 'Numbers longer than 4 characters are not allowed.';
+            } catch (ExceededMacroLimitException $ex) {
+                $modResult = $ex->getMessage();
             }
 
-        } catch (LengthException $ex) {
-            $modResult = 'Numbers longer than 4 characters are not allowed.';
-        } catch (ExceededMacroLimitException $ex) {
-            $modResult = $ex->getMessage();
+            require_once BASE_PATH . 'public/templates/ModGoalsPageTemplate.php';
         }
-
-        require_once BASE_PATH . 'public/templates/ModGoalsPageTemplate.php';
     }

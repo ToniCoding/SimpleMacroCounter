@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Controller;
+
+use App\Model\Macro;
+use App\Repository\CaloriesIntakeRepository;
+use App\Repository\UserGoalsRepository;
+use App\View\MacroCounterView;
+
 /**
  * Class MacrosCounterController
  *

@@ -1,5 +1,9 @@
 <?php
 
+namespace SMC;
+
+use Config\Container;
+
 require_once __DIR__ . "/bootstrap.php";
 
 $uri = strtolower(trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
@@ -26,14 +30,16 @@ function pathRouter(string $uri, Container $globalContainer, array $specialRoute
         return;
     }
 
-    $pagePath = BASE_PATH . '/public/pages/' . ($sanitizedUri ?: 'home') . "Page.php";
+    $pageFile = BASE_PATH . '/public/pages/' . ($sanitizedUri ?: 'Home') . 'Page.php';
 
-    if (file_exists($pagePath)) {
-        require $pagePath;
-        renderPage($globalContainer);
+    if (file_exists($pageFile)) {
+        require_once $pageFile;
+        $pageClass = 'Public\\Pages\\' . ucfirst($sanitizedUri ?: 'Home') . 'Page';
+        $pageInstance = new $pageClass();
+        $pageInstance->renderPage($globalContainer);
         return;
     }
-
+    
     require NOT_FOUND_PAGE;
 }
 

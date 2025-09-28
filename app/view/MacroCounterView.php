@@ -1,5 +1,7 @@
 <?php
 
+namespace App\View;
+
 /**
  * Class MacroCounterView
  * Responsible for displaying macros and related information.

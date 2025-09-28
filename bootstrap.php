@@ -1,5 +1,13 @@
 <?php
 
+namespace SMC;
+
+use Config\DbConnection;
+
+use App\Auth\AuthService;
+use App\Logging\Logger;
+use App\Helpers\DateParser;
+
 // App constants.
 require_once __DIR__ . '/AppConstants.php';
 

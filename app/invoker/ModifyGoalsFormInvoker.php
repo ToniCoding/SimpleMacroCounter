@@ -1,5 +1,15 @@
 <?php
 
+namespace App\Invoker;
+
+use App\Model\Macro;
+use App\Repository\UserRepository;
+use App\Repository\CaloriesIntakeRepository;
+use App\Repository\UserGoalsRepository;
+use App\Exceptions\ExceededMacroLimitException;
+
+use Exception, LengthException, InvalidArgumentException;
+
 class ModifyGoalsFormInvoker {
     private UserRepository $userRepository;
     private CaloriesIntakeRepository $caloriesIntakeRepository;
@@ -37,7 +47,7 @@ class ModifyGoalsFormInvoker {
         $carbs = $postData['carbs'] ?? '';
         $fats = $postData['fats'] ?? '';
 
-        if ($proteins >= 4 && $carbs >= 4 && $fats >= 4) {
+        if (strlen($proteins) >= 4 && strlen($carbs) >= 4 && strlen($fats) >= 4) {
             throw new LengthException('Macro-nutrient quantities cannot exceed 500.');
         }
 

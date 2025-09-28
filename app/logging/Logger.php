@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Logging;
+
+use App\Helpers\DateParser;
+
+use DateTime;
+use Exception;
+
 /**
  * Logger class to record messages into a log file.
  */

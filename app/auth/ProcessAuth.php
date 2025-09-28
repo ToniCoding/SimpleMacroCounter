@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Auth;
+
+use App\Logging\Logger;
+
 /**
  * Validate the form token.
  * 

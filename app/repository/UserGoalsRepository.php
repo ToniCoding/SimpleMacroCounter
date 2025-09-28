@@ -1,5 +1,13 @@
 <?php
 
+namespace App\Repository;
+
+use App\Logging\Logger;
+use App\Model\Macro;
+
+use PDO;
+use InvalidArgumentException;
+
 class UserGoalsRepository {
     private PDO $connectionPDO;
     private Logger $log;

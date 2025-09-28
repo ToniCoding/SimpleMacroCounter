@@ -1,5 +1,18 @@
 <?php
 
+namespace App\Containers;
+
+use Config\Container;
+
+use App\Controller\CombinedMacroController;
+use App\Model\CombinedMacros;
+use App\Repository\UserGoalsRepository;
+use App\Repository\CaloriesIntakeRepository;
+use App\Helpers\DateParser;
+use App\View\MacroCounterView;
+
+use PDO;
+
 class MacroContainer extends Container {
     private Container $globalContainer;
     private Container $macroServiceContainer;

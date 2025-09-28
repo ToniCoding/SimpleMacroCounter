@@ -1,5 +1,10 @@
 <?php
 
+namespace Config;
+
+use App\Logging\Logger;
+use PDO, PDOException;
+
 /**
  * Class DbConnection
  * Manages the database connection using PDO and logs connection status.

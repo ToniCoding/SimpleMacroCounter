@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Auth;
+
+use Config\DbConnection;
+
+use PDO;
+
 class AuthService {
     private PDO $dbConnection;
 

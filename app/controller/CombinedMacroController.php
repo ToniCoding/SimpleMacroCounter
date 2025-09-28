@@ -1,5 +1,16 @@
 <?php
 
+namespace App\Controller;
+
+use App\Model\CombinedMacros;
+use App\Model\Macro;
+use App\Repository\CaloriesIntakeRepository;
+use App\Repository\UserGoalsRepository;
+use App\Helpers\DateParser;
+use App\View\MacroCounterView;
+
+use InvalidArgumentException;
+
 class CombinedMacroController {
     private CombinedMacros $combinedMacros;
     private CaloriesIntakeRepository $caloriesRepo;

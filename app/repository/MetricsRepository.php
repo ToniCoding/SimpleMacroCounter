@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Repository;
+
+use App\Logging\Logger;
+
+use PDO;
+
 /**
  * Class MetricsRepository
  * Handles database operations related to user metrics.

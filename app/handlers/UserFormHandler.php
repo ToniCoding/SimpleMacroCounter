@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Handlers;
+
+use App\Helpers\DateParser;
+use App\Model\User;
+
+use Exception;
+
 class UserFormHandler {
     private readonly DateParser $dateParser;
 

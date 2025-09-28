@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Model;
+
+use DateTime;
+
 /**
  * Class Streak
  * Represents a user's streak with metadata like level, dates, and status.

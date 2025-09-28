@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Controller;
+
+use App\Model\User;
+use App\Repository\UserRepository;
+use App\Handlers\UserFormHandler;
+
 /**
  * Class UserController
  * Controller that manages user CRUD operations using UserRepository and database connection.

@@ -1,5 +1,13 @@
 <?php
 
+namespace App\Repository;
+
+use App\Logging\Logger;
+use App\Model\User;
+
+use PDO;
+use Exception;
+
 /**
  * Class UserRepository
  * Handles database operations related to User entities.

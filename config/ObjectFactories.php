@@ -1,5 +1,9 @@
 <?php
 
+namespace Config;
+
+use Exception;
+
 /**
  * Simple dependency injection container.
  */

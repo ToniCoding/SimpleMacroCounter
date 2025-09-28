@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Handlers;
+
+use App\Model\Macro;
+use App\Helpers\DateParser;
+
+use Exception, InvalidArgumentException;
+
 /**
  * Class in charge of getting the POST data from a Macro update.
  * It has the ability to form a Macro from the prompted data.

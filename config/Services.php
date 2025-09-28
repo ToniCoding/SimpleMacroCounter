@@ -1,7 +1,19 @@
 <?php
 
-// NOTE: UserRepository is not taken into account here as we do not consider it to be used across the necessary files to be taken
-// into consideration for the service container.
+namespace Config;
+
+use App\Auth\Auth;
+use App\Auth\AuthService;
+use App\Controller\CombinedMacroController;
+use App\Repository\UserRepository;
+use App\Repository\CaloriesIntakeRepository;
+use App\Repository\UserGoalsRepository;
+
+use Config\Container;
+
+use App\Helpers\DateParser;
+use App\Logging\Logger;
+
 
 $globalContainer = new Container();
 

@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Repository;
+
+use App\Helpers\DateParser;
+use App\Logging\Logger;
+
+use PDO, DateTime;
+
 class CaloriesIntakeRepository {
     private PDO $connectionPDO;
     private DateParser $dateParser;

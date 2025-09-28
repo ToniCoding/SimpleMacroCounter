@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model;
+
 /**
  * Class User
  * Represents a user with credentials, profile info, and timestamps.
