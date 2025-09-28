@@ -14,7 +14,7 @@ class UserGoalsRepository {
     }
 
     public function initializeUser(int $userId): bool {
-        $sqlStmt = $this->connectionPDO->prepare('INSERT INTO user_goals(user_id, protein, carbs, fats) VALUES (?, 0, 0, 0)');
+        $sqlStmt = $this->connectionPDO->prepare('INSERT INTO user_goals(user_id, protein, carbs, fats) VALUES (?, 100, 250, 65)');
         
         return $sqlStmt->execute([$userId]);
     }

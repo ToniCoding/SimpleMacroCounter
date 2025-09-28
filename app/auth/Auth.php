@@ -41,7 +41,7 @@ class Auth {
          *      - Creates the user object.
          *      - Creates the user at database level.
          *      - Gives the user an auth token.
-         *      - Initialize the user in user metrics table.
+         *      - Initialize the user in calories, macros and metrics tables.
          */
 
         /** @var User $user */
