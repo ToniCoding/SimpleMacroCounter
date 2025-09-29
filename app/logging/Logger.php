@@ -2,10 +2,10 @@
 
 namespace App\Logging;
 
+use App\Exceptions\WriteToFileException;
 use App\Helpers\DateParser;
 
 use DateTime;
-use Exception;
 
 /**
  * Logger class to record messages into a log file.
@@ -37,18 +37,52 @@ class Logger {
     }
 
     /**
-     * Records an info level message into the log file.
+     * Puts the contents in arguments in a log file.
+     *
+     * @param string $logFile The file where the message is going to be logged.
+     * @param string $contents The message that will be logged.
+     * @throws WriteToFileException
+     */
+    private function putContents(string $logFile, string $contents): void {
+        try{
+            if (!file_put_contents($logFile, $contents, FILE_APPEND)) {
+                throw new WriteToFileException('There was an error writing to log file.');
+            }
+        } catch (WriteToFileException) {
+            error_log('The logging system failed after trying to write to the log file.');
+        }
+    }
+
+    /**
+     * Records an information level message into the log file.
      *
      * @param string $contents Content to log.
-     * @throws Exception If writing to the log file fails.
      */
     public function info($contents): void {
         $this->mode = 'info';
-        if (!file_put_contents(
-            $this->logFile,
-            $this->formatLogMessage($contents, strtoupper($this->mode)),
-            FILE_APPEND)) {
-                throw new Exception('There was an error writing to log.');
-        }
+        $this->putContents($this->logFile,
+                $this->formatLogMessage($contents, strtoupper($this->mode)));
+    }
+    
+    /**
+     * Records a warn level message into the log file.
+     *
+     * @param string $contents Content to log.
+     */
+    public function warn($contents): void {
+        $this->mode = 'warn';
+        $this->putContents($this->logFile,
+                $this->formatLogMessage($contents, strtoupper($this->mode)));
+    }
+
+    /**
+     * Records an error level message into the log file.
+     *
+     * @param string $contents Content to log.
+     */
+    public function error($contents): void {
+        $this->mode = 'error';
+        $this->putContents($this->logFile,
+                $this->formatLogMessage($contents, strtoupper($this->mode)));
     }
 }
