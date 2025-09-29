@@ -33,7 +33,7 @@ class Logger {
      * @return string Formatted message.
      */
     private function formatLogMessage(string $message, string $mode): string {
-        return '[' . $mode . '] ' . $this->dateParser->getDateTime() . ' >>> ' . $message . '\n'; 
+        return '[' . $mode . '] ' . $this->dateParser->getDateTime() . ' >>> ' . $message . "\n"; 
     }
 
     /**
