@@ -40,7 +40,6 @@ require_once BASE_PATH . 'app/handlers/UserFormHandler.php';
 require_once BASE_PATH . 'app/handlers/MacroFormHandler.php';
 
 // Controllers.
-require_once BASE_PATH . 'app/controller/MacroController.php';
 require_once BASE_PATH . 'app/controller/CombinedMacroController.php';
 require_once BASE_PATH . 'app/controller/UserController.php';
 require_once BASE_PATH . 'app/controller/StreakController.php';
@@ -64,6 +63,7 @@ require_once BASE_PATH . 'app/invoker/ModifyGoalsFormInvoker.php';
 
 // Exceptions.
 require_once BASE_PATH . 'app/exceptions/ExceededMacroLimitException.php';
+require_once BASE_PATH . 'app/exceptions/WriteToFileException.php';
 
 // Index router.
 require_once BASE_PATH . 'index.php';
