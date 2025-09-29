@@ -6,8 +6,7 @@ use Config\Container;
 
 use App\Controller\CombinedMacroController;
 use App\Model\CombinedMacros;
-use App\Repository\UserGoalsRepository;
-use App\Repository\CaloriesIntakeRepository;
+use App\Repository\{ UserGoalsRepository, CaloriesIntakeRepository };
 use App\Helpers\DateParser;
 use App\View\MacroCounterView;
 

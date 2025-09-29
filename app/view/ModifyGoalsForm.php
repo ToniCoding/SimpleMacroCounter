@@ -1,4 +1,5 @@
 <?php
+    namespace App\View;
 
     session_start();
 

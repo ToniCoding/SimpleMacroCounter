@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Model\CombinedMacros;
-use App\Model\Macro;
-use App\Repository\CaloriesIntakeRepository;
-use App\Repository\UserGoalsRepository;
+use App\Model\{ Macro, CombinedMacros };
+use App\Repository\{ CaloriesIntakeRepository, UserGoalsRepository };
 use App\Helpers\DateParser;
 use App\View\MacroCounterView;
 

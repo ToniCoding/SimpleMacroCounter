@@ -2,18 +2,13 @@
 
 namespace Config;
 
-use App\Auth\Auth;
-use App\Auth\AuthService;
-use App\Controller\CombinedMacroController;
-use App\Repository\UserRepository;
-use App\Repository\CaloriesIntakeRepository;
-use App\Repository\UserGoalsRepository;
-
 use Config\Container;
 
+use App\Auth\{ Auth, AuthService };
+use App\Controller\CombinedMacroController;
+use App\Repository\{ UserRepository, CaloriesIntakeRepository, UserGoalsRepository };
 use App\Helpers\DateParser;
 use App\Logging\Logger;
-
 
 $globalContainer = new Container();
 

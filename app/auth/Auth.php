@@ -9,11 +9,7 @@ use App\Controller\UserController;
 use App\Logging\Logger;
 use App\Handlers\UserFormHandler;
 use App\Invoker\UserFormInvoker;
-use App\Repository\UserRepository;
-use App\Repository\MetricsRepository;
-use App\Repository\UserGoalsRepository;
-use App\Repository\CaloriesIntakeRepository;
-
+use App\Repository\{ UserRepository, MetricsRepository, UserGoalsRepository, CaloriesIntakeRepository };
 
 class Auth {
     private Logger $logger;

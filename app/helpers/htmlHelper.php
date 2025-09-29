@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Helpers;
+
 /**
  * Function that wraps a text inside a <p> tag.
  *

@@ -3,9 +3,7 @@
 namespace App\Invoker;
 
 use App\Model\Macro;
-use App\Repository\UserRepository;
-use App\Repository\CaloriesIntakeRepository;
-use App\Repository\UserGoalsRepository;
+use App\Repository\{ UserRepository, CaloriesIntakeRepository, UserGoalsRepository };
 use App\Exceptions\ExceededMacroLimitException;
 
 use Exception, LengthException, InvalidArgumentException;
