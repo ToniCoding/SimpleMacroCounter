@@ -57,7 +57,8 @@ $globalContainer->setService('combinedMacroController', function($c, $globalCont
         $globalContainer->getService('caloriesIntakeRepository'),
         $globalContainer->getService('userGoalsRepository'),
         $globalContainer->getService('dateParser'),
-        $c->getService('macroCounterView')
+        $c->getService('macroCounterView'),
+        $globalContainer->getService('logger')
     );
 });
 

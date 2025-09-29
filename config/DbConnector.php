@@ -50,11 +50,11 @@ class DbConnection {
 
                 $this->dbPdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $this->log->info("Connected successfully to the database: {$this->databaseName}");
+                $this->log->info("Successfully connected to database {$this->databaseName}");
 
                 return $this->dbPdo;
             } catch (PDOException $err) {
-                echo "Connection failed due to: {$err->getMessage()}";
+                $this->log->error('Error connecting to database. Error strack trace' . $err->getMessage());
                 exit();
             }
         }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Logging\Logger;
 use App\Model\User;
+use function App\Helpers\check_integer;
 
 use PDO;
 use Exception;

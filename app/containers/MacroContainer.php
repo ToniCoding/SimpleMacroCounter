@@ -49,8 +49,9 @@ class MacroContainer extends Container {
             $userGoalsRepo = $globalContainer->getService('userGoalsRepository');
             $macroCounterView = $c->getService('macroCounterView');
             $dateParser = $globalContainer->getService('dateParser');
+            $log = $globalContainer->getService('logger');
 
-            return new CombinedMacroController($combinedMacros, $caloriesRepo, $userGoalsRepo, $dateParser, $macroCounterView);
+            return new CombinedMacroController($combinedMacros, $caloriesRepo, $userGoalsRepo, $dateParser, $macroCounterView, $log);
         });
 
         $this->macroCounterView = $this->getService('macroCounterView');

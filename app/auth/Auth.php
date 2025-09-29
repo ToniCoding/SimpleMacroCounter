@@ -98,7 +98,9 @@ class Auth {
 
         $this->authContainer->setService('userController', function() use ($authContainer, $globalContainer): UserController {
             return new UserController(
-                $authContainer->getService('userRepository'));
+                $authContainer->getService('userRepository'),
+                $globalContainer->getService('logger')    
+            );
         });
 
         if($action == 'register') {

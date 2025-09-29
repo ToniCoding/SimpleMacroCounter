@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\User;
 use App\Repository\UserRepository;
+use App\Logging\Logger;
 use App\Handlers\UserFormHandler;
 
 /**
@@ -13,12 +14,14 @@ use App\Handlers\UserFormHandler;
 class UserController {
     private UserRepository $userRepository;
     private UserFormHandler $userFormHandler;
+    private Logger $log;
 
     /**
      * Constructor that initializes the database connection and repository.
      */
-    public function __construct(UserRepository $userRepository) {
+    public function __construct(UserRepository $userRepository, Logger $log) {
         $this->userRepository = $userRepository;
+        $this->log = $log;
     }
 
     /**
@@ -28,6 +31,7 @@ class UserController {
      * @return bool Operation result.
      */
     public function createUser(User $user): bool {
+        $this->log->info('Try creating a new user with given user object.');
         return $this->userRepository->create($user);
     }
 
@@ -38,6 +42,7 @@ class UserController {
      * @return bool Operation result.
      */
     public function deleteUser(User $user): bool {
+        $this->log->info('Try deleting an existing user with given user object.');
         return $this->userRepository->delete($user);
     }
 
@@ -50,6 +55,7 @@ class UserController {
      * @return bool Operation result.
      */
     public function editUser(User $user, string $field, string $newValue): bool {
+        $this->log->info('Try editing an existing user with given user object.');
         return $this->userRepository->edit($user, $field, $newValue);
     }
 
@@ -60,10 +66,12 @@ class UserController {
      * @return mixed Search result.
      */
     public function retrieveUser(User $user): array {
+        $this->log->info('Try retrieving an user ID with user object.');
         return $this->userRepository->findUserById($user);
     }
 
     public function retrieveUserByUsername(string $username): array {
+        $this->log->info('Try retrieving an user ID by username');
         return $this->userRepository->findUserIdByName($username);
     }
 }

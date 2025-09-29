@@ -3,6 +3,7 @@
 namespace SMC;
 
 use Config\Container;
+use App\Logging\Logger;
 
 require_once __DIR__ . "/bootstrap.php";
 
@@ -22,10 +23,13 @@ $specialRoutes = [
  * @param array $specialRoutes Special routes that redirect to actions that cannot be performed in index file.
  * @return void
  */
-function pathRouter(string $uri, Container $globalContainer, array $specialRoutes): void {
+function pathRouter(string $uri, Container $globalContainer, array $specialRoutes, Logger $log): void {
     $sanitizedUri = preg_replace('/[^a-z0-9_-]/', '', $uri);
 
+    $log->info("Trying to route $uri.");
+
     if (isset($specialRoutes[$sanitizedUri]) && file_exists($specialRoutes[$sanitizedUri])) {
+        $log->info("Successfully special route: $uri");
         require $specialRoutes[$sanitizedUri];
         return;
     }
@@ -33,6 +37,7 @@ function pathRouter(string $uri, Container $globalContainer, array $specialRoute
     $pageFile = BASE_PATH . '/public/pages/' . ($sanitizedUri ?: 'Home') . 'Page.php';
 
     if (file_exists($pageFile)) {
+        $log->info("Successfully route: $uri");
         require_once $pageFile;
         $pageClass = 'Public\\Pages\\' . ucfirst($sanitizedUri ?: 'Home') . 'Page';
         $pageInstance = new $pageClass();
@@ -40,7 +45,8 @@ function pathRouter(string $uri, Container $globalContainer, array $specialRoute
         return;
     }
     
+    $log->info("$uri not found.");
     require NOT_FOUND_PAGE;
 }
 
-pathRouter($uri, $globalContainer, $specialRoutes);
+pathRouter($uri, $globalContainer, $specialRoutes, $log = $globalContainer->getService('logger'));
