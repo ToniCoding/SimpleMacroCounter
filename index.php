@@ -26,6 +26,7 @@ $specialRoutes = [
 function pathRouter(string $uri, Container $globalContainer, array $specialRoutes, Logger $log): void {
     $sanitizedUri = preg_replace('/[^a-z0-9_-]/', '', $uri);
 
+    $uri = empty($uri) ? 'home' : $uri;
     $log->info("Trying to route $uri.");
 
     if (isset($specialRoutes[$sanitizedUri]) && file_exists($specialRoutes[$sanitizedUri])) {
