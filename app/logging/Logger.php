@@ -25,6 +25,18 @@ class Logger {
         $this->dateParser = $dateParser;
     }
 
+    private function getCallerName(int $level = 2): string {
+        $fileTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $level + 1);
+
+        if (!isset($fileTrace[$level])) {
+            return 'Unknown';
+        }
+
+        $fileCaller = $fileTrace[$level];
+
+        return basename($fileCaller['file']) ?? 'Unknown';
+    }
+
     /**
      * Formats a log message with mode and date.
      *
@@ -33,7 +45,10 @@ class Logger {
      * @return string Formatted message.
      */
     private function formatLogMessage(string $message, string $mode): string {
-        return '[' . $mode . '] ' . $this->dateParser->getDateTime() . ' >>> ' . $message . "\n"; 
+        //return '[' . $mode . '] ' . $this->dateParser->getDateTime() . ' >>> ' . $message . "\n";
+        $dateTime = $this->dateParser->getDateTime();
+        $caller = $this->getCallerName(2);
+        return "[$mode] $dateTime - [$caller] $message\n";
     }
 
     /**
