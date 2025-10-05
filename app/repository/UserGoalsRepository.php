@@ -41,6 +41,8 @@ class UserGoalsRepository {
             if(!$result) {
                 throw new NoRecordFoundException();
             }
+
+            return $result;
         }
 
         return [];
