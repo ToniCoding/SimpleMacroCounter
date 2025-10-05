@@ -2,11 +2,11 @@
 
 namespace App\Repository;
 
+use App\Exceptions\NoRecordFoundException;
 use App\Logging\Logger;
 use App\Model\Macro;
 
-use PDO;
-use InvalidArgumentException;
+use PDO, InvalidArgumentException, Exception;
 
 class UserGoalsRepository {
     private PDO $connectionPDO;
@@ -27,15 +27,32 @@ class UserGoalsRepository {
         return $sqlStmt->execute([$userId]);
     }
 
+    /**
+     * Gets the user goals.
+     * @param int $userId
+     * @throws \App\Exceptions\NoRecordFoundException
+     * @return array
+     */
     public function getUserGoals(int $userId): array {
         $sqlStmt = $this->connectionPDO->prepare('SELECT protein, carbs, fats FROM user_goals WHERE user_id = :userId');
         if ($sqlStmt->execute(['userId' => $userId])) {
-            return $sqlStmt->fetch(PDO::FETCH_ASSOC);
+            $result = $sqlStmt->fetch(PDO::FETCH_ASSOC);
+
+            if(!$result) {
+                throw new NoRecordFoundException();
+            }
         }
 
         return [];
     }
 
+    /**
+     * Sets the user goals.
+     * @param int $userId
+     * @param \App\Model\Macro $macro
+     * @throws \InvalidArgumentException
+     * @return bool
+     */
     public function setUserGoal(int $userId, Macro $macro): bool {
         $allowed = ['protein', 'carbs', 'fats'];
         $column  = $macro->getMacroName();
