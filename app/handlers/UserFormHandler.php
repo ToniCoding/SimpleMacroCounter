@@ -14,6 +14,12 @@ class UserFormHandler {
         $this->dateParser = $dateParser;
     }
 
+    /**
+     * Handles the data from POST register form.
+     * @param array $postData
+     * @throws \Exception
+     * @return User
+     */
     public function handle(array $postData): User {
         $username = trim($postData['username']);
         $password = trim($postData['password']);

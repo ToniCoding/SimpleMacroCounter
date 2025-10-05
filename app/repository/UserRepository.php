@@ -113,6 +113,12 @@ class UserRepository {
         ]);
     }
 
+    /**
+     * Checks the user password comparing the hash in database with the one coming from arguments.
+     * @param int $userId
+     * @param string $enteredPassword
+     * @return bool
+     */
     public function checkPassword(int $userId, string $enteredPassword): bool {
         $stmt = $this->connectionPDO->prepare('SELECT password FROM users WHERE id = :id');
         $stmt->execute(['id' => $userId]);
@@ -123,6 +129,10 @@ class UserRepository {
         return password_verify($enteredPassword, $userRow['password']);
     }
 
+    /**
+     * Gets the username by ID.
+     * @param int $userId
+     */
     public function getById(int $userId): ?array {
         $stmt = $this->connectionPDO->prepare('SELECT username FROM users WHERE id = ?');
         $stmt->execute(params: [$userId]);
@@ -130,6 +140,10 @@ class UserRepository {
         return $user ?: null;
     }
 
+    /**
+     * Gets the username from authentication token.
+     * @param string $token
+     */
     public function getByAuthToken(string $token): ?array {
         $stmt = $this->connectionPDO->prepare('SELECT username FROM users WHERE auth_token = ?');
         $stmt->execute([$token]);

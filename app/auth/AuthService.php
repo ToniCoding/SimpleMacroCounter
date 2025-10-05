@@ -13,6 +13,11 @@ class AuthService {
         $this->dbConnection = $dbConnection->connect();
     }
 
+    /**
+     * Generates and sets the authentication token in database and in browser as a cookie.
+     * @param int $userId
+     * @return string
+     */
     public function loginTkn(int $userId): string {
         $authToken = bin2hex(random_bytes(32));
         $tokenExpires = date('Y-m-d H:i:s', time() + 3600);
@@ -29,6 +34,11 @@ class AuthService {
         return $authToken;
     }
 
+    /**
+     * Checks the authentication token from the browser's cookie. Returns null if user does not have a token
+     * or if the token is expired.
+     * @return int|null
+     */
     public function checkAuthTkn(): ?int {
         if (!isset($_COOKIE['auth_token'])) {
             return null;

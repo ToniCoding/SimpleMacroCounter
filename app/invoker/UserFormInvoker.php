@@ -25,6 +25,11 @@ class UserFormInvoker {
         $this->logger = $globalContainer->getService('logger');
     }
 
+    /**
+     * Handles the data from the register user form.
+     * @param \App\Model\User $user
+     * @return bool
+     */
     public function handleUserCreation(User $user): bool {
         try {
             $this->userController->createUser($user);

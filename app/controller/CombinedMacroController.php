@@ -7,6 +7,7 @@ use App\Repository\{ CaloriesIntakeRepository, UserGoalsRepository };
 use App\Helpers\DateParser;
 use App\View\MacroCounterView;
 use App\Logging\Logger;
+
 use InvalidArgumentException;
 
 class CombinedMacroController {
@@ -57,6 +58,11 @@ class CombinedMacroController {
         $this->combinedMacros->setSpecificMacro($macro);
     }
 
+    /**
+     * Calculates the total calories consumed depending on the macronutrients consumed in a day.
+     * @param int $userId
+     * @return int
+     */
     public function getConsumedCalories(int $userId): int {
         $this->log->info("Execute get consumed calories for user $userId.");
         $currentDate = $this->dateParser->getDate('Y:m:d');
@@ -66,6 +72,13 @@ class CombinedMacroController {
         return $consumedCalories;
     }
 
+    /**
+     * Displays in screen the table of macronutrient consumed and the goal.
+     * @param array $consumedMacros
+     * @param array $goalMacros
+     * @param int $userId
+     * @return void
+     */
     public function displayMacrosTable(array $consumedMacros, array $goalMacros, int $userId): void {
         $this->log->info('Try displaying macros table.');
         $consumedCalories = $this->getConsumedCalories($userId);

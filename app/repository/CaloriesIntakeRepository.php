@@ -65,6 +65,13 @@ class CaloriesIntakeRepository {
         return false;
     }
 
+    /**
+     * Adds macronutrient to database.
+     * @param int $userId
+     * @param string $macro
+     * @param int $amount
+     * @return bool
+     */
     public function addMacroNutrient(int $userId, string $macro, int $amount): bool {
         $currentDate = $this->dateParser->getDate('Y-m-d');
         
@@ -81,6 +88,12 @@ class CaloriesIntakeRepository {
         return false;
     }
 
+    /**
+     * Updates the macronutrient count in database.
+     * @param array $params
+     * @param string $setParts
+     * @return bool
+     */
     public function updateMacroCount(array $params, string $setParts): bool {
         $currentDate = $this->dateParser->getDate('Y-m-d');
         $params[":currentDate"] = $currentDate;
@@ -93,6 +106,11 @@ class CaloriesIntakeRepository {
     }
 
 
+    /**
+     * Gets the consumed macronutrient in the current day.
+     * @param int $userId
+     * @return array
+     */
     public function getMacros(int $userId): array {
         $currentDate = $this->dateParser->getDate('Y-m-d');
 

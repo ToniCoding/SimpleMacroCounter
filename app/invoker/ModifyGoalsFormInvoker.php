@@ -19,6 +19,13 @@ class ModifyGoalsFormInvoker {
         $this->userGoalsRepository = $userGoalsRepository;
     }
 
+    /**
+     * Handles the data coming from the update macronutrient goal.
+     * @param array $postData
+     * @throws \LengthException
+     * @throws \App\Exceptions\ExceededMacroLimitException
+     * @return bool
+     */
     public function handleModGoalsData(array $postData): bool {
         $macroName = filter_var(trim($postData['macroName']), FILTER_SANITIZE_STRING) ?? '';
         $macroGoal = filter_var(trim($postData['macroGoal']), FILTER_SANITIZE_STRING) ?? '';
@@ -37,6 +44,14 @@ class ModifyGoalsFormInvoker {
         return $this->updateMacroGoal($macroComposed, $userId);
     }
 
+    /**
+     * Handles the data coming from the update macronutrient consumed form.
+     * @param array $postData
+     * @throws \LengthException
+     * @throws \Exception
+     * @throws \App\Exceptions\ExceededMacroLimitException
+     * @return bool
+     */
     public function handleMacroConsumed(array $postData): bool {
         $username = $this->userRepository->getByAuthToken($_COOKIE['auth_token']);
         $userId = $this->userRepository->findUserIdByName($username['username'])[0]['id'];
@@ -84,7 +99,14 @@ class ModifyGoalsFormInvoker {
         return $this->caloriesIntakeRepository->updateMacroCount($params, implode(', ', $sqlSetPart));
     }
 
-
+    /**
+     * Builds the Macro object.
+     * @param string $macroName
+     * @param int $consumedQty
+     * @param int $macroGoal
+     * @throws \InvalidArgumentException
+     * @return Macro
+     */
     private function buildNewMacroObject(string $macroName, int $consumedQty, int $macroGoal): Macro {
         $allowedMacros = ['protein', 'carbs', 'fats'];
         if (!in_array($macroName, $allowedMacros)) {
@@ -94,6 +116,12 @@ class ModifyGoalsFormInvoker {
         return new Macro($macroName, $consumedQty, $macroGoal);
     }
 
+    /**
+     * Updates the macro goal in database.
+     * @param \App\Model\Macro $macro
+     * @param int $userId
+     * @return bool
+     */
     private function updateMacroGoal(Macro $macro, int $userId): bool {
         return $this->userGoalsRepository->setUserGoal($userId, $macro);
     }

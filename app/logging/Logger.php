@@ -25,6 +25,11 @@ class Logger {
         $this->dateParser = $dateParser;
     }
 
+    /**
+     * Gets the name of the file calling the logger.
+     * @param int $level
+     * @return string
+     */
     private function getCallerName(int $level = 2): string {
         $fileTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $level + 1);
 

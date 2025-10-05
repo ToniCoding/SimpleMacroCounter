@@ -7,10 +7,6 @@ use App\Helpers\DateParser;
 
 use Exception, InvalidArgumentException;
 
-/**
- * Class in charge of getting the POST data from a Macro update.
- * It has the ability to form a Macro from the prompted data.
- */
 class MacroFormHandler {
     private readonly DateParser $dateParser;
 
@@ -18,6 +14,13 @@ class MacroFormHandler {
         $this->dateParser = $dateParser;
     }
 
+    /**
+     * Handles the POST data coming from the macronutrient update.
+     * @param array $postData
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @return Macro
+     */
     public function handle(array $postData): Macro {
         $macroType = filter_var(trim($postData['macro'] ?? '', FILTER_SANITIZE_STRING));
         $macroAmount = filter_var(trim($postData['amount'] ?? '', FILTER_SANITIZE_STRING));

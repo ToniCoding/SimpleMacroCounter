@@ -26,6 +26,12 @@ class Auth {
         $this->authService = $globalContainer->getService('authService');
     }
 
+    /**
+     * Executes the register process for any new user. Uses several classes to create
+     * an user in database and initialize the corresponding metrics.
+     * @param array $postData
+     * @return bool
+     */
     public function register(array $postData): bool {
         $this->setServices('register', $this->globalContainer, $this->authContainer);
 
@@ -49,10 +55,10 @@ class Auth {
         
         /**
          * Service cascade:
-         *      - Creates the user object.
-         *      - Creates the user at database level.
-         *      - Gives the user an auth token.
-         *      - Initialize the user in calories, macros and metrics tables.
+         *      1. Creates the user object.
+         *      2. Creates the user at database level.
+         *      3. Gives the user an auth token.
+         *      4. Initialize the user in calories, macros and metrics tables.
          */
 
         /** @var User $user */
@@ -69,6 +75,12 @@ class Auth {
         return true;
     }
 
+    /**
+     * Checks the user credentials and executes the login process like redirecting to home page
+     * and set the user authentication token cookie.
+     * @param array $postData
+     * @return bool
+     */
     public function login(array $postData): bool {
         $this->setServices('login', $this->globalContainer, $this->authContainer);
 
@@ -84,6 +96,11 @@ class Auth {
         return true;
     }
 
+    /**
+     * Executes the process of logging out the user by check the authentication token and calling
+     * the logout method.
+     * @return void
+     */
     public function logout(): void {
         $userId = $this->authService->checkAuthTkn();
         if ($userId) {
@@ -91,7 +108,15 @@ class Auth {
         }
     }
 
-    private function setServices(string $action, $globalContainer, $authContainer): void {
+    /**
+     * Sets the services in the authentication service container. Sets the general services common
+     * to register and login process and the specific ones depending on the action.
+     * @param string $action
+     * @param Container $globalContainer
+     * @param Container $authContainer
+     * @return void
+     */
+    private function setServices(string $action, Container $globalContainer, Container $authContainer): void {
         $this->authContainer->setService('userRepository', function() use ($globalContainer): UserRepository{
             return new UserRepository($globalContainer->getService('db')->connect());
         });
