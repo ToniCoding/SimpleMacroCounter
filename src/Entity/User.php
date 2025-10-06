@@ -1,53 +1,49 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
 
-/**
- * Class User
- * Represents a user with credentials, profile info, and timestamps.
- */
+use DateTime, DateTimeImmutable;
+
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
 class User {
-    private ?int $userId;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id;
+
+    #[ORM\Column(type: "string", length: 255)]
     private string $username;
+
+    #[ORM\Column(type: "string", length: 255)]
     private string $password;
+
+    #[ORM\Column(type: "string", length: 255)]
     private string $userAlias;
+
+    #[ORM\Column(type: "string", length: 255)]
     private string $email;
+
+    #[ORM\Column(type: "integer")]
     private int $age;
-    private string $createdTime;
-    private string $lastLogin;
+
+    #[ORM\Column(type: "datetime_immutable")]
+    private DateTimeImmutable $createdTime;
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?DateTime $lastLogin;
+
+    #[ORM\Column(type: "boolean")]
     private bool $isActive;
 
-    /**
-     * User constructor.
-     *
-     * @param string $username User login name.
-     * @param string $password User password (hashed expected).
-     * @param string $userAlias Display name or alias.
-     * @param string $email User email address.
-     * @param int $age User age.
-     * @param string $createdTime Account creation timestamp.
-     * @param string $lastLogin Last login timestamp.
-     * @param bool $isActive Account active status.
-     */
-    public function __construct(string $username, string $password, string $userAlias, string $email, int $age, string $createdTime, string $lastLogin, bool $isActive) {
-        $this->userId = null;
-        $this->username = $username;
-        $this->password = $password;
-        $this->userAlias = $userAlias;
-        $this->email = $email;
-        $this->age = $age;
+    public function __construct(DateTimeImmutable $createdTime, bool $isActive) {
         $this->createdTime = $createdTime;
-        $this->lastLogin = $lastLogin;
         $this->isActive = $isActive;
     }
 
-
-      public function getUserId(): ?int {
-        return $this->userId;
-    }
-
-     public function setUserId(int $userId): void {
-        $this->userId = $userId;
+      public function getId(): ?int {
+        return $this->id;
     }
 
      public function getUsername(): string {
@@ -90,19 +86,19 @@ class User {
         $this->age = $age;
     }
 
-     public function getCreatedTime(): string {
+     public function getCreatedTime(): DateTimeImmutable {
         return $this->createdTime;
     }
 
-     public function setCreatedTime(string $createdTime): void {
+     public function setCreatedTime(DateTimeImmutable $createdTime): void {
         $this->createdTime = $createdTime;
     }
 
-     public function getLastLogin(): string {
+     public function getLastLogin(): DateTime {
         return $this->lastLogin;
     }
 
-     public function setLastLogin(string $lastLogin): void {
+     public function setLastLogin(?DateTime $lastLogin): void {
         $this->lastLogin = $lastLogin;
     }
 
@@ -113,14 +109,11 @@ class User {
      public function setIsActive(bool $isActive): void {
         $this->isActive = $isActive;
     }
-    
-    /**
-     * Returns a string representation of the User object.
-     */
+
     public function __toString(): string {
         return sprintf(
             'User[id=%s, username=%s, alias=%s, email=%s, age=%d, created=%s, lastLogin=%s, active=%s]',
-            $this->userId ?? 'null',
+            $this->id ?? 'null',
             $this->username,
             $this->userAlias,
             $this->email,
