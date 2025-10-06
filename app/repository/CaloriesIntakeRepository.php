@@ -119,7 +119,7 @@ class CaloriesIntakeRepository {
             $this->initializeDay($userId);
         }
 
-        $sqlStmt = $this->connectionPDO->prepare('SELECT protein, carbs, fats FROM kcals_daily WHERE user_id = :userId AND `date` = :currentDate');
+        $sqlStmt = $this->connectionPDO->prepare('SELECT protein, carbs, fats FROM kcals_daily WHERE user_id = :userId AND `date` = :currentDate LIMIT 1');
 
         if ($sqlStmt->execute([
             'userId' => $userId,
@@ -130,6 +130,8 @@ class CaloriesIntakeRepository {
             if (!$result) {
                 throw new NoRecordFoundException(); 
             }
+
+            return $result;
         }
 
         return [];

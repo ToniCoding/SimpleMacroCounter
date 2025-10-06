@@ -34,7 +34,7 @@ class UserGoalsRepository {
      * @return array
      */
     public function getUserGoals(int $userId): array {
-        $sqlStmt = $this->connectionPDO->prepare('SELECT protein, carbs, fats FROM user_goals WHERE user_id = :userId');
+        $sqlStmt = $this->connectionPDO->prepare('SELECT protein, carbs, fats FROM user_goals WHERE user_id = :userId LIMIT 1');
         if ($sqlStmt->execute(['userId' => $userId])) {
             $result = $sqlStmt->fetch(PDO::FETCH_ASSOC);
 
