@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Exceptions\NoRecordFoundException;
 use App\Helpers\DateParser;
 use App\Logging\Logger;
 
@@ -124,7 +125,11 @@ class CaloriesIntakeRepository {
             'userId' => $userId,
             'currentDate' => $currentDate
         ])) {
-            return $sqlStmt->fetch(PDO::FETCH_ASSOC);
+            $result = $sqlStmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$result) {
+                throw new NoRecordFoundException(); 
+            }
         }
 
         return [];

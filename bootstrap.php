@@ -64,6 +64,7 @@ require_once BASE_PATH . 'app/invoker/ModifyGoalsFormInvoker.php';
 // Exceptions.
 require_once BASE_PATH . 'app/exceptions/ExceededMacroLimitException.php';
 require_once BASE_PATH . 'app/exceptions/WriteToFileException.php';
+require_once BASE_PATH . 'app/exceptions/NoRecordFoundException.php';
 
 // Index router.
 require_once BASE_PATH . 'index.php';
