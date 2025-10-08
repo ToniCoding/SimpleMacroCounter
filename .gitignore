@@ -12,7 +12,8 @@ config.ini
 # PHP test results
 .phpunit.result.cache
 
-# Docker compose (si solo local)
+# Docker compose
+compose.yaml
 compose.override.yaml
 
 # Symfony framework / generated
