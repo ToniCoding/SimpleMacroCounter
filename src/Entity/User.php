@@ -5,8 +5,18 @@ namespace App\Entity;
 use DateTime, DateTimeImmutable;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
+#[ORM\Table(
+    name: "users",
+    uniqueConstraints: [
+        new UniqueConstraint(name: "uniq_username", columns: ["username"]),
+        new UniqueConstraint(name: "uniq_email", columns: ["email"])
+    ]
+)]
 class User {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,18 +38,25 @@ class User {
     #[ORM\Column(type: "integer")]
     private int $age;
 
+    #[ORM\Column(type: "string", length: 10)]
+    private string $status;
+
     #[ORM\Column(type: "datetime_immutable")]
     private DateTimeImmutable $createdTime;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
-    private ?DateTime $lastLogin;
+    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    private ?DateTimeImmutable $lastLogin;
 
     #[ORM\Column(type: "boolean")]
     private bool $isActive;
 
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: KcalsDaily::class, cascade: ["persist", "remove"])]
+    private Collection $kcalsDailyRecords;
+
     public function __construct(DateTimeImmutable $createdTime, bool $isActive) {
         $this->createdTime = $createdTime;
         $this->isActive = $isActive;
+        $this->kcalsDailyRecords = new ArrayCollection();
     }
 
       public function getId(): ?int {
@@ -86,6 +103,14 @@ class User {
         $this->age = $age;
     }
 
+    public function getStatus(): string {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void {
+        $this->status = $status;
+    }
+
      public function getCreatedTime(): DateTimeImmutable {
         return $this->createdTime;
     }
@@ -94,7 +119,7 @@ class User {
         $this->createdTime = $createdTime;
     }
 
-     public function getLastLogin(): DateTime {
+     public function getLastLogin(): ?DateTime {
         return $this->lastLogin;
     }
 
@@ -108,6 +133,17 @@ class User {
 
      public function setIsActive(bool $isActive): void {
         $this->isActive = $isActive;
+    }
+
+    public function getKcalsDailyRecords(): Collection {
+        return $this->kcalsDailyRecords;
+    }
+
+    public function addKcalsDailyRecord(KcalsDaily $record): void {
+        if (!$this->kcalsDailyRecords->contains($record)) {
+            $this->kcalsDailyRecords->add($record);
+            $record->setUser($this);
+        }
     }
 
     public function __toString(): string {
