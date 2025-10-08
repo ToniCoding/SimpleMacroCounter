@@ -38,12 +38,22 @@ SimpleMacroCounter/
 
 ## Project Roadmap
 
-- **v0.1.0**: Initial release with basic macro tracking.
-- **v0.2.0**: User registration and administration.
-- **v0.3.0**: Routing and data management.
-- **v0.4.0**: SMC general enhancement.
+- **v0.1.0**: Initial release with basic macro tracking
+- **v0.2.0**: User registration and administration
+- **v0.3.0**: Routing and data management
+- **v0.4.0**: SMC general enhancement
+- **v0.5.0**: *(Special update) The Symfony of SMC*
 
 ## Project Versions
+
+### v0.5.0 (*Unreleased*)
+
+**Features added**
+- New way to interact with the database thanks to *Doctrine*.
+
+**Infrastructure**
+- Symfony framework implementation.
+- Composer implementation.
 
 ### v0.4.0 (06-10-2025)
 **Features added**

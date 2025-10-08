@@ -1,7 +1,31 @@
-test.php
-test2.php
-index.php
+# SMC own files
 data/
 config.ini
-nextSteps.txt
+
+# Environment files
+.env
+.env.dev
+.env.local
+.env.local.php
+.env.*.local
+
+# PHP test results
+.phpunit.result.cache
+
+# Docker compose (si solo local)
+compose.override.yaml
+
+# Symfony framework / generated
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
 /vendor/
+
+# IDEs
+/.idea/
+/*.iml
+/.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
