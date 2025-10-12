@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+        <title>Register - SMC</title>
+    </head>
+    <body>
+        {{ form_start(form) }}
+        
+            <label for="username">Username</label>
+            {{ form_widget(form.username, {'id': 'username'}) }}
+        
+            <label for="password">Password</label>
+            {{ form_widget(form.password, {'id': 'password'}) }}
+        
+            <label for="email">Email</label>
+            {{ form_widget(form.email, {'id': 'email'}) }}
+        
+            <label for="alias">Alias</label>
+            {{ form_widget(form.alias, {'id': 'alias'}) }}
+        
+            <label for="age">Age</label>
+            {{ form_widget(form.age, {'id': 'age'}) }}
+        
+            <button type="submit">Submit</button>
+        
+        {{ form_end(form) }}
+    </body>
+</html>

@@ -47,59 +47,56 @@ class User {
     #[ORM\Column(type: "datetime_immutable", nullable: true)]
     private ?DateTimeImmutable $lastLogin;
 
-    #[ORM\Column(type: "boolean")]
-    private bool $isActive;
-
     #[ORM\OneToMany(mappedBy: "user", targetEntity: KcalsDaily::class, cascade: ["persist", "remove"])]
     private Collection $kcalsDailyRecords;
 
-    public function __construct(DateTimeImmutable $createdTime, bool $isActive) {
+    public function __construct(DateTimeImmutable $createdTime, string $status) {
         $this->createdTime = $createdTime;
-        $this->isActive = $isActive;
+        $this->status = $status;
         $this->kcalsDailyRecords = new ArrayCollection();
     }
 
-      public function getId(): ?int {
+    public function getId(): ?int {
         return $this->id;
     }
 
-     public function getUsername(): string {
+    public function getUsername(): string {
         return $this->username;
     }
 
-     public function setUsername(string $username): void {
+    public function setUsername(string $username): void {
         $this->username = $username;
     }
 
-     public function getPassword(): string {
+    public function getPassword(): string {
         return $this->password;
     }
 
-     public function setPassword(string $password): void {
+    public function setPassword(string $password): void {
         $this->password = $password;
     }
 
-     public function getUserAlias(): string {
+    public function getUserAlias(): string {
         return $this->userAlias;
     }
 
-     public function setUserAlias(string $userAlias): void {
+    public function setUserAlias(string $userAlias): void {
         $this->userAlias = $userAlias;
     }
 
-     public function getEmail(): string {
+    public function getEmail(): string {
         return $this->email;
     }
 
-     public function setEmail(string $email): void {
+    public function setEmail(string $email): void {
         $this->email = $email;
     }
 
-     public function getAge(): int {
+    public function getAge(): int {
         return $this->age;
     }
 
-     public function setAge(int $age): void {
+    public function setAge(int $age): void {
         $this->age = $age;
     }
 
@@ -111,27 +108,23 @@ class User {
         $this->status = $status;
     }
 
-     public function getCreatedTime(): DateTimeImmutable {
+    public function getCreatedTime(): DateTimeImmutable {
         return $this->createdTime;
     }
 
-     public function setCreatedTime(DateTimeImmutable $createdTime): void {
+    public function setCreatedTime(DateTimeImmutable $createdTime): void {
         $this->createdTime = $createdTime;
     }
 
-     public function getLastLogin(): ?DateTime {
+    public function getLastLogin(): ?DateTime {
         return $this->lastLogin;
     }
 
-     public function setLastLogin(?DateTime $lastLogin): void {
+    public function setLastLogin(?DateTime $lastLogin): void {
         $this->lastLogin = $lastLogin;
     }
 
-     public function getIsActive(): bool {
-        return $this->isActive;
-    }
-
-     public function setIsActive(bool $isActive): void {
+    public function setIsActive(bool $isActive): void {
         $this->isActive = $isActive;
     }
 
@@ -156,7 +149,7 @@ class User {
             $this->age,
             $this->createdTime,
             $this->lastLogin,
-            $this->isActive ? 'true' : 'false'
+            $this->status
         );
     }
 }
