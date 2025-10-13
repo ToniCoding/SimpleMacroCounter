@@ -5,8 +5,6 @@ namespace SMC;
 use Config\Container;
 use App\Logging\Logger;
 
-require_once __DIR__ . "/bootstrap.php";
-
 $uri = strtolower(trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
 
 $specialRoutes = [

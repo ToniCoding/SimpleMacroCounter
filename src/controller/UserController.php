@@ -2,76 +2,73 @@
 
 namespace App\Controller;
 
-use App\Model\User;
-use App\Repository\UserRepository;
-use App\Logging\Logger;
-use App\Handlers\UserFormHandler;
+use App\Form\LoginUserType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use App\DTO\RegisterUserDTO;
+use App\DTO\LoggedUserDTO;
+use App\Form\RegisterUserType;
+use App\Handlers\UserHandler;
 
-/**
- * Class UserController
- * Controller that manages user CRUD operations using UserRepository and database connection.
- */
-class UserController {
-    private UserRepository $userRepository;
-    private UserFormHandler $userFormHandler;
-    private Logger $log;
+class UserController extends AbstractController {
+    private UserHandler $userHandler;
 
-    /**
-     * Constructor that initializes the database connection and repository.
-     */
-    public function __construct(UserRepository $userRepository, Logger $log) {
-        $this->userRepository = $userRepository;
-        $this->log = $log;
+    public function __construct(UserHandler $userHandler) {
+        $this->userHandler = $userHandler;
     }
 
-    /**
-     * Creates a user in the database.
-     *
-     * @param User $user User instance.
-     * @return bool Operation result.
-     */
-    public function createUser(User $user): bool {
-        $this->log->info('Try creating a new user with given user object.');
-        return $this->userRepository->create($user);
+    #[Route('/register', name: 'register_form', methods: ['GET', 'POST'])]
+    public function registerUser(Request $request): RedirectResponse|Response {
+        $userDTO = new RegisterUserDTO();
+        
+        $form = $this->createForm(RegisterUserType::class, $userDTO);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userDTO = $form->getData();
+            if ($this->userHandler->handle('register', $userDTO)) {
+                return $this->redirectToRoute('register_success');
+            }
+        }
+
+        return $this->render('RegisterPageTemplate.php.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
-    /**
-     * Deletes a user from the database.
-     *
-     * @param User $user User instance.
-     * @return bool Operation result.
-     */
-    public function deleteUser(User $user): bool {
-        $this->log->info('Try deleting an existing user with given user object.');
-        return $this->userRepository->delete($user);
+    #[Route('/register/success', name: 'register_success')]
+    public function registerSuccess(): Response {
+        return $this->render('user/success.html.twig', [
+            'message' => 'Successfully created the user'
+        ]);
     }
 
-    /**
-     * Edits a specific field of the user.
-     *
-     * @param User $user User instance.
-     * @param string $field Field name to edit.
-     * @param string $newValue New value for the field.
-     * @return bool Operation result.
-     */
-    public function editUser(User $user, string $field, string $newValue): bool {
-        $this->log->info('Try editing an existing user with given user object.');
-        return $this->userRepository->edit($user, $field, $newValue);
+    #[Route('/login', name: 'login_form')]
+    public function loginUser(Request $request): RedirectResponse | Response {
+        $userDTO = new LoggedUserDTO();
+
+        $form = $this->createForm(LoginUserType::class, $userDTO);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userDTO = $form->getData();
+            if ($this->userHandler->handle('login', null, $userDTO)) {
+                return $this->redirectToRoute('login_success');
+            }
+        }
+
+        return $this->render('LoginPageTemplate.php.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
-    /**
-     * Retrieves a user by ID.
-     *
-     * @param User $user User instance.
-     * @return mixed Search result.
-     */
-    public function retrieveUser(User $user): array {
-        $this->log->info('Try retrieving an user ID with user object.');
-        return $this->userRepository->findUserById($user);
-    }
-
-    public function retrieveUserByUsername(string $username): array {
-        $this->log->info('Try retrieving an user ID by username');
-        return $this->userRepository->findUserIdByName($username);
+    #[Route('/login/success', name: 'login_success')]
+    public function loginSuccess(): Response {
+        return $this->render('user/success.html.twig', [
+            'message' => 'Successfully logged in!'
+        ]);
     }
 }
