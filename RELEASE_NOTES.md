@@ -50,6 +50,7 @@ SimpleMacroCounter/
 
 **Features added**
 - New way to interact with the database thanks to *Doctrine*.
+- Redesigned the user registration and login to work with Symfony.
 
 **Infrastructure**
 - Symfony framework implementation.
