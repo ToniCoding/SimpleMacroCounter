@@ -1,0 +1,5 @@
+security:
+  firewalls:
+    main:
+      access_token:
+        token_handler: App\Security\AccessTokenHandler
