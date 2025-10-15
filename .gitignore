@@ -12,9 +12,11 @@ config.ini
 # PHP test results
 .phpunit.result.cache
 
-# Docker compose
+# Docker
 compose.yaml
 compose.override.yaml
+docker/mysql_data
+docker/php
 
 # Symfony framework / generated
 /config/secrets/prod/prod.decrypt.private.php
