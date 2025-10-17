@@ -1,5 +1,14 @@
 security:
   firewalls:
+    public:
+      pattern: ^/(login|register)
+      stateless: false
     main:
+      pattern: ^/
+      stateless: true
       access_token:
         token_handler: App\Security\AccessTokenHandler
+        token_extractors:
+          - 'header'
+  access_control:
+    - { path: ^/(login|register), roles: PUBLIC_ACCESS }
