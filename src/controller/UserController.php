@@ -64,7 +64,7 @@ class UserController extends AbstractController {
             }
         }
 
-        return $this->render('RegisterPageTemplate.php.twig', [
+        return $this->render('RegisterPageTemplate.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -75,7 +75,7 @@ class UserController extends AbstractController {
      */
     #[Route('/register/success', name: 'register_success')]
     public function registerSuccess(): Response {
-        return $this->render('user/success.html.twig', [
+        return $this->render('user/success.twig', [
             'message' => 'Successfully created the user'
         ]);
     }
@@ -129,7 +129,7 @@ class UserController extends AbstractController {
             ], 200);
         }
 
-        return $this->render('LoginPageTemplate.php.twig', [
+        return $this->render('LoginPageTemplate.twig', [
             'form' => $form->createView()
         ]);
     }
