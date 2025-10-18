@@ -2,9 +2,8 @@
 
 namespace src\Entity;
 
-use DateTime;
-
 use src\Entity\User;
+
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -25,11 +24,11 @@ class UserGoals {
     private int $fats;
 
     #[ORM\Column(type: "datetime")]
-    private DateTime $dateTime;
+    private \DateTime $dateTime;
 
-    public function __construct(User $user, DateTime $dateTime) {
+    public function __construct(User $user, \DateTime $dateTime) {
         $this->user = $user;
-        $this->dateTime = $dateTime ?? new DateTime();
+        $this->dateTime = $dateTime ?? new \DateTime();
     }
 
     public function getUser(): User {

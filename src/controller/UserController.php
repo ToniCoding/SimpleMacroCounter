@@ -2,15 +2,11 @@
 
 namespace src\Controller;
 
-use src\DTO\RegisterUserDTO;
-use src\DTO\LoggedUserDTO;
+use src\DTO\{RegisterUserDTO, LoggedUserDTO};
 use src\Entity\User;
-use src\Entity\AccessToken;
-use src\Form\LoginUserType;
-use src\Form\RegisterUserType;
-use src\Security\AccessTokenHandler;
+use src\Form\{LoginUserType, RegisterUserType};
+use src\Security\{AccessTokenHandler, AppAuthenticator};
 use src\Handlers\UserHandler;
-use src\Security\AppAuthenticator;
 
 use Doctrine\ORM\EntityManagerInterface;
 

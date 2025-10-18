@@ -4,8 +4,6 @@ namespace src\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use DateTimeImmutable;
-
 #[ORM\Entity]
 #[ORM\Table(name: 'access_token')]
 class AccessToken {
@@ -18,7 +16,7 @@ class AccessToken {
     private string $value;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $expiresAt;
+    private \DateTimeImmutable $expiresAt;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -44,16 +42,16 @@ class AccessToken {
         $this->user = $user;
     }
 
-    public function getExpiresAt(): DateTimeImmutable {
+    public function getExpiresAt(): \DateTimeImmutable {
         return $this->expiresAt;
     }
 
-    public function setExpiresAt(DateTimeImmutable $expiresAt): void {
+    public function setExpiresAt(\DateTimeImmutable $expiresAt): void {
         $this->expiresAt = $expiresAt;
     }
 
     public function isValid(): bool {
-        return $this->expiresAt > new DateTimeImmutable();
+        return $this->expiresAt > new \DateTimeImmutable();
     }
 
     public function getUserIdentifier(): string {

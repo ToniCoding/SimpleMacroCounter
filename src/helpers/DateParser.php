@@ -2,16 +2,14 @@
 
 namespace src\Helpers;
 
-use DateTime;
-
 class DateParser {
     private const DATE_FORMAT = "d-m-Y";
     private const TIME_FORMAT = "H:i:s";
 
-    private DateTime $dateTime;
+    private \DateTime $dateTime;
 
     public function __construct() {
-        $this->dateTime = new DateTime();
+        $this->dateTime = new \DateTime();
     }
 
     public function getDate($format = null): string {

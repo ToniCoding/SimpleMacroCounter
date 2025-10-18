@@ -2,7 +2,6 @@
 
 namespace src\Entity;
 
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -18,7 +17,7 @@ class KcalsDaily {
     private User $user;
 
     #[ORM\Column(type: "datetime_immutable")]
-    private DateTimeImmutable $date;
+    private \DateTimeImmutable $date;
 
     #[ORM\Column(type: "integer")]
     private int $kcals;
@@ -34,7 +33,7 @@ class KcalsDaily {
 
     public function __construct(User $user) {
         $this->user = $user;
-        $this->date = new DateTimeImmutable();
+        $this->date = new \DateTimeImmutable();
     }
 
     public function getId(): ?int {
@@ -49,7 +48,7 @@ class KcalsDaily {
         $this->user = $user;
     }
 
-    public function getDate(): DateTimeImmutable {
+    public function getDate(): \DateTimeImmutable {
         return $this->date;
     }
 

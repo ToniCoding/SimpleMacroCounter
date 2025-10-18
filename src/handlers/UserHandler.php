@@ -4,8 +4,8 @@ namespace src\Handlers;
 
 use src\DTO\{RegisterUserDTO, LoggedUserDTO};
 use src\Entity\User;
-
 use src\Security\AccessTokenHandler;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserHandler {

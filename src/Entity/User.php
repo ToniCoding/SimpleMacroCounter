@@ -2,14 +2,10 @@
 
 namespace src\Entity;
 
-use DateTime, DateTimeImmutable;
-
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Doctrine\Common\Collections\{ArrayCollection, Collection};
+use Symfony\Component\Security\Core\User\{UserInterface, PasswordAuthenticatedUserInterface};
 
 #[ORM\Entity]
 #[ORM\Table(
@@ -43,16 +39,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Column(type: "string", length: 10)]
     private string $status;
 
-    #[ORM\Column(type: "datetime_immutable")]
-    private DateTimeImmutable $createdTime;
+    #[ORM\Column(type: "\DateTime_immutable")]
+    private \DateTimeImmutable $createdTime;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
-    private ?DateTime $lastLogin;
+    #[ORM\Column(type: "\DateTime", nullable: true)]
+    private ?\DateTime $lastLogin;
 
     #[ORM\OneToMany(mappedBy: "user", targetEntity: KcalsDaily::class, cascade: ["persist", "remove"])]
     private Collection $kcalsDailyRecords;
 
-    public function __construct(DateTimeImmutable $createdTime, string $status) {
+    public function __construct(\DateTimeImmutable $createdTime, string $status) {
         $this->createdTime = $createdTime;
         $this->status = $status;
         $this->kcalsDailyRecords = new ArrayCollection();
@@ -110,19 +106,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
         $this->status = $status;
     }
 
-    public function getCreatedTime(): DateTimeImmutable {
+    public function getCreatedTime(): \DateTimeImmutable {
         return $this->createdTime;
     }
 
-    public function setCreatedTime(DateTimeImmutable $createdTime): void {
+    public function setCreatedTime(\DateTimeImmutable $createdTime): void {
         $this->createdTime = $createdTime;
     }
 
-    public function getLastLogin(): ?DateTime {
+    public function getLastLogin(): ?\DateTime {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?DateTime $lastLogin): void {
+    public function setLastLogin(?\DateTime $lastLogin): void {
         $this->lastLogin = $lastLogin;
     }
 
