@@ -39,10 +39,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Column(type: "string", length: 10)]
     private string $status;
 
-    #[ORM\Column(type: "\DateTime_immutable")]
+    #[ORM\Column(type: "datetime_immutable")]
     private \DateTimeImmutable $createdTime;
 
-    #[ORM\Column(type: "\DateTime", nullable: true)]
+    #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTime $lastLogin;
 
     #[ORM\OneToMany(mappedBy: "user", targetEntity: KcalsDaily::class, cascade: ["persist", "remove"])]
