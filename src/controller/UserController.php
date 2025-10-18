@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\DTO\RegisterUserDTO;
 use App\DTO\LoggedUserDTO;
 use App\Entity\User;
+use App\Entity\AccessToken;
 use App\Form\LoginUserType;
 use App\Form\RegisterUserType;
 use App\Security\AccessTokenHandler;
 use App\Handlers\UserHandler;
+use App\Security\AppAuthenticator;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -43,15 +45,16 @@ class UserController extends AbstractController {
         private UserHandler $userHandler,
         private AccessTokenHandler $accessTokenHandler,
         private EntityManagerInterface $entityManager,
-        private UserAuthenticatorInterface $userAuthenticatorInterface) {}
+        private UserAuthenticatorInterface $userAuthenticatorInterface,
+        private AppAuthenticator $appAuthenticator) {}
 
     /**
      * Process the user registration by rendering and processing the register form.
      * @param Request $request
-     * @return RedirectResponse|Response
+     * @return Response | RedirectResponse
      */
     #[Route('/register', name: 'register_form', methods: ['GET', 'POST'])]
-    public function registerUser(Request $request): RedirectResponse|Response {
+    public function registerUser(Request $request): Response | RedirectResponse {
         $userDTO = new RegisterUserDTO();
         
         $form = $this->createForm(RegisterUserType::class, $userDTO);
@@ -60,23 +63,12 @@ class UserController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $userDTO = $form->getData();
             if ($this->userHandler->handle('register', $userDTO)) {
-                return $this->redirectToRoute('register_success');
+                return $this->redirect('login');
             }
         }
 
         return $this->render('RegisterPageTemplate.twig', [
             'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * Shows a success message page to the user if the register succeeded.
-     * @return Response
-     */
-    #[Route('/register/success', name: 'register_success')]
-    public function registerSuccess(): Response {
-        return $this->render('user/success.twig', [
-            'message' => 'Successfully created the user'
         ]);
     }
 
@@ -89,7 +81,7 @@ class UserController extends AbstractController {
      * @return JsonResponse|Response
      */
     #[Route('/login', name: 'login_form', methods: ['GET', 'POST'])]
-    public function loginUser(Request $request): Response | JsonResponse {
+    public function loginUser(Request $request): Response | JsonResponse | RedirectResponse {
         $user = $this->getUser();
 
         if ($user !== null) {
@@ -122,36 +114,17 @@ class UserController extends AbstractController {
 
             $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
 
-            return $this->json([
-                'message' => 'Login successful',
-                'token' => $accessToken->getValue(),
-                'expires_at' => $accessToken->getExpiresAt()->format('Y-m-d H:i:s')
-            ], 200);
+            if ($accessToken) {
+                return $this->userAuthenticatorInterface->authenticateUser(
+                    $user,
+                    $this->appAuthenticator,
+                    $request
+                );
+            }
         }
 
         return $this->render('LoginPageTemplate.twig', [
             'form' => $form->createView()
         ]);
     }
-
-    /**
-     * Shows a success message page to the user if the login succeeded.
-     * @return JsonResponse
-     */
-    #[Route('/login/success', name: 'login_success')]
-    public function loginSuccess(): JsonResponse {
-        $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            return $this->json(['error' => 'User not found'], 400);
-        }
-
-        $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
-
-        return $this->json([
-            'token' => $accessToken->getValue(),
-            'expires_at' => $accessToken->getExpiresAt()->format('Y-m-d H:i:s'),
-        ]);
-    }
-
 }

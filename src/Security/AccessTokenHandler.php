@@ -20,9 +20,9 @@ class AccessTokenHandler implements AccessTokenHandlerInterface {
      * @throws BadCredentialsException
      * @return UserBadge
      */
-    public function getUserBadgeFrom(string $accessToken): UserBadge {
+    public function getUserBadgeFrom(string $username): UserBadge {
         $tokenRepository = $this->entityManager->getRepository(AccessToken::class);
-        $accessToken = $tokenRepository->findOneByValue($accessToken);
+        $accessToken = $tokenRepository->findOneByValue($username);
 
         if ($accessToken === null || !$accessToken->isValid()) {
             throw new BadCredentialsException('Invalid credentials.');

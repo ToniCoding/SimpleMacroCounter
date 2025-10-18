@@ -1,14 +1,31 @@
 security:
+  password_hashers:
+    App\Entity\User:
+      algorithm: auto
+
+  providers:
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: username
+
   firewalls:
-    public:
-      pattern: ^/(login|register)
-      stateless: false
     main:
       pattern: ^/
-      stateless: true
+      stateless: false
+      form_login:
+        login_path: app_login
+        check_path: app_login
+        enable_csrf: true
+        default_target_path: home
+      logout:
+        path: app_logout
+        target: /login
       access_token:
         token_handler: App\Security\AccessTokenHandler
         token_extractors:
           - 'header'
+
   access_control:
     - { path: ^/(login|register), roles: PUBLIC_ACCESS }
+    - { path: ^/, roles: ROLE_USER }
