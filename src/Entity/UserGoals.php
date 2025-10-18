@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity;
+namespace src\Entity;
 
 use DateTime;
 
-use App\Entity\User;
+use src\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]

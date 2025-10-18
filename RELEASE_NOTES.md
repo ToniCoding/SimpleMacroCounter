@@ -13,17 +13,13 @@ Currently, SMC allows you to:
 
 ```
 SimpleMacroCounter/
-├── app/
-│   └── auth
-│   └── containers
+├── src/
 │   └── controller
 │   └── exceptions
 │   └── handlers
 │   └── helpers
-│   └── invoker
 │   └── logging
 │   └── model
-│   └── repository
 │   └── view
 ├── config/
 ├── db/
@@ -49,12 +45,23 @@ SimpleMacroCounter/
 ### v0.5.0 (*Unreleased*)
 
 **Features added**
-- New way to interact with the database thanks to *Doctrine*.
+- New way to interact with the database thanks to Doctrine.
+- Configured new firewalls to avoid unauthorized access.
+- Implemented new endpoints:
+  - /
+  - /login
+  - /register
+
+**Changed**
+- Deleted unused code or code that was replaced by Symfony or Doctrine.
 - Redesigned the user registration and login to work with Symfony.
+- Users are now identified by the access token handled by Symfony.
 
 **Infrastructure**
-- Symfony framework implementation.
-- Composer implementation.
+- Symfony implemented.
+- Symfony security implemented.
+- Doctrine implemented.
+- Composer implemented.
 
 ### v0.4.0 (06-10-2025)
 **Features added**

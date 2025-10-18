@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace src\Model;
 
 /**
  * MacroCounter class managing multiple macros and calculating total calories.

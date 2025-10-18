@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace src\Model;
 
-use App\Model\Macro;
+use src\Model\Macro;
 
 /**
  * This class represents the combination of all macros. It works with an associative array.

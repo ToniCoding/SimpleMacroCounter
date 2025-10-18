@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace src\Model;
 
 /**
  * Macro class representing a macronutrient with its amount and goal.

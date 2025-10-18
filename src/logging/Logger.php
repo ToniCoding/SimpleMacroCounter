@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Logging;
+namespace src\Logging;
 
-use App\Exceptions\WriteToFileException;
-use App\Helpers\DateParser;
+use src\Exceptions\WriteToFileException;
+use src\Helpers\DateParser;
 
 use DateTime;
 

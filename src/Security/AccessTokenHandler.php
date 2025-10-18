@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Security;
+namespace src\Security;
 
-use App\Entity\AccessToken;
+use src\Entity\AccessToken;
 
 use Doctrine\ORM\EntityManagerInterface;
 

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Controller;
+namespace src\Controller;
 
-use App\DTO\RegisterUserDTO;
-use App\DTO\LoggedUserDTO;
-use App\Entity\User;
-use App\Entity\AccessToken;
-use App\Form\LoginUserType;
-use App\Form\RegisterUserType;
-use App\Security\AccessTokenHandler;
-use App\Handlers\UserHandler;
-use App\Security\AppAuthenticator;
+use src\DTO\RegisterUserDTO;
+use src\DTO\LoggedUserDTO;
+use src\Entity\User;
+use src\Entity\AccessToken;
+use src\Form\LoginUserType;
+use src\Form\RegisterUserType;
+use src\Security\AccessTokenHandler;
+use src\Handlers\UserHandler;
+use src\Security\AppAuthenticator;
 
 use Doctrine\ORM\EntityManagerInterface;
 

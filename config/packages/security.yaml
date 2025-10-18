@@ -1,12 +1,12 @@
 security:
   password_hashers:
-    App\Entity\User:
+    src\Entity\User:
       algorithm: auto
 
   providers:
     app_user_provider:
       entity:
-        class: App\Entity\User
+        class: src\Entity\User
         property: username
 
   firewalls:
@@ -22,7 +22,7 @@ security:
         path: app_logout
         target: /login
       access_token:
-        token_handler: App\Security\AccessTokenHandler
+        token_handler: src\Security\AccessTokenHandler
         token_extractors:
           - 'header'
 

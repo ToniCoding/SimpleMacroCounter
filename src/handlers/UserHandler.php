@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Handlers;
+namespace src\Handlers;
 
-use App\DTO\{RegisterUserDTO, LoggedUserDTO};
-use App\Entity\User;
+use src\DTO\{RegisterUserDTO, LoggedUserDTO};
+use src\Entity\User;
 
-use App\Security\AccessTokenHandler;
+use src\Security\AccessTokenHandler;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserHandler {
