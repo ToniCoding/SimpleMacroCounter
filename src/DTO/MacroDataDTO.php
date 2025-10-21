@@ -6,7 +6,8 @@ class MacroDataDTO {
     public function __construct(
         public int $protein,
         public int $carbs,
-        public int $fats
+        public int $fats,
+        public int $fiber
     ) {}
 
     public function getProtein(): int {
@@ -31,5 +32,13 @@ class MacroDataDTO {
 
     public function setFats(int $fats): void {
         $this->fats = $fats;
+    }
+
+    public function getFiber(): int {
+        return $this->fiber;
+    }
+
+    public function setFiber(int $fiber): void {
+        $this->fiber = $fiber;
     }
 }

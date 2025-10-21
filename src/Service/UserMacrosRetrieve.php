@@ -22,10 +22,16 @@ class UserMacrosRetrieve {
         $consumedMacros = $this->getConsumedMacros($user);
         $macroGoals = $this->getMacroGoals($user);
 
+        $proteinConsumed = $consumedMacros->getProtein() ?: 0;
+        $carbsConsumed = $consumedMacros->getCarbs() ?: 0;
+        $fatsConsumed = $consumedMacros->getFats() ?: 0;
+        $fiberConsumed = $consumedMacros->getFiber() ?: 0;
+
         return new MacroDataDTO(
-            floor(($consumedMacros->getProtein() / $macroGoals->getProtein()) * 100),
-            floor(($consumedMacros->getCarbs() / $macroGoals->getCarbs()) * 100),
-            floor(($consumedMacros->getFats() / $macroGoals->getFats()) * 100)
+            $proteinConsumed != 0 ? floor(($proteinConsumed / $macroGoals->getProtein()) * 100) : 0,
+            $carbsConsumed != 0 ? floor(($carbsConsumed / $macroGoals->getCarbs()) * 100) : 0,
+            $fatsConsumed != 0 ? floor(($fatsConsumed / $macroGoals->getFats()) * 100) : 0,
+            $fiberConsumed != 0 ? floor(($fiberConsumed / $macroGoals->getFiber()) * 100) : 0
         );
     }
 
@@ -60,7 +66,8 @@ class UserMacrosRetrieve {
         return new MacroDataDTO(
             $consumed->getProtein(),
             $consumed->getCarbs(),
-            $consumed->getFats()
+            $consumed->getFats(),
+            $consumed->getFiber()
         );
     }
 
@@ -79,7 +86,8 @@ class UserMacrosRetrieve {
         return new MacroDataDTO(
             $goals->getProtein(),
             $goals->getCarbs(),
-            $goals->getFats()
+            $goals->getFats(),
+            $goals->getFiber()
         );
     }
 

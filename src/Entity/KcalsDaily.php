@@ -31,6 +31,9 @@ class KcalsDaily {
     #[ORM\Column(type: "integer")]
     private int $fats;
 
+    #[ORM\Column(type: "integer")]
+    private int $fiber;
+
     public function __construct(User $user) {
         $this->user = $user;
         $this->date = new \DateTimeImmutable();
@@ -82,5 +85,13 @@ class KcalsDaily {
 
     public function setFats(int $fats): void {
         $this->fats = $fats;
+    }
+
+    public function getFiber(): int {
+        return $this->fiber;
+    }
+
+    public function setFiber(int $fiber): void {
+        $this->fiber = $fiber;
     }
 }

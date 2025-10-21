@@ -23,6 +23,9 @@ class UserGoals {
     #[ORM\Column(type: "integer")]
     private int $fats;
 
+    #[ORM\Column(type: "integer")]
+    private int $fiber;
+
     #[ORM\Column(type: "datetime")]
     private \DateTime $dateTime;
 
@@ -57,5 +60,13 @@ class UserGoals {
 
     public function setFats(int $fats): void {
         $this->fats = $fats;
+    }
+
+    public function getFiber(): int {
+        return $this->fiber;
+    }
+
+    public function setFiber(int $fiber): void {
+        $this->fiber = $fiber;
     }
 }

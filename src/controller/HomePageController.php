@@ -29,7 +29,8 @@ class HomePageController extends AbstractController {
                 'user' => $user->getUsername(),
                 'proteinProgress' => $macrosProgress->getProtein(),
                 'carbProgress' => $macrosProgress->getCarbs(),
-                'fatProgress' => $macrosProgress->getFats()
+                'fatProgress' => $macrosProgress->getFats(),
+                'fiberProgress' => $macrosProgress->getFiber()
             ]);
         } catch (NoRecordFoundException) {
             return $this->render('HomePageTemplate.twig', [
