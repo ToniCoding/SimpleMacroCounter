@@ -1,0 +1,82 @@
+html {
+  background: whitesmoke;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+p {
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+.macroContainers {
+    width: 50%;
+    margin: auto;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.progress-container {
+  flex: 1;
+}
+
+progress {
+    width: 100%;
+    height: 1rem;
+    appearance: none;
+    border-radius: 8px;
+}
+
+progress::-moz-progress-bar {
+    background: red;
+    border-radius: 8px;
+}
+
+progress::-webkit-progress-bar {
+    background: #555;
+    border-radius: 8px;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 8px;
+    background: red;
+}
+
+progress#protein::-moz-progress-bar,
+progress#protein::-webkit-progress-value {
+  background: red;
+}
+
+progress#carbs::-moz-progress-bar,
+progress#carbs::-webkit-progress-value {
+  background: #d1d111;
+}
+
+progress#fats::-moz-progress-bar,
+progress#fats::-webkit-progress-value {
+  background: #D2691E;
+}
+
+progress#fiber::-moz-progress-bar,
+progress#fiber::-webkit-progress-value {
+  background: #1E90FF;
+}
+
+progress#calories::-moz-progress-bar,
+progress#calories::-webkit-progress-value {
+  background: #FF7F50;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  max-width: 300px;
+  margin: 0 auto 20px auto;
+}

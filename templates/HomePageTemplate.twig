@@ -4,9 +4,43 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         <title>Home - SMC</title>
     </head>
     <body>
         <h3>Welcome to SMC main page {{ user }}</h3>
+        
+        {% if error|default %}
+            <p>{{ error }}</p>
+        {% endif %}
+
+        <div class="macroContainers">
+            <div class="macroRow">
+                <div class="progressContainer">
+                    <p>Protein</p>
+                    <progress value="{{ proteinProgress }}" max="100" id="protein"></progress>
+                </div>
+                <div class="progressContainer">
+                    <p>Carbs</p>
+                    <progress value="{{ carbProgress }}" max="100" id="carbs"></progress>
+                </div>
+            </div>
+            <div class="macroRow">
+                <div class="progressContainer">
+                    <p>Fats</p>
+                    <progress value="{{ fatProgress }}" max="100" id="fats"></progress>
+                </div>
+                <div class="progress_container">
+                    <p>Fiber</p>
+                    <progress value="97" max="100" id="fiber"></progress>
+                </div>
+            </div>
+            <div class="centered">
+                <div class="progressContainer">
+                    <p>Calories</p>
+                    <progress value="66" max="100" id="calories"></progress>
+                  </div>
+            </div>
+        </div>
     </body>
 </html>
