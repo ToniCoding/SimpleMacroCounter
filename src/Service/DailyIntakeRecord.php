@@ -2,66 +2,51 @@
 
 namespace src\Service;
 
-use Doctrine\ORM\{EntityManagerInterface, EntityRepository};
-use src\Entity\KcalsDaily;
-use src\Entity\User;
-use src\Entity\UserGoals;
+use src\Repository\{UserGoalsRepository, KcalsDailyRepository};
+use src\Entity\{KcalsDaily, User, UserGoals};
 
 class DailyIntakeRecord {
-    private EntityRepository $kcalsDailyRepository;
-    private EntityRepository $userGoalsRepository;
-
     public function __construct(
-        private EntityManagerInterface $entityManager
-    ) {
-        $this->kcalsDailyRepository = $entityManager->getRepository(KcalsDaily::class);   
-        $this->userGoalsRepository = $entityManager->getRepository(UserGoals::class);
-    }
+        private KcalsDailyRepository $kcalsDailyRepository,
+        private UserGoalsRepository $userGoalsRepository
+    ) {}
 
-    public function ensureDailyIntakeRecord(User $user) {
-        if (!$this->kcalsDailyRepository->findOneBy([
-            'user' => $user
-        ])) {
+    public function ensureDailyIntakeRecord(User $user): ?KcalsDaily {
+        if (!$this->kcalsDailyRepository->findIntakeRegistryForToday($user)) {
             $newKcalRegistry = new KcalsDaily($user);
             $newKcalRegistry->setKcals(0);
             $newKcalRegistry->setProtein(0);
             $newKcalRegistry->setCarbs(0);
             $newKcalRegistry->setFats(0);
+            $newKcalRegistry->setFiber(0);
 
             try {
-                $this->entityManager->persist($newKcalRegistry);
-                $this->entityManager->flush();
-
-                return true;
+                $this->kcalsDailyRepository->insertIntakeRegistry($newKcalRegistry);
             } catch (\Exception $ex) {
                 // ToDo: Log exception to file and throw specific exception.
-                return false;
+                return null;
             }
         }
 
-        return true;
+        return $this->kcalsDailyRepository->findIntakeRegistryForToday($user);
     }
 
-    public function ensureOneMacroGoal(User $user): bool {
-        if (!$this->userGoalsRepository->findOneBy([
-            'user' => $user
-        ])) {
+    public function ensureOneMacroGoal(User $user): ?UserGoals {
+        if (!$this->userGoalsRepository->findGoalsRegistry($user)) {
             $newGoalRegistry = new UserGoals($user, new \DateTime());
             $newGoalRegistry->setProtein(125);
             $newGoalRegistry->setCarbs(75);
             $newGoalRegistry->setFats(225);
+            $newGoalRegistry->setFiber(35);
 
             try {
-                $this->entityManager->persist($newGoalRegistry);
-                $this->entityManager->flush();
-                
-                return true;
+                $this->userGoalsRepository->insertGoalRegistry($newGoalRegistry);
             } catch (\Exception $ex) {
                 // ToDo: Log exception to file and throw specific exception.
-                return false;
+                return null;
             }
         }
 
-        return true;
+        return $this->userGoalsRepository->findGoalsRegistry($user);
     }
 }
