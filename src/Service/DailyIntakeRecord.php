@@ -35,8 +35,8 @@ class DailyIntakeRecord {
         if (!$this->userGoalsRepository->findGoalsRegistry($user)) {
             $newGoalRegistry = new UserGoals($user, new \DateTime());
             $newGoalRegistry->setProtein(125);
-            $newGoalRegistry->setCarbs(75);
-            $newGoalRegistry->setFats(225);
+            $newGoalRegistry->setCarbs(225);
+            $newGoalRegistry->setFats(75);
             $newGoalRegistry->setFiber(35);
 
             try {
