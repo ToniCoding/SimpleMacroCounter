@@ -14,6 +14,12 @@
             <p>{{ error }}</p>
         {% endif %}
 
+        {% for message in app.flashes('successMessages') %}
+            <div>{{ message }}</div>
+        {% endfor %}
+
+        <a href="/modifyMacros">Update your macro intake!</a>
+
         <div class="macroContainers">
             <div class="macroRow">
                 <div class="progressContainer">

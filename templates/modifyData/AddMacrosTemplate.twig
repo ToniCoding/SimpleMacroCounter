@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>Add Macros - SMC</title>
+</head>
+<body>
+    <h1>Add macronutrients</h1>
+
+    <div>
+        {{ form_start(form) }}
+
+        {{ form_row(form.protein) }}
+        {{ form_row(form.carbs) }}
+        {{ form_row(form.fats) }}
+        {{ form_row(form.fiber) }}
+
+        <button type="submit">Update macros</button>
+
+        {{ form_end(form) }}
+    </div>
+
+</body>
+</html>
