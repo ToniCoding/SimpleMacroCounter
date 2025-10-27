@@ -19,7 +19,7 @@ class MacroDataDTO {
     }
 
     public function getCarbs(): int {
-        return $this->protein;
+        return $this->carbs;
     }
 
     public function setCarbs(int $carbs): void {
