@@ -51,25 +51,11 @@ class KcalsDailyRepository extends ServiceEntityRepository {
     public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO): bool {
         $todaysIntakeRegistry = $this->findIntakeRegistryForToday($user);
 
-        $this->logger->error($todaysIntakeRegistry->getProtein());
-        $this->logger->error($todaysIntakeRegistry->getCarbs());
-        $this->logger->error($todaysIntakeRegistry->getFats());
-        $this->logger->error($todaysIntakeRegistry->getFiber());
-
-        $this->logger->error($macroDataDTO->getProtein());
-        $this->logger->error($macroDataDTO->getCarbs());
-        $this->logger->error($macroDataDTO->getFats());
-        $this->logger->error($macroDataDTO->getFiber());
-
         $todaysIntakeRegistry->setProtein($todaysIntakeRegistry->getProtein() + $macroDataDTO->getProtein());
         $todaysIntakeRegistry->setCarbs($todaysIntakeRegistry->getCarbs() + $macroDataDTO->getCarbs());
         $todaysIntakeRegistry->setFats($todaysIntakeRegistry->getFats() + $macroDataDTO->getFats());
         $todaysIntakeRegistry->setFiber($todaysIntakeRegistry->getFiber() + $macroDataDTO->getFiber());
-
-        $this->logger->error($todaysIntakeRegistry->getProtein());
-        $this->logger->error($todaysIntakeRegistry->getCarbs());
-        $this->logger->error($todaysIntakeRegistry->getFats());
-        $this->logger->error($todaysIntakeRegistry->getFiber());
+        $todaysIntakeRegistry->setKcals($todaysIntakeRegistry->getKcals() + $macroDataDTO->getCalories());
 
         try {
             $this->entityManagerInterface->flush();

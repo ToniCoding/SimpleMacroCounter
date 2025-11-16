@@ -15,6 +15,9 @@ class UserGoals {
     private User $user;
 
     #[ORM\Column(type: "integer")]
+    private int $calories;
+
+    #[ORM\Column(type: "integer")]
     private int $protein;
 
     #[ORM\Column(type: "integer")]
@@ -36,6 +39,14 @@ class UserGoals {
 
     public function getUser(): User {
         return $this->user;
+    }
+
+    public function getCalories(): int {
+        return $this->calories;
+    }
+
+    public function setCalories(int $calories): void {
+        $this->calories = $calories;
     }
 
     public function getProtein(): int {

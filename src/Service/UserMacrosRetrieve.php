@@ -3,9 +3,8 @@
 namespace src\Service;
 
 use src\DTO\MacroDataDTO;
-use src\Entity\{User, UserGoals, KcalsDaily};
+use src\Entity\{User};
 use src\Service\DailyIntakeRecord;
-use src\Repository\KcalsDailyRepository;
 
 use Doctrine\ORM\{EntityManagerInterface, EntityRepository};
 
@@ -26,12 +25,14 @@ class UserMacrosRetrieve {
         $carbsConsumed = $consumedMacros->getCarbs() ?: 0;
         $fatsConsumed = $consumedMacros->getFats() ?: 0;
         $fiberConsumed = $consumedMacros->getFiber() ?: 0;
+        $caloriesConsumed = $consumedMacros->getCalories() ?: 0;
 
         return new MacroDataDTO(
-            $proteinConsumed != 0 ? floor(($proteinConsumed / $macroGoals->getProtein()) * 100) : 0,
-            $carbsConsumed != 0 ? floor(($carbsConsumed / $macroGoals->getCarbs()) * 100) : 0,
-            $fatsConsumed != 0 ? floor(($fatsConsumed / $macroGoals->getFats()) * 100) : 0,
-            $fiberConsumed != 0 ? floor(($fiberConsumed / $macroGoals->getFiber()) * 100) : 0
+            $proteinConsumed != 0 ? floor($proteinConsumed / $macroGoals->getProtein() * 100) : 0,
+            $carbsConsumed != 0 ? floor($carbsConsumed / $macroGoals->getCarbs() * 100) : 0,
+            $fatsConsumed != 0 ? floor($fatsConsumed / $macroGoals->getFats() * 100) : 0,
+            $fiberConsumed != 0 ? floor($fiberConsumed / $macroGoals->getFiber() * 100) : 0,
+            $caloriesConsumed != 0 ? floor($caloriesConsumed / $macroGoals->getCalories() * 100) : 0
         );
     }
 
@@ -42,7 +43,8 @@ class UserMacrosRetrieve {
             $consumedMacros->getProtein(),
             $consumedMacros->getCarbs(),
             $consumedMacros->getFats(),
-            $consumedMacros->getFiber()
+            $consumedMacros->getFiber(),
+            $consumedMacros->getKcals()
         );
     }
 
@@ -53,8 +55,8 @@ class UserMacrosRetrieve {
             $userGoals->getProtein(),
             $userGoals->getCarbs(),
             $userGoals->getFats(),
-            $userGoals->getFiber()
+            $userGoals->getFiber(),
+            $userGoals->getCalories()
         );
     }
-
 }

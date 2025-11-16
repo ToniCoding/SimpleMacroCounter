@@ -30,7 +30,8 @@ class HomePageController extends AbstractController {
                 'proteinProgress' => $macrosProgress->getProtein(),
                 'carbProgress' => $macrosProgress->getCarbs(),
                 'fatProgress' => $macrosProgress->getFats(),
-                'fiberProgress' => $macrosProgress->getFiber()
+                'fiberProgress' => $macrosProgress->getFiber(),
+                'calorieProgress' => $macrosProgress->getCalories()
             ]);
         } catch (NoRecordFoundException) {
             return $this->render('HomePageTemplate.twig', [

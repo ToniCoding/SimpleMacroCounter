@@ -3,7 +3,6 @@
 namespace src\Controller;
 
 use src\DTO\MacroDataDTO;
-use src\Entity\KcalsDaily;
 use src\Entity\User;
 use src\Form\AddMacrosType;
 use src\Service\MacroIntakeUpdater;
@@ -31,13 +30,19 @@ class MacroUpdateController extends AbstractController {
             throw $this->createAccessDeniedException('User not found');
         }
 
-        $macroDTO = new MacroDataDTO(0, 0, 0, 0);
+        $macroDTO = new MacroDataDTO(0, 0, 0, 0, 0);
         $form = $this->createForm(AddMacrosType::class, $macroDTO);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var MacroDataDTO $data */
             $data = $form->getData();
+            $data->setCalories(
+                $data->getProtein() * 4 +
+                $data->getFats() * 9 +
+                $data->getCarbs() * 4 +
+                $data->getFiber() * 2
+            );
 
             if ($this->macroIntakeUpdater->updateMacroIntake($user, $data)) {
                 $this->addFlash('successMessages', 'Correct');

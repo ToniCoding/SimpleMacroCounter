@@ -34,6 +34,7 @@ class DailyIntakeRecord {
     public function ensureOneMacroGoal(User $user): ?UserGoals {
         if (!$this->userGoalsRepository->findGoalsRegistry($user)) {
             $newGoalRegistry = new UserGoals($user, new \DateTime());
+            $newGoalRegistry->setCalories(2000);
             $newGoalRegistry->setProtein(125);
             $newGoalRegistry->setCarbs(225);
             $newGoalRegistry->setFats(75);
