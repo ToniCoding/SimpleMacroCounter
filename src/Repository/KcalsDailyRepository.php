@@ -5,10 +5,9 @@ namespace src\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+
 use src\Entity\{User, KcalsDaily};
 use src\DTO\MacroDataDTO;
-
-use Psr\Log\LoggerInterface;
 
 class KcalsDailyRepository extends ServiceEntityRepository {
     private EntityManagerInterface $entityManagerInterface;
@@ -16,7 +15,6 @@ class KcalsDailyRepository extends ServiceEntityRepository {
     public function __construct(
         ManagerRegistry $registry,
         EntityManagerInterface $entityManagerInterface,
-        private LoggerInterface $logger
     ) {
         parent::__construct($registry, KcalsDaily::class);
         $this->entityManagerInterface = $entityManagerInterface;
@@ -48,14 +46,22 @@ class KcalsDailyRepository extends ServiceEntityRepository {
         return true;
     }
 
-    public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO): bool {
+    public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent): bool {
         $todaysIntakeRegistry = $this->findIntakeRegistryForToday($user);
 
-        $todaysIntakeRegistry->setProtein($todaysIntakeRegistry->getProtein() + $macroDataDTO->getProtein());
-        $todaysIntakeRegistry->setCarbs($todaysIntakeRegistry->getCarbs() + $macroDataDTO->getCarbs());
-        $todaysIntakeRegistry->setFats($todaysIntakeRegistry->getFats() + $macroDataDTO->getFats());
-        $todaysIntakeRegistry->setFiber($todaysIntakeRegistry->getFiber() + $macroDataDTO->getFiber());
-        $todaysIntakeRegistry->setKcals($todaysIntakeRegistry->getKcals() + $macroDataDTO->getCalories());
+        if ($intent == 'reduce') {
+            $todaysIntakeRegistry->setProtein($todaysIntakeRegistry->getProtein() - $macroDataDTO->getProtein());
+            $todaysIntakeRegistry->setCarbs($todaysIntakeRegistry->getCarbs() - $macroDataDTO->getCarbs());
+            $todaysIntakeRegistry->setFats($todaysIntakeRegistry->getFats() - $macroDataDTO->getFats());
+            $todaysIntakeRegistry->setFiber($todaysIntakeRegistry->getFiber() - $macroDataDTO->getFiber());
+            $todaysIntakeRegistry->setKcals($todaysIntakeRegistry->getKcals() - $macroDataDTO->getCalories());
+        } else {
+            $todaysIntakeRegistry->setProtein($todaysIntakeRegistry->getProtein() + $macroDataDTO->getProtein());
+            $todaysIntakeRegistry->setCarbs($todaysIntakeRegistry->getCarbs() + $macroDataDTO->getCarbs());
+            $todaysIntakeRegistry->setFats($todaysIntakeRegistry->getFats() + $macroDataDTO->getFats());
+            $todaysIntakeRegistry->setFiber($todaysIntakeRegistry->getFiber() + $macroDataDTO->getFiber());
+            $todaysIntakeRegistry->setKcals($todaysIntakeRegistry->getKcals() + $macroDataDTO->getCalories());
+        }
 
         try {
             $this->entityManagerInterface->flush();

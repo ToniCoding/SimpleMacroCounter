@@ -7,7 +7,7 @@ use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddMacrosType extends AbstractType {
+class ModifyMacrosType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             -> add('protein', IntegerType::class)

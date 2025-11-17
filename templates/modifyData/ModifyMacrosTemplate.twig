@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>Add Macros - SMC</title>
+    <title>{{ page_title }}</title>
 </head>
 <body>
-    <h1>Add macronutrients</h1>
+    <h1>{{ page_intent }}</h1>
 
     <div>
         {{ form_start(form) }}
@@ -18,7 +18,7 @@
         {{ form_row(form.fats) }}
         {{ form_row(form.fiber) }}
 
-        <button type="submit">Update macros</button>
+        <button type="submit">Update</button>
 
         {{ form_end(form) }}
     </div>
