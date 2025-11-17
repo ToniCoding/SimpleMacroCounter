@@ -11,25 +11,37 @@ Currently, SMC allows you to:
 
 ## Project Tree
 
-```
+```text
 SimpleMacroCounter/
-├── src/
-│   └── controller
-│   └── exceptions
-│   └── handlers
-│   └── helpers
-│   └── logging
-│   └── model
-│   └── view
+├── bin/
 ├── config/
 ├── db/
+├── docker/
+├── migrations/
 ├── public/
-│   └── css
-│   └── imag
-│   └── pages
-├── bootstrap.php
-├── index.php
+├── src/
+│   └── Config
+│   └── Controller
+│   └── DTO
+│   └── Entity
+│   └── Exceptions
+│   └── Form
+│   └── Handlers
+│   └── Helpers
+│   └── Logging
+│   └── Model
+│   └── Repository
+│   └── Security
+│   └── Service
+│   └── Kernel.php
+├── templates/
+│   └── dummy
+│   └── modifyData
+│   └── security
+│   └── HomePageTemplate.twig
+│   └── RegisterPageTemplate.twig
 └── README.md
+└── RELEASE_NOTES.md
 ```
 
 ## Project Roadmap
@@ -45,23 +57,33 @@ SimpleMacroCounter/
 ### v0.5.0 (*Unreleased*)
 
 **Features added**
-- New way to interact with the database thanks to Doctrine.
-- Configured new firewalls to avoid unauthorized access.
-- Implemented new endpoints:
-  - /
-  - /login
-  - /register
+- Database interaction is now implemented via Doctrine.
+- User session is now implemented via Symfony Security.
+- Configured Symfony Security firewalls to avoid unauthorized accesses.
+- Added functionality to add and reduce macro-nutrient intake.
+- Added Symfony Forms and dynamic pages via Twig.
+
+**New endpoints**\
+`/`\
+`/login`\
+`/register`\
+`/modifymacros`\
+`/reducemacros`
 
 **Changed**
-- Deleted unused code or code that was replaced by Symfony or Doctrine.
-- Redesigned the user registration and login to work with Symfony.
-- Users are now identified by the access token handled by Symfony.
+- Deleted unused code or code that was replaced by Symfony or Doctrince frameworks.
+- User registration and login flows are now implemented via Symfony.
+- Users are now identified by Symfony Security access token.
 
 **Infrastructure**
-- Symfony implemented.
-- Symfony security implemented.
-- Doctrine implemented.
-- Composer implemented.
+- **[CRITICAL]** Symfony implemented.
+- **[CRITICAL]** Symfony security implemented.
+- **[CRITICAL]** Doctrine implemented.
+- **[CRITICAL]** Composer implemented.
+
+**Known issues and improvements**
+- **[Issue]** SMC does not work with user localtime but instead with UTC.
+- **[Improvement]** Combine `modifyMacros` and `reduceMacros` endpoints into one using URL parameters.
 
 ### v0.4.0 (06-10-2025)
 **Features added**
