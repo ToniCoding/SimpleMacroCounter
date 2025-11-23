@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <title>History - SMC</title>
+    </head>
+    <body>
+        <div class="navBar">
+            <div class="logo">
+                <p><a href="/">SimpleMacroCounter</a> <sub style="font-size: 0.9rem;"><i><b>{{ user }}</b></i></sub></p>
+            </div>
+            <div class="navigation">
+                <ul>
+                    <li><a href="/modifyMacros">Add macros</a></li>
+                    <li><a href="/reduceMacros">Reduce macros</a></li>
+                    <li><a href="/history" class="selected">History</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <h1><i>Previous {{ days }} days</i></h1>
+        <div>
+            {% if historyData is empty %}
+            <div class="noDataFound">
+                <p><i>No data recorded</i></p>
+            </div>
+            {% endif %}
+            {% for date, rows in historyData %}
+                {% for row in rows %}
+                    <div class="macroDataCard">
+                        <div id="dateAndCalories">
+                            <p id="date">{{ row.date|date('Y-m-d') }}</p>
+                            <p id="caloriesConsumed">{{ row.kcals }}<sub>kcals</sub></p>
+                        </div>
+                        <div id="macroData">
+                            <!--<div>-->
+                                <ul>
+                                    <li><sub>Protein</sub> {{ row.protein }}</li>
+                                    <li><sub>Carbohydrates</sub> {{ row.carbs }}</li>
+                                    <li><sub>Fats</sub> {{ row.fats }}</li>
+                                    <li><sub>Fiber</sub> {{ row.fiber }}</li>
+                                </ul>
+                            <!--</div>-->
+                            <!--<div> To be developed...
+                                <p id="objective"></p>
+                            </div>-->
+                        </div>
+                    </div>
+                {% endfor %}
+            {% if rows is empty %}
+                    <div class="macroDataCard">
+                        <p>No data registered</p>
+                    </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </body>
+</html>

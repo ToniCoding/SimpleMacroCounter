@@ -3,8 +3,9 @@
 namespace src\Service;
 
 use src\DTO\MacroDataDTO;
-use src\Entity\{User};
+use src\Entity\User;
 use src\Service\DailyIntakeRecord;
+use src\Repository\KcalsDailyRepository;
 
 use Doctrine\ORM\{EntityManagerInterface, EntityRepository};
 
@@ -14,7 +15,8 @@ class UserMacrosRetrieve {
     
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private DailyIntakeRecord $dailyIntakeRecord
+        private DailyIntakeRecord $dailyIntakeRecord,
+        private KcalsDailyRepository $kcalsDailyRepository
     ) {}
 
     public function calculateUserProgress(User $user): MacroDataDTO {
@@ -34,6 +36,18 @@ class UserMacrosRetrieve {
             $fiberConsumed != 0 ? floor($fiberConsumed / $macroGoals->getFiber() * 100) : 0,
             $caloriesConsumed != 0 ? floor($caloriesConsumed / $macroGoals->getCalories() * 100) : 0
         );
+    }
+
+    public function getDataFromPreviousDays(User $user, int $previousDays): array {
+        $dbData = $this->kcalsDailyRepository->findIntakeRegistryForDateRange($user, $previousDays);
+        $historyData = [];
+
+        foreach($dbData as $dbRow) {
+            $date = $dbRow->getDate()->format('Y-m-d');
+            $historyData[$date][] = $dbRow;
+        }
+
+        return $historyData;
     }
 
     private function getConsumedMacros(User $user): MacroDataDTO {

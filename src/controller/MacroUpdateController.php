@@ -51,8 +51,9 @@ class MacroUpdateController extends AbstractController {
         }
 
         return $this->render('modifyData/ModifyMacrosTemplate.twig', [
+            'user' => $user->getUsername(),
             'form' => $form,
-            'page_title' => 'Add macro-nutrient intake - SMC',
+            'page_title' => 'Add macros - SMC',
             'page_intent' => 'Add macro-nutrient count'
         ]);
     }
@@ -89,8 +90,9 @@ class MacroUpdateController extends AbstractController {
         }
 
         return $this->render('modifyData/ModifyMacrosTemplate.twig', [
+            'user' => $user->getUsername(),
             'form' => $form,
-            'page_title' => 'Reduce macro-nutrient intake - SMC',
+            'page_title' => 'Reduce macros - SMC',
             'page_intent' => 'Reduce macro-nutrient count'
         ]);
     }

@@ -34,6 +34,22 @@ class KcalsDailyRepository extends ServiceEntityRepository {
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findIntakeRegistryForDateRange(User $user, int $previousDays): array {
+        $yesterday = new \DateTimeImmutable('-1 day');
+        $from = $yesterday->modify("-$previousDays days");
+
+        return $this->createQueryBuilder('kcals')
+            ->where('kcals.user = :user')
+            ->andWhere('kcals.date >= :from')
+            ->andWhere('kcals.date <= :to')
+            ->setParameter('user', $user)
+            ->setParameter('from', $from)
+            ->setParameter('to', $yesterday)
+            ->orderBy('kcals.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
     
     public function insertIntakeRegistry(KcalsDaily $kcalsDailyEntity): bool {
         try {
