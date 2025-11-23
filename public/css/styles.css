@@ -1,15 +1,62 @@
-html {
-  background: whitesmoke;
+@font-face {
+    font-family: 'MondaRegular';
+    src: url('/ttf/Monda-Regular.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
+    font-family: 'MondaRegular';
+    background: #121212;
+    color: whitesmoke;
 }
 
-p {
-  font-style: italic;
-  margin-bottom: 5px;
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    color: whitesmoke;
+    font-size: 1.25rem;
+}
+
+.logo {
+    font-style: italic;
+    font-weight: 600;
+}
+
+.navigation {
+    padding-right: 1rem;
+}
+
+.navigation ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.navigation ul li {
+    transition: color 0.3s ease-in-out;
+}
+
+.navigation ul li:hover {
+    color: #d399d7;
+}
+
+.selected {
+    color: #c056c7;
 }
 
 .macroContainers {
@@ -79,4 +126,54 @@ progress#calories::-webkit-progress-value {
   justify-content: center;
   max-width: 300px;
   margin: 0 auto 20px auto;
+}
+
+.macroDataCard {
+    display: grid;
+    position: relative;
+    grid-template-rows: 1fr 2fr;
+    margin: 0.5rem 0rem 0rem 0rem;
+    padding: 0.5rem 0rem 0rem 0.35rem;
+    width: auto;
+    height: auto;
+    background-color: #31265e;
+    border: 4px solid #9290af;
+    border-radius: 15px;
+    font-size: 1.15rem;
+}
+
+.macroDataCard #dateAndCalories {
+    display: flex;
+    position: relative;
+    gap: 25px;
+}
+
+#date {
+    color: whitesmoke;
+    opacity: 70%;
+    font-size: 1.05rem;
+    font-style: italic;
+}
+
+#caloriesConsumed {
+    color: whitesmoke;
+}
+
+#caloriesConsumed sub {
+    opacity: 70%;
+    color: whitesmoke;
+    font-style: italic;
+}
+
+#macroData ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    color: whitesmoke;
+    padding: 0rem 3.5rem 0rem 3.5rem;
+}
+
+#macroData sub {
+    color: gray;
+    font-style: italic;
 }

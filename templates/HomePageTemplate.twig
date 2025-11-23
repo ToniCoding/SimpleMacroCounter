@@ -8,8 +8,19 @@
         <title>Home - SMC</title>
     </head>
     <body>
-        <h3>Welcome to SMC main page {{ user }}</h3>
-        
+        <div class="navBar">
+            <div class="logo">
+                <p><a href="/">SimpleMacroCounter</a> <sub style="font-size: 0.9rem;"><i><b>{{ user }}</b></i></sub></p>
+            </div>
+            <div class="navigation">
+                <ul>
+                    <li><a href="/modifyMacros">Add macros</a></li>
+                    <li><a href="/reduceMacros">Reduce macros</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
         {% if error|default %}
             <p>{{ error }}</p>
         {% endif %}
@@ -17,9 +28,6 @@
         {% for message in app.flashes('successMessages') %}
             <div>{{ message }}</div>
         {% endfor %}
-
-        <a href="/modifyMacros">Update your macro intake!</a><br/>
-        <a href="/reduceMacros">Reduce your macro intake!</a>
 
         <div class="macroContainers">
             <div class="macroRow">
