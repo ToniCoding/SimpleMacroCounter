@@ -1,179 +1,152 @@
+:root {
+  --base: #0E0B16;
+
+  --primary: #3F2E83;
+  --secondary: #725AC1;
+
+  --card-bg: #1A1628;
+  --border-card: #564C7A;
+
+  --boder: #564C7A;
+  --accent: #C6A667;
+
+  --main-text: #EFEAFD;
+  --text-muted: #9C92B6;
+
+  --success: #7AC29E;
+  --warning: #F6C945;
+  --error: #D16A76;
+}
+
 @font-face {
-    font-family: 'MondaRegular';
-    src: url('/ttf/Monda-Regular.ttf');
+  font-family: 'MondaRegular';
+  src: url('/ttf/Monda-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'MondaRegular';
-    background: #121212;
-    color: whitesmoke;
+  background-color: var(--base);
+  color: var(--main-text);
+  font-family: 'MondaRegular';
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
-.navBar {
-    display: flex;
-    justify-content: space-between;
-    color: whitesmoke;
-    font-size: 1.25rem;
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  min-height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content {
+  flex: 0 0 auto;
+  padding-left: 15px;
+}
+
+.footer {
+  min-height: 60px;
 }
 
 .logo {
-    font-style: italic;
-    font-weight: 600;
+  padding-left: 1rem;
+}
+
+.text-content {
+  margin: 0px 0px 30px 0px;
+}
+
+.text-content:first-child p {
+  font-size: 1.1rem;
+}
+
+.progress-wrappers {
+  padding: 0px 30px 0px 0px;
+}
+
+.progress-wrapper {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 40px;
+  border: 3px solid;
+  border-color: var(--border-card);
+  border-radius: 0 0 20px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 30px;
+  position: relative;
+  border-radius: 0 0 20px 0;
+  background: linear-gradient(90deg,
+      #3F2E83 0%,
+      #725AC1 70%,
+      #C6A667 100%);
+  transition: width 1.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar h3 {
+  opacity: 0.75;
+  font-size: 1rem;
+}
+
+.progress-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--main-text);
+  opacity: 0.75;
+  font-weight: bold;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .navigation {
-    padding-right: 1rem;
+  padding-right: 20px;
 }
 
 .navigation ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-}
-
-.navigation ul li {
-    transition: color 0.3s ease-in-out;
-}
-
-.navigation ul li:hover {
-    color: #d399d7;
-}
-
-.selected {
-    color: #c056c7;
-}
-
-.macroContainers {
-    width: 50%;
-    margin: auto;
-}
-
-.row {
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 40px;
+  list-style: none;
+  align-items: center;
 }
 
-.progress-container {
-  flex: 1;
+.navigation li {
+  cursor: pointer;
 }
 
-progress {
-    width: 100%;
-    height: 1rem;
-    appearance: none;
-    border-radius: 8px;
+.navigation ul li::after {
+  content: '';
+  display: block;
+  border-bottom: 2px solid var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0%;
+  transition: transform 0.25s ease-in-out;
 }
 
-progress::-moz-progress-bar {
-    background: red;
-    border-radius: 8px;
-}
-
-progress::-webkit-progress-bar {
-    background: #555;
-    border-radius: 8px;
-}
-
-progress::-webkit-progress-value {
-    border-radius: 8px;
-    background: red;
-}
-
-progress#protein::-moz-progress-bar,
-progress#protein::-webkit-progress-value {
-  background: red;
-}
-
-progress#carbs::-moz-progress-bar,
-progress#carbs::-webkit-progress-value {
-  background: #d1d111;
-}
-
-progress#fats::-moz-progress-bar,
-progress#fats::-webkit-progress-value {
-  background: #D2691E;
-}
-
-progress#fiber::-moz-progress-bar,
-progress#fiber::-webkit-progress-value {
-  background: #1E90FF;
-}
-
-progress#calories::-moz-progress-bar,
-progress#calories::-webkit-progress-value {
-  background: #FF7F50;
-}
-
-.centered {
-  display: flex;
-  justify-content: center;
-  max-width: 300px;
-  margin: 0 auto 20px auto;
-}
-
-.macroDataCard {
-    display: grid;
-    position: relative;
-    grid-template-rows: 1fr 2fr;
-    margin: 0.5rem 0rem 0rem 0rem;
-    padding: 0.5rem 0rem 0rem 0.35rem;
-    width: auto;
-    height: auto;
-    background-color: #31265e;
-    border: 4px solid #9290af;
-    border-radius: 15px;
-    font-size: 1.15rem;
-}
-
-.macroDataCard #dateAndCalories {
-    display: flex;
-    position: relative;
-    gap: 25px;
-}
-
-#date {
-    color: whitesmoke;
-    opacity: 70%;
-    font-size: 1.05rem;
-    font-style: italic;
-}
-
-#caloriesConsumed {
-    color: whitesmoke;
-}
-
-#caloriesConsumed sub {
-    opacity: 70%;
-    color: whitesmoke;
-    font-style: italic;
-}
-
-#macroData ul {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    color: whitesmoke;
-    padding: 0rem 3.5rem 0rem 3.5rem;
-}
-
-#macroData sub {
-    color: gray;
-    font-style: italic;
+.navigation ul li:hover::after {
+  transform: scaleX(1);
+  transform-origin: 0% 100%;
 }

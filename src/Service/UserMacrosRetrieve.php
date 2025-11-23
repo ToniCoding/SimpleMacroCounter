@@ -50,7 +50,7 @@ class UserMacrosRetrieve {
         return $historyData;
     }
 
-    private function getConsumedMacros(User $user): MacroDataDTO {
+    public function getConsumedMacros(User $user): MacroDataDTO {
         $consumedMacros = $this->dailyIntakeRecord->ensureDailyIntakeRecord($user);
 
         return new MacroDataDTO(
@@ -62,7 +62,7 @@ class UserMacrosRetrieve {
         );
     }
 
-    private function getMacroGoals(User $user): MacroDataDTO {
+    public function getMacroGoals(User $user): MacroDataDTO {
         $userGoals = $this->dailyIntakeRecord->ensureOneMacroGoal($user);
 
         return new MacroDataDTO(

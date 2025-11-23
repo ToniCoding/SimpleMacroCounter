@@ -8,54 +8,66 @@
         <title>Home - SMC</title>
     </head>
     <body>
-        <div class="navBar">
-            <div class="logo">
-                <p><a href="/">SimpleMacroCounter</a> <sub style="font-size: 0.9rem;"><i><b>{{ user }}</b></i></sub></p>
-            </div>
-            <div class="navigation">
-                <ul>
-                    <li><a href="/modifyMacros">Add macros</a></li>
-                    <li><a href="/reduceMacros">Reduce macros</a></li>
-                    <li><a href="/history">History</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-        {% if error|default %}
-            <p>{{ error }}</p>
-        {% endif %}
-
-        {% for message in app.flashes('successMessages') %}
-            <div>{{ message }}</div>
-        {% endfor %}
-
-        <div class="macroContainers">
-            <div class="macroRow">
-                <div class="progressContainer">
-                    <p>Protein</p>
-                    <progress value="{{ proteinProgress }}" max="100" id="protein"></progress>
+        <div class="page">
+            <header class="header">
+                <div class="logo">
+                    <h3>SimpleMacroCounter<sub> {{ user }}</sub></h3>
                 </div>
-                <div class="progressContainer">
-                    <p>Carbs</p>
-                    <progress value="{{ carbProgress }}" max="100" id="carbs"></progress>
+                <div class="navigation">
+                    <ul>
+                        <li><a href="/modifyMacros">Add macros</a></li>
+                        <li><a href="/reduceMacros">Reduce macros</a></li>
+                        <li><a href="/history">History</a></li>
+                        <li><a href="/">Config</a></li> <!-- Not implemented yet -->
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
                 </div>
-            </div>
-            <div class="macroRow">
-                <div class="progressContainer">
-                    <p>Fats</p>
-                    <progress value="{{ fatProgress }}" max="100" id="fats"></progress>
+            </header>
+            <main class="content">
+                <div class="text-content">
+                    <p>Today you consumed <b>{{ calories }}</b> kcals. You are <b>{{ caloriesConsumed|replace({'-':''}) }}</b>{% if calorieProgress >= 100  %} over {% else %} under {% endif %} your goal of {{ caloriesGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
                 </div>
-                <div class="progress_container">
-                    <p>Fiber</p>
-                    <progress value="{{ fiberProgress }}" max="100" id="fiber"></progress>
+                <div class="text-content progress-wrappers">
+                    <div class="progress-wrapper">
+                        <div class="progress-bar" data-progress="{{ proteinProgress }}">
+                            <h3>Proteins</h3>
+                            <span class="progress-text">{{ proteinGrams }}g / {{ proteinGoal }} <sup><i>goal</sup></i></span>
+                        </div>
+                    </div>
+                    <div class="progress-wrapper">
+                        <div class="progress-bar" data-progress="{{ carbProgress }}">
+                            <h3>Carbohydrates</h3>
+                            <span class="progress-text">{{ carbGrams }}g / {{ carbGoal }} <sup><i>goal</sup></i></span>
+                        </div>
+                    </div>
+                    <div class="progress-wrapper">
+                        <div class="progress-bar" data-progress="{{ fatProgress }}">
+                            <h3>Fats</h3>
+                            <span class="progress-text">{{ fatGrams }}g / {{ fatGoal }} <sup><i>goal</sup></i></span>
+                        </div>
+                    </div>
+                    <div class="progress-wrapper">
+                        <div class="progress-bar" data-progress="{{ fiberProgress }}">
+                            <h3>Fiber</h3>
+                            <span class="progress-text">{{ fiberGrams }}g / {{ fiberGoal }} <sup><i>goal</sup></i></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="centered">
-                <div class="progressContainer">
-                    <p>Calories</p>
-                    <progress value="{{ calorieProgress }}" max="100" id="calories"></progress>
-                  </div>
-            </div>
+                <div class="text-content"></div> <!-- Reserved section for future analytics -->
+            </main>
         </div>
     </body>
+    <script>
+        document.querySelectorAll('.progress-bar').forEach(bar => {
+            let progress = Number(bar.dataset.progress);
+
+            if (progress > 100) progress = 100;
+
+            bar.style.width = '0%';
+
+            setTimeout(() => {
+                bar.style.width = progress + '%';
+            }, 75); // ms
+        });
+    </script>
 </html>

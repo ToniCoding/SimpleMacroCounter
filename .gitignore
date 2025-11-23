@@ -1,5 +1,6 @@
 # SMC own files
 data/
+**/dummy/
 config.ini
 
 # Environment files

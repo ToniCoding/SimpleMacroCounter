@@ -23,15 +23,40 @@ class HomePageController extends AbstractController {
         
         try {
             $macrosProgress = $this->userMacrosRetrieve->calculateUserProgress($user);
+            $macrosConsumed = $this->userMacrosRetrieve->getConsumedMacros($user);
+            $macroGoals = $this->userMacrosRetrieve->getMacroGoals($user);
 
-            return $this->render('HomePageTemplate.twig', [
-                'message' => 'Bienvenido a SMC',
-                'user' => $user->getUsername(),
+            $userProgress = [
                 'proteinProgress' => $macrosProgress->getProtein(),
                 'carbProgress' => $macrosProgress->getCarbs(),
                 'fatProgress' => $macrosProgress->getFats(),
                 'fiberProgress' => $macrosProgress->getFiber(),
                 'calorieProgress' => $macrosProgress->getCalories()
+            ];
+
+            $userGoals = [
+                'proteinGoal' => $macroGoals->getProtein(),
+                'carbGoal' => $macroGoals->getCarbs(),
+                'fatGoal' => $macroGoals->getFats(),
+                'fiberGoal' => $macroGoals->getFiber(),
+                'caloriesGoal' => $macroGoals->getCalories()
+            ];
+
+            $grams = [
+                'proteinGrams' => $macrosConsumed->getProtein(),
+                'carbGrams' => $macrosConsumed->getCarbs(),
+                'fatGrams' => $macrosConsumed->getFats(),
+                'fiberGrams' => $macrosConsumed->getFiber(),
+                'calories' => $macrosConsumed->getCalories()
+            ];
+
+            return $this->render('HomePageTemplate.twig', [
+                'message' => 'Welcome to SMC',
+                'user' => $user->getUsername(),
+                'caloriesConsumed' => $macroGoals->getCalories() - $macrosConsumed->getCalories(),
+                ...$userProgress,
+                ...$userGoals,
+                ...$grams
             ]);
         } catch (NoRecordFoundException) {
             return $this->render('HomePageTemplate.twig', [
