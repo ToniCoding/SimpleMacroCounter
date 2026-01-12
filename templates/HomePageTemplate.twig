@@ -1,73 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-        <title>Home - SMC</title>
-    </head>
-    <body>
-        <div class="page">
-            <header class="header">
-                <div class="logo">
-                    <h3>SimpleMacroCounter<sub> {{ user }}</sub></h3>
-                </div>
-                <div class="navigation">
-                    <ul>
-                        <li><a href="/modifyMacros">Add macros</a></li>
-                        <li><a href="/reduceMacros">Reduce macros</a></li>
-                        <li><a href="/history">History</a></li>
-                        <li><a href="/">Config</a></li> <!-- Not implemented yet -->
-                        <li><a href="/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </header>
-            <main class="content">
-                <div class="text-content">
-                    <p>Today you consumed <b>{{ calories }}</b> kcals. You are <b>{{ caloriesConsumed|replace({'-':''}) }}</b>{% if calorieProgress >= 100  %} over {% else %} under {% endif %} your goal of {{ caloriesGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
-                </div>
-                <div class="text-content progress-wrappers">
-                    <div class="progress-wrapper">
-                        <div class="progress-bar" data-progress="{{ proteinProgress }}">
-                            <h3>Proteins</h3>
-                            <span class="progress-text">{{ proteinGrams }}g / {{ proteinGoal }} <sup><i>goal</sup></i></span>
-                        </div>
-                    </div>
-                    <div class="progress-wrapper">
-                        <div class="progress-bar" data-progress="{{ carbProgress }}">
-                            <h3>Carbohydrates</h3>
-                            <span class="progress-text">{{ carbGrams }}g / {{ carbGoal }} <sup><i>goal</sup></i></span>
-                        </div>
-                    </div>
-                    <div class="progress-wrapper">
-                        <div class="progress-bar" data-progress="{{ fatProgress }}">
-                            <h3>Fats</h3>
-                            <span class="progress-text">{{ fatGrams }}g / {{ fatGoal }} <sup><i>goal</sup></i></span>
-                        </div>
-                    </div>
-                    <div class="progress-wrapper">
-                        <div class="progress-bar" data-progress="{{ fiberProgress }}">
-                            <h3>Fiber</h3>
-                            <span class="progress-text">{{ fiberGrams }}g / {{ fiberGoal }} <sup><i>goal</sup></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-content"></div> <!-- Reserved section for future analytics -->
-            </main>
-        </div>
-    </body>
-    <script>
-        document.querySelectorAll('.progress-bar').forEach(bar => {
-            let progress = Number(bar.dataset.progress);
 
-            if (progress > 100) progress = 100;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>Home - SMC</title>
+</head>
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="logo">
+                <h3>SimpleMacroCounter<sub> {{ user }}</sub></h3>
+            </div>
+            <div class="navigation">
+                <ul class="nav-desktop">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros" height="32px" width="32px"></a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros" height="32px" width="32px"></a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32px" width="32px"></a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32px" width="32px"></a></li> <!-- Not implemented yet -->
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32px" width="32px"></a></li>
+                </ul>
+                <!-- Burger menu for phone devices - InDev -->
+                <!-- <button class="hamburger-menu" aria-label="Menú">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button> -->
 
-            bar.style.width = '0%';
+                <!-- <ul class="nav-mobile">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros" height="32px" width="32px"></a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros" height="32px" width="32px"></a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32px" width="32px"></a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32px" width="32px"></a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32px" width="32px"></a></li>
+                </ul> -->
 
-            setTimeout(() => {
-                bar.style.width = progress + '%';
-            }, 75); // ms
-        });
-    </script>
+            </div>
+        </header>
+        <main class="content">
+            <div class="text-content">
+                <p>Today you consumed <b>{{ calories }}</b> kcals. You are <b>{{ caloriesConsumed|replace({'-':''})
+                        }}</b>{% if calorieProgress >= 100 %} over {% else %} under {% endif %} your goal of {{
+                    caloriesGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
+            </div>
+            <div class="text-content progress-wrappers">
+                <div class="progress-wrapper">
+                    <img src="{{ asset('img/protein_icon.png') }}" width="32" height="32" />
+
+                    <div class="progress-track">
+                        <div class="progress-fill" data-progress="{{ proteinProgress }}"></div>
+                    </div>
+
+                    <span class="progress-text">{{ proteinGrams }}g / {{ proteinGoal }} <sup><i>goal</sup></i></span>
+                </div>
+                <div class="progress-wrapper">
+                    <img src="{{ asset('img/carbs_icon.png') }}" width="32px" height="32px" />
+
+                    <div class="progress-track">
+                        <div class="progress-fill" data-progress="{{ carbProgress }}"></div>
+                    </div>
+                    
+                    <span class="progress-text">{{ carbGrams }}g / {{ carbGoal }} <sup><i>goal</sup></i></span>
+                </div>
+                <div class="progress-wrapper">
+                    <img src="{{ asset('img/fats_icon.png') }}" width="32px" height="32px" />
+
+                    <div class="progress-track">
+                        <div class="progress-fill" data-progress="{{ fatProgress }}"></div>
+                    </div>
+
+                    <span class="progress-text">{{ fatGrams }}g / {{ fatGoal }} <sup><i>goal</sup></i></span>
+                </div>
+                <div class="progress-wrapper">
+                    <img src="{{ asset('img/fiber_icon.png') }}" width="32px" height="32px" />
+
+                    <div class="progress-track">
+                        <div class="progress-fill" data-progress="{{ fiberProgress }}"></div>
+                    </div>
+
+                    <span class="progress-text">{{ fiberGrams }}g / {{ fiberGoal }} <sup><i>goal</sup></i></span>
+                </div>
+            </div>
+            <div class="text-content"></div> <!-- Reserved section for future analytics -->
+        </main>
+    </div>
+</body>
+<script>
+    document.querySelectorAll('.progress-fill').forEach(bar => {
+        let p = Math.min(bar.dataset.progress, 100);
+        bar.style.width = p + '%';
+    });
+</script>
+
 </html>

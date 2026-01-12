@@ -8,38 +8,34 @@
     <title>{{ page_title }}</title>
 </head>
 <body>
-    <div class="navBar">
+    <header class="header">
         <div class="logo">
-            <p><a href="/">SimpleMacroCounter</a> <sub style="font-size: 0.9rem;"><i><b>{{ user }}</b></i></sub></p>
+                <h3>SimpleMacroCounter<sub> {{ user }}</sub></h3>
+            </div>
+            <div class="navigation">
+                <ul>
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros" height="32px" width="32px"></a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros" height="32px" width="32px"></a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32px" width="32px"></a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32px" width="32px"></a></li> <!-- Not implemented yet -->
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32px" width="32px"></a></li>
+                </ul>
+            </div>
+    </header>
+    <main class="content">
+        <h1>{{ page_intent }}</h1>
+        <div>
+            {{ form_start(form) }}
+
+            {{ form_row(form.protein) }}
+            {{ form_row(form.carbs) }}
+            {{ form_row(form.fats) }}
+            {{ form_row(form.fiber) }}
+
+            <button type="submit">Update</button>
+
+            {{ form_end(form) }}
         </div>
-        <div class="navigation">
-            <ul>
-                {% if page_title starts with 'Reduce' %}
-                <li><a href="/modifyMacros">Add macros</a></li>
-                <li><a href="/reduceMacros" class="selected">Reduce macros</a></li>
-                {% else %}
-                <li><a href="/modifyMacros" class="selected">Add macros</a></li>
-                <li><a href="/reduceMacros">Reduce macros</a></li>
-                {% endif %}
-                <li><a href="/history">History</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
-        </div>
-    </div>
-    <h1>{{ page_intent }}</h1>
-
-    <div>
-        {{ form_start(form) }}
-
-        {{ form_row(form.protein) }}
-        {{ form_row(form.carbs) }}
-        {{ form_row(form.fats) }}
-        {{ form_row(form.fiber) }}
-
-        <button type="submit">Update</button>
-
-        {{ form_end(form) }}
-    </div>
-
+    </main>
 </body>
 </html>
