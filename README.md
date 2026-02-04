@@ -12,14 +12,11 @@ SMC is a software that allows you to add the amounts and foods that you have eat
 ### Technologies used.
 - Backend:
     - PHP.
-    - PHP PDO (databases).
-    - Apache.
     - MySQL.
     - Symfony.
     - Composer.
 
 - Frontend (Not implemented but will be):
-    - Tailwind CSS.
     - SASS.
 
 ### Roadmap
@@ -34,6 +31,10 @@ SMC is a software that allows you to add the amounts and foods that you have eat
 - Foods database.
 
 ### Versions
+Version 0.5.0 - SMC transition to frameworks.
+- Release date: 04/02/2026.
+- Backend added/modified: Yes.
+- Frontend: Plain CSS.
 
 Version 0.4.0 - SMC General Enhancement.
 - Release date: 06-10-2025.
