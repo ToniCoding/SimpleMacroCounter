@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>History - SMC</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="logo">
+                <h3>SimpleMacroCounter<sub> {{ user }}</sub></h3>
+            </div>
+            <div class="navigation">
+                <ul class="nav-desktop">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros" height="32"
+                                width="32"></a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros"
+                                height="32" width="32"></a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32"
+                                width="32"></a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32"
+                                width="32"></a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32"
+                                width="32"></a></li>
+                </ul>
+
+                <button class="hamburger-menu" aria-label="Menú">
+                    <img src="{{ asset('img/menu.png') }}" alt="Menu" height="24" width="24">
+                </button>
+
+                <ul class="nav-mobile">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros"
+                                height="32px" width="32px">Add macros</a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros"
+                                height="32px" width="32px">Reduce Macros</a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32px"
+                                width="32px">History</a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32px"
+                                width="32px">Settings</a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32px"
+                                width="32px">Logout</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <main class="content">
+            <h1 class="page-title"><i>Previous {{ days }} days</i></h1>
+
+            <div class="history-container">
+                {% if historyData is empty %}
+                <div class="no-data-found">
+                    <p><i>No data recorded</i></p>
+                </div>
+                {% endif %}
+
+                {% for date, rows in historyData %}
+                {% for row in rows %}
+                <div class="macro-data-card">
+                    <div class="card-header">
+                        <p class="date">{{ row.date|date('Y-m-d') }}</p>
+                        <p class="calories">{{ row.kcals }} <sub>kcals</sub></p>
+                    </div>
+
+                    <div class="card-macros">
+                        <div class="macro-item">
+                            <span class="macro-label">Protein</span>
+                            <span class="macro-value">{{ row.protein }}g</span>
+                        </div>
+                        <div class="macro-item">
+                            <span class="macro-label">Carbs</span>
+                            <span class="macro-value">{{ row.carbs }}g</span>
+                        </div>
+                        <div class="macro-item">
+                            <span class="macro-label">Fats</span>
+                            <span class="macro-value">{{ row.fats }}g</span>
+                        </div>
+                        <div class="macro-item">
+                            <span class="macro-label">Fiber</span>
+                            <span class="macro-value">{{ row.fiber }}g</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if rows is empty %}
+                <div class="macro-data-card empty-card">
+                    <p>No data registered for this day</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mismo código JavaScript del menú hamburguesa
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navMobile = document.querySelector('.nav-mobile');
+        const overlay = document.createElement('div');
+        overlay.className = 'menu-overlay';
+        document.body.appendChild(overlay);
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMobile.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navMobile.classList.contains('active') ? 'hidden' : '';
+        });
+
+        overlay.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMobile.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        document.querySelectorAll('.nav-mobile a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMobile.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMobile.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMobile.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+// bin/console
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use src\Kernel;
+use Symfony\Component\Dotenv\Dotenv;
+
+require dirname(__DIR__).'/vendor/autoload.php';
+
+// Cargar variables de entorno desde .env y .env.dev si existen
+$dotenv = new Dotenv();
+$envFiles = [
+    dirname(__DIR__).'/.env',
+    dirname(__DIR__).'/.env.dev'
+];
+foreach ($envFiles as $file) {
+    if (file_exists($file)) {
+        $dotenv->load($file);
+    }
+}
+
+// Crear Kernel y aplicación de consola
+$kernel = new Kernel($_SERVER['APP_ENV'] ?? 'dev', (bool) ($_SERVER['APP_DEBUG'] ?? true));
+$application = new Application($kernel);
+$application->run();

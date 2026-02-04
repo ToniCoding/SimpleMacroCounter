@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>{{ page_title }}</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="logo">
+                <h3>SimpleMacroCounter<sub> {{ user }}</sub></h3>
+            </div>
+            <div class="navigation">
+                <ul class="nav-desktop">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros" height="32"
+                                width="32"></a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros"
+                                height="32" width="32"></a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32"
+                                width="32"></a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32"
+                                width="32"></a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32"
+                                width="32"></a></li>
+                </ul>
+
+                <button class="hamburger-menu" aria-label="Menú">
+                    <img src="{{ asset('img/menu.png') }}" alt="Menu" height="24" width="24">
+                </button>
+
+                <ul class="nav-mobile">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros"
+                                height="32px" width="32px">Add macros</a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros"
+                                height="32px" width="32px">Reduce Macros</a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32px"
+                                width="32px">History</a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32px"
+                                width="32px">Settings</a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32px"
+                                width="32px">Logout</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <main class="content">
+            <h1 class="page-title">{{ page_intent }}</h1>
+
+            <div class="form-container">
+                {{ form_start(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.protein) }}
+                    {{ form_widget(form.protein, { 'attr': {'class': 'form-input'} }) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.carbs) }}
+                    {{ form_widget(form.carbs, { 'attr': {'class': 'form-input'} }) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.fats) }}
+                    {{ form_widget(form.fats, { 'attr': {'class': 'form-input'} }) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.fiber) }}
+                    {{ form_widget(form.fiber, { 'attr': {'class': 'form-input'} }) }}
+                </div>
+
+                <button type="submit" class="btn-submit">Update</button>
+
+                {{ form_end(form) }}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Menú hamburguesa (mismo código para todas las páginas)
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navMobile = document.querySelector('.nav-mobile');
+        const overlay = document.createElement('div');
+        overlay.className = 'menu-overlay';
+        document.body.appendChild(overlay);
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMobile.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navMobile.classList.contains('active') ? 'hidden' : '';
+        });
+
+        overlay.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMobile.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        document.querySelectorAll('.nav-mobile a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMobile.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMobile.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMobile.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

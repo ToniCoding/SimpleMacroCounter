@@ -1,0 +1,54 @@
+{
+    "name": "anto/simple-macro-counter",
+    "description": "SMC is a fitness tracker web app that helps the user reach its objectives",
+    "authors": [
+        {
+            "name": "ToniCoding",
+            "email": "antoniovallejo2612@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "symfony/framework-bundle": "^7.0",
+        "symfony/http-foundation": "^6.4",
+        "symfony/routing": "^6.4",
+        "symfony/dependency-injection": "^6.4",
+        "symfony/skeleton": "^7.3",
+        "doctrine/dbal": "^3",
+        "doctrine/doctrine-bundle": "^2.16",
+        "doctrine/doctrine-migrations-bundle": "^3.4",
+        "doctrine/orm": "^3.5",
+        "symfony/runtime": "^7.3",
+        "symfony/console": "^7.3",
+        "symfony/yaml": "^7.3",
+        "symfony/validator": "^7.3",
+        "symfony/form": "*",
+        "symfony/options-resolver": "*",
+        "symfony/security-csrf": "^7.3",
+        "symfony/twig-bundle": "^7.3",
+        "symfony/asset": "^7.3",
+        "symfony/security-bundle": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.64",
+        "symfony/flex": "^2.8",
+        "symfony/dotenv": "^7.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
+    }
+}

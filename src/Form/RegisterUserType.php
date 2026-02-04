@@ -1,0 +1,28 @@
+<?php
+
+namespace src\Form;
+
+use src\DTO\RegisterUserDTO;
+
+use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
+use Symfony\Component\Form\Extension\Core\Type\{TextType, PasswordType, EmailType, IntegerType};
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class RegisterUserType extends AbstractType {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
+        $builder
+            -> add('username', TextType::class)
+            -> add('password', PasswordType::class)
+            -> add('email', EmailType::class)
+            -> add('alias', TextType::class)
+            -> add('age', IntegerType::class);
+    }
+
+    public function configureOptions(OptionsResolver $resolver) {
+        $resolver->setDefaults([
+            'data_class' => RegisterUserDTO::class,
+            'csrf_protection' => false,
+            'csrf_field_name' => '_token',
+        ]);
+    }
+}
