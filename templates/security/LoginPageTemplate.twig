@@ -8,31 +8,45 @@
         <title>Login - SMC</title>
     </head>
     <body>
-        <h1>Login to continue</h1>
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+        <div class="content">
+            <div class="form-container">
+                <h1 class="page-title">Login to continue</h1>
+                
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, 
-                <a href="{{ path('app_logout') }}">Logout</a>
+                {% if app.user %}
+                    <div class="form-group">
+                        <p>You are logged in as {{ app.user.userIdentifier }}, 
+                        <a href="{{ path('app_logout') }}">Logout</a></p>
+                    </div>
+                {% endif %}
+                
+                <form method="post" action="{{ path('login_form') }}">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="_username" id="username" 
+                               value="{{ last_username }}" 
+                               autocomplete="username" 
+                               required 
+                               autofocus
+                               class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="_password" id="password" 
+                               class="form-input" 
+                               autocomplete="current-password" 
+                               required>
+                    </div>
+                    
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <button type="submit" class="btn-submit">Sign in</button>
+                </form>
             </div>
-        {% endif %}
-        <div class="formContainer">
-            <form method="post" action="{{ path('login_form') }}">
-        
-            <label for="username" class="form-label">Username</label>
-            <input type="text" name="_username" id="username" value="{{ last_username }}" autocomplete="username" required autofocus>
-        
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit" class="btn btn-lg btn-primary w-100">Sign in</button>
-        
-            </form>
         </div>
     </body>
 </html>

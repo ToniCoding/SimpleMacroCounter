@@ -4,6 +4,7 @@ namespace src\Handlers;
 
 use src\DTO\{RegisterUserDTO, LoggedUserDTO};
 use src\Entity\User;
+use src\Exceptions\AgeNotAllowedException;
 use src\Security\AccessTokenHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +16,8 @@ class UserHandler {
         switch($action) {
             case 'register':
                 $user = new User(new \DateTimeImmutable(), true);
+
+                if (!($registeredUserDTO->getAge() >= 15 && $registeredUserDTO->getAge() <= 100)) throw new AgeNotAllowedException("You must be over 15 or under 100 years old.");
 
                 $user->setUsername($registeredUserDTO->getUsername());
                 $user->setPassword(password_hash($registeredUserDTO->getPassword(), PASSWORD_BCRYPT));

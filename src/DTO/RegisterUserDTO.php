@@ -19,6 +19,8 @@ class RegisterUserDTO {
     private string $alias;
 
     #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqualValidator(15)]
+    #[Assert\LessThanOrEqualValidator(100)]
     private int $age;
 
     public function getUsername(): string {
