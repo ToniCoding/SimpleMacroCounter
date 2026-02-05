@@ -54,6 +54,14 @@ SimpleMacroCounter/
 
 ## Project Versions
 
+### v0.6.0 (*Unreleased*) - SMC's Way
+
+**Changes**
+- Implement property promotion on all DTOs (WIP).
+
+**Fixed bugs**
+- Users can no longer register if their age is not between 15 and 100 years.
+
 ### v0.5.0 (04/02/2026) - The Symfony of SMC
 
 **Release description**
