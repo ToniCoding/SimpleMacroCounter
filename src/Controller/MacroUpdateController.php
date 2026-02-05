@@ -4,6 +4,7 @@ namespace src\Controller;
 
 use src\DTO\MacroDataDTO;
 use src\Entity\User;
+use src\Exceptions\ExceededMacroLimitException;
 use src\Form\ModifyMacrosType;
 use src\Service\MacroIntakeUpdater;
 
@@ -27,26 +28,16 @@ class MacroUpdateController extends AbstractController {
             throw $this->createAccessDeniedException('User not found');
         }
 
-        $macroDTO = new MacroDataDTO(0, 0, 0, 0, 0);
-
-        $form = $this->createForm(ModifyMacrosType::class, $macroDTO);
+        $form = $this->createForm(ModifyMacrosType::class, new MacroDataDTO(0, 0, 0, 0, 0));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var MacroDataDTO $data */
-            $data = $form->getData();
+            try {
+                $this->macroIntakeUpdater->updateMacroIntake($user, $form->getData());
 
-            $data->setCalories(
-                $data->getProtein() * 4 +
-                $data->getFats() * 9 +
-                $data->getCarbs() * 4 +
-                $data->getFiber() * 2
-            );
-
-            if ($this->macroIntakeUpdater->updateMacroIntake($user, $data)) {
-                $this->addFlash('successMessages', 'Successfully added to the macro-nutrient count!');
-                
                 return $this->redirectToRoute('home');
+            } catch (ExceededMacroLimitException $ex) {
+                $this->addFlash('modifyMacrosStatus', $ex->getMessage());
             }
         }
 
@@ -54,7 +45,7 @@ class MacroUpdateController extends AbstractController {
             'user' => $user->getUsername(),
             'form' => $form,
             'page_title' => 'Add macros - SMC',
-            'page_intent' => 'Add macro-nutrient count'
+            'page_intent' => 'Add macro-nutrient count',
         ]);
     }
 
@@ -66,26 +57,16 @@ class MacroUpdateController extends AbstractController {
             throw $this->createAccessDeniedException('User not found');
         }
 
-        $macroDTO = new MacroDataDTO(0, 0, 0, 0, 0);
-
-        $form = $this->createForm(ModifyMacrosType::class, $macroDTO);
+        $form = $this->createForm(ModifyMacrosType::class, new MacroDataDTO(0, 0, 0, 0, 0));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var MacroDataDTO $data */
-            $data = $form->getData();
+            try {
+                $this->macroIntakeUpdater->updateMacroIntake($user, $form->getData());
 
-            $data->setCalories(
-                $data->getProtein() * 4 +
-                $data->getFats() * 9 +
-                $data->getCarbs() * 4 +
-                $data->getFiber() * 2
-            );
-
-            if ($this->macroIntakeUpdater->updateMacroIntake($user, $data, 'reduce')) {
-                $this->addFlash('successMessages', 'Successfully reduced the macro-nutrient count!');
-                
                 return $this->redirectToRoute('home');
+            } catch (ExceededMacroLimitException $ex) {
+                $this->addFlash('modifyMacrosStatus', $ex->getMessage());
             }
         }
 

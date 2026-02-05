@@ -56,11 +56,16 @@ SimpleMacroCounter/
 
 ### v0.6.0 (*Unreleased*) - SMC's Way
 
+**NVM (Next Version Mandatory)**
+- Migrate all logic at Controller layer to Service layer.
+- Implementation of security voters to avoid repetitive security control over the endpoints.
+
 **Changes**
 - Implement property promotion on all DTOs (WIP).
 
 **Fixed bugs**
-- Users can no longer register if their age is not between 15 and 100 years.
+- [SMC-B#001] Users must be over 15 or under 100 years old in registration.
+- [SMC-B#002] It is no longer possible to add or reduce more than 400 of any macro-nutrient in one intake.
 
 ### v0.5.0 (04/02/2026) - The Symfony of SMC
 
@@ -105,10 +110,10 @@ Infrastructure:
 - **[CRITICAL]** Composer implemented.
 
 **Known issues and improvements**
-- **[Issue]** SMC does not work with user localtime but with UTC.
-- **[Issue]** User can register with any age.
-- **[Issue]** User can register unlimited macro-nutrient (e.g. 30000g of protein).
-- **[Improvement]** Combine `modifyMacros` and `reduceMacros` endpoints into one using URL parameters.
+- **[Issue]**[SMC-B#003] SMC does not work with user localtime but with UTC.
+- **[Issue]**[SMC-B#001] User can register with any age.
+- **[Issue]**[SMC-B#002] User can register unlimited macro-nutrient (e.g. 30000g of protein).
+- **[Improvement]**[SMC-I#001] Combine `modifyMacros` and `reduceMacros` endpoints into one using URL parameters.
 
 ### v0.4.0 (06-10-2025) - SMC general enhancement
 **Features added**

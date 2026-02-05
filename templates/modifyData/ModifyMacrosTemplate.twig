@@ -49,6 +49,13 @@
         </header>
 
         <main class="content">
+
+            {% for message in app.flashes('modifyMacrosStatus') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
             <h1 class="page-title">{{ page_intent }}</h1>
 
             <div class="form-container">
