@@ -25,6 +25,7 @@ class UserHandler {
                 $user->setUserAlias($registeredUserDTO->getAlias());
                 $user->setAge($registeredUserDTO->getAge());
                 $user->setLastLogin(new \DateTime);
+                $user->setTimezone('Europe/Madrid');
 
                 try {
                     $this->entityManager->persist($user);

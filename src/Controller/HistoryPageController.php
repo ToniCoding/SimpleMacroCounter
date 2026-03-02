@@ -2,6 +2,7 @@
 
 namespace src\Controller;
 
+use src\Helpers\DateParser;
 use src\Service\UserMacrosRetrieve;
 use src\Entity\User;
 
@@ -10,7 +11,10 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 class HistoryPageController extends AbstractController {
-    public function __construct(private UserMacrosRetrieve $userMacrosRetrieve){}
+    public function __construct(
+        private UserMacrosRetrieve $userMacrosRetrieve,
+        private DateParser $dateParser
+        ){}
 
     #[Route(['/history'], name: 'history')]
     public function history(Request $request): Response {

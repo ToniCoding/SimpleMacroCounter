@@ -5,6 +5,7 @@ namespace src\Helpers;
 class DateParser {
     private const DATE_FORMAT = "d-m-Y";
     private const TIME_FORMAT = "H:i:s";
+    private const DATETIME_FORMAT = 'd-m-Y H:i:s';
 
     private \DateTime $dateTime;
 
@@ -26,5 +27,10 @@ class DateParser {
 
     public function getDateTime(): string {
         return $this->getDate() . "T" . $this->getTime();
+    }
+
+    public function convertToTimeZone(string $datetimeStr = 'now', string $timezone = 'Europe/Madrid'): string {
+        $nowDate = new \DateTimeImmutable($datetimeStr, new \DateTimeZone($timezone));
+        return $nowDate->format(self::DATETIME_FORMAT);
     }
 }

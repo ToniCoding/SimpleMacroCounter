@@ -45,6 +45,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTime $lastLogin;
 
+    #[ORM\Column(type: "string", length: 50)]
+    private string $timezone;
+
     #[ORM\OneToMany(mappedBy: "user", targetEntity: KcalsDaily::class, cascade: ["persist", "remove"])]
     private Collection $kcalsDailyRecords;
 
@@ -143,6 +146,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
     public function getRoles(): array {
         return ['ROLE_USER'];
+    }
+
+    public function setTimezone(string $timezone): void {
+        $this->timezone = $timezone;
+    }
+
+    public function getTimezone(): string {
+        return $this->timezone;
     }
 
     public function eraseCredentials(): void {}
