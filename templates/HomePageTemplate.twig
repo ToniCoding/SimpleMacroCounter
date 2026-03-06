@@ -53,6 +53,11 @@
                         }}</b>{% if calorieProgress >= 100 %} over {% else %} under {% endif %} your goal of {{
                     caloriesGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
             </div>
+            {% for message in app.flashes('registerFoodStatus') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="text-content progress-wrappers">
                 <div class="progress-wrapper">
                     <img src="{{ asset('img/protein_icon.png') }}" width="32" height="32" />

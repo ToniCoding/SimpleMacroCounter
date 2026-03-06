@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>{{ page_title }}</title>
+</head>
+
+<div class="content">
+    <div class="form-container">
+        <h1 class="page-title">Register food</h1>
+
+        {{ form_start(form) }}
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            {{ form_widget(form.name, {'id': 'name', 'attr': {'class': 'form-input'}}) }}
+        </div>
+
+        <div class="form-group">
+            <label for="name">Market</label>
+            {{ form_widget(form.market, {'id': 'market', 'attr': {'class': 'form-input'}}) }}
+        </div>
+
+        <div class="form-group">
+            <label for="protein">Protein (per 100g)</label>
+            {{ form_widget(form.protein, {'id': 'protein', 'attr': {'class': 'form-input'}}) }}
+        </div>
+
+        <div class="form-group">
+            <label for="carbs">Carbs (per 100g)</label>
+            {{ form_widget(form.carbs, {'id': 'carbs', 'attr': {'class': 'form-input'}}) }}
+        </div>
+
+        <div class="form-group">
+            <label for="fats">Fats (per 100g)</label>
+            {{ form_widget(form.fats, {'id': 'fats', 'attr': {'class': 'form-input'}}) }}
+        </div>
+
+        <div class="form-group">
+            <label for="fiber">Fiber (per 100g)</label>
+            {{ form_widget(form.fiber, {'id': 'fiber', 'attr': {'class': 'form-input'}}) }}
+        </div>
+
+        <button type="submit" class="btn-submit">Submit</button>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+</body>
+
+</html>

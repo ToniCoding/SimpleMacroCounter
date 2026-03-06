@@ -51,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\OneToMany(mappedBy: "user", targetEntity: KcalsDaily::class, cascade: ["persist", "remove"])]
     private Collection $kcalsDailyRecords;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Food::class)]
+    private Collection $foods;
+
     public function __construct(\DateTimeImmutable $createdTime, string $status) {
         $this->createdTime = $createdTime;
         $this->status = $status;
@@ -154,6 +157,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
     public function getTimezone(): string {
         return $this->timezone;
+    }
+
+    public function getRegisteredFoods(): array {
+        return $this->foods;
     }
 
     public function eraseCredentials(): void {}
