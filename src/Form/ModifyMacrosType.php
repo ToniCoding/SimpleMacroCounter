@@ -10,10 +10,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ModifyMacrosType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
-            -> add('protein', IntegerType::class)
-            -> add('carbs', IntegerType::class)
-            -> add('fats', IntegerType::class)
-            -> add('fiber', IntegerType::class);
+            -> add('protein', IntegerType::class, [
+                'attr' => [
+                    'min' => 0
+                ]
+            ])
+            -> add('carbs', IntegerType::class, [
+                'attr' => [
+                    'min' => 0
+                ]
+            ])
+            -> add('fats', IntegerType::class, [
+                'attr' => [
+                    'min' => 0
+                ]
+            ])
+            -> add('fiber', IntegerType::class, [
+                'attr' => [
+                    'min' => 0
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void {

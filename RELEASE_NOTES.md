@@ -69,6 +69,7 @@ SimpleMacroCounter/
 **Fixed bugs**
 - [SMC-B#001] Users must be over 15 or under 100 years old in registration.
 - [SMC-B#002] It is no longer possible to add or reduce more than 400 of any macro-nutrient in one intake.
+- [SMC-B#003] Users no longer can click fields into negative values in add and reduce forms.
 
 ### v0.5.0 (04/02/2026) - The Symfony of SMC
 
