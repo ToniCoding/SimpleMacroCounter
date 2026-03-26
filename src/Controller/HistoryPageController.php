@@ -28,6 +28,7 @@ class HistoryPageController extends AbstractController {
 
         return $this->render('HistoryPageTemplate.twig', [
             'user' => $user->getUsername(),
+            'page_title' => 'History - SMC',
             'historyData' => $this->getLastDaysHistory($numberOfDays),
             'days' => $numberOfDays
         ]);

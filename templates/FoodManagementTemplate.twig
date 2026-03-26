@@ -9,47 +9,129 @@
     <title>{{ page_title }}</title>
 </head>
 
-<div class="content">
-    <div class="form-container">
-        <h1 class="page-title">Register food</h1>
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="logo">
+                <h3>SimpleMacroCounter</h3>
+            </div>
+            <div class="navigation">
+                <ul class="nav-desktop">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros"
+                                height="32px" width="32px"></a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros"
+                                height="32px" width="32px"></a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32px"
+                                width="32px"></a></li>
+                    <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" alt="Register foods" height="32px"
+                                width="32px"></a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32px"
+                                width="32px"></a></li>
+                </ul>
 
-        {{ form_start(form) }}
+                <button class="hamburger-menu" aria-label="Menú">
+                    <img src="{{ asset('img/menu.png') }}" alt="Menu" height="24" width="24">
+                </button>
 
-        <div class="form-group">
-            <label for="name">Name</label>
-            {{ form_widget(form.name, {'id': 'name', 'attr': {'class': 'form-input'}}) }}
-        </div>
+                <ul class="nav-mobile">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" height="32px"
+                                width="32px">Add macros</a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" height="32px"
+                                width="32px">Reduce Macros</a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32px"
+                                width="32px">History</a></li>
+                    <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32px" width="32px">Register
+                            foods</a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" height="32px"
+                                width="32px">Settings</a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32px"
+                                width="32px">Logout</a></li>
+                </ul>
+            </div>
+        </header>
 
-        <div class="form-group">
-            <label for="name">Market</label>
-            {{ form_widget(form.market, {'id': 'market', 'attr': {'class': 'form-input'}}) }}
-        </div>
+        <main class="content">
+            <h1 class="page-title">Register food</h1>
 
-        <div class="form-group">
-            <label for="protein">Protein (per 100g)</label>
-            {{ form_widget(form.protein, {'id': 'protein', 'attr': {'class': 'form-input'}}) }}
-        </div>
+            <div class="form-container">
+                {{ form_start(form) }}
 
-        <div class="form-group">
-            <label for="carbs">Carbs (per 100g)</label>
-            {{ form_widget(form.carbs, {'id': 'carbs', 'attr': {'class': 'form-input'}}) }}
-        </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    {{ form_widget(form.name, {'id': 'name', 'attr': {'class': 'form-input'}}) }}
+                </div>
 
-        <div class="form-group">
-            <label for="fats">Fats (per 100g)</label>
-            {{ form_widget(form.fats, {'id': 'fats', 'attr': {'class': 'form-input'}}) }}
-        </div>
+                <div class="form-group">
+                    <label for="market">Market</label>
+                    {{ form_widget(form.market, {'id': 'market', 'attr': {'class': 'form-input'}}) }}
+                </div>
 
-        <div class="form-group">
-            <label for="fiber">Fiber (per 100g)</label>
-            {{ form_widget(form.fiber, {'id': 'fiber', 'attr': {'class': 'form-input'}}) }}
-        </div>
+                <div class="form-group">
+                    <label for="protein">Protein (per 100g)</label>
+                    {{ form_widget(form.protein, {'id': 'protein', 'attr': {'class': 'form-input'}}) }}
+                </div>
 
-        <button type="submit" class="btn-submit">Submit</button>
+                <div class="form-group">
+                    <label for="carbs">Carbs (per 100g)</label>
+                    {{ form_widget(form.carbs, {'id': 'carbs', 'attr': {'class': 'form-input'}}) }}
+                </div>
 
-        {{ form_end(form) }}
+                <div class="form-group">
+                    <label for="fats">Fats (per 100g)</label>
+                    {{ form_widget(form.fats, {'id': 'fats', 'attr': {'class': 'form-input'}}) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="fiber">Fiber (per 100g)</label>
+                    {{ form_widget(form.fiber, {'id': 'fiber', 'attr': {'class': 'form-input'}}) }}
+                </div>
+
+                <button type="submit" class="btn-submit">Submit</button>
+
+                {{ form_end(form) }}
+            </div>
+        </main>
     </div>
-</div>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navMobile = document.querySelector('.nav-mobile');
+        const overlay = document.createElement('div');
+        overlay.className = 'menu-overlay';
+        document.body.appendChild(overlay);
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMobile.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navMobile.classList.contains('active') ? 'hidden' : '';
+        });
+
+        overlay.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMobile.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        document.querySelectorAll('.nav-mobile a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMobile.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMobile.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMobile.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
 </body>
 
 </html>
