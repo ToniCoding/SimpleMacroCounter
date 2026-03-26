@@ -51,14 +51,17 @@ SimpleMacroCounter/
 - **v0.3.0**: Routing and data management
 - **v0.4.0**: SMC general enhancement
 - **v0.5.0**: *(Special update) The Symfony of SMC*
+- **v0.6.0**: The Dishe'd update
 
 ## Project Versions
 
-### v0.6.0 (*Unreleased*) - SMC's Way
+### v0.6.0 (*Unreleased*) - The Dishe'd update
 
 **NVM (Next Version Mandatory)**
 - Migrate all logic at Controller layer to Service layer.
 - Implementation of security voters to avoid repetitive security control over the endpoints.
+- Combine add and reduce macros in one page with in-form option selection to add or reduce macros.
+- Add the option to change the history days in history page.
 
 **Changes**
 - Implement property promotion on all DTOs (WIP).

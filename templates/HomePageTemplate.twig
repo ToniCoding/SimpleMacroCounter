@@ -13,7 +13,7 @@
     <div class="page">
         <header class="header">
             <div class="logo">
-                <h3>SimpleMacroCounter<sub> {{ user }}</sub></h3>
+                <h3><a href="/">SimpleMacroCounter</a><sub> {{ user }}</sub></h3>
             </div>
             <div class="navigation">
                 <ul class="nav-desktop">
@@ -55,9 +55,9 @@
                     caloriesGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
             </div>
             {% for message in app.flashes('registerFoodStatus') %}
-                <div class="alert alert-success">
-                    {{ message }}
-                </div>
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
             {% endfor %}
             <div class="text-content progress-wrappers">
                 <div class="progress-wrapper">
