@@ -36,6 +36,7 @@ class FoodsPageController extends AbstractController {
 
         return $this->render('FoodManagementTemplate.twig', [
             'form' => $form,
+            'user' => $user->getUsername(),
             'page_title' => 'Register new food - SMC'
         ]);
     }

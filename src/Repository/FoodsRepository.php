@@ -21,6 +21,24 @@ class FoodsRepository extends ServiceEntityRepository {
         $this->em->flush();
     }
 
+    public function getFoodsByMarket(string $market, int $offset): array {
+        if (!empty($market)) {
+            return $this->createQueryBuilder('f')
+                -> where('f.market = :market')
+                -> setParameter('market', $market)
+                -> setMaxResults(100)
+                -> setFirstResult($offset)
+                -> getQuery()
+                -> getResult();
+        }
+
+        return $this->createQueryBuilder('f')
+        ->getQuery()
+        -> setMaxResults(100)
+        -> setFirstResult($offset)
+        ->getResult();
+    }
+
     public function updateMarket(int $id, string $market): bool {
         if (!$this->checkIfMarketIsAllowed($market)) {
             throw new MarketNotAllowed();

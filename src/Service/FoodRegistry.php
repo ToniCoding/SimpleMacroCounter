@@ -7,9 +7,11 @@ use src\Entity\Food;
 use src\Entity\User;
 use src\Repository\FoodsRepository;
 
+use function src\Helpers\calorieCalc;
+
 class FoodRegistry {
     public function __construct(
-        private FoodsRepository $foodsRepository
+        private FoodsRepository $foodsRepository,
     ) {}
 
     public function createFood(FoodDTO $foodDTO, User $user): void {
@@ -23,5 +25,17 @@ class FoodRegistry {
         $food->setUser($user);
 
         $this->foodsRepository->registerFood($food);
+    }
+
+    public function getFoodsByMarket(string $market = '', int $offset = 1): array {
+        $queryResult = $this->foodsRepository->getFoodsByMarket($market, $offset);
+        $formattedData = [];
+
+        foreach ($queryResult as $food) {
+            $foodData =  [ucfirst($food->getName()), ucfirst($food->getMarket()), calorieCalc($food), $food->getProtein(), $food->getCarbs(), $food->getFats(), $food->getFiber()];
+            array_push($formattedData, $foodData);
+        }
+
+        return $formattedData;
     }
 }
