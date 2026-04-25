@@ -3,7 +3,8 @@
 namespace src\Service;
 
 use src\DTO\FoodDTO;
-use src\Entity\{User, Food, KcalsDaily};
+use src\DTO\MacroDataDTO;
+use src\Entity\{User, Food};
 use src\Repository\FoodsRepository;
 
 use src\Repository\KcalsDailyRepository;
@@ -45,7 +46,7 @@ class FoodRegistry {
 
         if ($foundFood) {
             try {
-                $this->kcalsDailyRepository->insertIntakeRegistry($this->foodToKcalsDaily($foundFood, $user));
+                $this->kcalsDailyRepository->updateMacroIntake($user, $this->foodToMacroDTO($foundFood));
             } catch (\Exception $e) {
                 return false;
             }
@@ -54,15 +55,15 @@ class FoodRegistry {
         return true;
     }
 
-    private function foodToKcalsDaily(Food $food, User $user) {
-        $kcalEntry = new KcalsDaily($user);
+    private function foodToMacroDTO(Food $food) {
+        $macroDTO = new MacroDataDTO();
 
-        $kcalEntry->setProtein($food->getProtein());
-        $kcalEntry->setCarbs($food->getCarbs());
-        $kcalEntry->setFats($food->getFats());
-        $kcalEntry->setFiber($food->getFiber());
-        $kcalEntry->setKcals(calorieCalc($food));
-
-        return $kcalEntry;
+        $macroDTO->setProtein($food->getProtein());
+        $macroDTO->setCarbs($food->getCarbs());
+        $macroDTO->setFats($food->getFats());
+        $macroDTO->setFiber($food->getFiber());
+        $macroDTO->setCalories(calorieCalc($food));
+        
+        return $macroDTO;
     }
 }

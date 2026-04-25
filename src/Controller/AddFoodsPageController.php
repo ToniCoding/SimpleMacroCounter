@@ -3,7 +3,6 @@
 
 namespace src\Controller;
 
-use Psr\Log\LoggerInterface;
 use src\Entity\User;
 use src\Service\FoodRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AddFoodsPageController extends AbstractController {
-    public function __construct(private LoggerInterface $log){}
+
     #[Route('/addfood', name: 'addfood')]
     public function addfood(Request $request, FoodRegistry $foodRegistry) {
         $user = $this->getUser();

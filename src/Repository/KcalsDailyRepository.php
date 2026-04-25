@@ -62,7 +62,7 @@ class KcalsDailyRepository extends ServiceEntityRepository {
         return true;
     }
 
-    public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent): bool {
+    public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent = ''): bool {
         $todaysIntakeRegistry = $this->findIntakeRegistryForToday($user);
 
         if ($intent == 'reduce') {

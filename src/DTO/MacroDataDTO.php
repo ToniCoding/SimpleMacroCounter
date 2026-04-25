@@ -4,11 +4,11 @@ namespace src\DTO;
 
 class MacroDataDTO {
     public function __construct(
-        public int $protein,
-        public int $carbs,
-        public int $fats,
-        public int $fiber,
-        public int $calories
+        public int $protein = 0,
+        public int $carbs = 0,
+        public int $fats = 0,
+        public int $fiber = 0,
+        public int $calories = 0
     ) {}
 
     public function getProtein(): int {
