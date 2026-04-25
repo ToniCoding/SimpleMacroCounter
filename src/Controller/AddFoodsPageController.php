@@ -1,6 +1,5 @@
 <?php
 
-
 namespace src\Controller;
 
 use src\Entity\User;
@@ -19,10 +18,14 @@ class AddFoodsPageController extends AbstractController {
             throw $this->createAccessDeniedException('User not found');
         }
 
+        $foodCatalogPagination = $request->query->get('pagination', 1);
+
         if ($request->getMethod() == 'POST') {
             return $foodRegistry->registerFoodIntake(json_decode($request->getContent(), true), $user);
         }
 
-        return $this->render('AddFoodTemplate.twig');
+        return $this->render('AddFoodTemplate.twig', [
+            'foodCatalog' => $foodRegistry->getFoodsByMarket($foodCatalogPagination)
+        ]);
     }
 }

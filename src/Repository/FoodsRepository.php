@@ -34,7 +34,7 @@ class FoodsRepository extends ServiceEntityRepository {
 
         return $this->createQueryBuilder('f')
         ->getQuery()
-        -> setMaxResults(100)
+        -> setMaxResults(2)
         -> setFirstResult($offset)
         ->getResult();
     }

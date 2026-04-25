@@ -29,7 +29,7 @@ class FoodRegistry {
         $this->foodsRepository->registerFood($food);
     }
 
-    public function getFoodsByMarket(string $market = '', int $offset = 1): array {
+    public function getFoodsByMarket(int $offset = 1, string $market = ''): array {
         $queryResult = $this->foodsRepository->getFoodsByMarket($market, $offset);
         $formattedData = [];
 
