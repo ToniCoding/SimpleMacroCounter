@@ -1,34 +1,29 @@
 <?php
 
+
 namespace src\Controller;
 
-use src\Service\FoodRegistry;
+use Psr\Log\LoggerInterface;
 use src\Entity\User;
-
+use src\Service\FoodRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{RedirectResponse, Request, Response};
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AddFoodsPageController extends AbstractController {
-    public function __construct(
-        private FoodRegistry $foodRegistry
-    ) {}
-
-    #[Route(['/addfood'], name: 'addfood')]
-    public function addfood(Request $request): Response | RedirectResponse {
+    public function __construct(private LoggerInterface $log){}
+    #[Route('/addfood', name: 'addfood')]
+    public function addfood(Request $request, FoodRegistry $foodRegistry) {
         $user = $this->getUser();
 
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('User not found');
         }
 
-        $selectedMarket = $request->query->get('market', '');
-        $foodsPage = $request->query->get('offset', 1);
+        if ($request->getMethod() == 'POST') {
+            return $foodRegistry->registerFoodIntake(json_decode($request->getContent(), true), $user);
+        }
 
-        $foodsResult = $this->foodRegistry->getFoodsByMarket($selectedMarket, $foodsPage);
-
-        return $this->render('dummy/DummyVariablesTemplate.twig', [
-            'testdata' => $foodsResult
-        ]);
+        return $this->render('AddFoodTemplate.twig');
     }
 }
