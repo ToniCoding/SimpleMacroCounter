@@ -10,13 +10,16 @@ use src\Repository\FoodsRepository;
 use src\Repository\KcalsDailyRepository;
 use function src\Helpers\calorieCalc;
 
-class FoodRegistry {
+class FoodRegistry
+{
     public function __construct(
         private FoodsRepository $foodsRepository,
         private KcalsDailyRepository $kcalsDailyRepository,
-    ) {}
+    ) {
+    }
 
-    public function createFood(FoodDTO $foodDTO, User $user): void {
+    public function createFood(FoodDTO $foodDTO, User $user): void
+    {
         $food = new Food;
         $food->setName($foodDTO->getName());
         $food->setMarket($foodDTO->getMarket());
@@ -29,19 +32,35 @@ class FoodRegistry {
         $this->foodsRepository->registerFood($food);
     }
 
-    public function getFoodsByMarket(int $offset = 1, string $market = ''): array {
+    public function getFoodsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array
+    {
         $queryResult = $this->foodsRepository->getFoodsByMarket($market, $offset);
         $formattedData = [];
 
         foreach ($queryResult as $food) {
-            $foodData =  [ucfirst($food->getName()), ucfirst($food->getMarket()), calorieCalc($food), $food->getProtein(), $food->getCarbs(), $food->getFats(), $food->getFiber()];
-            array_push($formattedData, $foodData);
+            $foodData = [
+                $food->getName(),
+                $food->getMarket(),
+                calorieCalc($food),
+                $food->getProtein(),
+                $food->getCarbs(),
+                $food->getFats(),
+                $food->getFiber()
+            ];
+
+            if ($format === 'human') {
+                $foodData[0] = ucfirst($foodData[0]);
+                $foodData[1] = ucfirst($foodData[1]);
+            }
+
+            $formattedData[] = $foodData;
         }
 
         return $formattedData;
     }
 
-    public function registerFoodIntake(array $intake, User $user) {
+    public function registerFoodIntake(array $intake, User $user)
+    {
         $foundFood = $this->foodsRepository->getFood($intake['id']);
 
         if ($foundFood) {
@@ -55,7 +74,8 @@ class FoodRegistry {
         return true;
     }
 
-    private function foodToMacroDTO(Food $food) {
+    private function foodToMacroDTO(Food $food)
+    {
         $macroDTO = new MacroDataDTO();
 
         $macroDTO->setProtein($food->getProtein());
@@ -63,7 +83,7 @@ class FoodRegistry {
         $macroDTO->setFats($food->getFats());
         $macroDTO->setFiber($food->getFiber());
         $macroDTO->setCalories(calorieCalc($food));
-        
+
         return $macroDTO;
     }
 }

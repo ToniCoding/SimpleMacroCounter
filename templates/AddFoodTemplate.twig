@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>New intake - SMC</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="logo">
+                <h3><a href="/">SimpleMacroCounter</a></h3>
+            </div>
+            <div class="navigation">
+                <ul class="nav-desktop">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros"
+                                height="32px" width="32px"></a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros"
+                                height="32px" width="32px"></a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32px"
+                                width="32px"></a></li>
+                    <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" alt="Register foods" height="32px"
+                                width="32px"></a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32px"
+                                width="32px"></a></li>
+                </ul>
+
+                <button class="hamburger-menu" aria-label="Menú">
+                    <img src="{{ asset('img/menu.png') }}" alt="Menu" height="24" width="24">
+                </button>
+
+                <ul class="nav-mobile">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" height="32px"
+                                width="32px">Add macros</a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" height="32px"
+                                width="32px">Reduce Macros</a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32px"
+                                width="32px">History</a></li>
+                    <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32px" width="32px">Register
+                            foods</a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" height="32px"
+                                width="32px">Settings</a></li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32px"
+                                width="32px">Logout</a></li>
+                </ul>
+            </div>
+        </header>
+        <main>
+            <div class="searchFood">
+                <input type="text" name="search-bar-food" id="search-bar-food">
+            </div>
+            <div class="foodForm">
+                <input type="text" name="food_id" id="food_id" />
+                <input type="text" name="grams" id="grams" />
+                <button type="submit">Register intake</button>
+            </div>
+        </main>
+        <div id="foodCatalog" data-config="{{ foodCatalog | json_encode | escape('html_attr') }}"></div>
+    </div>
+    <script src="{{ asset('js/foodFiltering.js') }}"></script>
+</body>
+</html>

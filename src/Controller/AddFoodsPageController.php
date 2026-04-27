@@ -19,13 +19,14 @@ class AddFoodsPageController extends AbstractController {
         }
 
         $foodCatalogPagination = $request->query->get('pagination', 1);
+        $marketFilter = $request->query->get('market', '');
 
         if ($request->getMethod() == 'POST') {
             return $foodRegistry->registerFoodIntake(json_decode($request->getContent(), true), $user);
         }
 
         return $this->render('AddFoodTemplate.twig', [
-            'foodCatalog' => $foodRegistry->getFoodsByMarket($foodCatalogPagination)
+            'foodCatalog' => $foodRegistry->getFoodsByMarket($foodCatalogPagination, $marketFilter, '')
         ]);
     }
 }
