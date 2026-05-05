@@ -44,7 +44,7 @@
     <main class="intake-layout">
 
         <!-- =========================
-             LEFT SIDE (TABLES)
+             LEFT SIDE
         ========================== -->
         <section class="intake-left">
 
@@ -57,7 +57,7 @@
             />
 
             <!-- =========================
-                 DESKTOP TABLE
+                 DESKTOP TABLE (UNCHANGED)
             ========================== -->
             <div class="foodTable">
                 <table>
@@ -78,7 +78,7 @@
             </div>
 
             <!-- =========================
-                 MOBILE TABLE (POC)
+                 MOBILE CARDS (NEW UX)
             ========================== -->
             <div class="foodTableMobile">
                 <div id="foodMobileList"></div>
@@ -87,7 +87,7 @@
         </section>
 
         <!-- =========================
-             RIGHT SIDE CARD
+             RIGHT PANEL (DESKTOP ONLY LOGIC)
         ========================== -->
         <section class="intake-right">
             <div class="intake-card">
@@ -120,6 +120,7 @@
 
     </main>
 
+    <!-- DATA -->
     <div id="foodCatalog"
          data-config="{{ foodCatalog | json_encode | escape('html_attr') }}">
     </div>

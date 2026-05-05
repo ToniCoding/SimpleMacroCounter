@@ -827,32 +827,31 @@ a {
   display: none;
 }
 
-/* ===== MOBILE ONLY ===== */
+/* =========================
+   MOBILE POC UX IMPROVEMENTS
+========================= */
+
 @media (max-width: 768px) {
 
-  /* ocultar desktop table */
-  .foodTable {
-    display: none;
-  }
-
-  /* mostrar mobile table */
-  .foodTableMobile {
-    display: block;
-  }
-
-  /* ===== MOBILE ROW CARD ===== */
-
+  /* ===== ROW BASE ===== */
   .food-row {
     background: var(--card-bg);
     border: 2px solid var(--border-card);
     border-radius: 12px;
     margin-bottom: 0.75rem;
     overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
+  .food-row.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(198, 166, 103, 0.2);
+  }
+
+  /* ===== MAIN ROW ===== */
   .food-row-main {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 0.8fr;
+    grid-template-columns: 1.5fr 0.5fr 0.8fr;
     padding: 0.75rem;
     cursor: pointer;
     align-items: center;
@@ -864,10 +863,11 @@ a {
 
   .food-name {
     font-weight: bold;
+    font-size: 0.95rem;
   }
 
   .food-market {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
   }
 
@@ -875,21 +875,22 @@ a {
     text-align: right;
     font-weight: bold;
     color: var(--accent);
+    font-size: 0.9rem;
   }
 
-  /* ===== EXPANDED AREA ===== */
-
+  /* ===== DETAILS EXPAND ===== */
   .food-row-details {
     display: none;
     padding: 0.75rem;
     border-top: 1px solid var(--border-card);
-    background: rgba(0,0,0,0.15);
+    background: rgba(0, 0, 0, 0.15);
   }
 
   .food-row.active .food-row-details {
     display: block;
   }
 
+  /* ===== MACROS GRID ===== */
   .macros-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -902,24 +903,109 @@ a {
     padding: 0.5rem;
     border-radius: 8px;
     border: 1px solid var(--border-card);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    color: var(--main-text);
   }
 
-  /* ===== SELECT BUTTON ===== */
+  /* ===== GRAMS INPUT (NEW CORE UX PIECE) ===== */
+  .grams-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
 
+    background: var(--base);
+    border: 2px solid var(--border-card);
+    border-radius: 10px;
+
+    color: var(--main-text);
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .grams-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* ===== REGISTER BUTTON ===== */
   .select-btn {
     width: 100%;
-    padding: 0.6rem;
+    padding: 0.75rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
+
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
+
     font-weight: bold;
     cursor: pointer;
+
+    transition: transform 0.15s ease, opacity 0.15s ease;
   }
 
-  .food-row.selected {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(198,166,103,0.2);
+  .select-btn:active {
+    transform: scale(0.98);
   }
+
+  /* ===== SMALL UX POLISH ===== */
+  .food-row-details {
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* =========================
+   HIDE MOBILE LIST ON DESKTOP
+========================= */
+
+.foodTableMobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .foodTable {
+    display: none;
+  }
+
+  .foodTableMobile {
+    display: block;
+  }
+}
+
+/* =========================
+   MOBILE UX OVERRIDE ONLY
+========================= */
+
+@media (max-width: 768px) {
+
+  /* ❌ HIDE RIGHT PANEL COMPLETELY */
+  .intake-right {
+    display: none !important;
+  }
+
+  /* ❌ HIDE DESKTOP TABLE */
+  .foodTable {
+    display: none !important;
+  }
+
+  /* ✔ SHOW MOBILE CARDS */
+  .foodTableMobile {
+    display: block !important;
+  }
+
+  /* layout fix */
+  .intake-layout {
+    grid-template-columns: 1fr !important;
+  }
+
 }
