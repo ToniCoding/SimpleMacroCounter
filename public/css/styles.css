@@ -657,3 +657,269 @@ a {
     font-size: 1.2rem;
   }
 }
+
+/* =========================
+   INTake + TABLE LAYOUT
+========================= */
+
+.intake-layout {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 2rem;
+  align-items: start;
+
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  padding: 1.5rem 2.5rem;
+}
+
+
+.intake-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.intake-right {
+  display: flex;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.searchFood {
+  width: 100%;
+}
+
+/* =========================
+   TABLE CARD
+========================= */
+
+/* =========================
+   TABLE CARD
+========================= */
+
+.foodTable {
+  background: var(--card-bg);
+  border: 2px solid var(--border-card);
+  border-radius: 12px;
+
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.foodTable table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.foodTable thead th {
+  position: sticky;
+  top: 0;
+  background: var(--primary);
+  z-index: 2;
+}
+
+.foodTable tbody {
+  width: 100%;
+}
+
+.foodTable th,
+.foodTable td {
+  padding: 0.75rem;
+  color: var(--main-text);
+  border-bottom: 1px solid var(--border-card);
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================
+   COLUMN WIDTHS
+========================= */
+
+.foodTable th:nth-child(1),
+.foodTable td:nth-child(1) {
+  width: 34%;
+  text-align: left;
+}
+
+.foodTable th:nth-child(2),
+.foodTable td:nth-child(2) {
+  width: 24%;
+  text-align: left;
+}
+
+.foodTable th:nth-child(n+3),
+.foodTable td:nth-child(n+3) {
+  width: 8%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.foodTable tbody tr:hover {
+  background: rgba(114, 90, 193, 0.15);
+  cursor: pointer;
+}
+
+/* =========================
+   TEXT WRAP RULES
+========================= */
+
+.foodTable th,
+.foodTable td {
+  padding: 0.75rem;
+  color: var(--main-text);
+  border-bottom: 1px solid var(--border-card);
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.foodTable tbody tr:hover {
+  background: rgba(114, 90, 193, 0.15);
+  cursor: pointer;
+}
+
+/* =========================
+   INTAKE CARD
+========================= */
+
+.intake-card {
+  width: 100%;
+  background: var(--card-bg);
+  border: 2px solid var(--border-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.intake-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.intake-macros {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.intake-macros p {
+  color: var(--text-muted);
+}
+
+/* =========================
+   MOBILE TABLE SWITCH
+========================= */
+
+.foodTableMobile {
+  display: none;
+}
+
+/* ===== MOBILE ONLY ===== */
+@media (max-width: 768px) {
+
+  /* ocultar desktop table */
+  .foodTable {
+    display: none;
+  }
+
+  /* mostrar mobile table */
+  .foodTableMobile {
+    display: block;
+  }
+
+  /* ===== MOBILE ROW CARD ===== */
+
+  .food-row {
+    background: var(--card-bg);
+    border: 2px solid var(--border-card);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+  }
+
+  .food-row-main {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 0.8fr;
+    padding: 0.75rem;
+    cursor: pointer;
+    align-items: center;
+  }
+
+  .food-row-main:hover {
+    background: rgba(114, 90, 193, 0.15);
+  }
+
+  .food-name {
+    font-weight: bold;
+  }
+
+  .food-market {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .food-kcal {
+    text-align: right;
+    font-weight: bold;
+    color: var(--accent);
+  }
+
+  /* ===== EXPANDED AREA ===== */
+
+  .food-row-details {
+    display: none;
+    padding: 0.75rem;
+    border-top: 1px solid var(--border-card);
+    background: rgba(0,0,0,0.15);
+  }
+
+  .food-row.active .food-row-details {
+    display: block;
+  }
+
+  .macros-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .macro-box {
+    background: var(--base);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-card);
+    font-size: 0.85rem;
+  }
+
+  /* ===== SELECT BUTTON ===== */
+
+  .select-btn {
+    width: 100%;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .food-row.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(198,166,103,0.2);
+  }
+}
