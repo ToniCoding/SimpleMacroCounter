@@ -62,7 +62,7 @@ class MacroUpdateController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->macroIntakeUpdater->updateMacroIntake($user, $form->getData());
+                $this->macroIntakeUpdater->updateMacroIntake($user, $form->getData(), 'reduce');
 
                 return $this->redirectToRoute('home');
             } catch (ExceededMacroLimitException $ex) {
