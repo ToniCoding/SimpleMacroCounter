@@ -10,125 +10,124 @@
 </head>
 
 <body>
-<div class="page">
+    <div class="page">
 
-    <header class="header">
-        <div class="logo">
-            <h3><a href="/">SimpleMacroCounter</a></h3>
-        </div>
-
-        <div class="navigation">
-            <ul class="nav-desktop">
-                <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros" height="32" width="32"></a></li>
-                <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros" height="32" width="32"></a></li>
-                <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32" width="32"></a></li>
-                <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" alt="Register foods" height="32" width="32"></a></li>
-                <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32" width="32"></a></li>
-            </ul>
-
-            <button class="hamburger-menu" aria-label="Menú">
-                <img src="{{ asset('img/menu.png') }}" alt="Menu" height="24" width="24">
-            </button>
-
-            <ul class="nav-mobile">
-                <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" height="32" width="32">Add macros</a></li>
-                <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" height="32" width="32">Reduce Macros</a></li>
-                <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32" width="32">History</a></li>
-                <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32" width="32">Register foods</a></li>
-                <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a></li>
-                <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32" width="32">Logout</a></li>
-            </ul>
-        </div>
-    </header>
-
-    <main class="intake-layout">
-
-        <!-- =========================
-             LEFT SIDE
-        ========================== -->
-        <section class="intake-left">
-
-            <!-- SEARCH -->
-            <input
-                class="form-input table-search"
-                type="text"
-                id="search-bar-food"
-                placeholder="Search food..."
-            />
-
-            <!-- =========================
-                 DESKTOP TABLE (UNCHANGED)
-            ========================== -->
-            <div class="foodTable">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Food</th>
-                        <th>Market</th>
-                        <th>Calories</th>
-                        <th>Protein</th>
-                        <th>Carbs</th>
-                        <th>Fats</th>
-                        <th>Fiber</th>
-                    </tr>
-                    </thead>
-
-                    <tbody id="foodFoundRegistries"></tbody>
-                </table>
+        <header class="header">
+            <div class="logo">
+                <h3><a href="/">SimpleMacroCounter</a></h3>
             </div>
 
-            <!-- =========================
-                 MOBILE CARDS (NEW UX)
-            ========================== -->
-            <div class="foodTableMobile">
-                <div id="foodMobileList"></div>
-            </div>
+            <div class="navigation">
+                <ul class="nav-desktop">
+                    <li><a href="/modifyMacros">Add macros</a></li>
+                    <li><a href="/reduceMacros">Reduce macros</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/foods">Register foods</a></li>
+                    <li><a href="/foods">Register intake</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
 
-        </section>
-
-        <!-- =========================
-             RIGHT PANEL (DESKTOP ONLY LOGIC)
-        ========================== -->
-        <section class="intake-right">
-            <div class="intake-card">
-
-                <p id="selected-food-name" class="intake-title">
-                    Select a food
-                </p>
-
-                <div class="intake-macros">
-                    <p id="macro-1"></p>
-                    <p id="macro-2"></p>
-                    <p id="macro-3"></p>
-                    <p id="macro-4"></p>
-                    <p id="macro-5"></p>
-                </div>
-
-                <input
-                    class="form-input"
-                    type="text"
-                    id="grams"
-                    placeholder="Intake grams"
-                />
-
-                <button class="btn-submit" type="submit">
-                    Register intake
+                <button class="hamburger-menu" aria-label="Menú">
+                    <img src="{{ asset('img/menu.png') }}" alt="Menu" height="24" width="24">
                 </button>
 
+                <ul class="nav-mobile">
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" height="32" width="32">Add
+                            macros</a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" height="32"
+                                width="32">Reduce Macros</a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32"
+                                width="32">History</a></li>
+                    <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32" width="32">Register
+                            foods</a></li>
+                    <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32" width="32">Register
+                            intake</a></li>
+                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a>
+                    </li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
+                                width="32">Logout</a></li>
+                </ul>
             </div>
-        </section>
+        </header>
 
-    </main>
+        <main class="intake-layout">
 
-    <!-- DATA -->
-    <div id="foodCatalog"
-         data-config="{{ foodCatalog | json_encode | escape('html_attr') }}">
+            <!-- =========================
+             LEFT SIDE
+        ========================== -->
+            <section class="intake-left">
+
+                <!-- SEARCH -->
+                <input class="form-input table-search" type="text" id="search-bar-food" placeholder="Search food..." />
+
+                <!-- =========================
+                 DESKTOP TABLE (UNCHANGED)
+            ========================== -->
+                <div class="foodTable">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Food</th>
+                                <th>Market</th>
+                                <th>Calories</th>
+                                <th>Protein</th>
+                                <th>Carbs</th>
+                                <th>Fats</th>
+                                <th>Fiber</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="foodFoundRegistries"></tbody>
+                    </table>
+                </div>
+
+                <!-- =========================
+                 MOBILE CARDS (NEW UX)
+            ========================== -->
+                <div class="foodTableMobile">
+                    <div id="foodMobileList"></div>
+                </div>
+
+            </section>
+
+            <!-- =========================
+             RIGHT PANEL (DESKTOP ONLY LOGIC)
+        ========================== -->
+            <section class="intake-right">
+                <div class="intake-card">
+
+                    <p id="selected-food-name" class="intake-title">
+                        Select a food
+                    </p>
+
+                    <div class="intake-macros">
+                        <p id="macro-1"></p>
+                        <p id="macro-2"></p>
+                        <p id="macro-3"></p>
+                        <p id="macro-4"></p>
+                        <p id="macro-5"></p>
+                    </div>
+
+                    <input class="form-input" type="text" id="grams" placeholder="Intake grams" />
+
+                    <button class="btn-submit" type="submit">
+                        Register intake
+                    </button>
+
+                </div>
+            </section>
+
+        </main>
+
+        <!-- DATA -->
+        <div id="foodCatalog" data-config="{{ foodCatalog | json_encode | escape('html_attr') }}">
+        </div>
+
     </div>
 
-</div>
-
-<script type="module" src="{{ asset('js/utils.js') }}"></script>
-<script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
+    <script type="module" src="{{ asset('js/utils.js') }}"></script>
+    <script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
 
 </body>
+
 </html>
