@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <title>Settings - SMC</title>
+    </head>
+    <body>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <div class="content">
+            <div class="form-container">
+                <h1 class="page-title">Modify macro-nutrient intake goals</h1>
+                
+                {{ form_start(form) }}
+                    <div class="form-group">
+                        <label for="newCalories">New calories goal</label>
+                        {{ form_widget(form.newCalories, {'id': 'newCalories', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newProtein">New protein goal</label>
+                        {{ form_widget(form.newProtein, {'id': 'newProtein', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newCarbs">New carbs goal</label>
+                        {{ form_widget(form.newCarbs, {'id': 'newCarbs', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newFats">New fats goal</label>
+                        {{ form_widget(form.newFats, {'id': 'newFats', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newFiber">New fiber goal</label>
+                        {{ form_widget(form.newFiber, {'id': 'newFiber', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Modify</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </body>
+</html>

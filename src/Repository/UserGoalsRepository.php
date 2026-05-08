@@ -5,8 +5,11 @@ namespace src\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use src\DTO\MacroSettingsDTO;
 use src\Entity\{User, UserGoals};
 
+// ToDo: This repo needs some work.
+// Instead of using the raw entity, use a DTO.
 class UserGoalsRepository extends ServiceEntityRepository {
     private EntityManagerInterface $entityManagerInterface;
 
@@ -32,6 +35,24 @@ class UserGoalsRepository extends ServiceEntityRepository {
             echo $ex;
             return false;
         }
+
+        return true;
+    }
+
+    public function updateGoalRegistry(User $user, array $newUserGoals): bool {
+        $userGoals = $this->findGoalsRegistry($user);
+
+        if (!$userGoals) {
+            return false;
+        }
+
+        $userGoals->setCalories($newUserGoals['calories']);
+        $userGoals->setProtein($newUserGoals['protein']);
+        $userGoals->setCarbs($newUserGoals['carbs']);
+        $userGoals->setFats($newUserGoals['fats']);
+        $userGoals->setFiber($newUserGoals['fiber']);
+    
+        $this->entityManagerInterface->flush();
 
         return true;
     }
