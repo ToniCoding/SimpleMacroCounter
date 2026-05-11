@@ -4,57 +4,71 @@ namespace src\Service;
 
 use src\DTO\MacroSettingsDTO;
 use src\Exceptions\UnrecognizedMacroException;
-use src\Repository\{UserGoalsRepository, KcalsDailyRepository};
-use src\Entity\{KcalsDaily, User, UserGoals};
+use src\Repository\UserGoalsRepository;
+use src\Repository\KcalsDailyRepository;
+use src\Entity\KcalsDaily;
+use src\Entity\User;
+use src\Entity\UserGoals;
 
-class DailyIntakeRecord {
+class DailyIntakeRecord
+{
     public function __construct(
         private KcalsDailyRepository $kcalsDailyRepository,
         private UserGoalsRepository $userGoalsRepository,
     ) {}
 
-    public function ensureDailyIntakeRecord(User $user): ?KcalsDaily {
-        if (!$this->kcalsDailyRepository->findIntakeRegistryForToday($user)) {
-            $newKcalRegistry = new KcalsDaily($user);
-            $newKcalRegistry->setKcals(0);
-            $newKcalRegistry->setProtein(0);
-            $newKcalRegistry->setCarbs(0);
-            $newKcalRegistry->setFats(0);
-            $newKcalRegistry->setFiber(0);
+    public function ensureDailyIntakeRecord(User $user): ?KcalsDaily
+    {
+        $existing = $this->kcalsDailyRepository->findIntakeRegistryForToday($user);
 
-            try {
-                $this->kcalsDailyRepository->insertIntakeRegistry($newKcalRegistry);
-            } catch (\Exception $ex) {
-                // ToDo: Log exception to file and throw specific exception.
-                return null;
-            }
+        if ($existing) {
+            return $existing;
+        }
+
+        $new = new KcalsDaily($user);
+
+        $new->setKcals(0);
+        $new->setProtein("0.00");
+        $new->setCarbs("0.00");
+        $new->setFats("0.00");
+        $new->setFiber("0.00");
+
+        try {
+            $this->kcalsDailyRepository->insertIntakeRegistry($new);
+        } catch (\Throwable $e) {
+            return null;
         }
 
         return $this->kcalsDailyRepository->findIntakeRegistryForToday($user);
     }
 
-    public function ensureOneMacroGoal(User $user): ?UserGoals {
-        if (!$this->userGoalsRepository->findGoalsRegistry($user)) {
-            // Those values must be constants at global level. Maybe even configurable through database for remote config.
-            $newGoalRegistry = new UserGoals($user, new \DateTime());
-            $newGoalRegistry->setCalories(2000);
-            $newGoalRegistry->setProtein(120);
-            $newGoalRegistry->setCarbs(220);
-            $newGoalRegistry->setFats(65);
-            $newGoalRegistry->setFiber(30);
+    public function ensureOneMacroGoal(User $user): ?UserGoals
+    {
+        $existing = $this->userGoalsRepository->findGoalsRegistry($user);
 
-            try {
-                $this->userGoalsRepository->insertGoalRegistry($newGoalRegistry);
-            } catch (\Exception $ex) {
-                // ToDo: Log exception to file and throw specific exception.
-                return null;
-            }
+        if ($existing) {
+            return $existing;
+        }
+
+        $newGoalRegistry = new UserGoals($user, new \DateTime());
+
+        $newGoalRegistry->setCalories(2000);
+        $newGoalRegistry->setProtein("120.00");
+        $newGoalRegistry->setCarbs("220.00");
+        $newGoalRegistry->setFats("65.00");
+        $newGoalRegistry->setFiber("30.00");
+
+        try {
+            $this->userGoalsRepository->insertGoalRegistry($newGoalRegistry);
+        } catch (\Throwable $ex) {
+            return null;
         }
 
         return $this->userGoalsRepository->findGoalsRegistry($user);
     }
 
-    public function modifyMacroGoal(User $user, MacroSettingsDTO $macroSettingsDTO) {
+    public function modifyMacroGoal(User $user, MacroSettingsDTO $macroSettingsDTO): void
+    {
         try {
             $macroUpdates = [
                 'calories' => $macroSettingsDTO->getNewCalories(),
@@ -74,20 +88,28 @@ class DailyIntakeRecord {
                 }
 
                 if ($macroValue <= $macroMinimum) {
-                    $validatedMacroData[$macroName] = $macroMinimum;
+                    $validatedMacroData[$macroName] = ($macroName === 'calories')
+                        ? (int) $macroMinimum
+                        : (string) $macroMinimum;
                 } else {
                     $getterMethod = 'getNew' . ucfirst($macroName);
-                    $validatedMacroData[$macroName] = $macroSettingsDTO->$getterMethod();
+                    $value = $macroSettingsDTO->$getterMethod();
+
+                    $validatedMacroData[$macroName] = ($macroName === 'calories')
+                        ? (int) $value
+                        : (string) $value;
                 }
             }
 
             $this->userGoalsRepository->updateGoalRegistry($user, $validatedMacroData);
+
         } catch (UnrecognizedMacroException $ex) {
             echo $ex;
         };
     }
 
-    private function getMinimumMacroValue(string $macro): ?int {
+    private function getMinimumMacroValue(string $macro): ?int
+    {
         return match($macro) {
             'calories' => 1000,
             'protein' => 30,

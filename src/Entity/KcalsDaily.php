@@ -22,17 +22,17 @@ class KcalsDaily {
     #[ORM\Column(type: "integer")]
     private int $kcals;
 
-    #[ORM\Column(type: "integer")]
-    private int $protein;
+    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+    private string $protein;
 
-    #[ORM\Column(type: "integer")]
-    private int $carbs;
+    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+    private string $carbs;
 
-    #[ORM\Column(type: "integer")]
-    private int $fats;
+    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+    private string $fats;
 
-    #[ORM\Column(type: "integer")]
-    private int $fiber;
+    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+    private string $fiber;
 
     public function __construct(User $user) {
         $this->user = $user;
@@ -63,35 +63,35 @@ class KcalsDaily {
         $this->kcals = $kcals;
     }
 
-    public function getProtein(): int {
+    public function getProtein(): string {
         return $this->protein;
     }
 
-    public function setProtein(int $protein): void {
+    public function setProtein(string $protein): void {
         $this->protein = $protein;
     }
 
-    public function getCarbs(): int {
+    public function getCarbs(): string {
         return $this->carbs;
     }
 
-    public function setCarbs(int $carbs): void {
+    public function setCarbs(string $carbs): void {
         $this->carbs = $carbs;
     }
 
-    public function getFats(): int {
+    public function getFats(): string {
         return $this->fats;
     }
 
-    public function setFats(int $fats): void {
+    public function setFats(string $fats): void {
         $this->fats = $fats;
     }
 
-    public function getFiber(): int {
+    public function getFiber(): string {
         return $this->fiber;
     }
 
-    public function setFiber(int $fiber): void {
+    public function setFiber(string $fiber): void {
         $this->fiber = $fiber;
     }
 }

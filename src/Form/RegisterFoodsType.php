@@ -4,14 +4,14 @@ namespace src\Form;
 
 use src\DTO\FoodDTO;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
-use Symfony\Component\Form\Extension\Core\Type\{TextType, IntegerType, ChoiceType};
+use Symfony\Component\Form\Extension\Core\Type\{TextType, NumberType, ChoiceType};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegisterFoodsType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            -> add('name', TextType::class)
-            -> add('market', ChoiceType::class, [
+            ->add('name', TextType::class)
+            ->add('market', ChoiceType::class, [
                 'choices' => [
                     'Mercadona' => 'mercadona',
                     'Lidl' => 'lidl',
@@ -25,10 +25,10 @@ class RegisterFoodsType extends AbstractType {
                 'placeholder' => 'Select a market',
                 'required' => true
             ])
-            -> add('protein', IntegerType::class)
-            -> add('carbs', IntegerType::class)
-            -> add('fats', IntegerType::class)
-            -> add('fiber', IntegerType::class);
+            ->add('protein', NumberType::class)
+            ->add('carbs', NumberType::class)
+            ->add('fats', NumberType::class)
+            ->add('fiber', NumberType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void {

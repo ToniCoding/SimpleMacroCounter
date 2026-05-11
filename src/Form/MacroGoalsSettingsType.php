@@ -10,11 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class MacroGoalsSettingsType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
-            -> add('newCalories', IntegerType::class)
-            -> add('newProtein', IntegerType::class)
-            -> add('newCarbs', IntegerType::class)
-            -> add('newFats', IntegerType::class)
-            -> add('newFiber', IntegerType::class);
+            ->add('newCalories', IntegerType::class)
+            ->add('newProtein', IntegerType::class)
+            ->add('newCarbs', IntegerType::class)
+            ->add('newFats', IntegerType::class)
+            ->add('newFiber', IntegerType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void {

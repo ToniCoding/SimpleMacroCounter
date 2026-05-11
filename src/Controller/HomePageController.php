@@ -10,24 +10,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomePageController extends AbstractController {
+class HomePageController extends AbstractController
+{
     public function __construct(
         private UserMacrosRetrieve $userMacrosRetrieve,
     ) {}
 
     #[Route(['/', '/home'], name: 'home')]
-    public function home(): Response {
+    public function home(): Response
+    {
         $user = $this->getUser();
 
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('User not found');
         }
-        
+
         try {
             $macrosProgress = $this->userMacrosRetrieve->calculateUserProgress($user);
             $macrosConsumed = $this->userMacrosRetrieve->getConsumedMacros($user);
             $macroGoals = $this->userMacrosRetrieve->getMacroGoals($user);
-                        
+
             $userProgress = [
                 'proteinProgress' => $macrosProgress->getProtein(),
                 'carbProgress' => $macrosProgress->getCarbs(),

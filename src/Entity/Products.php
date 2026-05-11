@@ -6,7 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: "products")]
-class Products {
+class Product
+{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
@@ -18,79 +19,93 @@ class Products {
     #[ORM\Column(type: "string", length: 50)]
     private string $market;
 
-    #[ORM\Column(type: "smallint")]
+    #[ORM\Column(type: "integer")]
     private int $kcal;
 
-    #[ORM\Column(type: "decimal", precision: 5, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
     private string $protein;
 
-    #[ORM\Column(type: "decimal", precision: 5, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
     private string $carbs;
 
-    #[ORM\Column(type: "decimal", precision: 5, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
     private string $fats;
 
-    #[ORM\Column(type: "decimal", precision: 5, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
     private string $fiber;
 
-
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    public function getProductName(): string {
+    public function getProductName(): string
+    {
         return $this->productName;
     }
 
-    public function setProductName(string $productName): void {
+    public function setProductName(string $productName): void
+    {
         $this->productName = $productName;
     }
 
-    public function getMarket(): string {
+    public function getMarket(): string
+    {
         return $this->market;
     }
 
-    public function setMarket(string $market): void {
+    public function setMarket(string $market): void
+    {
         $this->market = $market;
     }
 
-    public function getKcal(): int {
+    public function getKcal(): int
+    {
         return $this->kcal;
     }
 
-    public function setKcal(int $kcal): void {
+    public function setKcal(int $kcal): void
+    {
         $this->kcal = $kcal;
     }
 
-    public function getProtein(): string {
+    public function getProtein(): string
+    {
         return $this->protein;
     }
 
-    public function setProtein(float $protein): void {
+    public function setProtein(string $protein): void
+    {
         $this->protein = $protein;
     }
 
-    public function getCarbs(): string {
+    public function getCarbs(): string
+    {
         return $this->carbs;
     }
 
-    public function setCarbs(float $carbs): void {
+    public function setCarbs(string $carbs): void
+    {
         $this->carbs = $carbs;
     }
 
-    public function getFats(): string {
+    public function getFats(): string
+    {
         return $this->fats;
     }
 
-    public function setFats(float $fats): void {
+    public function setFats(string $fats): void
+    {
         $this->fats = $fats;
     }
-    
-    public function getFiber(): string {
+
+    public function getFiber(): string
+    {
         return $this->fiber;
     }
 
-    public function setFiber(float $fiber): void {
+    public function setFiber(string $fiber): void
+    {
         $this->fiber = $fiber;
     }
 }
