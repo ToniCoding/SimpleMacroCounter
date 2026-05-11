@@ -20,7 +20,7 @@ class UserMacrosRetrieve
         private KcalsDailyRepository $kcalsDailyRepository
     ) {}
 
-    public function calculateUserProgress(User $user): MacroDataDTO
+    public function calculateUserProgress(User $user): array
     {
         $consumedMacros = $this->getConsumedMacros($user);
         $macroGoals = $this->getMacroGoals($user);
@@ -37,13 +37,13 @@ class UserMacrosRetrieve
         $fiberGoal = (float) $macroGoals->getFiber();
         $caloriesGoal = (float) $macroGoals->getCalories();
 
-        return new MacroDataDTO(
-            $proteinGoal !== 0.0 ? floor(($proteinConsumed / $proteinGoal) * 100) : 0,
-            $carbsGoal !== 0.0 ? floor(($carbsConsumed / $carbsGoal) * 100) : 0,
-            $fatsGoal !== 0.0 ? floor(($fatsConsumed / $fatsGoal) * 100) : 0,
-            $fiberGoal !== 0.0 ? floor(($fiberConsumed / $fiberGoal) * 100) : 0,
-            $caloriesGoal !== 0.0 ? floor(($caloriesConsumed / $caloriesGoal) * 100) : 0
-        );
+        return [
+            'proteinProgress' => $proteinGoal !== 0.0 ? floor(($proteinConsumed / $proteinGoal) * 100) : 0,
+            'carbProgress' => $carbsGoal !== 0.0 ? floor(($carbsConsumed / $carbsGoal) * 100) : 0,
+            'fatProgress' => $fatsGoal !== 0.0 ? floor(($fatsConsumed / $fatsGoal) * 100) : 0,
+            'fiberProgress' => $fiberGoal !== 0.0 ? floor(($fiberConsumed / $fiberGoal) * 100) : 0,
+            'calorieProgress' => $caloriesGoal !== 0.0 ? floor(($caloriesConsumed / $caloriesGoal) * 100) : 0
+        ];
     }
 
     public function getDataFromPreviousDays(User $user, int $previousDays): array
@@ -59,8 +59,7 @@ class UserMacrosRetrieve
         return $historyData;
     }
 
-    public function getConsumedMacros(User $user): MacroDataDTO
-    {
+    public function getConsumedMacros(User $user): MacroDataDTO {
         $consumedMacros = $this->dailyIntakeRecord->ensureDailyIntakeRecord($user);
 
         return new MacroDataDTO(
@@ -72,8 +71,19 @@ class UserMacrosRetrieve
         );
     }
 
-    public function getMacroGoals(User $user): MacroDataDTO
-    {
+    public function getConsumedMacrosArr(User $user): array {
+        $consumedMacros = $this->dailyIntakeRecord->ensureDailyIntakeRecord($user);
+
+        return [
+            'proteinGrams' => (float) $consumedMacros->getProtein(),
+            'carbGrams' => (float) $consumedMacros->getCarbs(),
+            'fatGrams' => (float) $consumedMacros->getFats(),
+            'fiberGrams' => (float) $consumedMacros->getFiber(),
+            'calories' => (float) $consumedMacros->getKcals()
+        ];
+    }
+
+    public function getMacroGoals(User $user): MacroDataDTO {
         $userGoals = $this->dailyIntakeRecord->ensureOneMacroGoal($user);
 
         return new MacroDataDTO(
@@ -83,5 +93,17 @@ class UserMacrosRetrieve
             (float) $userGoals->getFiber(),
             (float) $userGoals->getCalories()
         );
+    }
+
+    public function getMacroGoalsArr(User $user): array {
+        $userGoals = $this->dailyIntakeRecord->ensureOneMacroGoal($user);
+
+        return [
+            'proteinGoal' => (float) $userGoals->getProtein(),
+            'carbGoal' => (float) $userGoals->getCarbs(),
+            'fatGoal' => (float) $userGoals->getFats(),
+            'fiberGoal' => (float) $userGoals->getFiber(),
+            'caloriesGoal' => (float) $userGoals->getCalories()
+        ];
     }
 }

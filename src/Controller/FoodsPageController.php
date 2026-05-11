@@ -11,15 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{RedirectResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
-class FoodsPageController extends AbstractController
-{
+class FoodsPageController extends AbstractController {
     public function __construct(
         private FoodRegistry $foodRegistry
     ) {}
 
     #[Route(['/foods'], name: 'foods')]
-    public function foods(Request $request): Response|RedirectResponse
-    {
+    public function foods(Request $request): Response | RedirectResponse {
         $user = $this->getUser();
 
         if (!$user instanceof User) {

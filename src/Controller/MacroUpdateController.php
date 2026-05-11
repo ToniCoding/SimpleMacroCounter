@@ -14,16 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
-class MacroUpdateController extends AbstractController
-{
+class MacroUpdateController extends AbstractController {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private MacroIntakeUpdater $macroIntakeUpdater,
     ) {}
 
     #[Route(['/modifyMacros', '/modifymacros'], name: 'modifyMacros', methods: ['GET', 'POST'])]
-    public function modifyMacros(Request $request): Response
-    {
+    public function modifyMacros(Request $request): Response {
         $user = $this->getUser();
 
         if (!$user instanceof User) {
@@ -51,8 +49,7 @@ class MacroUpdateController extends AbstractController
     }
 
     #[Route(['/reduceMacros', '/reducemacros'], name: 'reduceMacros', methods: ['GET', 'POST'])]
-    public function reduceMacros(Request $request): Response
-    {
+    public function reduceMacros(Request $request): Response {
         $user = $this->getUser();
 
         if (!$user instanceof User) {

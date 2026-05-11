@@ -51,7 +51,7 @@
         </header>
         <main class="content">
             <div class="text-content">
-                <p>Today you consumed <b>{{ calories }}</b> kcals. You are <b>{{ caloriesConsumed|replace({'-':''})
+                <p>Today you consumed <b>{{ calories }}</b> kcals. You are <b>{{ calories|replace({'-':''})
                         }}</b>{% if calorieProgress >= 100 %} over {% else %} under {% endif %} your goal of {{
                     caloriesGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
             </div>

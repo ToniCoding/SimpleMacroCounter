@@ -10,16 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
-class HistoryPageController extends AbstractController
-{
+class HistoryPageController extends AbstractController {
     public function __construct(
         private UserMacrosRetrieve $userMacrosRetrieve,
         private DateParser $dateParser
     ) {}
 
     #[Route(['/history'], name: 'history')]
-    public function history(Request $request): Response
-    {
+    public function history(Request $request): Response {
         $user = $this->getUser();
 
         if (!$user instanceof User) {
@@ -36,8 +34,7 @@ class HistoryPageController extends AbstractController
         ]);
     }
 
-    private function getLastDaysHistory(int $numberOfDays): array
-    {
+    private function getLastDaysHistory(int $numberOfDays): array {
         if ($numberOfDays <= 0) $numberOfDays = 7;
         if ($numberOfDays > 180) $numberOfDays = 180;
 
