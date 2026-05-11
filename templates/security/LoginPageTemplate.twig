@@ -18,8 +18,8 @@
 
                 {% if app.user %}
                     <div class="form-group">
-                        <p>You are logged in as {{ app.user.userIdentifier }}, 
-                        <a href="{{ path('app_logout') }}">Logout</a></p>
+                        <p>You are logged in as {{ app.user.userIdentifier }}.</p>
+                        <p><a href="{{ path('app_logout') }}" style="color: skyblue">Logout</a> or go back to <a href="{{ path('home') }}" style="color: skyblue">home</a>.</p>
                     </div>
                 {% endif %}
                 
@@ -46,6 +46,7 @@
 
                     <button type="submit" class="btn-submit">Sign in</button>
                 </form>
+                <p>Don't have an account? Register <a href="{{ path('register_form') }}" style="color: skyblue">here</a>!</p>
             </div>
         </div>
     </body>
