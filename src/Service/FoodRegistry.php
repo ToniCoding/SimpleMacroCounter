@@ -2,10 +2,12 @@
 
 namespace src\Service;
 
+use Psr\Log\LoggerAwareInterface;
 use src\DTO\FoodDTO;
 use src\DTO\MacroDataDTO;
 use src\Entity\{User, Food};
 use src\Repository\FoodsRepository;
+use Psr\Log\LoggerInterface;
 
 use src\Repository\KcalsDailyRepository;
 use function src\Helpers\calorieCalc;
@@ -45,7 +47,8 @@ class FoodRegistry
                 $food->getProtein(),
                 $food->getCarbs(),
                 $food->getFats(),
-                $food->getFiber()
+                $food->getFiber(),
+                $food->getId()
             ];
 
             if ($format === 'human') {
@@ -61,11 +64,12 @@ class FoodRegistry
 
     public function registerFoodIntake(array $intake, User $user)
     {
-        $foundFood = $this->foodsRepository->getFood($intake['id']);
+        $foundFood = $this->foodsRepository->getFood((int)$intake['id']);
+        $gramsConsumed = $intake['grams'];
 
         if ($foundFood) {
             try {
-                $this->kcalsDailyRepository->updateMacroIntake($user, $this->foodToMacroDTO($foundFood));
+                $this->kcalsDailyRepository->updateMacroIntake($user, $this->foodToMacroDTO($foundFood, $gramsConsumed));
             } catch (\Exception $e) {
                 return false;
             }
@@ -74,15 +78,16 @@ class FoodRegistry
         return true;
     }
 
-    private function foodToMacroDTO(Food $food)
+    private function foodToMacroDTO(Food $food, int $gramsConsumed)
     {
         $macroDTO = new MacroDataDTO();
 
-        $macroDTO->setProtein($food->getProtein());
-        $macroDTO->setCarbs($food->getCarbs());
-        $macroDTO->setFats($food->getFats());
-        $macroDTO->setFiber($food->getFiber());
-        $macroDTO->setCalories(calorieCalc($food));
+        $consumedMultiplier = $gramsConsumed / 100;
+        $macroDTO->setProtein($food->getProtein() * $consumedMultiplier);
+        $macroDTO->setCarbs($food->getCarbs() * $consumedMultiplier);
+        $macroDTO->setFats($food->getFats() * $consumedMultiplier);
+        $macroDTO->setFiber($food->getFiber() * $consumedMultiplier);
+        $macroDTO->setCalories(calorieCalc($food) * $consumedMultiplier);
 
         return $macroDTO;
     }

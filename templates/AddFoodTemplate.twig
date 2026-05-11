@@ -43,7 +43,8 @@
                             foods</a></li>
                     <li><a href="/addfood"><img src="{{ asset('img/burger.png') }}" height="32" width="32">Register
                             intake</a></li>
-                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a>
+                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32"
+                                width="32">Settings</a>
                     </li>
                     <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
                                 width="32">Logout</a></li>
@@ -62,10 +63,10 @@
                 <input class="form-input table-search" type="text" id="search-bar-food" placeholder="Search food..." />
 
                 <!-- =========================
-                 DESKTOP TABLE (UNCHANGED)
+                 DESKTOP TABLE
             ========================== -->
                 <div class="foodTable">
-                    <table>
+                    <table class="food-search-table">
                         <thead>
                             <tr>
                                 <th>Food</th>
@@ -78,12 +79,12 @@
                             </tr>
                         </thead>
 
-                        <tbody id="foodFoundRegistries"></tbody>
+                        <tbody id="foodFoundRegistries" class="food-search-table-body"></tbody>
                     </table>
                 </div>
 
                 <!-- =========================
-                 MOBILE CARDS (NEW UX)
+                 MOBILE CARDS
             ========================== -->
                 <div class="foodTableMobile">
                     <div id="foodMobileList"></div>
@@ -92,7 +93,7 @@
             </section>
 
             <!-- =========================
-             RIGHT PANEL (DESKTOP ONLY LOGIC)
+             RIGHT PANEL
         ========================== -->
             <section class="intake-right">
                 <div class="intake-card">
@@ -111,7 +112,7 @@
 
                     <input class="form-input" type="text" id="grams" placeholder="Intake grams" />
 
-                    <button class="btn-submit" type="submit">
+                    <button id="intake-submit-desktop" class="btn-submit" type="button">
                         Register intake
                     </button>
 
@@ -126,7 +127,7 @@
 
     </div>
 
-        <script>
+    <script>
         const hamburger = document.querySelector('.hamburger-menu');
         const navMobile = document.querySelector('.nav-mobile');
         const overlay = document.createElement('div');
@@ -167,7 +168,7 @@
     </script>
     <script type="module" src="{{ asset('js/utils.js') }}"></script>
     <script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
-
+    <script type="module" src="{{ asset('js/payloadCreator.js') }}"></script>
 </body>
 
 </html>

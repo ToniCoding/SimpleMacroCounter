@@ -163,13 +163,33 @@ a {
   transform: translateX(0);
 }
 
-.nav-mobile.active li:nth-child(1) { transition-delay: 0.1s; }
-.nav-mobile.active li:nth-child(2) { transition-delay: 0.2s; }
-.nav-mobile.active li:nth-child(3) { transition-delay: 0.3s; }
-.nav-mobile.active li:nth-child(4) { transition-delay: 0.4s; }
-.nav-mobile.active li:nth-child(5) { transition-delay: 0.5s; }
-.nav-mobile.active li:nth-child(6) { transition-delay: 0.6s; }
-.nav-mobile.active li:nth-child(7) { transition-delay: 0.7s; }
+.nav-mobile.active li:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.nav-mobile.active li:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.nav-mobile.active li:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.nav-mobile.active li:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+.nav-mobile.active li:nth-child(5) {
+  transition-delay: 0.5s;
+}
+
+.nav-mobile.active li:nth-child(6) {
+  transition-delay: 0.6s;
+}
+
+.nav-mobile.active li:nth-child(7) {
+  transition-delay: 0.7s;
+}
 
 .nav-mobile a {
   display: flex;
@@ -433,30 +453,38 @@ a {
   color: var(--text-muted);
 }
 
+.food-search-row td {
+  transition: background-color 0.2s ease;
+}
+
+.food-search-row.selected-intake>td {
+  background-color: var(--secondary);
+}
+
 /* ===== MEDIA QUERIES ===== */
 
 @media (max-width: 1024px) {
   html {
     font-size: 15px;
   }
-  
+
   .nav-desktop {
     gap: 1.25rem;
   }
-  
+
   .progress-wrappers {
     gap: 2rem;
   }
-  
+
   .text-content:first-child p {
     font-size: 1rem;
   }
-  
+
   .form-container {
     max-width: 450px;
     padding: 1.75rem;
   }
-  
+
   .page-title {
     font-size: 1.6rem;
   }
@@ -466,57 +494,57 @@ a {
   html {
     font-size: 14px;
   }
-  
+
   .header {
     min-height: 70px;
     padding: 0.5rem 1rem;
     gap: 0.5rem;
   }
-  
+
   .logo h3 {
     font-size: 1.1rem;
   }
-  
+
   .nav-desktop {
     display: none;
   }
-  
+
   .hamburger-menu {
     display: block;
   }
-  
+
   .nav-mobile {
     display: flex;
   }
-  
+
   .content {
     padding: 0.75rem;
   }
-  
+
   .text-content:first-child p {
     font-size: 0.95rem;
     text-align: justify;
   }
-  
+
   .progress-wrappers {
     gap: 1.75rem;
   }
-  
+
   .progress-wrapper {
     grid-template-columns: 28px 1fr auto;
     gap: 0.5rem;
   }
-  
+
   .progress-track {
     height: 26px;
     border-width: 2px;
   }
-  
+
   .progress-text {
     min-width: 100px;
     font-size: 0.9rem;
   }
-  
+
   .progress-wrapper img {
     width: 28px;
     height: 28px;
@@ -526,7 +554,7 @@ a {
     margin: 1rem;
     padding: 1.5rem;
   }
-  
+
   .page-title {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
@@ -535,18 +563,18 @@ a {
   .history-container {
     padding: 0.5rem;
   }
-  
+
   .macro-data-card {
     padding: 1rem;
     margin-bottom: 1rem;
   }
-  
+
   .card-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .card-macros {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -556,15 +584,15 @@ a {
   html {
     font-size: 13px;
   }
-  
+
   .header {
     min-height: 60px;
   }
-  
+
   .logo h3 {
     font-size: 1rem;
   }
-  
+
   .nav-mobile {
     width: 220px;
     padding: 4rem 1rem 2rem;
@@ -576,13 +604,13 @@ a {
     gap: 0.5rem;
     height: auto;
   }
-  
+
   .progress-track {
     grid-column: 1 / -1;
     grid-row: 2;
     height: 24px;
   }
-  
+
   .progress-text {
     grid-column: 2;
     grid-row: 1;
@@ -590,12 +618,12 @@ a {
     min-width: auto;
     font-size: 0.85rem;
   }
-  
+
   .progress-wrapper img {
     width: 24px;
     height: 24px;
   }
-  
+
   .text-content:first-child p {
     font-size: 0.9rem;
     line-height: 1.5;
@@ -605,7 +633,7 @@ a {
     margin: 0.5rem;
     padding: 1rem;
   }
-  
+
   .page-title {
     font-size: 1.3rem;
   }
@@ -613,13 +641,13 @@ a {
   .card-macros {
     grid-template-columns: 1fr;
   }
-  
+
   .macro-item {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .macro-label {
     margin-bottom: 0;
   }
@@ -629,19 +657,19 @@ a {
   .logo h3 {
     font-size: 0.9rem;
   }
-  
+
   .nav-mobile {
     width: 200px;
   }
-  
+
   .progress-text {
     font-size: 0.8rem;
   }
-  
+
   .form-container {
     padding: 0.75rem;
   }
-  
+
   .page-title {
     font-size: 1.2rem;
   }
@@ -813,9 +841,12 @@ a {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .food-row.selected {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(198, 166, 103, 0.2);
+  .food-search-row.selected-intake td {
+    background-color: red;
+  }
+
+  .food-search-row.selected-intake td:first-child {
+    border-left: 4px solid var(--accent);
   }
 
   /* ===== MAIN ROW ===== */
@@ -927,6 +958,7 @@ a {
       opacity: 0;
       transform: translateY(-4px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
