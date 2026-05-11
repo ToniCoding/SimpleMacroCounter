@@ -176,7 +176,6 @@ function createMobileRow(food) {
     const button = row.querySelector(".select-btn");
 
     const toggleOpen = () => {
-        /* 🔥 cerrar anterior card */
         if (activeMobileRow && activeMobileRow !== row) {
             activeMobileRow.classList.remove("active");
         }
@@ -203,7 +202,6 @@ function createMobileRow(food) {
         applySelection();
     });
 
-    /* 🔥 REACTIVE INPUT (FIX CLAVE) */
     input.addEventListener("input", (e) => {
         e.stopPropagation();
 
