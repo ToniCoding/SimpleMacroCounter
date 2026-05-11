@@ -198,8 +198,18 @@ function createMobileRow(food) {
 
     button.addEventListener("click", (e) => {
         e.stopPropagation();
-        toggleOpen();
-        applySelection();
+
+        const grams = parseFloat(input.value || 100);
+
+        setSelected(row, food, grams);
+        updateMobileMacros(row, food, grams);
+
+        console.log("[MOBILE INTAKE]", {
+            foodId: food[7],
+            gramsConsumed: grams
+        });
+
+        createIntakePayload(food[7], grams);
     });
 
     input.addEventListener("input", (e) => {
@@ -233,10 +243,11 @@ function init() {
     renderMobile(foodCatalog);
 
     searchInput?.addEventListener("input", (e) => {
-        const clean = e.target.value.toLowerCase();
+        const clean = e.target.value.toLowerCase().trim();
 
         if (clean.length < 2) {
             renderDesktop(foodCatalog);
+            renderMobile(foodCatalog);
             return;
         }
 
@@ -246,6 +257,7 @@ function init() {
         );
 
         renderDesktop(filtered);
+        renderMobile(filtered);
     });
 
     gramsInput?.addEventListener("input", () => {
