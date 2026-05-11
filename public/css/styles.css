@@ -461,6 +461,7 @@ a {
   background-color: var(--secondary);
 }
 
+
 /* ===== MEDIA QUERIES ===== */
 
 @media (max-width: 1024px) {
@@ -578,6 +579,11 @@ a {
   .card-macros {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.food-row.selected-intake {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(198, 166, 103, 0.2);
 }
 
 @media (max-width: 480px) {

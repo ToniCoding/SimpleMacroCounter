@@ -1,9 +1,6 @@
 import { capitalize } from "./utils.js";
 import { createIntakePayload } from "./payloadCreator.js";
 
-const LOG = "[foodFilter]";
-const activeLogging = false;
-
 const foodCatalogEl = document.getElementById("foodCatalog");
 const searchInput = document.getElementById("search-bar-food");
 const desktopTbody = document.getElementById("foodFoundRegistries");
@@ -18,6 +15,11 @@ const foodCatalog = foodCatalogEl
 let selectedFood = null;
 let selectedRow = null;
 let activeGrams = 100;
+
+/* =========================
+   MOBILE STATE (NEW)
+========================= */
+let activeMobileRow = null;
 
 /* =========================
    SELECT CORE
@@ -66,7 +68,7 @@ function calcScaled(food, grams) {
 }
 
 /* =========================
-   UI UPDATE
+   UI UPDATE DESKTOP PANEL
 ========================= */
 function updateUI(food, grams) {
     if (!food) return;
@@ -113,6 +115,19 @@ function renderDesktop(data) {
 }
 
 /* =========================
+   MOBILE CALC RENDER (NEW)
+========================= */
+function updateMobileMacros(row, food, grams) {
+    const s = calcScaled(food, grams);
+
+    row.querySelector(".macro-kcal").textContent = `Kcal: ${s.kcal}`;
+    row.querySelector(".macro-protein").textContent = `P: ${s.protein}`;
+    row.querySelector(".macro-carbs").textContent = `C: ${s.carbs}`;
+    row.querySelector(".macro-fats").textContent = `F: ${s.fats}`;
+    row.querySelector(".macro-fiber").textContent = `Fi: ${s.fiber}`;
+}
+
+/* =========================
    GLOBAL BUTTON
 ========================= */
 btnSubmitIntake?.addEventListener("click", (e) => {
@@ -122,10 +137,6 @@ btnSubmitIntake?.addEventListener("click", (e) => {
         console.warn("[INTAKE] no food selected");
         return;
     }
-
-    console.log("[INTAKE] sending request...");
-    console.log("[INTAKE] food:", selectedFood[0]);
-    console.log("[INTAKE] grams:", activeGrams);
 
     createIntakePayload(selectedFood[7], gramsInput.value);
 });
@@ -138,13 +149,72 @@ function createMobileRow(food) {
     row.className = "food-row";
 
     row.innerHTML = `
-        <div>${food[0]}</div>
-        <div>${capitalize(food[1])}</div>
+        <div class="food-row-main">
+            <div>
+                <div class="food-name">${food[0]}</div>
+                <div class="food-market">${capitalize(food[1])}</div>
+            </div>
+        </div>
+
+        <div class="food-row-details">
+            <div class="macros-grid">
+                <div class="macro-box macro-kcal">Kcal: ${food[2]}</div>
+                <div class="macro-box macro-protein">P: ${food[3]}</div>
+                <div class="macro-box macro-carbs">C: ${food[4]}</div>
+                <div class="macro-box macro-fats">F: ${food[5]}</div>
+                <div class="macro-box macro-fiber">Fi: ${food[6]}</div>
+            </div>
+
+            <input class="grams-input" type="number" placeholder="grams" />
+
+            <button class="select-btn">Select</button>
+        </div>
     `;
 
-    row.addEventListener("click", () => {
-        const grams = gramsInput?.value === "" ? 100 : parseFloat(gramsInput?.value || 100);
+    const header = row.querySelector(".food-row-main");
+    const input = row.querySelector(".grams-input");
+    const button = row.querySelector(".select-btn");
+
+    const toggleOpen = () => {
+        /* 🔥 cerrar anterior card */
+        if (activeMobileRow && activeMobileRow !== row) {
+            activeMobileRow.classList.remove("active");
+        }
+
+        row.classList.toggle("active");
+        activeMobileRow = row;
+    };
+
+    const applySelection = () => {
+        const grams = parseFloat(input.value || 100);
         setSelected(row, food, grams);
+        updateMobileMacros(row, food, grams);
+    };
+
+    header.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleOpen();
+        applySelection();
+    });
+
+    button.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleOpen();
+        applySelection();
+    });
+
+    /* 🔥 REACTIVE INPUT (FIX CLAVE) */
+    input.addEventListener("input", (e) => {
+        e.stopPropagation();
+
+        const grams = parseFloat(e.target.value || 100);
+        activeGrams = grams;
+
+        /* si es la card activa, actualizar macros */
+        if (selectedFood && selectedRow === row) {
+            updateMobileMacros(row, food, grams);
+            updateUI(food, grams);
+        }
     });
 
     return row;
