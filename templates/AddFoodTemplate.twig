@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>{{ page_title }}</title>
+    <title>New intake - SMC</title>
 </head>
 
 <body>
     <div class="page">
+
         <header class="header">
             <div class="logo">
                 <h3><a href="/">SimpleMacroCounter</a></h3>
@@ -23,6 +24,7 @@
                     <li><a href="/history">History</a></li>
                     <li><a href="/foods">Register foods</a></li>
                     <li><a href="/addfood">Register intake</a></li>
+                    <li><a href="/settings">Settings</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
 
@@ -41,7 +43,8 @@
                             foods</a></li>
                     <li><a href="/addfood"><img src="{{ asset('img/burger.png') }}" height="32" width="32">Register
                             intake</a></li>
-                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a>
+                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32"
+                                width="32">Settings</a>
                     </li>
                     <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
                                 width="32">Logout</a></li>
@@ -49,44 +52,79 @@
             </div>
         </header>
 
-        <main class="content">
+        <main class="intake-layout">
 
-            {% for message in app.flashes('modifyMacrosStatus') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-            {% endfor %}
+            <!-- =========================
+             LEFT SIDE
+        ========================== -->
+            <section class="intake-left">
 
-            <h1 class="page-title">{{ page_intent }}</h1>
+                <!-- SEARCH -->
+                <input class="form-input table-search" type="text" id="search-bar-food" placeholder="Search food..." />
 
-            <div class="form-container">
-                {{ form_start(form) }}
+                <!-- =========================
+                 DESKTOP TABLE
+            ========================== -->
+                <div class="foodTable">
+                    <table class="food-search-table">
+                        <thead>
+                            <tr>
+                                <th>Food</th>
+                                <th>Market</th>
+                                <th>Calories</th>
+                                <th>Protein</th>
+                                <th>Carbs</th>
+                                <th>Fats</th>
+                                <th>Fiber</th>
+                            </tr>
+                        </thead>
 
-                <div class="form-group">
-                    {{ form_label(form.protein) }}
-                    {{ form_widget(form.protein, { 'attr': {'class': 'form-input'} }) }}
+                        <tbody id="foodFoundRegistries" class="food-search-table-body"></tbody>
+                    </table>
                 </div>
 
-                <div class="form-group">
-                    {{ form_label(form.carbs) }}
-                    {{ form_widget(form.carbs, { 'attr': {'class': 'form-input'} }) }}
+                <!-- =========================
+                 MOBILE CARDS
+            ========================== -->
+                <div class="foodTableMobile">
+                    <div id="foodMobileList"></div>
                 </div>
 
-                <div class="form-group">
-                    {{ form_label(form.fats) }}
-                    {{ form_widget(form.fats, { 'attr': {'class': 'form-input'} }) }}
+            </section>
+
+            <!-- =========================
+             RIGHT PANEL
+        ========================== -->
+            <section class="intake-right">
+                <div class="intake-card">
+
+                    <p id="selected-food-name" class="intake-title">
+                        Select a food
+                    </p>
+
+                    <div class="intake-macros">
+                        <p id="macro-1"></p>
+                        <p id="macro-2"></p>
+                        <p id="macro-3"></p>
+                        <p id="macro-4"></p>
+                        <p id="macro-5"></p>
+                    </div>
+
+                    <input class="form-input" type="text" id="grams" placeholder="Intake grams" />
+
+                    <button id="intake-submit-desktop" class="btn-submit" type="button">
+                        Register intake
+                    </button>
+
                 </div>
+            </section>
 
-                <div class="form-group">
-                    {{ form_label(form.fiber) }}
-                    {{ form_widget(form.fiber, { 'attr': {'class': 'form-input'} }) }}
-                </div>
-
-                <button type="submit" class="btn-submit">Update</button>
-
-                {{ form_end(form) }}
-            </div>
         </main>
+
+        <!-- DATA -->
+        <div id="foodCatalog" data-config="{{ foodCatalog | json_encode | escape('html_attr') }}">
+        </div>
+
     </div>
 
     <script>
@@ -128,6 +166,9 @@
             }
         });
     </script>
+    <script type="module" src="{{ asset('js/utils.js') }}"></script>
+    <script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
+    <script type="module" src="{{ asset('js/payloadCreator.js') }}"></script>
 </body>
 
 </html>

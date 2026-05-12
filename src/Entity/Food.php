@@ -5,22 +5,19 @@ namespace src\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name: "products")]
-class Product
+#[ORM\Table(name: "foods")]
+class Food
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\Column(type: "string", length: 75)]
-    private string $productName;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'foods')]
+    private ?User $user = null;
 
-    #[ORM\Column(type: "string", length: 50)]
-    private string $market;
-
-    #[ORM\Column(type: "integer")]
-    private int $kcal;
+    #[ORM\Column(type: "string")]
+    private string $name;
 
     #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
     private string $protein;
@@ -34,39 +31,32 @@ class Product
     #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
     private string $fiber;
 
-    public function getId(): ?int
+    #[ORM\Column(type: "string")]
+    private string $market;
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getProductName(): string
+    public function getUser(): ?User
     {
-        return $this->productName;
+        return $this->user;
     }
 
-    public function setProductName(string $productName): void
+    public function setUser(?User $user): void
     {
-        $this->productName = $productName;
+        $this->user = $user;
     }
 
-    public function getMarket(): string
+    public function getName(): string
     {
-        return $this->market;
+        return $this->name;
     }
 
-    public function setMarket(string $market): void
+    public function setName(string $name): void
     {
-        $this->market = $market;
-    }
-
-    public function getKcal(): int
-    {
-        return $this->kcal;
-    }
-
-    public function setKcal(int $kcal): void
-    {
-        $this->kcal = $kcal;
+        $this->name = $name;
     }
 
     public function getProtein(): string
@@ -107,5 +97,15 @@ class Product
     public function setFiber(string $fiber): void
     {
         $this->fiber = $fiber;
+    }
+
+    public function getMarket(): string
+    {
+        return $this->market;
+    }
+
+    public function setMarket(string $market): void
+    {
+        $this->market = $market;
     }
 }

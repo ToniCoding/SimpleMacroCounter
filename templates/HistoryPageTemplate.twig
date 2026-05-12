@@ -13,20 +13,18 @@
     <div class="page">
         <header class="header">
             <div class="logo">
-                <h3>SimpleMacroCounter<sub> {{ user }}</sub></h3>
+                <h3><a href="/">SimpleMacroCounter</a></h3>
             </div>
+
             <div class="navigation">
                 <ul class="nav-desktop">
-                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros" height="32"
-                                width="32"></a></li>
-                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros"
-                                height="32" width="32"></a></li>
-                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32"
-                                width="32"></a></li>
-                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32"
-                                width="32"></a></li>
-                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32"
-                                width="32"></a></li>
+                    <li><a href="/modifyMacros">Add macros</a></li>
+                    <li><a href="/reduceMacros">Reduce macros</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/foods">Register foods</a></li>
+                    <li><a href="/addfood">Register intake</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="/logout">Logout</a></li>
                 </ul>
 
                 <button class="hamburger-menu" aria-label="Menú">
@@ -34,22 +32,32 @@
                 </button>
 
                 <ul class="nav-mobile">
-                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" alt="Add Macros"
-                                height="32px" width="32px">Add macros</a></li>
-                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" alt="Reduce Macros"
-                                height="32px" width="32px">Reduce Macros</a></li>
-                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" alt="History" height="32px"
-                                width="32px">History</a></li>
-                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" alt="Settings" height="32px"
-                                width="32px">Settings</a></li>
-                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" alt="Logout" height="32px"
-                                width="32px">Logout</a></li>
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" height="32" width="32">Add
+                            macros</a></li>
+                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" height="32"
+                                width="32">Reduce Macros</a></li>
+                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32"
+                                width="32">History</a></li>
+                    <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32" width="32">Register
+                            foods</a></li>
+                    <li><a href="/addfood"><img src="{{ asset('img/burger.png') }}" height="32" width="32">Register
+                            intake</a></li>
+                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32"
+                                width="32">Settings</a>
+                    </li>
+                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
+                                width="32">Logout</a></li>
                 </ul>
             </div>
         </header>
 
         <main class="content">
             <h1 class="page-title"><i>Previous {{ days }} days</i></h1>
+
+            <div class="formContainer">
+                <input class="form-input" type="text" name="lastDays" id="lastDays" placeholder="Last days" />
+                <input class="btn-submit" type="button" value="Refresh data" id="last-days-history-btn" />
+            </div>
 
             <div class="history-container">
                 {% if historyData is empty %}
@@ -137,6 +145,7 @@
             }
         });
     </script>
+    <script type="module" src="{{ asset('js/historyDaysMod.js') }}"></script>
 </body>
 
 </html>

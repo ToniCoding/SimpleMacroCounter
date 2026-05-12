@@ -5,11 +5,13 @@ namespace src\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class LoggedUserDTO {
-    #[Assert\NotBlank]
-    private string $username;
+    public function __construct(
+        #[Assert\NotBlank]
+        private string $username,
 
-    #[Assert\NotBlank]
-    private string $password;
+        #[Assert\NotBlank]
+        private string $password
+    ) {}
 
     public function getUsername(): string {
         return $this->username;

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>{{ page_title }}</title>
-</head>
-
-<body>
-    <div class="page">
-        <header class="header">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <title>Settings - SMC</title>
+    </head>
+    <body>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+                <header class="header">
             <div class="logo">
                 <h3><a href="/">SimpleMacroCounter</a></h3>
             </div>
@@ -23,6 +23,7 @@
                     <li><a href="/history">History</a></li>
                     <li><a href="/foods">Register foods</a></li>
                     <li><a href="/addfood">Register intake</a></li>
+                    <li><a href="/settings">Settings</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
 
@@ -41,55 +42,49 @@
                             foods</a></li>
                     <li><a href="/addfood"><img src="{{ asset('img/burger.png') }}" height="32" width="32">Register
                             intake</a></li>
-                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a>
+                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a>
                     </li>
                     <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
                                 width="32">Logout</a></li>
                 </ul>
             </div>
         </header>
-
-        <main class="content">
-
-            {% for message in app.flashes('modifyMacrosStatus') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-            {% endfor %}
-
-            <h1 class="page-title">{{ page_intent }}</h1>
-
+        <div class="content">
             <div class="form-container">
+                <h1 class="page-title">Modify macro-nutrient intake goals</h1>
+                
                 {{ form_start(form) }}
-
-                <div class="form-group">
-                    {{ form_label(form.protein) }}
-                    {{ form_widget(form.protein, { 'attr': {'class': 'form-input'} }) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.carbs) }}
-                    {{ form_widget(form.carbs, { 'attr': {'class': 'form-input'} }) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.fats) }}
-                    {{ form_widget(form.fats, { 'attr': {'class': 'form-input'} }) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.fiber) }}
-                    {{ form_widget(form.fiber, { 'attr': {'class': 'form-input'} }) }}
-                </div>
-
-                <button type="submit" class="btn-submit">Update</button>
-
+                    <div class="form-group">
+                        <label for="newCalories">New calories goal</label>
+                        {{ form_widget(form.newCalories, {'id': 'newCalories', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newProtein">New protein goal</label>
+                        {{ form_widget(form.newProtein, {'id': 'newProtein', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newCarbs">New carbs goal</label>
+                        {{ form_widget(form.newCarbs, {'id': 'newCarbs', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newFats">New fats goal</label>
+                        {{ form_widget(form.newFats, {'id': 'newFats', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newFiber">New fiber goal</label>
+                        {{ form_widget(form.newFiber, {'id': 'newFiber', 'attr': {'class': 'form-input'}}) }}
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Modify</button>
                 {{ form_end(form) }}
             </div>
-        </main>
-    </div>
-
-    <script>
+        </div>
+    </body>
+        <script>
         const hamburger = document.querySelector('.hamburger-menu');
         const navMobile = document.querySelector('.nav-mobile');
         const overlay = document.createElement('div');
@@ -128,6 +123,4 @@
             }
         });
     </script>
-</body>
-
 </html>

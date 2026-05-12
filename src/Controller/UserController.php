@@ -4,6 +4,7 @@ namespace src\Controller;
 
 use src\DTO\{RegisterUserDTO, LoggedUserDTO};
 use src\Entity\User;
+use src\Exceptions\AgeNotAllowedException;
 use src\Form\{LoginUserType, RegisterUserType};
 use src\Security\{AccessTokenHandler, AppAuthenticator};
 use src\Handlers\UserHandler;
@@ -58,13 +59,21 @@ class UserController extends AbstractController {
         
         if ($form->isSubmitted() && $form->isValid()) {
             $userDTO = $form->getData();
-            if ($this->userHandler->handle('register', $userDTO)) {
-                return $this->redirect('login');
+            try {
+                if ($this->userHandler->handle('register', $userDTO)) {
+                    return $this->redirect('login');
+                } 
+            } catch (AgeNotAllowedException $ageEx) {
+                return $this->render('RegisterPageTemplate.twig', [
+                    'form' => $form->createView(),
+                    'error' => $ageEx->getMessage()
+                ]);
             }
         }
 
         return $this->render('RegisterPageTemplate.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'error' => null
         ]);
     }
 
