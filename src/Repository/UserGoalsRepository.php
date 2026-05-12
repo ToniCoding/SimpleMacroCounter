@@ -46,12 +46,14 @@ class UserGoalsRepository extends ServiceEntityRepository {
             return false;
         }
 
-        $userGoals->setCalories($newUserGoals['calories']);
-        $userGoals->setProtein($newUserGoals['protein']);
-        $userGoals->setCarbs($newUserGoals['carbs']);
-        $userGoals->setFats($newUserGoals['fats']);
-        $userGoals->setFiber($newUserGoals['fiber']);
-    
+        foreach ($newUserGoals as $macro => $value) {
+            $setter = 'set' . ucfirst($macro);
+
+            if (method_exists($userGoals, $setter)) {
+                $userGoals->$setter($value);
+            }
+        }
+        
         $this->entityManagerInterface->flush();
 
         return true;

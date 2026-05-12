@@ -81,6 +81,8 @@ class DailyIntakeRecord
             $validatedMacroData = [];
 
             foreach ($macroUpdates as $macroName => $macroValue) {
+                if ($macroValue === 0) continue;
+
                 $macroMinimum = $this->getMinimumMacroValue($macroName);
 
                 if ($macroMinimum === null) {
@@ -92,14 +94,13 @@ class DailyIntakeRecord
                         ? (int) $macroMinimum
                         : (string) $macroMinimum;
                 } else {
-                    $getterMethod = 'getNew' . ucfirst($macroName);
-                    $value = $macroSettingsDTO->$getterMethod();
-
                     $validatedMacroData[$macroName] = ($macroName === 'calories')
-                        ? (int) $value
-                        : (string) $value;
+                        ? (int) $macroValue
+                        : (string) $macroValue;
                 }
             }
+
+            if (empty($validatedMacroData)) return;
 
             $this->userGoalsRepository->updateGoalRegistry($user, $validatedMacroData);
 
