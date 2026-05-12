@@ -2,8 +2,7 @@
 
 namespace src\DTO;
 
-class MacroDataDTO
-{
+class MacroDataDTO {
     public function __construct(
         public float $protein = 0,
         public float $carbs = 0,

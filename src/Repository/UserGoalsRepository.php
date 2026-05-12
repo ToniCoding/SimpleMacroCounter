@@ -3,22 +3,14 @@
 namespace src\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use src\DTO\MacroSettingsDTO;
 use src\Entity\{User, UserGoals};
 
-// ToDo: This repo needs some work.
-// Instead of using the raw entity, use a DTO.
 class UserGoalsRepository extends ServiceEntityRepository {
-    private EntityManagerInterface $entityManagerInterface;
-
     public function __construct(
-        private ManagerRegistry $registry,
-        EntityManagerInterface $entityManagerInterface
+        private ManagerRegistry $registry
     ) {
         parent::__construct($registry, UserGoals::class);
-        $this->entityManagerInterface = $entityManagerInterface;
     }
 
     public function findGoalsRegistry(User $user): ?UserGoals {
@@ -29,8 +21,8 @@ class UserGoalsRepository extends ServiceEntityRepository {
 
     public function insertGoalRegistry(UserGoals $userGoals): bool {
         try {
-            $this->entityManagerInterface->persist($userGoals);
-            $this->entityManagerInterface->flush();
+            $this->getEntityManager()->persist($userGoals);
+            $this->getEntityManager()->flush();
         } catch (\Exception $ex) {
             echo $ex;
             return false;
@@ -54,7 +46,7 @@ class UserGoalsRepository extends ServiceEntityRepository {
             }
         }
         
-        $this->entityManagerInterface->flush();
+        $this->getEntityManager()->flush();
 
         return true;
     }

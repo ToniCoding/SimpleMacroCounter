@@ -3,45 +3,30 @@
 namespace src\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
-class FoodDTO
-{
-    #[Assert\NotBlank]
-    private string $name;
-
-    #[Assert\NotBlank]
-    private string $market;
-
-    #[Assert\NotNull]
-    #[Assert\PositiveOrZero]
-    private float $protein;
-
-    #[Assert\NotNull]
-    #[Assert\PositiveOrZero]
-    private float $carbs;
-
-    #[Assert\NotNull]
-    #[Assert\PositiveOrZero]
-    private float $fats;
-
-    #[Assert\NotNull]
-    #[Assert\PositiveOrZero]
-    private float $fiber;
-
+class FoodDTO {
     public function __construct(
-        string $name = '',
-        string $market = '',
-        float $protein = 0,
-        float $carbs = 0,
-        float $fats = 0,
-        float $fiber = 0
-    ) {
-        $this->name = $name;
-        $this->market = $market;
-        $this->protein = $protein;
-        $this->carbs = $carbs;
-        $this->fats = $fats;
-        $this->fiber = $fiber;
-    }
+         #[Assert\NotBlank]
+        private string $name = '',
+
+         #[Assert\NotBlank]
+        private string $market = '',
+
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $protein = 0,
+        
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $carbs = 0,
+        
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $fats = 0,
+        
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $fiber = 0
+    ) {}
 
     public function getProtein(): float { return $this->protein; }
     public function setProtein(float $protein): void { $this->protein = $protein; }
@@ -61,4 +46,3 @@ class FoodDTO
     public function getMarket(): string { return $this->market; }
     public function setMarket(string $market): void { $this->market = $market; }
 }
-

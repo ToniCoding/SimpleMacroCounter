@@ -2,8 +2,7 @@
 
 namespace src\DTO;
 
-class MacroSettingsDTO
-{
+class MacroSettingsDTO {
     public function __construct(
         public int $newProtein = 0,
         public int $newCarbs = 0,

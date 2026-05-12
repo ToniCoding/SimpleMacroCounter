@@ -7,21 +7,14 @@ use src\Entity\User;
 use src\Service\DailyIntakeRecord;
 use src\Repository\KcalsDailyRepository;
 
-use Doctrine\ORM\{EntityManagerInterface, EntityRepository};
-
 class UserMacrosRetrieve
 {
-    private EntityRepository $userGoals;
-    private EntityRepository $kcalsDaily;
-
     public function __construct(
-        private EntityManagerInterface $entityManager,
         private DailyIntakeRecord $dailyIntakeRecord,
         private KcalsDailyRepository $kcalsDailyRepository
     ) {}
 
-    public function calculateUserProgress(User $user): array
-    {
+    public function calculateUserProgress(User $user): array {
         $consumedMacros = $this->getConsumedMacros($user);
         $macroGoals = $this->getMacroGoals($user);
 
@@ -46,8 +39,7 @@ class UserMacrosRetrieve
         ];
     }
 
-    public function getDataFromPreviousDays(User $user, int $previousDays): array
-    {
+    public function getDataFromPreviousDays(User $user, int $previousDays): array {
         $dbData = $this->kcalsDailyRepository->findIntakeRegistryForDateRange($user, $previousDays);
         $historyData = [];
 

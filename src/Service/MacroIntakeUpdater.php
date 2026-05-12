@@ -8,19 +8,14 @@ use src\DTO\MacroDataDTO;
 use src\Entity\User;
 use src\Exceptions\ExceededMacroLimitException;
 use src\Repository\KcalsDailyRepository;
-use Psr\Log\LoggerInterface;
 
-class MacroIntakeUpdater extends ServiceEntityRepository
-{
+class MacroIntakeUpdater extends ServiceEntityRepository {
     public function __construct(
         private KcalsDailyRepository $kcalsDailyRepository,
-        private UserMacrosRetrieve $userMacrosRetrieve,
-        private LoggerInterface $log
-    ) {
-    }
+        private UserMacrosRetrieve $userMacrosRetrieve
+        ) {}
 
-    public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent = 'add'): bool
-    {
+    public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent = 'add'): bool {
         $dataProtein = (float) $macroDataDTO->getProtein();
         $dataCarbs = (float) $macroDataDTO->getCarbs();
         $dataFats = (float) $macroDataDTO->getFats();
@@ -45,9 +40,6 @@ class MacroIntakeUpdater extends ServiceEntityRepository
 
         if ($intent === 'reduce') {
             foreach ($dataMacros as $ind => $macro) {
-                $this->log->error($macro);
-                $this->log->error($dataMacrosConsumedAsArray[$ind]);
-                $this->log->error($macro < $dataMacrosConsumedAsArray[$ind]);
                 if ($macro > $dataMacrosConsumedAsArray[$ind]) {
                     throw new ExceededMacroLimitException(
                         'You cannot reduce more than you have consumed.'

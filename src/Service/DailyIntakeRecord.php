@@ -4,21 +4,16 @@ namespace src\Service;
 
 use src\DTO\MacroSettingsDTO;
 use src\Exceptions\UnrecognizedMacroException;
-use src\Repository\UserGoalsRepository;
-use src\Repository\KcalsDailyRepository;
-use src\Entity\KcalsDaily;
-use src\Entity\User;
-use src\Entity\UserGoals;
+use src\Repository\{UserGoalsRepository, KcalsDailyRepository};
+use src\Entity\{KcalsDaily, User, UserGoals};
 
-class DailyIntakeRecord
-{
+class DailyIntakeRecord {
     public function __construct(
         private KcalsDailyRepository $kcalsDailyRepository,
-        private UserGoalsRepository $userGoalsRepository,
+        private UserGoalsRepository $userGoalsRepository
     ) {}
 
-    public function ensureDailyIntakeRecord(User $user): ?KcalsDaily
-    {
+    public function ensureDailyIntakeRecord(User $user): ?KcalsDaily {
         $existing = $this->kcalsDailyRepository->findIntakeRegistryForToday($user);
 
         if ($existing) {
@@ -42,8 +37,7 @@ class DailyIntakeRecord
         return $this->kcalsDailyRepository->findIntakeRegistryForToday($user);
     }
 
-    public function ensureOneMacroGoal(User $user): ?UserGoals
-    {
+    public function ensureOneMacroGoal(User $user): ?UserGoals {
         $existing = $this->userGoalsRepository->findGoalsRegistry($user);
 
         if ($existing) {
@@ -67,8 +61,7 @@ class DailyIntakeRecord
         return $this->userGoalsRepository->findGoalsRegistry($user);
     }
 
-    public function modifyMacroGoal(User $user, MacroSettingsDTO $macroSettingsDTO): void
-    {
+    public function modifyMacroGoal(User $user, MacroSettingsDTO $macroSettingsDTO): void {
         try {
             $macroUpdates = [
                 'calories' => $macroSettingsDTO->getNewCalories(),
@@ -109,8 +102,7 @@ class DailyIntakeRecord
         };
     }
 
-    private function getMinimumMacroValue(string $macro): ?int
-    {
+    private function getMinimumMacroValue(string $macro): ?int {
         return match($macro) {
             'calories' => 1000,
             'protein' => 30,

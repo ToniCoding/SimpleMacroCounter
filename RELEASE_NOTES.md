@@ -67,6 +67,16 @@ The intention of this release is to make possible for users to register dishes a
 **Features added**
 - Users can now register foods and dishes.
 - Users can now register intake based on pre-registered foods.
+- Settings where the user can modify the goals.
+- User is now able to change the history last days through the UI.
+- Mobile adoption is finished.
+
+**Changed**
+- Macros now take into account decimals.
+- Database changes relative to foods and macro-nutrient taking into account up to two decimals.
+
+**Technical**
+- Removed logic at controller layer down to the service layer.
 
 **NVM (Next Version Mandatory)**
 - Migrate all logic at Controller layer to Service layer.
@@ -81,6 +91,10 @@ The intention of this release is to make possible for users to register dishes a
 - [SMC-B#001] Users must be over 15 or under 100 years old in registration.
 - [SMC-B#002] It is no longer possible to add or reduce more than 400 of any macro-nutrient in one intake.
 - [SMC-B#003] Users no longer can click fields into negative values in add and reduce forms.
+- [SMC-NEF#017] Macro decimals are not taken into account.
+- [SMC-NEF#018]
+- [SMC-NEF#019] On settings update, zeroes were not ignored.
+- [SMC-NEF#018]
 
 **Other**
 - Created `releases` directory containing RTS (Ready To Ship) that act as a release manifesto. From now on, the release notes will only contain the latest update.

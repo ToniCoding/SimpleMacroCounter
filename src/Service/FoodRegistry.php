@@ -2,23 +2,18 @@
 
 namespace src\Service;
 
-use src\DTO\FoodDTO;
-use src\DTO\MacroDataDTO;
+use src\DTO\{FoodDTO, MacroDataDTO};
 use src\Entity\{User, Food};
-use src\Repository\FoodsRepository;
-use src\Repository\KcalsDailyRepository;
+use src\Repository\{FoodsRepository, KcalsDailyRepository};
 use function src\Helpers\calorieCalc;
 
-class FoodRegistry
-{
+class FoodRegistry {
     public function __construct(
         private FoodsRepository $foodsRepository,
         private KcalsDailyRepository $kcalsDailyRepository,
-    ) {
-    }
+    ) {}
 
-    public function createFood(FoodDTO $foodDTO, User $user): void
-    {
+    public function createFood(FoodDTO $foodDTO, User $user): void {
         $food = new Food();
         $food->setName($foodDTO->getName());
         $food->setMarket($foodDTO->getMarket());
@@ -31,8 +26,7 @@ class FoodRegistry
         $this->foodsRepository->registerFood($food);
     }
 
-    public function getFoodsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array
-    {
+    public function getFoodsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array {
         $queryResult = $this->foodsRepository->getFoodsByMarket($market, $offset);
         $formattedData = [];
 
@@ -59,8 +53,7 @@ class FoodRegistry
         return $formattedData;
     }
 
-    public function registerFoodIntake(array $intake, User $user): bool
-    {
+    public function registerFoodIntake(array $intake, User $user): bool {
         $foundFood = $this->foodsRepository->getFood((int) $intake['id']);
         $gramsConsumed = (float) ($intake['grams'] ?? 0);
 
@@ -80,8 +73,7 @@ class FoodRegistry
         return true;
     }
 
-    private function foodToMacroDTO(Food $food, float $gramsConsumed): MacroDataDTO
-    {
+    private function foodToMacroDTO(Food $food, float $gramsConsumed): MacroDataDTO {
         $consumedMultiplier = $gramsConsumed / 100;
 
         $macroDTO = new MacroDataDTO();

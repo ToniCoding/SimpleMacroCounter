@@ -3,26 +3,19 @@
 namespace src\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 use src\Entity\{User, KcalsDaily};
 use src\DTO\MacroDataDTO;
 
-class KcalsDailyRepository extends ServiceEntityRepository
-{
-    private EntityManagerInterface $entityManagerInterface;
-
+class KcalsDailyRepository extends ServiceEntityRepository {
     public function __construct(
-        ManagerRegistry $registry,
-        EntityManagerInterface $entityManagerInterface,
+        private ManagerRegistry $registry,
     ) {
         parent::__construct($registry, KcalsDaily::class);
-        $this->entityManagerInterface = $entityManagerInterface;
     }
 
-    public function findIntakeRegistryForToday(User $user): ?KcalsDaily
-    {
+    public function findIntakeRegistryForToday(User $user): ?KcalsDaily {
         $today = new \DateTimeImmutable('today');
         $tomorrow = $today->modify('+1 day');
 
@@ -37,8 +30,7 @@ class KcalsDailyRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findIntakeRegistryForDateRange(User $user, int $previousDays): array
-    {
+    public function findIntakeRegistryForDateRange(User $user, int $previousDays): array {
         $yesterday = new \DateTimeImmutable('-1 day');
         $from = $yesterday->modify("-$previousDays days");
 
@@ -54,11 +46,10 @@ class KcalsDailyRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function insertIntakeRegistry(KcalsDaily $kcalsDailyEntity): bool
-    {
+    public function insertIntakeRegistry(KcalsDaily $kcalsDailyEntity): bool {
         try {
-            $this->entityManagerInterface->persist($kcalsDailyEntity);
-            $this->entityManagerInterface->flush();
+            $this->getEntityManager()->persist($kcalsDailyEntity);
+            $this->getEntityManager()->flush();
         } catch (\Exception $ex) {
             return false;
         }
@@ -66,8 +57,7 @@ class KcalsDailyRepository extends ServiceEntityRepository
         return true;
     }
 
-    public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent = ''): bool
-    {
+    public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent = ''): bool {
         $todaysIntakeRegistry = $this->findIntakeRegistryForToday($user);
 
         if (!$todaysIntakeRegistry) {
@@ -101,13 +91,13 @@ class KcalsDailyRepository extends ServiceEntityRepository
         }
 
         $todaysIntakeRegistry->setProtein((string) round($protein, 2));
-$todaysIntakeRegistry->setCarbs((string) round($carbs, 2));
-$todaysIntakeRegistry->setFats((string) round($fats, 2));
-$todaysIntakeRegistry->setFiber((string) round($fiber, 2));
+        $todaysIntakeRegistry->setCarbs((string) round($carbs, 2));
+        $todaysIntakeRegistry->setFats((string) round($fats, 2));
+        $todaysIntakeRegistry->setFiber((string) round($fiber, 2));
         $todaysIntakeRegistry->setKcals((int) $kcals);
 
         try {
-            $this->entityManagerInterface->flush();
+            $this->getEntityManager()->flush();
         } catch (\Exception $ex) {
             return false;
         }
