@@ -2,51 +2,9 @@
 
 ## Description
 
-SimpleMacroCounter is a simple macro and calorie tracker designed to help users monitor their fitness progress.
+This are the release notes for the latest version of SMC where the new features, changes and bug fixing made within the release is described. For more information about the SMC web application and its purposes, check the README file.
 
-Currently, SMC allows you to:
-1. Track daily calorie and macronutrient (protein, carbs, fats and fiber).
-2. Set (WIP) and track daily macronutrient goals.
-3. Add N quantities to each macronutrients and instantly view total calories.
 
-## Project Tree
-
-```text
-SimpleMacroCounter/
-├── bin/
-├── config/
-├── db/
-├── docker/
-├── migrations/
-├── public/
-│   └── css
-│   └── img
-│   └── js
-│   └── ttf
-│   └── index.php
-├── src/
-│   └── Config
-│   └── Controller
-│   └── DTO
-│   └── Entity
-│   └── Exceptions
-│   └── Form
-│   └── Handlers
-│   └── Helpers
-│   └── Logging
-│   └── Model
-│   └── Repository
-│   └── Security
-│   └── Service
-│   └── Kernel.php
-├── templates/
-│   └── modifyData
-│   └── security
-│   └── HomePageTemplate.twig
-│   └── RegisterPageTemplate.twig
-└── README.md
-└── RELEASE_NOTES.md
-```
 
 ## Project Roadmap
 
@@ -59,7 +17,7 @@ SimpleMacroCounter/
 
 ## Project Versions
 
-### v0.6.0 (*Unreleased*) - The Dishe'd update
+### v0.6.0 (12-05-2026) - The Dishe'd update
 
 **Release description**
 The intention of this release is to make possible for users to register dishes and new foods that will be available through new endpoints. The only thing the user needs to do, is to access the `Register intake` page, select the desired dish, complete the grams consumed and clic on "Register intake". The intake will be added to the daily macro-nutrient intake.
@@ -77,24 +35,21 @@ The intention of this release is to make possible for users to register dishes a
 
 **Technical**
 - Removed logic at controller layer down to the service layer.
+- Removed magic accessors and implemented the correct way to get the entity managers.
+- Implemented property promotion in all the application.
 
 **NVM (Next Version Mandatory)**
-- Migrate all logic at Controller layer to Service layer.
 - Implementation of security voters to avoid repetitive security control over the endpoints.
 - Combine add and reduce macros in one page with in-form option selection to add or reduce macros.
-- Add the option to change the history days in history page.
-- Implement property promotion on all DTOs (WIP).
-- Remove all magic method accessors.
 - Remove all errors thrown in repositories to move them to the service layer.
 
 **Fixed bugs**
-- [SMC-B#001] Users must be over 15 or under 100 years old in registration.
-- [SMC-B#002] It is no longer possible to add or reduce more than 400 of any macro-nutrient in one intake.
-- [SMC-B#003] Users no longer can click fields into negative values in add and reduce forms.
+- [SMC-NEF#000] Users must be over 15 or under 100 years old in registration.
+- [SMC-NEF#000] It is no longer possible to add or reduce more than 400 of any macro-nutrient in one intake.
+- [SMC-NEF#000] Users no longer can click fields into negative values in add and reduce forms.
 - [SMC-NEF#017] Macro decimals are not taken into account.
-- [SMC-NEF#018]
+- [SMC-NEF#018] Cannot reduce more macros than consumed thrown while reducing less macros than consumed.
 - [SMC-NEF#019] On settings update, zeroes were not ignored.
-- [SMC-NEF#018]
 
 **Other**
 - Created `releases` directory containing RTS (Ready To Ship) that act as a release manifesto. From now on, the release notes will only contain the latest update.
