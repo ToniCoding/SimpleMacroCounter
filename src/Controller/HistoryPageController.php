@@ -16,7 +16,7 @@ class HistoryPageController extends AbstractController {
         private DateParser $dateParser
     ) {}
 
-    #[Route(['/history'], name: 'history')]
+    #[Route(['/history'], name: 'history', methods: 'GET')]
     public function history(Request $request): Response {
         $user = $this->getUser();
 

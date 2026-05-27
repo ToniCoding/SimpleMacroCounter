@@ -14,7 +14,7 @@ class HomePageController extends AbstractController {
         private UserMacrosRetrieve $userMacrosRetrieve,
     ) {}
 
-    #[Route(['/', '/home'], name: 'home')]
+    #[Route(['/', '/home'], name: 'home', methods: 'GET')]
     public function home(): Response {
         $user = $this->getUser();
 

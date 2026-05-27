@@ -16,7 +16,7 @@ class FoodsPageController extends AbstractController {
         private FoodRegistry $foodRegistry
     ) {}
 
-    #[Route(['/foods'], name: 'foods')]
+    #[Route(['/foods'], name: 'foods', methods: ['GET', 'POST'])]
     public function foods(Request $request): Response | RedirectResponse {
         $user = $this->getUser();
 
