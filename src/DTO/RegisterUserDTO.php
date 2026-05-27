@@ -5,25 +5,23 @@ namespace src\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RegisterUserDTO {
-    public function __construct(
-        #[Assert\NotBlank]
-        private string $username,
+    #[Assert\NotBlank]
+    private string $username;
 
-        #[Assert\NotBlank]
-        private string $password,
+    #[Assert\NotBlank]
+    private string $password;
 
-        #[Assert\NotBlank]
-        #[Assert\Email]
-        private string $email,
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    private string $email;
 
-        #[Assert\NotBlank]
-        private string $alias,
+    #[Assert\NotBlank]
+    private string $alias;
 
-        #[Assert\NotBlank]
-        #[Assert\GreaterThanOrEqual(15)]
-        #[Assert\LessThanOrEqual(100)]
-        private int $age
-    ) {}
+    #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqual(15)]
+    #[Assert\LessThanOrEqual(100)]
+    private int $age;
     
 
     public function getUsername(): string {
