@@ -2,7 +2,6 @@
 
 namespace src\Controller;
 
-use src\Entity\User;
 use src\Service\FoodRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};
@@ -11,11 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddFoodsPageController extends AbstractController {
     #[Route('/addfood', name: 'addFoodCatalog', methods: 'GET')]
     public function addfood(Request $request, FoodRegistry $foodRegistry): Response {
+        $this->isGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('User not found');
-        }
 
         $foodCatalogPagination = (int) $request->query->get('pagination', 1);
         $marketFilter = (string) $request->query->get('market', '');
@@ -31,11 +27,8 @@ class AddFoodsPageController extends AbstractController {
 
     #[Route('/addfood', name: 'addFoodProcessing', methods: 'POST')]
     public function addFoodPost(Request $request, FoodRegistry $foodRegistry): JsonResponse {
+        $this->isGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('User not found');
-        }
 
         $data = json_decode($request->getContent(), true);
 

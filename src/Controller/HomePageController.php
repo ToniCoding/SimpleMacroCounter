@@ -2,7 +2,6 @@
 
 namespace src\Controller;
 
-use src\Entity\User;
 use src\Service\UserMacrosRetrieve;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,11 +15,9 @@ class HomePageController extends AbstractController {
 
     #[Route(['/', '/home'], name: 'home', methods: 'GET')]
     public function home(): Response {
+        $this->isGranted('IS_AUTHENTICATED_FULLY');
+        
         $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('User not found');
-        }
 
         $userProgress = $this->userMacrosRetrieve->calculateUserProgress($user);
         $userGoals = $this->userMacrosRetrieve->getMacroGoalsArr($user);
@@ -28,7 +25,6 @@ class HomePageController extends AbstractController {
 
         return $this->render('HomePageTemplate.twig', [
             'message' => 'Welcome to SMC',
-            'user' => $user->getUsername(),
             'calories' => $userGoals['caloriesGoal'] - $macrosConsumed['calories'],
             ...$userProgress,
             ...$userGoals,

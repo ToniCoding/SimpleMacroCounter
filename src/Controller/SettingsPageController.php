@@ -3,7 +3,6 @@
 namespace src\Controller;
 
 use src\DTO\MacroSettingsDTO;
-use src\Entity\User;
 use src\Form\MacroGoalsSettingsType;
 use src\Service\DailyIntakeRecord;
 
@@ -18,11 +17,8 @@ class SettingsPageController extends AbstractController {
 
     #[Route('/settings', name: 'settings', methods: ['GET', 'POST'])]
     public function settings(Request $request): Response | RedirectResponse {
+        $this->isGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('User not found');
-        }
         
         $macroSettingsForm = $this->createForm(MacroGoalsSettingsType::class, new MacroSettingsDTO());
         $macroSettingsForm->handleRequest($request);

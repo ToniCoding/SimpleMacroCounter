@@ -3,7 +3,6 @@
 namespace src\Controller;
 
 use src\DTO\MacroDataDTO;
-use src\Entity\User;
 use src\Exceptions\ExceededMacroLimitException;
 use src\Form\ModifyMacrosType;
 use src\Service\MacroIntakeUpdater;
@@ -22,11 +21,9 @@ class MacroUpdateController extends AbstractController {
 
     #[Route(['/modifyMacros', '/modifymacros'], name: 'modifyMacros', methods: ['GET', 'POST'])]
     public function modifyMacros(Request $request): Response {
-        $user = $this->getUser();
+        $this->isGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('User not found');
-        }
+        $user = $this->getUser();
 
         $form = $this->createForm(ModifyMacrosType::class, new MacroDataDTO(0, 0, 0, 0, 0));
         $form->handleRequest($request);
@@ -41,7 +38,6 @@ class MacroUpdateController extends AbstractController {
         }
 
         return $this->render('modifyData/ModifyMacrosTemplate.twig', [
-            'user' => $user->getUsername(),
             'form' => $form,
             'page_title' => 'Add macros - SMC',
             'page_intent' => 'Add macro-nutrient count',
@@ -50,11 +46,8 @@ class MacroUpdateController extends AbstractController {
 
     #[Route(['/reduceMacros', '/reducemacros'], name: 'reduceMacros', methods: ['GET', 'POST'])]
     public function reduceMacros(Request $request): Response {
+        $this->isGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('User not found');
-        }
 
         $form = $this->createForm(ModifyMacrosType::class, new MacroDataDTO(0, 0, 0, 0, 0));
         $form->handleRequest($request);
@@ -69,7 +62,6 @@ class MacroUpdateController extends AbstractController {
         }
 
         return $this->render('modifyData/ModifyMacrosTemplate.twig', [
-            'user' => $user->getUsername(),
             'form' => $form,
             'page_title' => 'Reduce macros - SMC',
             'page_intent' => 'Reduce macro-nutrient count'

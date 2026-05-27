@@ -5,7 +5,6 @@ namespace src\Controller;
 use src\DTO\FoodDTO;
 use src\Form\RegisterFoodsType;
 use src\Service\FoodRegistry;
-use src\Entity\User;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{RedirectResponse, Request, Response};
@@ -18,11 +17,8 @@ class FoodsPageController extends AbstractController {
 
     #[Route(['/foods'], name: 'foods', methods: ['GET', 'POST'])]
     public function foods(Request $request): Response | RedirectResponse {
+        $this->isGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('User not found');
-        }
 
         $form = $this->createForm(RegisterFoodsType::class, new FoodDTO());
         $form->handleRequest($request);
@@ -36,7 +32,6 @@ class FoodsPageController extends AbstractController {
 
         return $this->render('FoodManagementTemplate.twig', [
             'form' => $form,
-            'user' => $user->getUsername(),
             'page_title' => 'Register new food - SMC'
         ]);
     }
