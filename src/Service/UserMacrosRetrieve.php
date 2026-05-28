@@ -14,6 +14,11 @@ class UserMacrosRetrieve
         private KcalsDailyRepository $kcalsDailyRepository
     ) {}
 
+    /**
+     * Calculates the user progress and returns the progress based on their goals.
+     * @param User $user
+     * @return array
+     */
     public function calculateUserProgress(User $user): array {
         $consumedMacros = $this->getConsumedMacros($user);
         $macroGoals = $this->getMacroGoals($user);

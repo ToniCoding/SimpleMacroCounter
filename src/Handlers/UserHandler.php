@@ -27,14 +27,8 @@ class UserHandler {
                 $user->setLastLogin(new \DateTime);
                 $user->setTimezone('Europe/Madrid');
 
-                try {
-                    $this->entityManager->persist($user);
-                    $this->entityManager->flush();
-                } catch (\Exception $ex) {
-                    echo 'Exception thrown while trying to persist and flush a Doctrine entity user.';
-                    echo $ex;
-                    return false;
-                }
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
 
                 return true;
                 
