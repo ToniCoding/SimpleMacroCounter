@@ -25,7 +25,9 @@ class HomePageController extends AbstractController {
 
         return $this->render('HomePageTemplate.twig', [
             'message' => 'Welcome to SMC',
-            'calories' => $userGoals['caloriesGoal'] - $macrosConsumed['calories'],
+            'caloricProgress' => $userGoals['caloriesGoal'] - $macrosConsumed['calories'],
+            'caloriesConsumed' => $macrosConsumed['calories'],
+            'calorieGoal' => $userGoals['caloriesGoal'],
             ...$userProgress,
             ...$userGoals,
             ...$macrosConsumed
