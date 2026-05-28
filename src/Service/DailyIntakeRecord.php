@@ -7,6 +7,7 @@ use src\Exceptions\UnrecognizedMacroException;
 use src\Exceptions\WriteToDatabaseException;
 use src\Repository\{UserGoalsRepository, KcalsDailyRepository};
 use src\Entity\{KcalsDaily, User, UserGoals};
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Sub-service with the methods needed to check if there is any registry for user intake and goals.
@@ -14,7 +15,8 @@ use src\Entity\{KcalsDaily, User, UserGoals};
 class DailyIntakeRecord {
     public function __construct(
         private KcalsDailyRepository $kcalsDailyRepository,
-        private UserGoalsRepository $userGoalsRepository
+        private UserGoalsRepository $userGoalsRepository,
+        private ParameterBagInterface $params
     ) {}
 
     /**
@@ -61,11 +63,11 @@ class DailyIntakeRecord {
 
         $newGoalRegistry = new UserGoals($user, new \DateTime());
 
-        $newGoalRegistry->setCalories(2000);
-        $newGoalRegistry->setProtein("120.00");
-        $newGoalRegistry->setCarbs("220.00");
-        $newGoalRegistry->setFats("65.00");
-        $newGoalRegistry->setFiber("30.00");
+        $newGoalRegistry->setCalories($this->params->get('nutrition.default_calories'));
+        $newGoalRegistry->setProtein($this->params->get('nutrition.default_protein'));
+        $newGoalRegistry->setCarbs($this->params->get('nutrition.default_carb'));
+        $newGoalRegistry->setFats($this->params->get('nutrition.default_fat'));
+        $newGoalRegistry->setFiber($this->params->get('nutrition.default_fiber'));
 
         $this->userGoalsRepository->insertGoalRegistry($newGoalRegistry);
 
@@ -111,11 +113,11 @@ class DailyIntakeRecord {
 
     private function getMinimumMacroValue(string $macro): ?int {
         return match($macro) {
-            'calories' => 1000,
-            'protein' => 30,
-            'carbs' => 50,
-            'fats' => 10,
-            'fiber' => 5,
+            'calories' => $this->params->get('nutrition.minimum_calories'),
+            'protein' => $this->params->get('nutrition.minimum_protein'),
+            'carbs' => $this->params->get('nutrition.minimum_carb'),
+            'fats' => $this->params->get('nutrition.minimum_fat'),
+            'fiber' => $this->params->get('nutrition.minimum_fiber'),
             default => null
         };
     }

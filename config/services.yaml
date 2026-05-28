@@ -1,4 +1,14 @@
 parameters:
+    nutrition.default_calories: 2000
+    nutrition.default_protein: "120.00"
+    nutrition.default_carb: "220.00"
+    nutrition.default_fat: "65.00"
+    nutrition.default_fiber: "30.00"
+    nutrition.minimum_calories: 1000
+    nutrition.minimum_protein: 30
+    nutrition.minimum_carb: 50
+    nutrition.minimum_fat: 10
+    nutrition.minimum_fiber: 5
 
 services:
     _defaults:
