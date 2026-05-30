@@ -3,12 +3,15 @@
 namespace src\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
+
 class FoodDTO {
     public function __construct(
-         #[Assert\NotBlank]
+        #[Assert\NotBlank]
+        #[Assert\Type('string')]
         private string $name = '',
 
-         #[Assert\NotBlank]
+        #[Assert\NotBlank]
+        #[Assert\Type('string')]
         private string $market = '',
 
         #[Assert\NotNull]

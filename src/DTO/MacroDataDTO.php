@@ -2,13 +2,29 @@
 
 namespace src\DTO;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class MacroDataDTO {
     public function __construct(
-        public float $protein = 0,
-        public float $carbs = 0,
-        public float $fats = 0,
-        public float $fiber = 0,
-        public float $calories = 0
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $protein = 0,
+        
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $carbs = 0,
+        
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $fats = 0,
+        
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $fiber = 0,
+        
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $calories = 0
     ) {}
 
     public function getProtein(): float { return $this->protein; }
