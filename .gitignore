@@ -5,10 +5,7 @@ config.ini
 
 # Environment files
 .env
-.env.dev
-.env.local
-.env.local.php
-.env.*.local
+.env.*
 
 # PHP test results
 .phpunit.result.cache
@@ -33,3 +30,7 @@ docker/php
 # System files
 .DS_Store
 Thumbs.db
+
+# PHP Unit
+/phpunit.xml
+/.phpunit.cache/
