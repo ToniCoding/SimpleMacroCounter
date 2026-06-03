@@ -75,7 +75,7 @@
         ]
     },
     "symfony/form": {
-        "version": "7.3",
+        "version": "8.0",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -175,7 +175,7 @@
         ]
     },
     "symfony/validator": {
-        "version": "7.3",
+        "version": "8.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",

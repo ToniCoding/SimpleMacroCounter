@@ -34,78 +34,71 @@ class Food
     #[ORM\Column(type: "string")]
     private string $market;
 
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
-    public function getUser(): ?User
-    {
+    public function getUser(): ?User {
         return $this->user;
     }
 
-    public function setUser(?User $user): void
-    {
+    public function setUser(?User $user): void {
         $this->user = $user;
     }
 
-    public function getName(): string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName(string $name): void
-    {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
-    public function getProtein(): string
-    {
+    public function getProtein(): string {
         return $this->protein;
     }
 
-    public function setProtein(string $protein): void
-    {
+    public function setProtein(string $protein): void {
         $this->protein = $protein;
     }
 
-    public function getCarbs(): string
-    {
+    public function getCarbs(): string {
         return $this->carbs;
     }
 
-    public function setCarbs(string $carbs): void
-    {
+    public function setCarbs(string $carbs): void {
         $this->carbs = $carbs;
     }
 
-    public function getFats(): string
-    {
+    public function getFats(): string {
         return $this->fats;
     }
 
-    public function setFats(string $fats): void
-    {
+    public function setFats(string $fats): void {
         $this->fats = $fats;
     }
 
-    public function getFiber(): string
-    {
+    public function getFiber(): string {
         return $this->fiber;
     }
 
-    public function setFiber(string $fiber): void
-    {
+    public function setFiber(string $fiber): void {
         $this->fiber = $fiber;
     }
 
-    public function getMarket(): string
-    {
+    public function getMarket(): string {
         return $this->market;
     }
 
-    public function setMarket(string $market): void
-    {
+    public function setMarket(string $market): void {
         $this->market = $market;
+    }
+
+    public function __toString(): string {
+        return 'Name: ' . $this->getName() .
+        "\n\tProtein: " . $this->getProtein() .
+        "\n\tCarbs: " . $this->getCarbs() .
+        "\n\tFats: " . $this->getFats() .
+        "\n\tFiber: " . $this->getFiber();
     }
 }

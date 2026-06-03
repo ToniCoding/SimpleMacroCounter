@@ -1,3 +1,16 @@
+# config/packages/framework.yaml
 framework:
+    # CSRF genérico (para formularios)
     csrf_protection:
         enabled: true
+        # stateless_token_ids:  # Para CSRF stateless (API)
+        #     - submit
+        #     - authenticate
+        #     - logout
+    
+    # Configuración de formularios
+    form:
+        # La configuración de CSRF para forms va aquí
+        csrf_protection:
+            enabled: true
+            field_name: _token  # ← Nombre del campo CSRF (opcional)

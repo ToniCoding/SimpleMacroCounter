@@ -2,6 +2,7 @@
 
 namespace src\Service;
 
+use Psr\Log\LoggerInterface;
 use src\DTO\MacroSettingsDTO;
 use src\Exceptions\UnrecognizedMacroException;
 use src\Exceptions\WriteToDatabaseException;
@@ -16,7 +17,8 @@ class DailyIntakeRecord {
     public function __construct(
         private KcalsDailyRepository $kcalsDailyRepository,
         private UserGoalsRepository $userGoalsRepository,
-        private ParameterBagInterface $params
+        private ParameterBagInterface $params,
+        private LoggerInterface $logger
     ) {}
 
     /**
@@ -31,6 +33,8 @@ class DailyIntakeRecord {
 
         if ($existingMacroRecord) return $existingMacroRecord;
 
+        $this->logger->info('[DAILY_INTAKE_RECORD_SERVICE] Macro record for user not found. Registering one.');
+
         $newMacroRecord = new KcalsDaily($user);
 
         $newMacroRecord->setKcals(0);
@@ -40,10 +44,13 @@ class DailyIntakeRecord {
         $newMacroRecord->setFiber("0.00");
 
         if (!$this->kcalsDailyRepository->insertIntakeRegistry($newMacroRecord)) {
+            $this->logger->error('[DAILY_INTAKE_RECORD_SERVICE] There was an error inserting the new intake.');
             throw new WriteToDatabaseException('There was an error inserting a new intake registry.');
         }
 
         $this->kcalsDailyRepository->insertIntakeRegistry($newMacroRecord);
+
+        $this->logger->error('[DAILY_INTAKE_RECORD_SERVICE] Successfully registered the intake.');
 
         return $this->kcalsDailyRepository->findIntakeRegistryForToday($user);
     }
@@ -57,9 +64,9 @@ class DailyIntakeRecord {
     public function ensureOneMacroGoal(User $user): UserGoals {
         $existingMacroRecord = $this->userGoalsRepository->findGoalsRegistry($user);
 
-        if ($existingMacroRecord) {
-            return $existingMacroRecord;
-        }
+        if ($existingMacroRecord) return $existingMacroRecord;
+
+        $this->logger->info('[DAILY_INTAKE_RECORD_SERVICE] Macro record goal for user not found. Registering one.');
 
         $newGoalRegistry = new UserGoals($user, new \DateTime());
 
@@ -70,6 +77,8 @@ class DailyIntakeRecord {
         $newGoalRegistry->setFiber($this->params->get('nutrition.default_fiber'));
 
         $this->userGoalsRepository->insertGoalRegistry($newGoalRegistry);
+
+        $this->logger->info('[DAILY_INTAKE_RECORD_SERVICE] Successfully registered the goals.');
 
         return $this->userGoalsRepository->findGoalsRegistry($user);
     }
@@ -92,6 +101,7 @@ class DailyIntakeRecord {
             $macroMinimum = $this->getMinimumMacroValue($macroName);
 
             if ($macroMinimum === null) {
+                $this->logger->warning('[DAILY_INTAKE_RECORD_SERVICE] Attempt to register unallowed macro.');
                 throw new UnrecognizedMacroException();
             }
 
@@ -107,6 +117,8 @@ class DailyIntakeRecord {
         }
 
         if (empty($validatedMacroData)) return;
+
+        $this->logger->info('[DAILY_INTAKE_RECORD_SERVICE] Validated macro goal is: '. json_encode($validatedMacroData));
 
         $this->userGoalsRepository->updateGoalRegistry($user, $validatedMacroData);
     }

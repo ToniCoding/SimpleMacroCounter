@@ -9,36 +9,65 @@ class MacroDataDTO {
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
         private float $protein = 0,
-        
+
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
         private float $carbs = 0,
-        
+
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
         private float $fats = 0,
-        
+
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
         private float $fiber = 0,
-        
+
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
         private float $calories = 0
     ) {}
 
-    public function getProtein(): float { return $this->protein; }
-    public function setProtein(float $protein): void { $this->protein = $protein; }
+    public function getProtein(): float {
+        return $this->protein;
+    }
+    public function setProtein(float $protein): void {
+        $this->protein = $protein;
+    }
 
-    public function getCarbs(): float { return $this->carbs; }
-    public function setCarbs(float $carbs): void { $this->carbs = $carbs; }
+    public function getCarbs(): float {
+        return $this->carbs;
+    }
+    public function setCarbs(float $carbs): void {
+        $this->carbs = $carbs;
+    }
 
-    public function getFats(): float { return $this->fats; }
-    public function setFats(float $fats): void { $this->fats = $fats; }
+    public function getFats(): float {
+        return $this->fats;
+    }
+    public function setFats(float $fats): void {
+        $this->fats = $fats;
+    }
 
-    public function getFiber(): float { return $this->fiber; }
-    public function setFiber(float $fiber): void { $this->fiber = $fiber; }
+    public function getFiber(): float {
+        return $this->fiber;
+    }
+    public function setFiber(float $fiber): void {
+        $this->fiber = $fiber;
+    }
 
-    public function getCalories(): float { return $this->calories; }
-    public function setCalories(float $calories): void { $this->calories = $calories; }
+    public function getCalories(): float {
+        return $this->calories;
+    }
+
+    public function setCalories(float $calories): void {
+        $this->calories = $calories;
+    }
+
+    public function __toString() {
+        return 'Calories: ' . $this->getCalories() .
+        'Protein: ' . $this->getProtein() .
+        'Carbs' . $this->getCarbs() .
+        'Fats' . $this->getFats() .
+        'Fiber ' . $this->getFiber();
+    }
 }
