@@ -7,22 +7,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 class RegisterUserDTO {
     public function __construct(
         #[Assert\NotBlank]
-        private string $username,
+        private string $username = '',
 
         #[Assert\NotBlank]
-        private string $password,
+        private string $password = '',
 
         #[Assert\NotBlank]
         #[Assert\Email]
-        private string $email,
+        private string $email = '',
 
         #[Assert\NotBlank]
-        private string $alias,
+        private string $alias = '',
 
         #[Assert\NotBlank]
         #[Assert\GreaterThanOrEqual(15)]
         #[Assert\LessThanOrEqual(100)]
-        private int $age
+        private int $age = 0
     ) {}
     
     public function getUsername(): string {

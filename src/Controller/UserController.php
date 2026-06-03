@@ -82,7 +82,7 @@ class UserController extends AbstractController {
      * It also creates and returns an access token to the user that will be required from all
      * the SMC endpoints and extracted by the Symfony extractor, check reference.
      * Ref: config/packages/security.yaml
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      * @return JsonResponse|Response
      */
     #[Route('/login', name: 'login_form', methods: ['GET', 'POST'])]

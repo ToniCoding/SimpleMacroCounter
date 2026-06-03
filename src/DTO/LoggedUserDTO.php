@@ -8,11 +8,11 @@ class LoggedUserDTO {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Type('string')]
-        private string $username,
+        private string $username = '',
 
         #[Assert\NotBlank]
         #[Assert\Type('string')]
-        private string $password
+        private string $password = ''
     ) {}
 
     public function getUsername(): string {
