@@ -17,9 +17,6 @@ class HistoryPageController extends AbstractController {
 
     #[Route(['/history'], name: 'history', methods: 'GET')]
     public function history(Request $request): Response {
-        $this->isGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
-
         $numberOfDays = (int) $request->query->get('lastDays', 7);
 
         return $this->render('HistoryPageTemplate.twig', [

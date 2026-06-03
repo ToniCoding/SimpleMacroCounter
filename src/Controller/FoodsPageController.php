@@ -17,7 +17,6 @@ class FoodsPageController extends AbstractController {
 
     #[Route(['/foods'], name: 'foods', methods: ['GET', 'POST'])]
     public function foods(Request $request): Response | RedirectResponse {
-        $this->isGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
         $form = $this->createForm(RegisterFoodsType::class, new FoodDTO());

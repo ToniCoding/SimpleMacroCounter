@@ -10,9 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddFoodsPageController extends AbstractController {
     #[Route('/addfood', name: 'addFoodCatalog', methods: 'GET')]
     public function addfood(Request $request, FoodRegistry $foodRegistry): Response {
-        $this->isGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
-
         $foodCatalogPagination = (int) $request->query->get('pagination', 1);
         $marketFilter = (string) $request->query->get('market', '');
 

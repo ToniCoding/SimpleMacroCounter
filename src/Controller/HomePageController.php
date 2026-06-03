@@ -15,8 +15,6 @@ class HomePageController extends AbstractController {
 
     #[Route(['/', '/home'], name: 'home', methods: 'GET')]
     public function home(): Response {
-        $this->isGranted('IS_AUTHENTICATED_FULLY');
-        
         $user = $this->getUser();
 
         $userProgress = $this->userMacrosRetrieve->calculateUserProgress($user);
