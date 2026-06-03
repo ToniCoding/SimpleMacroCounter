@@ -25,10 +25,23 @@
         </testsuite>
     </testsuites>
 
-    <!-- Test coverage directory -->
+    <!-- Test coverage configuration -->
+    <coverage>
+        <report>
+            <html outputDirectory="var/coverage" />
+            <text outputFile="php://stdout" />
+        </report>
+    </coverage>
+
+    <!-- Source code for coverage -->
     <source>
         <include>
             <directory>src</directory>
         </include>
+        <exclude>
+            <!--<directory>src/Entity</directory>-->
+            <directory>src/Migrations</directory>
+            <directory>src/Kernel.php</directory>
+        </exclude>
     </source>
 </phpunit>
