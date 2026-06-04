@@ -33,6 +33,22 @@ class RegisteredUserDtoTest extends TestCase {
         }
     }
 
+    public function testGettersAndSetters(): void {
+        $dto = new RegisterUserDTO();
+
+        $dto->setUsername('test_user');
+        $dto->setPassword('1234');
+        $dto->setEmail('test@smc.dev');
+        $dto->setAge(25);
+        $dto->setAlias('test_alias');
+
+        $this->assertSame('test_user', $dto->getUsername());
+        $this->assertSame('1234', $dto->getPassword());
+        $this->assertSame('test@smc.dev', $dto->getEmail());
+        $this->assertSame(25, $dto->getAge());
+        $this->assertSame('test_alias', $dto->getAlias());
+    }
+
     public static function userProvider(): array {
         return  [
             'correctCase' => ['testUser', 'testPassword', 'test@email.net', 'testAlias', 20, true],

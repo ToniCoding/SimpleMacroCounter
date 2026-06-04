@@ -30,6 +30,15 @@ class LoggedUserDtoTest extends TestCase {
         }
     }
 
+    public function testGettersAndSetters(): void {
+        $dto = new LoggedUserDTO();
+        $dto->setUsername('test_user');
+        $dto->setPassword('1234');
+
+        $this->assertSame('test_user', $dto->getUsername());
+        $this->assertSame('1234', $dto->getPassword());
+    }
+
     public static function userProvider(): array {
         return  [
             'correctCase' =>  ['testUser', 'testPassword', true],

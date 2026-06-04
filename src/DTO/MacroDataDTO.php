@@ -65,9 +65,9 @@ class MacroDataDTO {
 
     public function __toString() {
         return 'Calories: ' . $this->getCalories() .
-        'Protein: ' . $this->getProtein() .
-        'Carbs' . $this->getCarbs() .
-        'Fats' . $this->getFats() .
-        'Fiber ' . $this->getFiber();
+        "\n\tProtein: " . $this->getProtein() .
+        "\n\tCarbs: " . $this->getCarbs() .
+        "\n\tFats: " . $this->getFats() .
+        "\n\tFiber: " . $this->getFiber();
     }
 }

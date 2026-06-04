@@ -33,6 +33,21 @@ class MacroSettingsDtoTest extends TestCase {
         }
     }
 
+    public function testSettersGettersAndGetters(): void {
+        $dto = new MacroSettingsDTO(0, 0, 0, 0);
+        $dto->setNewProtein(20.15);
+        $dto->setNewCarbs(20.15);
+        $dto->setNewFats(20.15);
+        $dto->setNewFiber(20.15);
+        $dto->setNewCalories(100);
+
+        $this->assertSame(20, $dto->getNewProtein());
+        $this->assertSame(20, $dto->getNewCarbs());
+        $this->assertSame(20, $dto->getNewFats());
+        $this->assertSame(20, $dto->getNewFiber());
+        $this->assertSame(100, $dto->getNewCalories());
+    }
+
     public static function foodProvider(): array {
         return [
             'correctData' => [1.00, 2.00, 3.00, 4.00, 100, true],
