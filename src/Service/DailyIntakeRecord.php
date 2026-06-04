@@ -48,9 +48,7 @@ class DailyIntakeRecord {
             throw new WriteToDatabaseException('There was an error inserting a new intake registry.');
         }
 
-        $this->kcalsDailyRepository->insertIntakeRegistry($newMacroRecord);
-
-        $this->logger->error('[DAILY_INTAKE_RECORD_SERVICE] Successfully registered the intake.');
+        $this->logger->info('[DAILY_INTAKE_RECORD_SERVICE] Successfully registered the intake.');
 
         return $this->kcalsDailyRepository->findIntakeRegistryForToday($user);
     }
