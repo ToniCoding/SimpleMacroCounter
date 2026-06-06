@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-        <title>Settings - SMC</title>
-    </head>
-    <body>
-        {% if error %}
-            <div class="alert alert-danger">{{ error }}</div>
-        {% endif %}
-                <header class="header">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>New intake - SMC</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
             <div class="logo">
                 <h3><a href="/">SimpleMacroCounter</a></h3>
             </div>
@@ -42,49 +42,26 @@
                             foods</a></li>
                     <li><a href="/addfood"><img src="{{ asset('img/burger.png') }}" height="32" width="32">Register
                             intake</a></li>
-                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a>
-                    </li>
+                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32"
+                                width="32">Settings</a></li>
                     <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
                                 width="32">Logout</a></li>
                 </ul>
             </div>
         </header>
-        <div class="content">
-            <div class="form-container">
-                <h1 class="page-title">Modify macro-nutrient intake goals</h1>
-                
-                {{ form_start(form) }}
-                    <div class="form-group">
-                        <label for="newCalories">New calories goal</label>
-                        {{ form_widget(form.newCalories, {'id': 'newCalories', 'attr': {'class': 'form-input'}}) }}
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="newProtein">New protein goal</label>
-                        {{ form_widget(form.newProtein, {'id': 'newProtein', 'attr': {'class': 'form-input'}}) }}
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="newCarbs">New carbs goal</label>
-                        {{ form_widget(form.newCarbs, {'id': 'newCarbs', 'attr': {'class': 'form-input'}}) }}
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="newFats">New fats goal</label>
-                        {{ form_widget(form.newFats, {'id': 'newFats', 'attr': {'class': 'form-input'}}) }}
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="newFiber">New fiber goal</label>
-                        {{ form_widget(form.newFiber, {'id': 'newFiber', 'attr': {'class': 'form-input'}}) }}
-                    </div>
-                    
-                    <button type="submit" class="btn-submit">Modify</button>
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </body>
-        <script>
+
+        <main class="main-content">
+            <h1>Error {{ errorCode }}</h1>
+            <p>{{ errorMessage }}</p>
+
+            <a href="{{ path('home') }}" class="btn btn-primary">
+                Volver al inicio
+            </a>
+        </main>
+
+    </div>
+
+    <script>
         const hamburger = document.querySelector('.hamburger-menu');
         const navMobile = document.querySelector('.nav-mobile');
         const overlay = document.createElement('div');
@@ -123,4 +100,9 @@
             }
         });
     </script>
+    <script type="module" src="{{ asset('js/utils.js') }}"></script>
+    <script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
+    <script type="module" src="{{ asset('js/payloadCreator.js') }}"></script>
+</body>
+
 </html>

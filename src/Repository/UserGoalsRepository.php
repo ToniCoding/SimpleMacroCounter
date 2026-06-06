@@ -20,13 +20,8 @@ class UserGoalsRepository extends ServiceEntityRepository {
     }
 
     public function insertGoalRegistry(UserGoals $userGoals): bool {
-        try {
-            $this->getEntityManager()->persist($userGoals);
-            $this->getEntityManager()->flush();
-        } catch (\Exception $ex) {
-            echo $ex;
-            return false;
-        }
+        $this->getEntityManager()->persist($userGoals);
+        $this->getEntityManager()->flush();
 
         return true;
     }

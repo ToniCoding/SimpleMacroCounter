@@ -47,13 +47,9 @@ class KcalsDailyRepository extends ServiceEntityRepository {
     }
 
     public function insertIntakeRegistry(KcalsDaily $kcalsDailyEntity): bool {
-        try {
-            $this->getEntityManager()->persist($kcalsDailyEntity);
-            $this->getEntityManager()->flush();
-        } catch (\Exception $ex) {
-            return false;
-        }
-
+        $this->getEntityManager()->persist($kcalsDailyEntity);
+        $this->getEntityManager()->flush();
+        
         return true;
     }
 

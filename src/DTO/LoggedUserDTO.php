@@ -7,10 +7,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class LoggedUserDTO {
     public function __construct(
         #[Assert\NotBlank]
-        private string $username,
+        #[Assert\Type('string')]
+        private string $username = '',
 
         #[Assert\NotBlank]
-        private string $password
+        #[Assert\Type('string')]
+        private string $password = ''
     ) {}
 
     public function getUsername(): string {

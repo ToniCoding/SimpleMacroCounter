@@ -1,3 +1,7 @@
 framework:
     csrf_protection:
         enabled: true
+    form:
+        csrf_protection:
+            enabled: true
+            field_name: _token

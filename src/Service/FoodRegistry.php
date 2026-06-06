@@ -2,6 +2,7 @@
 
 namespace src\Service;
 
+use Psr\Log\LoggerInterface;
 use src\DTO\{FoodDTO, MacroDataDTO};
 use src\Entity\{User, Food};
 use src\Repository\{FoodsRepository, KcalsDailyRepository};
@@ -11,10 +12,14 @@ class FoodRegistry {
     public function __construct(
         private FoodsRepository $foodsRepository,
         private KcalsDailyRepository $kcalsDailyRepository,
+        private LoggerInterface $logger
     ) {}
 
     public function createFood(FoodDTO $foodDTO, User $user): void {
+        $this->logger->info('[FOOD_REGISTRY_SERVICE] Registering new Food.');
+        
         $food = new Food();
+
         $food->setName($foodDTO->getName());
         $food->setMarket($foodDTO->getMarket());
         $food->setProtein((float) $foodDTO->getProtein());
@@ -22,6 +27,9 @@ class FoodRegistry {
         $food->setFats((float) $foodDTO->getFats());
         $food->setFiber((float) $foodDTO->getFiber());
         $food->setUser($user);
+
+        $this->logger->info('[FOOD_REGISTRY_SERVICE] Registering new Food.');
+        $this->logger->notice('[FOOD_REGISTRY_SERVICE] Food to registry: ' . $food->__toString());
 
         $this->foodsRepository->registerFood($food);
     }
@@ -58,6 +66,7 @@ class FoodRegistry {
         $gramsConsumed = (float) ($intake['grams'] ?? 0);
 
         if (!$foundFood) {
+            $this->logger->warning('[FOOD_REGISTRY_SERVICE] Food not found while registering an intake related to it.');
             return false;
         }
 
@@ -66,7 +75,11 @@ class FoodRegistry {
                 $user,
                 $this->foodToMacroDTO($foundFood, $gramsConsumed)
             );
+
+            $this->logger->info('[FOOD_REGISTRY_SERVICE] Successfully registered food with ID: ' . $foundFood->getName());
         } catch (\Throwable $e) {
+            $this->logger->error('[FOOD_REGISTRY_SERVICE] Something went wrong while registering the intake for the food with ID: ' . $foundFood->getName());
+            $this->logger->error('[FOOD_REGISTRY_SERVICE] Exception is: ' . $e->getMessage());
             return false;
         }
 

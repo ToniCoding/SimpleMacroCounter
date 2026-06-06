@@ -3,25 +3,18 @@
 namespace src\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Symfony\Component\Security\Core\User\{UserInterface, PasswordAuthenticatedUserInterface};
 
 #[ORM\Entity]
-#[ORM\Table(
-    name: "users",
-    uniqueConstraints: [
-        new UniqueConstraint(name: "uniq_username", columns: ["username"]),
-        new UniqueConstraint(name: "uniq_email", columns: ["email"])
-    ]
-)]
+#[ORM\Table(name: "users")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
     private ?int $id;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: "string", length: 255, unique: true)]
     private string $username;
 
     #[ORM\Column(type: "string", length: 255)]
@@ -30,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Column(type: "string", length: 255)]
     private string $userAlias;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: "string", length: 255, unique: true)]
     private string $email;
 
     #[ORM\Column(type: "integer")]
@@ -128,10 +121,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
         $this->lastLogin = $lastLogin;
     }
 
-    public function setIsActive(bool $isActive): void {
-        $this->isActive = $isActive;
-    }
-
     public function getKcalsDailyRecords(): Collection {
         return $this->kcalsDailyRecords;
     }
@@ -167,7 +156,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
     public function __toString(): string {
         return sprintf(
-            'User[id=%s, username=%s, alias=%s, email=%s, age=%d, created=%s, lastLogin=%s, active=%s]',
+            'User[id=%s, username=%s, alias=%s, email=%s, age=%d, created=%s, lastLogin=%s]',
             $this->id ?? 'null',
             $this->username,
             $this->userAlias,
@@ -175,7 +164,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
             $this->age,
             $this->createdTime->format('Y-m-d'),
             $this->lastLogin->format('Y-m-d'),
-            $this->status
         );
     }
 }

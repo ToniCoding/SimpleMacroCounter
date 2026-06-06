@@ -8,26 +8,25 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
-        "symfony/framework-bundle": "^7.0",
-        "symfony/http-foundation": "^6.4",
-        "symfony/routing": "^6.4",
-        "symfony/dependency-injection": "^6.4",
-        "symfony/skeleton": "^7.3",
-        "doctrine/dbal": "^3",
+        "php": ">=8.2",
+        "symfony/framework-bundle": "7.2.*",
+        "symfony/routing": "7.4.13",
+        "symfony/dependency-injection": "7.2.*",
+        "symfony/console": "7.2.*",
+        "symfony/yaml": "7.4.12",
+        "symfony/options-resolver": "7.2.*",
+        "symfony/security-csrf": "7.2.*",
+        "symfony/twig-bundle": "7.2.*",
+        "symfony/asset": "7.2.*",
+        "symfony/security-bundle": "7.2.*",
+        "symfony/form": "7.2.*",
+        "symfony/validator": "7.2.*",
+        "symfony/runtime": "7.4.12",
+        "symfony/dotenv": "7.2.*",
+        "doctrine/dbal": "^3.0",
         "doctrine/doctrine-bundle": "^2.16",
         "doctrine/doctrine-migrations-bundle": "^3.4",
-        "doctrine/orm": "^3.5",
-        "symfony/runtime": "^7.3",
-        "symfony/console": "^7.3",
-        "symfony/yaml": "^7.3",
-        "symfony/validator": "^7.3",
-        "symfony/form": "*",
-        "symfony/options-resolver": "*",
-        "symfony/security-csrf": "^7.3",
-        "symfony/twig-bundle": "^7.3",
-        "symfony/asset": "^7.3",
-        "symfony/security-bundle": "^7.3"
+        "doctrine/orm": "^3.6"
     },
     "autoload": {
         "psr-4": {
@@ -37,7 +36,10 @@
     "require-dev": {
         "symfony/maker-bundle": "^1.64",
         "symfony/flex": "^2.8",
-        "symfony/dotenv": "^7.3"
+        "phpunit/phpunit": "10.5.62",
+        "symfony/browser-kit": "7.2.*",
+        "symfony/css-selector": "7.2.*",
+        "symfony/phpunit-bridge": "7.2.*"
     },
     "config": {
         "allow-plugins": {
@@ -49,6 +51,7 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        }
+        },
+        "phpunit": "vendor\\bin\\phpunit"
     }
 }

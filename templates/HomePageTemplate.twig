@@ -18,8 +18,8 @@
 
             <div class="navigation">
                 <ul class="nav-desktop">
-                    <li><a href="/modifyMacros">Add macros</a></li>
-                    <li><a href="/reduceMacros">Reduce macros</a></li>
+                    <li><a href="/modifyMacros?action=increase">Add macros</a></li>
+                    <li><a href="/modifyMacros?action=reduce">Reduce macros</a></li>
                     <li><a href="/history">History</a></li>
                     <li><a href="/foods">Register foods</a></li>
                     <li><a href="/addfood">Register intake</a></li>
@@ -32,9 +32,9 @@
                 </button>
 
                 <ul class="nav-mobile">
-                    <li><a href="/modifyMacros"><img src="{{ asset('img/up_arrow.png') }}" height="32" width="32">Add
+                    <li><a href="/modifyMacros?action=increase"><img src="{{ asset('img/up_arrow.png') }}" height="32" width="32">Add
                             macros</a></li>
-                    <li><a href="/reduceMacros"><img src="{{ asset('img/down_arrow.png') }}" height="32"
+                    <li><a href="/modifyMacros?action=reduce"><img src="{{ asset('img/down_arrow.png') }}" height="32"
                                 width="32">Reduce Macros</a></li>
                     <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32"
                                 width="32">History</a></li>
@@ -51,9 +51,9 @@
         </header>
         <main class="content">
             <div class="text-content">
-                <p>Today you consumed <b>{{ calories }}</b> kcals. You are <b>{{ calories|replace({'-':''})
-                        }}</b>{% if calorieProgress >= 100 %} over {% else %} under {% endif %} your goal of {{
-                    caloriesGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
+                <p>Today you consumed <b>{{ calories }}</b> kcals. You are <b>{{ caloricProgress|replace({'-':''})
+                    }}</b>{% if calorieProgress >= 100 %} over {% else %} under {% endif %} your goal of {{
+                    calorieGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
             </div>
             {% for message in app.flashes('registerFoodStatus') %}
             <div class="alert alert-success">

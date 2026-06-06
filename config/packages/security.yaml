@@ -1,14 +1,17 @@
 security:
+  # How is the user password hashed.
   password_hashers:
     src\Entity\User:
       algorithm: auto
 
+  # Class in charge of validating and creating the user identity.
   providers:
     app_user_provider:
       entity:
         class: src\Entity\User
         property: username
 
+  # Main firewall for the application. Interceptor for all requests before they arrive to the controller layer.
   firewalls:
     main:
       pattern: ^/
@@ -26,6 +29,7 @@ security:
         token_extractors:
           - 'header'
 
+  # Manage access permissions for users based on their roles.
   access_control:
     - { path: ^/(login|register), roles: PUBLIC_ACCESS }
     - { path: ^/, roles: ROLE_USER }

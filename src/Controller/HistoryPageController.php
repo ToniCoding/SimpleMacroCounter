@@ -4,7 +4,6 @@ namespace src\Controller;
 
 use src\Helpers\DateParser;
 use src\Service\UserMacrosRetrieve;
-use src\Entity\User;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -16,18 +15,11 @@ class HistoryPageController extends AbstractController {
         private DateParser $dateParser
     ) {}
 
-    #[Route(['/history'], name: 'history')]
+    #[Route(['/history'], name: 'history', methods: 'GET')]
     public function history(Request $request): Response {
-        $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('User not found');
-        }
-
         $numberOfDays = (int) $request->query->get('lastDays', 7);
 
         return $this->render('HistoryPageTemplate.twig', [
-            'user' => $user->getUsername(),
             'page_title' => 'History - SMC',
             'historyData' => $this->getLastDaysHistory($numberOfDays),
             'days' => $numberOfDays

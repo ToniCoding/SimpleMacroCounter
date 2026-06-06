@@ -18,7 +18,7 @@ class RegisterUserType extends AbstractType {
             -> add('age', IntegerType::class);
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
             'data_class' => RegisterUserDTO::class,
             'csrf_protection' => false,
