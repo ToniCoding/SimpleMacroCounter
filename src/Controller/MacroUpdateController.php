@@ -37,7 +37,7 @@ class MacroUpdateController extends AbstractController {
             try {
                 $method = $intent === 'increase' ? 'addMacros' : 'reduceMacros';
                 $extraParam = $intent === 'reduce' ? ['reduce'] : [];
-                $this->macroIntakeUpdater->$method($user, $form->getData(), ...$extraParam);
+                $this->macroIntakeUpdater->updateMacroIntake($user, $form->getData(), ...$extraParam);
 
                 return $this->redirectToRoute('home');
             } catch (ExceededMacroLimitException $ex) {

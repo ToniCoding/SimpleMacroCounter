@@ -132,4 +132,76 @@ class UserMacrosRetrieve
 
         return $totalCalories;
     }
+
+    /**
+     * Calculates the risk of the user exceeding its weekly calorie goal based on
+     * the remaining days. T
+     * @param int $weeklyConsumption
+     * @param int $weeklyGoal
+     * @return bool
+     */
+    public function calculateWeeklyRisk(float $weeklyGoal, float $weeklyConsumption, float $todayConsumption = 0): array {
+        $weights = [
+            1 => 1.0,
+            2 => 1.0,
+            3 => 1.0,
+            4 => 1.1,
+            5 => 1.2,
+            6 => 1.4,
+            7 => 1.3,
+        ];
+
+        $today = new \DateTime('now');
+        $currentDay = (int) $today->format('N');
+
+        $daysPassed = $currentDay - 1;
+
+        $remainingBudget = $weeklyGoal - ($weeklyConsumption + $todayConsumption);
+
+        $daysPassed > 0
+            ? $averageDaily = $weeklyConsumption / $daysPassed
+            : $averageDaily = $weeklyGoal / 7;
+
+        $expectedConsumption = 0;
+
+        for ($day = $currentDay; $day <= 7; $day++) {
+            $expectedConsumption += $weights[$day] * $averageDaily;
+        }
+
+        $remainingBudget <= 0
+            ? $risk = 999
+            : $risk = $expectedConsumption / $remainingBudget;
+
+        $level = $this->getRiskLevel($risk);
+
+        return [
+            'risk' => round($risk, 2),
+            'risk_color' => $this->getRiskColor($level),
+            'level' => $level,
+            'expected_consumption' => round($expectedConsumption),
+            'remaining_budget' => round($remainingBudget),
+        ];
+    }
+
+    private function getRiskLevel(float $risk): string {
+        if ($risk < 0.8) {
+            return 'low';
+        }
+        if ($risk < 1.0) {
+            return 'medium';
+        }
+        if ($risk < 1.2) {
+            return 'high';
+        }
+        return 'very_high';
+    }
+
+    private function getRiskColor(string $riskLevel): string {
+        return match($riskLevel) {
+            'low' => 'green',
+            'medium' => 'yellow',
+            'high', 'very_high' => 'red',
+            default => 'gray',
+        };
+    }
 }
