@@ -1012,3 +1012,7 @@ a {
     grid-template-columns: 1fr !important;
   }
 }
+
+.risk-low { color: #10b981; }
+.risk-medium { color: #d97706; }
+.risk-high { color: #dc2626; }

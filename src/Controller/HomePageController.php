@@ -20,12 +20,24 @@ class HomePageController extends AbstractController {
         $userProgress = $this->userMacrosRetrieve->calculateUserProgress($user);
         $userGoals = $this->userMacrosRetrieve->getMacroGoalsArr($user);
         $macrosConsumed = $this->userMacrosRetrieve->getConsumedMacrosArr($user);
+        $weeklyGoal = $this->userMacrosRetrieve->getUserWeeklyGoal($user);
+        $weeklyConsumption = $this->userMacrosRetrieve->getCaloriesConsumedForCurrentWeek($user);
+        
+        $weeklyGoalDanger = $this->userMacrosRetrieve->calculateWeeklyRisk($weeklyGoal, $weeklyConsumption, $macrosConsumed['calories']);
+        $weeklyRisk = str_replace('_', ' ', ucfirst($weeklyGoalDanger['risk']));
+        $riskColor = $weeklyGoalDanger['risk_color'];
+
+        echo $weeklyRisk;
 
         return $this->render('HomePageTemplate.twig', [
             'message' => 'Welcome to SMC',
             'caloricProgress' => $userGoals['caloriesGoal'] - $macrosConsumed['calories'],
             'caloriesConsumed' => $macrosConsumed['calories'],
             'calorieGoal' => $userGoals['caloriesGoal'],
+            'weeklyGoal' => $weeklyGoal,
+            'weeklyConsumption' => $weeklyConsumption,
+            'weeklyRisk' => $weeklyRisk,
+            'riskColor' => $riskColor,
             ...$userProgress,
             ...$userGoals,
             ...$macrosConsumed

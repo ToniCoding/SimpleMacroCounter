@@ -4,14 +4,19 @@ namespace src\Service;
 
 use src\DTO\MacroDataDTO;
 use src\Entity\User;
+use src\Exceptions\NoRecordFoundException;
+use src\Repository\UserGoalsRepository;
 use src\Service\DailyIntakeRecord;
 use src\Repository\KcalsDailyRepository;
+use src\Helpers\DateParser;
 
 class UserMacrosRetrieve
 {
     public function __construct(
         private DailyIntakeRecord $dailyIntakeRecord,
-        private KcalsDailyRepository $kcalsDailyRepository
+        private KcalsDailyRepository $kcalsDailyRepository,
+        private UserGoalsRepository $userGoalsRepository,
+        private DateParser $dateParser
     ) {}
 
     /**
@@ -102,5 +107,29 @@ class UserMacrosRetrieve
             'fiberGoal' => (float) $userGoals->getFiber(),
             'caloriesGoal' => (float) $userGoals->getCalories()
         ];
+    }
+
+    public function getUserWeeklyGoal(User $user): int {
+        $goalRegistry = $this->userGoalsRepository->findOneBy(['user' => $user]);
+
+        if (!$goalRegistry) {
+            throw new NoRecordFoundException();
+        }
+
+        return $goalRegistry->getCalories() * 7;
+    }
+
+    public function getCaloriesConsumedForCurrentWeek(User $user): int {
+        $weekStart = new \DateTime('monday this week');
+        $weekEnd = new \DateTime('sunday this week');
+
+        $caloriesConsumed = $this->kcalsDailyRepository->findByDateRange($weekStart->setTime(0, 0, 0), $weekEnd->setTime(23, 59, 59), $user);
+        $totalCalories = 0;
+
+        foreach($caloriesConsumed as $item) {
+            $totalCalories += $item->getKcals();
+        }
+
+        return $totalCalories;
     }
 }

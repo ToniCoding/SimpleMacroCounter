@@ -98,7 +98,17 @@
                     <span class="progress-text">{{ fiberGrams }}g / {{ fiberGoal }} <sup><i>goal</sup></i></span>
                 </div>
             </div>
-            <div class="text-content"></div> <!-- Reserved section for future analytics -->
+            <div class="text-content">
+                <div>
+                    <span>
+                        Weekly balance: {{ weeklyConsumption }} / 
+                        <span style="color: {{ riskColor }}">
+                            {{ weeklyGoal }}
+                        </span>
+                        calories
+                    </span>
+                </div>
+            </div> <!-- Reserved section for future analytics -->
         </main>
     </div>
 </body>
