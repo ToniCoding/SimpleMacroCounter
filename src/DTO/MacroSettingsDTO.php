@@ -61,4 +61,12 @@ class MacroSettingsDTO {
     public function setNewCalories(int $newCalories): void {
         $this->newCalories = $newCalories;
     }
+
+    public function __toString() {
+        return 'Calories: ' . $this->getNewCalories() .
+        "\n\tProtein: " . $this->getNewProtein() .
+        "\n\tCarbs: " . $this->getNewCarbs() .
+        "\n\tFats: " . $this->getNewFats() .
+        "\n\tFiber: " . $this->getNewFiber();
+    }
 }
