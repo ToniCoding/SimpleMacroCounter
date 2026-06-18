@@ -12,13 +12,15 @@ class AddFoodsPageController extends AbstractController {
     public function addfood(Request $request, FoodRegistry $foodRegistry): Response {
         $foodCatalogPagination = (int) $request->query->get('pagination', 1);
         $marketFilter = (string) $request->query->get('market', '');
-
+    
+        $catalog = $foodRegistry->getProductsByMarket(
+            $foodCatalogPagination,
+            $marketFilter,
+            'human'
+        );
+        
         return $this->render('AddFoodTemplate.twig', [
-            'foodCatalog' => $foodRegistry->getFoodsByMarket(
-                $foodCatalogPagination,
-                $marketFilter,
-                ''
-            )
+            'foodCatalog' => $catalog
         ]);
     }
 
