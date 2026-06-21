@@ -35,8 +35,6 @@ class ProductsRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    public function getProductById(int $id) {}
-
     public function fullTextSearch(string $search, int $limit = 20): array {
         $search = trim($search);
         if (empty($search)) {

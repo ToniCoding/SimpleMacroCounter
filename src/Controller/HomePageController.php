@@ -27,8 +27,6 @@ class HomePageController extends AbstractController {
         $weeklyRisk = str_replace('_', ' ', ucfirst($weeklyGoalDanger['risk']));
         $riskColor = $weeklyGoalDanger['risk_color'];
 
-        echo $weeklyRisk;
-
         return $this->render('HomePageTemplate.twig', [
             'message' => 'Welcome to SMC',
             'caloricProgress' => $userGoals['caloriesGoal'] - $macrosConsumed['calories'],
