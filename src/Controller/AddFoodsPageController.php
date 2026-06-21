@@ -50,7 +50,20 @@ class AddFoodsPageController extends AbstractController {
 
         return new JsonResponse([
             'success' => false,
-            'redirect' => '/home'
+            'redirect' => '/addfood'
         ], 500); # This should be sending something in accordance to the error. TechDebt.
+    }
+
+    #[Route('/api/search-products', name: 'api_search_products', methods: 'GET')]
+    public function searchProducts(Request $request, FoodRegistry $foodRegistry): JsonResponse {
+        $query = $request->query->get('q', '');
+
+        if (\strlen(trim($query)) < 2) {
+            return $this->json([]);
+        }
+
+        $results = $foodRegistry->searchProductsByFullText($query, 500);
+
+        return $this->json($results);
     }
 }

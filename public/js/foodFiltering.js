@@ -218,7 +218,6 @@ function createMobileRow(food) {
         const grams = parseFloat(e.target.value || 100);
         activeGrams = grams;
 
-        /* si es la card activa, actualizar macros */
         if (selectedFood && selectedRow === row) {
             updateMobileMacros(row, food, grams);
             updateUI(food, grams);
@@ -235,6 +234,53 @@ function renderMobile(data) {
     data.forEach(food => mobileList.appendChild(createMobileRow(food)));
 }
 
+let debounceTimer;
+
+async function searchProductsApi(query) {
+    if (query.length < 2) {
+        renderDesktop(foodCatalog);
+        renderMobile(foodCatalog);
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/search-products?q=${encodeURIComponent(query)}`);
+        const results = await response.json();
+
+        const formattedResults = results.map(p => [
+            p.name,
+            p.market,
+            p.kcal,
+            p.protein,
+            p.carbs,
+            p.fats,
+            p.fiber,
+            p.id
+        ]);
+
+        renderDesktop(formattedResults);
+        renderMobile(formattedResults);
+    } catch (error) {
+        console.error('Error en búsqueda API:', error);
+    }
+}
+
+searchInput?.addEventListener("input", (e) => {
+    const query = e.target.value.trim();
+    
+    clearTimeout(debounceTimer);
+    
+    if (query.length < 2) {
+        renderDesktop(foodCatalog);
+        renderMobile(foodCatalog);
+        return;
+    }
+    
+    debounceTimer = setTimeout(() => {
+        searchProductsApi(query);
+    }, 300);
+});
+
 /* =========================
    INIT
 ========================= */
@@ -242,23 +288,23 @@ function init() {
     renderDesktop(foodCatalog);
     renderMobile(foodCatalog);
 
-    searchInput?.addEventListener("input", (e) => {
-        const clean = e.target.value.toLowerCase().trim();
+    // searchInput?.addEventListener("input", (e) => {
+    //     const clean = e.target.value.toLowerCase().trim();
 
-        if (clean.length < 2) {
-            renderDesktop(foodCatalog);
-            renderMobile(foodCatalog);
-            return;
-        }
+    //     if (clean.length < 2) {
+    //         renderDesktop(foodCatalog);
+    //         renderMobile(foodCatalog);
+    //         return;
+    //     }
 
-        const filtered = foodCatalog.filter(f =>
-            f[0].toLowerCase().includes(clean) ||
-            f[1].toLowerCase().includes(clean)
-        );
+    //     const filtered = foodCatalog.filter(f =>
+    //         f[0].toLowerCase().includes(clean) ||
+    //         f[1].toLowerCase().includes(clean)
+    //     );
 
-        renderDesktop(filtered);
-        renderMobile(filtered);
-    });
+    //     renderDesktop(filtered);
+    //     renderMobile(filtered);
+    // });
 
     gramsInput?.addEventListener("input", () => {
         const grams = gramsInput.value === "" ? 100 : parseFloat(gramsInput.value);

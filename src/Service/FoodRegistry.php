@@ -4,7 +4,7 @@ namespace src\Service;
 
 use Psr\Log\LoggerInterface;
 use src\DTO\{FoodDTO, MacroDataDTO};
-use src\Entity\{User, Food};
+use src\Entity\{User, Food, Products};
 use src\Repository\{FoodsRepository, KcalsDailyRepository, ProductsRepository};
 use function src\Helpers\calorieCalc;
 
@@ -35,33 +35,68 @@ class FoodRegistry {
         $this->foodsRepository->registerFood($food);
     }
 
-public function getProductsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array {
-    $offsetCalculated = ($offset - 1) * 100;
-    $queryResult = $this->productsRepository->getProductsByMarket($market, $offsetCalculated);
-    $formattedData = [];
+    public function getProductsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array {
+        $offsetCalculated = ($offset - 1) * 100;
+        $queryResult = $this->productsRepository->getProductsByMarket($market, $offsetCalculated);
+        $formattedData = [];
 
-    foreach ($queryResult as $product) {
-        $foodData = [
-            $product->getProductName(),
-            $product->getMarket(),
-            $product->getKcal(),
-            $product->getProtein(),
-            $product->getCarbs(),
-            $product->getFats(),
-            $product->getFiber(),
-            $product->getId()
-        ];
+        foreach ($queryResult as $product) {
+            $foodData = [
+                $product->getProductName(),
+                $product->getMarket(),
+                $product->getKcal(),
+                $product->getProtein(),
+                $product->getCarbs(),
+                $product->getFats(),
+                $product->getFiber(),
+                $product->getId()
+            ];
 
-        if ($format === 'human') {
-            $foodData[0] = ucfirst($foodData[0]);
-            $foodData[1] = ucfirst($foodData[1]);
+            if ($format === 'human') {
+                $foodData[0] = ucfirst($foodData[0]);
+                $foodData[1] = ucfirst($foodData[1]);
+            }
+
+            $formattedData[] = $foodData;
         }
 
-        $formattedData[] = $foodData;
+        return $formattedData;
     }
 
-    return $formattedData;
-}
+    public function searchProducts(string $query): array {
+        $results = $this->productsRepository->autocomplete($query, 10);
+
+        $formatted = [];
+        foreach ($results as $product) {
+            $formatted[] = [
+                'id' => $product->getId(),
+                'name' => $product->getProductName(),
+                'market' => $product->getMarket(),
+                'kcal' => $product->getKcal()
+            ];
+        }
+        return $formatted;
+    }
+
+    public function searchProductsByFullText(string $query, int $limit = 20): array {
+        $results = $this->productsRepository->fullTextSearch($query, $limit);
+
+        $formatted = [];
+        foreach ($results as $product) {
+            $formatted[] = [
+                'id' => $product->getId(),
+                'name' => $product->getProductName(),
+                'market' => $product->getMarket(),
+                'kcal' => $product->getKcal(),
+                'protein' => $product->getProtein(),
+                'carbs' => $product->getCarbs(),
+                'fats' => $product->getFats(),
+                'fiber' => $product->getFiber()
+            ];
+        }
+
+        return $formatted;
+    }
 
     // This code cannot be used as long as the database hotfix for the mixin of Products and Foods is applied.
     // public function getFoodsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array {
@@ -92,7 +127,8 @@ public function getProductsByMarket(int $offset = 1, string $market = '', string
     // }
 
     public function registerFoodIntake(array $intake, User $user): bool {
-        $foundFood = $this->foodsRepository->getFood((int) $intake['id']);
+        //$foundFood = $this->foodsRepository->getFood((int) $intake['id']);
+        $foundFood = $this->productsRepository->findOneBy(['id' => (int) $intake['id']]);
         $gramsConsumed = (float) ($intake['grams'] ?? 0);
 
         if (!$foundFood) {
@@ -106,9 +142,9 @@ public function getProductsByMarket(int $offset = 1, string $market = '', string
                 $this->foodToMacroDTO($foundFood, $gramsConsumed)
             );
 
-            $this->logger->info('[FOOD_REGISTRY_SERVICE] Successfully registered food with ID: ' . $foundFood->getName());
+            $this->logger->info('[FOOD_REGISTRY_SERVICE] Successfully registered food with ID: ' . $foundFood->getProductName());
         } catch (\Throwable $e) {
-            $this->logger->error('[FOOD_REGISTRY_SERVICE] Something went wrong while registering the intake for the food with ID: ' . $foundFood->getName());
+            $this->logger->error('[FOOD_REGISTRY_SERVICE] Something went wrong while registering the intake for the food with ID: ' . $foundFood->getProductName());
             $this->logger->error('[FOOD_REGISTRY_SERVICE] Exception is: ' . $e->getMessage());
             return false;
         }
@@ -116,7 +152,7 @@ public function getProductsByMarket(int $offset = 1, string $market = '', string
         return true;
     }
 
-    private function foodToMacroDTO(Food $food, float $gramsConsumed): MacroDataDTO {
+    private function foodToMacroDTO(Food|Products $food, float $gramsConsumed): MacroDataDTO {
         $consumedMultiplier = $gramsConsumed / 100;
 
         $macroDTO = new MacroDataDTO();
