@@ -18,6 +18,9 @@ class Products {
     #[ORM\Column(type: "string", length: 500)]
     private string $market;
 
+    #[ORM\Column(type: "string", length: 500)]
+    private string $brand;
+
     #[ORM\Column(type: "integer")]
     private int $kcal;
 
@@ -63,6 +66,14 @@ class Products {
     public function setMarket(string $market): self {
         $this->market = $market;
         return $this;
+    }
+
+    public function getBrand(): string {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): void {
+        $this->brand = $brand;
     }
 
     public function getKcal(): int {
