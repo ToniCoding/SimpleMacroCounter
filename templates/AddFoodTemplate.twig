@@ -64,6 +64,28 @@
                 <input class="form-input table-search" type="text" id="search-bar-food" placeholder="Search food..." />
 
                 <!-- =========================
+                 PAGINACIÓN
+            ========================== -->
+                <div class="pagination-controls">
+                    {% if pagination.hasPrevious %}
+                        <a href="?pagination={{ pagination.currentPage - 1 }}&market={{ marketFilter }}" class="btn-pagination">←</a>
+                    {% else %}
+                        <span class="btn-pagination disabled">←</span>
+                    {% endif %}
+
+                    <span class="page-info">
+                        Página {{ pagination.currentPage }} de {{ pagination.totalPages }}
+                        ({{ pagination.totalItems }} productos)
+                    </span>
+
+                    {% if pagination.hasNext %}
+                        <a href="?pagination={{ pagination.currentPage + 1 }}&market={{ marketFilter }}" class="btn-pagination">→</a>
+                    {% else %}
+                        <span class="btn-pagination disabled">→</span>
+                    {% endif %}
+                </div>
+
+                <!-- =========================
                  DESKTOP TABLE
             ========================== -->
                 <div class="foodTable">
@@ -171,6 +193,9 @@
     <script type="module" src="{{ asset('js/utils.js') }}"></script>
     <script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
     <script type="module" src="{{ asset('js/payloadCreator.js') }}"></script>
+    <script>
+        window.foodCatalogPagination = {{ foodCatalogPagination|raw }};
+    </script>
 </body>
 
 </html>

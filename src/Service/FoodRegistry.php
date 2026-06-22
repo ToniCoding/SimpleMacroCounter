@@ -35,12 +35,12 @@ class FoodRegistry {
         $this->foodsRepository->registerFood($food);
     }
 
-    public function getProductsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array {
-        $offsetCalculated = ($offset - 1) * 100;
-        $queryResult = $this->productsRepository->getProductsByMarket($market, $offsetCalculated);
-        $formattedData = [];
+    public function getProductsByMarket(int $page = 1, string $market = '', string $format = 'human', int $limit = 100): array {
+        $offset = ($page - 1) * $limit;
+        $result = $this->productsRepository->getProductsByMarket($market, $offset, $limit);
 
-        foreach ($queryResult as $product) {
+        $formattedData = [];
+        foreach ($result['data'] as $product) {
             $foodData = [
                 $product->getProductName(),
                 $product->getMarket(),
@@ -61,7 +61,17 @@ class FoodRegistry {
             $formattedData[] = $foodData;
         }
 
-        return $formattedData;
+        return [
+            'data' => $formattedData,
+            'pagination' => [
+                'currentPage' => $result['currentPage'],
+                'totalPages' => $result['totalPages'],
+                'totalItems' => $result['total'],
+                'itemsPerPage' => $limit,
+                'hasNext' => $result['currentPage'] < $result['totalPages'],
+                'hasPrevious' => $result['currentPage'] > 1
+            ]
+        ];
     }
 
     public function searchProducts(string $query): array {
@@ -79,11 +89,12 @@ class FoodRegistry {
         return $formatted;
     }
 
-    public function searchProductsByFullText(string $query, int $limit = 20): array {
-        $results = $this->productsRepository->fullTextSearch($query, $limit);
+    public function searchProductsByFullText(string $query, int $page = 1, int $limit = 125): array {
+        $offset = ($page - 1) * $limit;
+        $results = $this->productsRepository->fullTextSearch($query, $offset, $limit);
 
         $formatted = [];
-        foreach ($results as $product) {
+        foreach ($results['data'] as $product) {
             $formatted[] = [
                 'id' => $product->getId(),
                 'name' => $product->getProductName(),
@@ -97,7 +108,17 @@ class FoodRegistry {
             ];
         }
 
-        return $formatted;
+        return [
+            'data' => $formatted,
+            'pagination' => [
+                'currentPage' => $page,
+                'totalPages' => $results['totalPages'],
+                'totalItems' => $results['total'],
+                'itemsPerPage' => $limit,
+                'hasNext' => $page < $results['totalPages'],
+                'hasPrevious' => $page > 1
+            ]
+        ];
     }
 
     // This code cannot be used as long as the database hotfix for the mixin of Products and Foods is applied.

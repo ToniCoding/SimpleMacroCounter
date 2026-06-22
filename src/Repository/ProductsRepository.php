@@ -11,18 +11,32 @@ class ProductsRepository extends ServiceEntityRepository {
         parent::__construct($registry, Products::class);
     }
 
-    public function getProductsByMarket(string $market, int $offset): array {
+    public function getProductsByMarket(string $market, int $offset, int $limit = 125): array {
         $qb = $this->createQueryBuilder('p');
-        
-        if (!empty($market)) {
+
+        if (!empty($market) && $market !== 'all') {
             $qb->where('p.market = :market')
                ->setParameter('market', $market);
         }
-        
-        return $qb->setMaxResults(100)
-                  ->setFirstResult($offset)
-                  ->getQuery()
-                  ->getResult();
+
+        $totalQb = clone $qb;
+        $total = $totalQb->select('COUNT(p.id)')
+                         ->getQuery()
+                         ->getSingleScalarResult();
+
+        $results = $qb->setMaxResults($limit)
+                      ->setFirstResult($offset)
+                      ->getQuery()
+                      ->getResult();
+
+        return [
+            'data' => $results,
+            'total' => (int) $total,
+            'limit' => $limit,
+            'offset' => $offset,
+            'currentPage' => ($offset / $limit) + 1,
+            'totalPages' => ceil($total / $limit)
+        ];
     }
 
     public function searchProducts(string $search, int $offset): array {
@@ -35,10 +49,10 @@ class ProductsRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    public function fullTextSearch(string $search, int $limit = 20): array {
+    public function fullTextSearch(string $search, int $offset, int $limit = 125): array {
         $search = trim($search);
         if (empty($search)) {
-            return [];
+            return ['data' => [], 'total' => 0, 'totalPages' => 0];
         }
 
         $terms = explode(' ', $search);
@@ -52,12 +66,22 @@ class ProductsRepository extends ServiceEntityRepository {
         $searchStr = implode(' ', $searchTerms);
 
         $conn = $this->getEntityManager()->getConnection();
-        
+
+        $countSql = '
+            SELECT COUNT(*) as total
+            FROM products p
+            WHERE MATCH(p.product_name, p.market, p.brand) AGAINST(:search IN BOOLEAN MODE) > 0
+        ';
+        $countStmt = $conn->prepare($countSql);
+        $countStmt->bindValue('search', $searchStr);
+        $total = (int) $countStmt->executeQuery()->fetchOne();
+
         $sql = '
             SELECT 
                 p.id,
                 p.product_name,
                 p.market,
+                p.brand,
                 p.kcal,
                 p.protein,
                 p.carbs,
@@ -67,25 +91,30 @@ class ProductsRepository extends ServiceEntityRepository {
             FROM products p
             WHERE MATCH(p.product_name, p.market, p.brand) AGAINST(:search IN BOOLEAN MODE) > 0
             ORDER BY relevance DESC
-            LIMIT :limit
+            LIMIT :limit OFFSET :offset
         ';
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('search', $searchStr);
         $stmt->bindValue('limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue('offset', $offset, \PDO::PARAM_INT);
         $result = $stmt->executeQuery();
-        
+
         $rawResults = $result->fetchAllAssociative();
         $products = [];
-        
+
         foreach ($rawResults as $row) {
             $product = $this->find($row['id']);
             if ($product) {
                 $products[] = $product;
             }
         }
-        
-        return $products;
+
+        return [
+            'data' => $products,
+            'total' => $total,
+            'totalPages' => ceil($total / $limit)
+        ];
     }
 
     public function searchByFullText(string $search, int $limit = 20): array {

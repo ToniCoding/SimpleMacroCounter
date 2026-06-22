@@ -10,19 +10,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddFoodsPageController extends AbstractController {
     #[Route('/addfood', name: 'addFoodCatalog', methods: 'GET')]
     public function addfood(Request $request, FoodRegistry $foodRegistry): Response {
-        $foodCatalogPagination = (int) $request->query->get('pagination', 1);
+        $page = (int) $request->query->get('pagination', 1);
         $marketFilter = (string) $request->query->get('market', '');
-    
-        $catalog = $foodRegistry->getProductsByMarket(
-            $foodCatalogPagination,
-            $marketFilter,
-            'human'
-        );
+        $limit = 125;
 
-        $catalogJson = json_encode($catalog, JSON_UNESCAPED_UNICODE);
+        $catalogData = $foodRegistry->getProductsByMarket($page, $marketFilter, 'human', $limit);
+
+        $catalogJson = json_encode($catalogData['data'], JSON_UNESCAPED_UNICODE);
 
         return $this->render('AddFoodTemplate.twig', [
-            'foodCatalog' => $catalogJson
+            'foodCatalog' => $catalogJson,
+            'foodCatalogPagination' => json_encode($catalogData['pagination'], JSON_UNESCAPED_UNICODE),
+            'pagination' => $catalogData['pagination'],
+            'currentPage' => $catalogData['pagination']['currentPage'],
+            'totalPages' => $catalogData['pagination']['totalPages'],
+            'marketFilter' => $marketFilter
         ]);
     }
 
@@ -59,12 +61,24 @@ class AddFoodsPageController extends AbstractController {
     #[Route('/api/search-products', name: 'api_search_products', methods: 'GET')]
     public function searchProducts(Request $request, FoodRegistry $foodRegistry): JsonResponse {
         $query = $request->query->get('q', '');
+        $page = (int) $request->query->get('page', 1);
+        $limit = 125;
 
         if (\strlen(trim($query)) < 2) {
-            return $this->json([]);
+            return $this->json([
+                'data' => [],
+                'pagination' => [
+                    'currentPage' => 1,
+                    'totalPages' => 0,
+                    'totalItems' => 0,
+                    'itemsPerPage' => $limit,
+                    'hasNext' => false,
+                    'hasPrevious' => false
+                ]
+            ]);
         }
 
-        $results = $foodRegistry->searchProductsByFullText($query, 125);
+        $results = $foodRegistry->searchProductsByFullText($query, $page, $limit);
 
         return $this->json($results);
     }
