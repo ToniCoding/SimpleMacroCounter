@@ -79,7 +79,7 @@ function renderDesktop(data) {
     data.forEach(food => {
         const tr = document.createElement("tr");
         tr.classList.add("food-search-row");
-
+        
         tr.innerHTML = `
             <td>${food[0]}</td>
             <td>${capitalize(food[8])}</td>
@@ -125,11 +125,16 @@ function createMobileRow(food) {
     const row = document.createElement("div");
     row.className = "food-row";
 
+    // Mobile: market + brand con clases
+    const marketBrand = food[8] && food[8] !== 'unknown_brand' 
+        ? `<span class="market-name">${capitalize(food[1])}</span><span class="separator"> - </span><span class="brand-name">${capitalize(food[8])}</span>` 
+        : `<span class="market-name">${capitalize(food[1])}</span>`;
+
     row.innerHTML = `
         <div class="food-row-main">
             <div>
                 <div class="food-name">${food[0]}</div>
-                <div class="food-market">${capitalize(food[1])}</div>
+                <div class="food-market">${marketBrand}</div>
             </div>
         </div>
 

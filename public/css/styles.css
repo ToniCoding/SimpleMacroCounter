@@ -710,6 +710,26 @@ a {
 }
 
 /* =========================
+   MARKET + BRAND STYLES (SOLO MÓVIL)
+========================= */
+
+@media (max-width: 768px) {
+    .food-market .market-name {
+        color: var(--text-muted);
+    }
+
+    .food-market .brand-name {
+        color: var(--accent);
+        font-weight: bold;
+    }
+
+    .food-market .separator {
+        color: var(--border-card);
+        margin: 0 4px;
+    }
+}
+
+/* =========================
    SEARCH
 ========================= */
 
