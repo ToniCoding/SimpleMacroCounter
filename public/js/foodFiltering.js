@@ -97,7 +97,9 @@ function renderDesktop(data) {
 
         tr.innerHTML = `
             <td>${food[0]}</td>
+            <td>${capitalize(food[8])}</td>
             <td>${capitalize(food[1])}</td>
+            
             <td>${food[2]}</td>
             <td>${food[3]}</td>
             <td>${food[4]}</td>
@@ -255,7 +257,8 @@ async function searchProductsApi(query) {
             p.carbs,
             p.fats,
             p.fiber,
-            p.id
+            p.id,
+            p.brand
         ]);
 
         renderDesktop(formattedResults);

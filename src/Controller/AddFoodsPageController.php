@@ -18,9 +18,11 @@ class AddFoodsPageController extends AbstractController {
             $marketFilter,
             'human'
         );
-        
+
+        $catalogJson = json_encode($catalog, JSON_UNESCAPED_UNICODE);
+
         return $this->render('AddFoodTemplate.twig', [
-            'foodCatalog' => $catalog
+            'foodCatalog' => $catalogJson
         ]);
     }
 
@@ -62,7 +64,7 @@ class AddFoodsPageController extends AbstractController {
             return $this->json([]);
         }
 
-        $results = $foodRegistry->searchProductsByFullText($query, 500);
+        $results = $foodRegistry->searchProductsByFullText($query, 125);
 
         return $this->json($results);
     }

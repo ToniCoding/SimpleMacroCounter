@@ -63,9 +63,9 @@ class ProductsRepository extends ServiceEntityRepository {
                 p.carbs,
                 p.fats,
                 p.fiber,
-                MATCH(p.product_name, p.market) AGAINST(:search) AS relevance
+                MATCH(p.product_name, p.market, p.brand) AGAINST(:search) AS relevance
             FROM products p
-            WHERE MATCH(p.product_name, p.market) AGAINST(:search IN BOOLEAN MODE) > 0
+            WHERE MATCH(p.product_name, p.market, p.brand) AGAINST(:search IN BOOLEAN MODE) > 0
             ORDER BY relevance DESC
             LIMIT :limit
         ';

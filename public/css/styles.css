@@ -753,19 +753,19 @@ a {
 
 .foodTable th:nth-child(1),
 .foodTable td:nth-child(1) {
-  width: 34%;
+  width: 30%;
   text-align: left;
 }
 
 .foodTable th:nth-child(2),
 .foodTable td:nth-child(2) {
-  width: 24%;
+  width: 28%;
   text-align: left;
 }
 
 .foodTable th:nth-child(n+3),
 .foodTable td:nth-child(n+3) {
-  width: 8%;
+  width: 12%;
   text-align: center;
   white-space: nowrap;
 }

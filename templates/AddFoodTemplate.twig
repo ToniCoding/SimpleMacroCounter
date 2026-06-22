@@ -71,6 +71,7 @@
                         <thead>
                             <tr>
                                 <th>Food</th>
+                                <th>Brand</th>
                                 <th>Market</th>
                                 <th>Calories</th>
                                 <th>Protein</th>
@@ -123,7 +124,7 @@
         </main>
 
         <!-- DATA -->
-        <div id="foodCatalog" data-config="{{ foodCatalog | json_encode | escape('html_attr') }}">
+        <div id="foodCatalog" data-config="{{ foodCatalog|escape('html_attr') }}">
         </div>
 
     </div>

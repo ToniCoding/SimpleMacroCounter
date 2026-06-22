@@ -49,7 +49,8 @@ class FoodRegistry {
                 $product->getCarbs(),
                 $product->getFats(),
                 $product->getFiber(),
-                $product->getId()
+                $product->getId(),
+                $product->getBrand()
             ];
 
             if ($format === 'human') {
@@ -91,7 +92,8 @@ class FoodRegistry {
                 'protein' => $product->getProtein(),
                 'carbs' => $product->getCarbs(),
                 'fats' => $product->getFats(),
-                'fiber' => $product->getFiber()
+                'fiber' => $product->getFiber(),
+                'brand' => $product->getBrand()
             ];
         }
 
