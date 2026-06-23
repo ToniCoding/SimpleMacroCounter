@@ -1,53 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-        <title>Login - SMC</title>
-    </head>
-    <body>
-        <div class="content">
-            <div class="form-container">
-                <h1 class="page-title">Login to continue</h1>
-                
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
 
-                {% if app.user %}
-                    <div class="form-group">
-                        <p>You are logged in as {{ app.user.userIdentifier }}.</p>
-                        <p><a href="{{ path('app_logout') }}" style="color: skyblue">Logout</a> or go back to <a href="{{ path('home') }}" style="color: skyblue">home</a>.</p>
-                    </div>
-                {% endif %}
-                
-                <form method="post" action="{{ path('login_form') }}">
-                    <div class="form-group">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" name="_username" id="username" 
-                               value="{{ last_username }}" 
-                               autocomplete="username" 
-                               required 
-                               autofocus
-                               class="form-input">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" name="_password" id="password" 
-                               class="form-input" 
-                               autocomplete="current-password" 
-                               required>
-                    </div>
-                    
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>Login - SMC</title>
+</head>
 
-                    <button type="submit" class="btn-submit">Sign in</button>
-                </form>
-                <p>Don't have an account? Register <a href="{{ path('register_form') }}" style="color: skyblue">here</a>!</p>
+<body>
+    <div class="content">
+        <div class="form-container">
+            <h1 class="page-title">Login to continue</h1>
+
+            {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+            <div class="form-group">
+                <p>You are logged in as {{ app.user.userIdentifier }}.</p>
+                <p><a href="{{ path('app_logout') }}" style="color: skyblue">Logout</a> or go back to <a
+                        href="{{ path('home') }}" style="color: skyblue">home</a>.</p>
             </div>
+            {% endif %}
+
+            <form method="post" action="{{ path('login_form') }}">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="_username" id="username" value="{{ last_username }}"
+                        autocomplete="username" required autofocus class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="_password" id="password" class="form-input"
+                        autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn-submit">Sign in</button>
+            </form>
+            <p>Don't have an account? Register <a href="{{ path('register_form') }}" style="color: skyblue">here</a>!
+            </p>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
