@@ -4,15 +4,19 @@ namespace src\Controller;
 
 use src\Service\FoodRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};
 use Symfony\Component\Routing\Annotation\Route;
 
 class AddFoodsPageController extends AbstractController {
+    public function __construct(
+        private ParameterBagInterface $params
+    ) {}
     #[Route('/addfood', name: 'addFoodCatalog', methods: 'GET')]
     public function addfood(Request $request, FoodRegistry $foodRegistry): Response {
         $page = (int) $request->query->get('pagination', 1);
         $marketFilter = (string) $request->query->get('market', '');
-        $limit = 125;
+        $limit = $this->params->get('food_pagination:max_products_per_page');
 
         $catalogData = $foodRegistry->getProductsByMarket($page, $marketFilter, 'human', $limit);
 
@@ -30,7 +34,6 @@ class AddFoodsPageController extends AbstractController {
 
     #[Route('/addfood', name: 'addFoodProcessing', methods: 'POST')]
     public function addFoodPost(Request $request, FoodRegistry $foodRegistry): JsonResponse {
-        $this->isGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
         $data = json_decode($request->getContent(), true);
@@ -62,7 +65,7 @@ class AddFoodsPageController extends AbstractController {
     public function searchProducts(Request $request, FoodRegistry $foodRegistry): JsonResponse {
         $query = $request->query->get('q', '');
         $page = (int) $request->query->get('page', 1);
-        $limit = 125;
+        $limit = $this->params->get('food_pagination:max_products_per_page');
 
         if (\strlen(trim($query)) < 2) {
             return $this->json([

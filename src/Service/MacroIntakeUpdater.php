@@ -2,8 +2,6 @@
 
 namespace src\Service;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-
 use Psr\Log\LoggerInterface;
 use src\DTO\MacroDataDTO;
 use src\Entity\User;

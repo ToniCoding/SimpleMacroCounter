@@ -18,8 +18,6 @@ class MacroUpdateController extends AbstractController {
 
     #[Route(['/modifyMacros', '/modifymacros'], name: 'modifyMacros', methods: ['GET', 'POST'])]
     public function modifyMacros(Request $request): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         $macroDto = new MacroDataDTO();
         $form = $this->createForm(ModifyMacrosType::class, $macroDto);
 
