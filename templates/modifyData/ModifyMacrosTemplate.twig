@@ -11,15 +11,14 @@
 
 <body>
     <div class="page">
-        <header class="header">
+                <header class="header">
             <div class="logo">
                 <h3><a href="/">SimpleMacroCounter</a></h3>
             </div>
 
             <div class="navigation">
                 <ul class="nav-desktop">
-                    <li><a href="/modifyMacros?action=increase">Add macros</a></li>
-                    <li><a href="/modifyMacros?action=reduce">Reduce macros</a></li>
+                    <li><a href="/modifyMacros">Manual macros</a></li>
                     <li><a href="/history">History</a></li>
                     <li><a href="/foods">Register foods</a></li>
                     <li><a href="/addfood">Register intake</a></li>
@@ -32,20 +31,15 @@
                 </button>
 
                 <ul class="nav-mobile">
-                    <li><a href="/modifyMacros?action=increase"><img src="{{ asset('img/up_arrow.png') }}" height="32" width="32">Add
-                            macros</a></li>
-                    <li><a href="/modifyMacros?action=reduce"><img src="{{ asset('img/down_arrow.png') }}" height="32"
-                                width="32">Reduce Macros</a></li>
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/vegetable.png') }}" height="32"
+                                width="32">Manual macros</a></li>
                     <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32"
                                 width="32">History</a></li>
                     <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32" width="32">Register
                             foods</a></li>
                     <li><a href="/addfood"><img src="{{ asset('img/burger.png') }}" height="32" width="32">Register
                             intake</a></li>
-                    <li><a href="/"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a>
-                    </li>
-                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32"
-                                width="32">Settings</a>
+                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32" width="32">Settings</a>
                     </li>
                     <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
                                 width="32">Logout</a></li>
@@ -55,13 +49,11 @@
 
         <main class="content">
 
-            {% for message in app.flashes('modifyMacrosStatus') %}
+            {% for message in app.flashes('modifyMacrosStatusError') %}
             <div class="alert alert-success">
                 {{ message }}
             </div>
             {% endfor %}
-
-            <h1 class="page-title">{{ page_intent }}</h1>
 
             <div class="form-container">
                 {{ form_start(form) }}
@@ -84,6 +76,11 @@
                 <div class="form-group">
                     {{ form_label(form.fiber) }}
                     {{ form_widget(form.fiber, { 'attr': {'class': 'form-input'} }) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.intent) }}
+                    {{ form_widget(form.intent, { 'attr': {'class': 'form-input'} }) }}
                 </div>
 
                 <button type="submit" class="btn-submit">Update</button>

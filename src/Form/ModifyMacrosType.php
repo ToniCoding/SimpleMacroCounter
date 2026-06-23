@@ -3,7 +3,7 @@
 namespace src\Form;
 
 use src\DTO\MacroDataDTO;
-use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
+use Symfony\Component\Form\{AbstractType, Extension\Core\Type\ChoiceType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,6 +21,12 @@ class ModifyMacrosType extends AbstractType {
             ])
             ->add('fiber', NumberType::class, [
                 'attr' => ['min' => 0]
+            ])
+            ->add('intent', ChoiceType::class, [
+                'choices' => [
+                    'Add macros' => 'add',
+                    'Reduce macros' => 'reduce'
+                ]
             ]);
     }
 
