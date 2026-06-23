@@ -710,6 +710,26 @@ a {
 }
 
 /* =========================
+   MARKET + BRAND STYLES (SOLO MÓVIL)
+========================= */
+
+@media (max-width: 768px) {
+    .food-market .market-name {
+        color: var(--text-muted);
+    }
+
+    .food-market .brand-name {
+        color: var(--accent);
+        font-weight: bold;
+    }
+
+    .food-market .separator {
+        color: var(--border-card);
+        margin: 0 4px;
+    }
+}
+
+/* =========================
    SEARCH
 ========================= */
 
@@ -753,19 +773,19 @@ a {
 
 .foodTable th:nth-child(1),
 .foodTable td:nth-child(1) {
-  width: 34%;
+  width: 30%;
   text-align: left;
 }
 
 .foodTable th:nth-child(2),
 .foodTable td:nth-child(2) {
-  width: 24%;
+  width: 28%;
   text-align: left;
 }
 
 .foodTable th:nth-child(n+3),
 .foodTable td:nth-child(n+3) {
-  width: 8%;
+  width: 12%;
   text-align: center;
   white-space: nowrap;
 }
@@ -1012,3 +1032,7 @@ a {
     grid-template-columns: 1fr !important;
   }
 }
+
+.risk-low { color: #10b981; }
+.risk-medium { color: #d97706; }
+.risk-high { color: #dc2626; }

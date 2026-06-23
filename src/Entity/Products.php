@@ -12,99 +12,112 @@ class Products {
     #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\Column(type: "string", length: 75)]
+    #[ORM\Column(type: "string", length: 500)]
     private string $productName;
 
-    #[ORM\Column(type: "string", length: 50)]
+    #[ORM\Column(type: "string", length: 500)]
     private string $market;
+
+    #[ORM\Column(type: "string", length: 500)]
+    private string $brand;
 
     #[ORM\Column(type: "integer")]
     private int $kcal;
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private string $protein;
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private string $carbs;
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private string $fats;
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private string $fiber;
 
-    public function getId(): ?int
-    {
+    public function __construct() {
+        $this->kcal = 0;
+        $this->protein = '0.00';
+        $this->carbs = '0.00';
+        $this->fats = '0.00';
+        $this->fiber = '0.00';
+        $this->productName = '';
+        $this->market = '';
+    }
+
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getProductName(): string
-    {
+    public function getProductName(): string {
         return $this->productName;
     }
 
-    public function setProductName(string $productName): void
-    {
+    public function setProductName(string $productName): self {
         $this->productName = $productName;
+        return $this;
     }
 
-    public function getMarket(): string
-    {
+    public function getMarket(): string {
         return $this->market;
     }
 
-    public function setMarket(string $market): void
-    {
+    public function setMarket(string $market): self {
         $this->market = $market;
+        return $this;
     }
 
-    public function getKcal(): int
-    {
+    public function getBrand(): string {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): void {
+        $this->brand = $brand;
+    }
+
+    public function getKcal(): int {
         return $this->kcal;
     }
 
-    public function setKcal(int $kcal): void
-    {
+    public function setKcal(int $kcal): self {
         $this->kcal = $kcal;
+        return $this;
     }
 
-    public function getProtein(): string
-    {
-        return $this->protein;
+    public function getProtein(): float {
+        return (float) $this->protein;
     }
 
-    public function setProtein(string $protein): void
-    {
-        $this->protein = $protein;
+    public function setProtein(float|string $protein): self {
+        $this->protein = number_format((float) $protein, 2, '.', '');
+        return $this;
     }
 
-    public function getCarbs(): string
-    {
-        return $this->carbs;
+    public function getCarbs(): float {
+        return (float) $this->carbs;
     }
 
-    public function setCarbs(string $carbs): void
-    {
-        $this->carbs = $carbs;
+    public function setCarbs(float|string $carbs): self {
+        $this->carbs = number_format((float) $carbs, 2, '.', '');
+        return $this;
     }
 
-    public function getFats(): string
-    {
-        return $this->fats;
+    public function getFats(): float {
+        return (float) $this->fats;
     }
 
-    public function setFats(string $fats): void
-    {
-        $this->fats = $fats;
+    public function setFats(float|string $fats): self {
+        $this->fats = number_format((float) $fats, 2, '.', '');
+        return $this;
     }
 
-    public function getFiber(): string
-    {
-        return $this->fiber;
+    public function getFiber(): float {
+        return (float) $this->fiber;
     }
 
-    public function setFiber(string $fiber): void
-    {
-        $this->fiber = $fiber;
+    public function setFiber(float|string $fiber): self {
+        $this->fiber = number_format((float) $fiber, 2, '.', '');
+        return $this;
     }
 }

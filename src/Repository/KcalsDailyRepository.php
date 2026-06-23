@@ -100,4 +100,15 @@ class KcalsDailyRepository extends ServiceEntityRepository {
 
         return true;
     }
+
+    public function findByDateRange(\DateTime $start, \DateTime $end, User $user): array {
+        return $this->createQueryBuilder('k')
+            ->where('k.date BETWEEN :start AND :end')
+            ->andWhere('k.user = :user')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
 }

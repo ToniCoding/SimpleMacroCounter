@@ -30,4 +30,9 @@ class LoggedUserDTO {
     public function setPassword(string $newPassword): void {
         $this->password = $newPassword;
     }
+
+    public function toString(): string {
+        return 'Username: ' . $this->getUsername() .
+        "\n\tPassword: " . $this->getPassword();
+    }
 }

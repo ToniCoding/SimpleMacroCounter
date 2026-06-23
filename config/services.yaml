@@ -10,6 +10,10 @@ parameters:
     nutrition.minimum_fat: 10
     nutrition.minimum_fiber: 5
 
+    food_pagination:max_products_per_page: 100
+
+    history.default_shown_days: 7
+
 services:
     _defaults:
         autowire: true

@@ -18,8 +18,7 @@
 
             <div class="navigation">
                 <ul class="nav-desktop">
-                    <li><a href="/modifyMacros?action=increase">Add macros</a></li>
-                    <li><a href="/modifyMacros?action=reduce">Reduce macros</a></li>
+                    <li><a href="/modifyMacros">Manual macros</a></li>
                     <li><a href="/history">History</a></li>
                     <li><a href="/foods">Register foods</a></li>
                     <li><a href="/addfood">Register intake</a></li>
@@ -32,10 +31,8 @@
                 </button>
 
                 <ul class="nav-mobile">
-                    <li><a href="/modifyMacros?action=increase"><img src="{{ asset('img/up_arrow.png') }}" height="32" width="32">Add
-                            macros</a></li>
-                    <li><a href="/modifyMacros?action=reduce"><img src="{{ asset('img/down_arrow.png') }}" height="32"
-                                width="32">Reduce Macros</a></li>
+                    <li><a href="/modifyMacros"><img src="{{ asset('img/vegetable.png') }}" height="32"
+                                width="32">Manual macros</a></li>
                     <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32"
                                 width="32">History</a></li>
                     <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32" width="32">Register
@@ -43,7 +40,8 @@
                     <li><a href="/addfood"><img src="{{ asset('img/burger.png') }}" height="32" width="32">Register
                             intake</a></li>
                     <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32"
-                                width="32">Settings</a></li>
+                                width="32">Settings</a>
+                    </li>
                     <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
                                 width="32">Logout</a></li>
                 </ul>
@@ -61,45 +59,7 @@
 
     </div>
 
-    <script>
-        const hamburger = document.querySelector('.hamburger-menu');
-        const navMobile = document.querySelector('.nav-mobile');
-        const overlay = document.createElement('div');
-        overlay.className = 'menu-overlay';
-        document.body.appendChild(overlay);
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMobile.classList.toggle('active');
-            overlay.classList.toggle('active');
-            document.body.style.overflow = navMobile.classList.contains('active') ? 'hidden' : '';
-        });
-
-        overlay.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMobile.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        document.querySelectorAll('.nav-mobile a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navMobile.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navMobile.classList.contains('active')) {
-                hamburger.classList.remove('active');
-                navMobile.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-    </script>
+    <script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
     <script type="module" src="{{ asset('js/utils.js') }}"></script>
     <script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
     <script type="module" src="{{ asset('js/payloadCreator.js') }}"></script>

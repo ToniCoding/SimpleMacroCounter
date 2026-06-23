@@ -16,14 +16,8 @@ let selectedFood = null;
 let selectedRow = null;
 let activeGrams = 100;
 
-/* =========================
-   MOBILE STATE (NEW)
-========================= */
 let activeMobileRow = null;
 
-/* =========================
-   SELECT CORE
-========================= */
 function clearSelection() {
     if (selectedRow) {
         selectedRow.classList.remove("selected-intake");
@@ -47,9 +41,6 @@ function setSelected(row, food, grams) {
     console.log("[SELECT]", food[0], grams);
 }
 
-/* =========================
-   CALC
-========================= */
 function getFactor(grams) {
     const g = parseFloat(grams);
     return !g || g <= 0 ? 1 : g / 100;
@@ -67,9 +58,6 @@ function calcScaled(food, grams) {
     };
 }
 
-/* =========================
-   UI UPDATE DESKTOP PANEL
-========================= */
 function updateUI(food, grams) {
     if (!food) return;
 
@@ -83,9 +71,6 @@ function updateUI(food, grams) {
     document.getElementById("macro-5").textContent = `Calories: ${s.kcal}`;
 }
 
-/* =========================
-   DESKTOP
-========================= */
 function renderDesktop(data) {
     if (!desktopTbody) return;
 
@@ -94,9 +79,10 @@ function renderDesktop(data) {
     data.forEach(food => {
         const tr = document.createElement("tr");
         tr.classList.add("food-search-row");
-
+        
         tr.innerHTML = `
             <td>${food[0]}</td>
+            <td>${capitalize(food[8])}</td>
             <td>${capitalize(food[1])}</td>
             <td>${food[2]}</td>
             <td>${food[3]}</td>
@@ -114,9 +100,6 @@ function renderDesktop(data) {
     });
 }
 
-/* =========================
-   MOBILE CALC RENDER (NEW)
-========================= */
 function updateMobileMacros(row, food, grams) {
     const s = calcScaled(food, grams);
 
@@ -127,9 +110,6 @@ function updateMobileMacros(row, food, grams) {
     row.querySelector(".macro-fiber").textContent = `Fi: ${s.fiber}`;
 }
 
-/* =========================
-   GLOBAL BUTTON
-========================= */
 btnSubmitIntake?.addEventListener("click", (e) => {
     e.preventDefault();
 
@@ -141,18 +121,20 @@ btnSubmitIntake?.addEventListener("click", (e) => {
     createIntakePayload(selectedFood[7], gramsInput.value);
 });
 
-/* =========================
-   MOBILE
-========================= */
 function createMobileRow(food) {
     const row = document.createElement("div");
     row.className = "food-row";
+
+    // Mobile: market + brand con clases
+    const marketBrand = food[8] && food[8] !== 'unknown_brand' 
+        ? `<span class="market-name">${capitalize(food[1])}</span><span class="separator"> - </span><span class="brand-name">${capitalize(food[8])}</span>` 
+        : `<span class="market-name">${capitalize(food[1])}</span>`;
 
     row.innerHTML = `
         <div class="food-row-main">
             <div>
                 <div class="food-name">${food[0]}</div>
-                <div class="food-market">${capitalize(food[1])}</div>
+                <div class="food-market">${marketBrand}</div>
             </div>
         </div>
 
@@ -218,7 +200,6 @@ function createMobileRow(food) {
         const grams = parseFloat(e.target.value || 100);
         activeGrams = grams;
 
-        /* si es la card activa, actualizar macros */
         if (selectedFood && selectedRow === row) {
             updateMobileMacros(row, food, grams);
             updateUI(food, grams);
@@ -235,30 +216,102 @@ function renderMobile(data) {
     data.forEach(food => mobileList.appendChild(createMobileRow(food)));
 }
 
-/* =========================
-   INIT
-========================= */
+let debounceTimer;
+
+async function searchProductsApi(query, page = 1) {
+    if (query.length < 2) {
+        renderDesktop(foodCatalog);
+        renderMobile(foodCatalog);
+        if (window.foodCatalogPagination) {
+            updatePagination(window.foodCatalogPagination);
+        }
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/search-products?q=${encodeURIComponent(query)}&page=${page}`);
+        const result = await response.json();
+
+        const formattedResults = result.data.map(p => [
+            p.name,
+            p.market,
+            p.kcal,
+            p.protein,
+            p.carbs,
+            p.fats,
+            p.fiber,
+            p.id,
+            p.brand
+        ]);
+
+        renderDesktop(formattedResults);
+        renderMobile(formattedResults);
+        updatePagination(result.pagination);
+    } catch (error) {
+        console.error('Error en búsqueda API:', error);
+    }
+}
+
+function updatePagination(pagination) {
+    const paginationContainer = document.querySelector('.pagination-controls');
+    if (paginationContainer) {
+        const marketFilter = new URLSearchParams(window.location.search).get('market') || '';
+        
+        paginationContainer.innerHTML = `
+            ${pagination.hasPrevious ? `<a href="#" class="btn-pagination" data-page="${pagination.currentPage - 1}" data-market="${marketFilter}">←</a>` : `<span class="btn-pagination disabled">←</span>`}
+            <span class="page-info">Página ${pagination.currentPage} de ${pagination.totalPages} (${pagination.totalItems} productos)</span>
+            ${pagination.hasNext ? `<a href="#" class="btn-pagination" data-page="${pagination.currentPage + 1}" data-market="${marketFilter}">→</a>` : `<span class="btn-pagination disabled">→</span>`}
+        `;
+
+        document.querySelectorAll('.pagination-controls .btn-pagination[data-page]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = parseInt(btn.dataset.page);
+                const query = searchInput.value.trim();
+                if (query.length >= 2) {
+                    searchProductsApi(query, page);
+                } else {
+                    window.location.href = `?pagination=${page}&market=${btn.dataset.market || ''}`;
+                }
+            });
+        });
+    }
+}
+
+function updatePaginationFromData(data) {
+    if (window.foodCatalogPagination) {
+        updatePagination(window.foodCatalogPagination);
+    }
+}
+
+const foodCatalogPagination = window.foodCatalogPagination || null;
+
+searchInput?.addEventListener("input", (e) => {
+    const query = e.target.value.trim();
+
+    clearTimeout(debounceTimer);
+
+    if (query.length < 2) {
+        renderDesktop(foodCatalog);
+        renderMobile(foodCatalog);
+        if (window.foodCatalogPagination) {
+            updatePagination(window.foodCatalogPagination);
+        }
+        return;
+    }
+
+    debounceTimer = setTimeout(() => {
+        searchProductsApi(query, 1);
+    }, 300);
+});
+
 function init() {
     renderDesktop(foodCatalog);
     renderMobile(foodCatalog);
 
-    searchInput?.addEventListener("input", (e) => {
-        const clean = e.target.value.toLowerCase().trim();
-
-        if (clean.length < 2) {
-            renderDesktop(foodCatalog);
-            renderMobile(foodCatalog);
-            return;
-        }
-
-        const filtered = foodCatalog.filter(f =>
-            f[0].toLowerCase().includes(clean) ||
-            f[1].toLowerCase().includes(clean)
-        );
-
-        renderDesktop(filtered);
-        renderMobile(filtered);
-    });
+    if (window.foodCatalogPagination) {
+        updatePagination(window.foodCatalogPagination);
+    }
 
     gramsInput?.addEventListener("input", () => {
         const grams = gramsInput.value === "" ? 100 : parseFloat(gramsInput.value);

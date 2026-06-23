@@ -18,45 +18,31 @@ class MacroUpdateController extends AbstractController {
 
     #[Route(['/modifyMacros', '/modifymacros'], name: 'modifyMacros', methods: ['GET', 'POST'])]
     public function modifyMacros(Request $request): Response {
-        $action = $request->query->get('action');
+        $macroDto = new MacroDataDTO();
+        $form = $this->createForm(ModifyMacrosType::class, $macroDto);
 
-        return match ($action) {
-            'increase' => $this->addMacros($request),
-            'reduce' => $this->reduceMacros($request),
-            default => $this->redirectToRoute('home')
-        };
-    }
-
-    private function handleMacrosModification(Request $request, string $intent, string $pageTitle): Response {
-        $user = $this->getUser();
-
-        $form = $this->createForm(ModifyMacrosType::class, new MacroDataDTO(0, 0, 0, 0, 0));
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $method = $intent === 'increase' ? 'addMacros' : 'reduceMacros';
-                $extraParam = $intent === 'reduce' ? ['reduce'] : [];
-                $this->macroIntakeUpdater->$method($user, $form->getData(), ...$extraParam);
-
-                return $this->redirectToRoute('home');
-            } catch (ExceededMacroLimitException $ex) {
-                $this->addFlash('modifyMacrosStatus', $ex->getMessage());
-            }
+        if ($request->isMethod('POST') && $form->isSubmitted()) {
+            return $this->handleMacrosModification($macroDto);
         }
 
         return $this->render('modifyData/ModifyMacrosTemplate.twig', [
             'form' => $form,
-            'page_title' => $pageTitle,
-            'page_intent' => $intent === 'increase' ? 'Add macro-nutrient count' : 'Reduce macro-nutrient count',
+            'page_title' => 'Modify macros - SMC',
         ]);
     }
 
-    private function addMacros(Request $request): Response {
-        return $this->handleMacrosModification($request, 'increase', 'Add macros - SMC');
-    }
+    private function handleMacrosModification(MacroDataDTO $macroDto): Response {
+        $user = $this->getUser();
 
-    private function reduceMacros(Request $request): Response {
-        return $this->handleMacrosModification($request, 'reduce', 'Reduce macros - SMC');
+        try {
+            $this->macroIntakeUpdater->updateMacroIntake($user, $macroDto, $macroDto->getIntent());
+            $this->addFlash('modifyMacrosStatusSuccess', 'Successfully modified macros.');
+        } catch (ExceededMacroLimitException $e) {
+            $this->addFlash('modifyMacrosStatusError', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('home');
     }
 }

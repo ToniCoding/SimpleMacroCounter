@@ -4,13 +4,14 @@ namespace src\Service;
 
 use Psr\Log\LoggerInterface;
 use src\DTO\{FoodDTO, MacroDataDTO};
-use src\Entity\{User, Food};
-use src\Repository\{FoodsRepository, KcalsDailyRepository};
+use src\Entity\{User, Food, Products};
+use src\Repository\{FoodsRepository, KcalsDailyRepository, ProductsRepository};
 use function src\Helpers\calorieCalc;
 
 class FoodRegistry {
     public function __construct(
         private FoodsRepository $foodsRepository,
+        private ProductsRepository $productsRepository,
         private KcalsDailyRepository $kcalsDailyRepository,
         private LoggerInterface $logger
     ) {}
@@ -34,20 +35,22 @@ class FoodRegistry {
         $this->foodsRepository->registerFood($food);
     }
 
-    public function getFoodsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array {
-        $queryResult = $this->foodsRepository->getFoodsByMarket($market, $offset);
-        $formattedData = [];
+    public function getProductsByMarket(int $page = 1, string $market = '', string $format = 'human', int $limit = 100): array {
+        $offset = ($page - 1) * $limit;
+        $result = $this->productsRepository->getProductsByMarket($market, $offset, $limit);
 
-        foreach ($queryResult as $food) {
+        $formattedData = [];
+        foreach ($result['data'] as $product) {
             $foodData = [
-                $food->getName(),
-                $food->getMarket(),
-                calorieCalc($food),
-                $food->getProtein(),
-                $food->getCarbs(),
-                $food->getFats(),
-                $food->getFiber(),
-                $food->getId()
+                $product->getProductName(),
+                $product->getMarket(),
+                $product->getKcal(),
+                $product->getProtein(),
+                $product->getCarbs(),
+                $product->getFats(),
+                $product->getFiber(),
+                $product->getId(),
+                $product->getBrand()
             ];
 
             if ($format === 'human') {
@@ -58,11 +61,97 @@ class FoodRegistry {
             $formattedData[] = $foodData;
         }
 
-        return $formattedData;
+        return [
+            'data' => $formattedData,
+            'pagination' => [
+                'currentPage' => $result['currentPage'],
+                'totalPages' => $result['totalPages'],
+                'totalItems' => $result['total'],
+                'itemsPerPage' => $limit,
+                'hasNext' => $result['currentPage'] < $result['totalPages'],
+                'hasPrevious' => $result['currentPage'] > 1
+            ]
+        ];
     }
 
+    public function searchProducts(string $query): array {
+        $results = $this->productsRepository->autocomplete($query, 10);
+
+        $formatted = [];
+        foreach ($results as $product) {
+            $formatted[] = [
+                'id' => $product->getId(),
+                'name' => $product->getProductName(),
+                'market' => $product->getMarket(),
+                'kcal' => $product->getKcal()
+            ];
+        }
+        return $formatted;
+    }
+
+    public function searchProductsByFullText(string $query, int $page = 1, int $limit = 125): array {
+        $offset = ($page - 1) * $limit;
+        $results = $this->productsRepository->fullTextSearch($query, $offset, $limit);
+
+        $formatted = [];
+        foreach ($results['data'] as $product) {
+            $formatted[] = [
+                'id' => $product->getId(),
+                'name' => $product->getProductName(),
+                'market' => $product->getMarket(),
+                'kcal' => $product->getKcal(),
+                'protein' => $product->getProtein(),
+                'carbs' => $product->getCarbs(),
+                'fats' => $product->getFats(),
+                'fiber' => $product->getFiber(),
+                'brand' => $product->getBrand()
+            ];
+        }
+
+        return [
+            'data' => $formatted,
+            'pagination' => [
+                'currentPage' => $page,
+                'totalPages' => $results['totalPages'],
+                'totalItems' => $results['total'],
+                'itemsPerPage' => $limit,
+                'hasNext' => $page < $results['totalPages'],
+                'hasPrevious' => $page > 1
+            ]
+        ];
+    }
+
+    // This code cannot be used as long as the database hotfix for the mixin of Products and Foods is applied.
+    // public function getFoodsByMarket(int $offset = 1, string $market = '', string $format = 'human'): array {
+    //     $queryResult = $this->foodsRepository->getFoodsByMarket($market, $offset);
+    //     $formattedData = [];
+
+    //     foreach ($queryResult as $food) {
+    //         $foodData = [
+    //             $food->getName(),
+    //             $food->getMarket(),
+    //             calorieCalc($food),
+    //             $food->getProtein(),
+    //             $food->getCarbs(),
+    //             $food->getFats(),
+    //             $food->getFiber(),
+    //             $food->getId()
+    //         ];
+
+    //         if ($format === 'human') {
+    //             $foodData[0] = ucfirst($foodData[0]);
+    //             $foodData[1] = ucfirst($foodData[1]);
+    //         }
+
+    //         $formattedData[] = $foodData;
+    //     }
+
+    //     return $formattedData;
+    // }
+
     public function registerFoodIntake(array $intake, User $user): bool {
-        $foundFood = $this->foodsRepository->getFood((int) $intake['id']);
+        //$foundFood = $this->foodsRepository->getFood((int) $intake['id']);
+        $foundFood = $this->productsRepository->findOneBy(['id' => (int) $intake['id']]);
         $gramsConsumed = (float) ($intake['grams'] ?? 0);
 
         if (!$foundFood) {
@@ -76,9 +165,9 @@ class FoodRegistry {
                 $this->foodToMacroDTO($foundFood, $gramsConsumed)
             );
 
-            $this->logger->info('[FOOD_REGISTRY_SERVICE] Successfully registered food with ID: ' . $foundFood->getName());
+            $this->logger->info('[FOOD_REGISTRY_SERVICE] Successfully registered food with ID: ' . $foundFood->getProductName());
         } catch (\Throwable $e) {
-            $this->logger->error('[FOOD_REGISTRY_SERVICE] Something went wrong while registering the intake for the food with ID: ' . $foundFood->getName());
+            $this->logger->error('[FOOD_REGISTRY_SERVICE] Something went wrong while registering the intake for the food with ID: ' . $foundFood->getProductName());
             $this->logger->error('[FOOD_REGISTRY_SERVICE] Exception is: ' . $e->getMessage());
             return false;
         }
@@ -86,7 +175,7 @@ class FoodRegistry {
         return true;
     }
 
-    private function foodToMacroDTO(Food $food, float $gramsConsumed): MacroDataDTO {
+    private function foodToMacroDTO(Food|Products $food, float $gramsConsumed): MacroDataDTO {
         $consumedMultiplier = $gramsConsumed / 100;
 
         $macroDTO = new MacroDataDTO();

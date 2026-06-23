@@ -2,15 +2,13 @@
 
 namespace src\Service;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-
 use Psr\Log\LoggerInterface;
 use src\DTO\MacroDataDTO;
 use src\Entity\User;
 use src\Exceptions\ExceededMacroLimitException;
 use src\Repository\KcalsDailyRepository;
 
-class MacroIntakeUpdater extends ServiceEntityRepository {
+class MacroIntakeUpdater {
     public function __construct(
         private KcalsDailyRepository $kcalsDailyRepository,
         private UserMacrosRetrieve $userMacrosRetrieve,

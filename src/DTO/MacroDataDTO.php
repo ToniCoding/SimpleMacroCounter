@@ -24,7 +24,10 @@ class MacroDataDTO {
 
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        private float $calories = 0
+        private float $calories = 0,
+
+        #[Assert\NotNull]
+        private string $intent = ''
     ) {}
 
     public function getProtein(): float {
@@ -63,11 +66,20 @@ class MacroDataDTO {
         $this->calories = $calories;
     }
 
+    public function getIntent(): string {
+        return $this->intent;
+    }
+
+    public function setIntent(string $intent): void {
+        $this->intent = $intent;
+    }
+
     public function __toString() {
         return 'Calories: ' . $this->getCalories() .
         "\n\tProtein: " . $this->getProtein() .
         "\n\tCarbs: " . $this->getCarbs() .
         "\n\tFats: " . $this->getFats() .
-        "\n\tFiber: " . $this->getFiber();
+        "\n\tFiber: " . $this->getFiber() .
+        "\n\tIntent: " . $this->getIntent();
     }
 }

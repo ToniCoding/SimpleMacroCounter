@@ -64,4 +64,12 @@ class RegisterUserDTO {
     public function setAge(int $newAge): void {
         $this->age = $newAge;
     }
+
+    public function toString(): string {
+        return 'Username: ' . $this->getUsername() .
+        "\n\tPassword: " . $this->getPassword() .
+        "\n\tEmail: " . $this->getEmail() .
+        "\n\tAlias: " . $this->getAlias() .
+        "\n\tAge: " . $this->getAge();
+    }
 }
