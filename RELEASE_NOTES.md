@@ -28,6 +28,9 @@ The intention of this release is to polish SMC as much as possible, integrate th
 - Product pagination: There are now pagination avalaible if there is more than 100 products that match with the search or shown by default.
 - Brands: All products now have brands for better distinction.
 
+**Changed**
+- Merged add and reduce macros pages into one.
+
 **Technical**
 - To show the food catalog, SMC no longer uses the `Foods` table, now it uses the `Products` one.
 - Added one more column to `Products` table (brands).
@@ -35,6 +38,7 @@ The intention of this release is to polish SMC as much as possible, integrate th
 - Adaptataion of JS, CSS and Twig for the new information about product branding.
 - Implemented temporal mini-API for product search.
 - Implemented FULLTEXT index for `product_name`, `market` and `brand` in `Products` table.
+- Move burguer menu to a single JS file.
 
 ## Project milestones
 
