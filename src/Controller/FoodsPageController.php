@@ -2,7 +2,7 @@
 
 namespace src\Controller;
 
-use src\DTO\FoodDTO;
+use src\DTO\ProductsDTO;
 use src\Form\RegisterFoodsType;
 use src\Service\FoodRegistry;
 
@@ -19,7 +19,7 @@ class FoodsPageController extends AbstractController {
     public function foods(Request $request): Response | RedirectResponse {
         $user = $this->getUser();
 
-        $form = $this->createForm(RegisterFoodsType::class, new FoodDTO());
+        $form = $this->createForm(RegisterFoodsType::class, new ProductsDTO());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

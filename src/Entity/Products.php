@@ -130,4 +130,19 @@ class Products {
         $this->fiber = number_format((float) $fiber, 2, '.', '');
         return $this;
     }
+
+    public function __toString(): string {
+        return \sprintf(
+            'Product[id=%d, productName=%s, market=%s, brand=%s, kcal=%d, protein=%.2f, carbs=%.2f, fats=%.2f, fiber=%.2f]',
+            $this->id ?? 0,
+            $this->productName,
+            $this->market,
+            $this->brand,
+            $this->kcal,
+            (float) $this->protein,
+            (float) $this->carbs,
+            (float) $this->fats,
+            (float) $this->fiber
+        );
+    }
 }

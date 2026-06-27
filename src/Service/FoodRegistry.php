@@ -3,36 +3,39 @@
 namespace src\Service;
 
 use Psr\Log\LoggerInterface;
-use src\DTO\{FoodDTO, MacroDataDTO};
+use src\DTO\{MacroDataDTO, ProductsDTO};
 use src\Entity\{User, Food, Products};
 use src\Repository\{FoodsRepository, KcalsDailyRepository, ProductsRepository};
-use function src\Helpers\calorieCalc;
+use src\Helpers\CalorieCalculator;
 
 class FoodRegistry {
     public function __construct(
         private FoodsRepository $foodsRepository,
         private ProductsRepository $productsRepository,
         private KcalsDailyRepository $kcalsDailyRepository,
+        private CalorieCalculator $calorieCalculator,
         private LoggerInterface $logger
     ) {}
 
-    public function createFood(FoodDTO $foodDTO, User $user): void {
+    public function createFood(ProductsDTO $productDTO, User $user): void {
         $this->logger->info('[FOOD_REGISTRY_SERVICE] Registering new Food.');
         
-        $food = new Food();
+        $product = new Products();
 
-        $food->setName($foodDTO->getName());
-        $food->setMarket($foodDTO->getMarket());
-        $food->setProtein((float) $foodDTO->getProtein());
-        $food->setCarbs((float) $foodDTO->getCarbs());
-        $food->setFats((float) $foodDTO->getFats());
-        $food->setFiber((float) $foodDTO->getFiber());
-        $food->setUser($user);
+        $product->setProductName($productDTO->getProductName());
+        $product->setBrand($productDTO->getBrand());
+        $product->setMarket($productDTO->getMarket());
+        $product->setProtein((float) $productDTO->getProtein());
+        $product->setCarbs((float) $productDTO->getCarbs());
+        $product->setFats((float) $productDTO->getFats());
+        $product->setFiber((float) $productDTO->getFiber());
+        $product->setKcal($this->calorieCalculator->calorieCalc($product));
+        
 
-        $this->logger->info('[FOOD_REGISTRY_SERVICE] Registering new Food.');
-        $this->logger->notice('[FOOD_REGISTRY_SERVICE] Food to registry: ' . $food->__toString());
+        $this->logger->info('[FOOD_REGISTRY_SERVICE] Registering new product.');
+        $this->logger->notice('[FOOD_REGISTRY_SERVICE] Product to registry: ' . $product->__toString());
 
-        $this->foodsRepository->registerFood($food);
+        $this->productsRepository->registerProduct($product);
     }
 
     public function getProductsByMarket(int $page = 1, string $market = '', string $format = 'human', int $limit = 100): array {
@@ -184,7 +187,7 @@ class FoodRegistry {
         $macroDTO->setCarbs((float) $food->getCarbs() * $consumedMultiplier);
         $macroDTO->setFats((float) $food->getFats() * $consumedMultiplier);
         $macroDTO->setFiber((float) $food->getFiber() * $consumedMultiplier);
-        $macroDTO->setCalories((float) calorieCalc($food) * $consumedMultiplier);
+        $macroDTO->setCalories((float) $this->calorieCalculator->calorieCalc($food) * $consumedMultiplier);
 
         return $macroDTO;
     }

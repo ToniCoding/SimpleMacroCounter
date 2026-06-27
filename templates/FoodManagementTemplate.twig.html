@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <title>{{ page_title }}</title>
 </head>
@@ -77,12 +77,22 @@
         <main class="content">
             <h1 class="page-title">Register food</h1>
 
+            {% set errorMessage = app.session.remove('registeringFoodError') %}
+            {% if errorMessage %}
+                <div class="alert alert-danger" style="text-align: center;">{{ errorMessage }}</div>
+            {% endif %}
+
             <div class="form-container">
                 {{ form_start(form) }}
 
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    {{ form_widget(form.name, {'id': 'name', 'attr': {'class': 'form-input'}}) }}
+                    <label for="productName">Product name</label>
+                    {{ form_widget(form.productName, {'id': 'productName', 'attr': {'class': 'form-input'}}) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    {{ form_widget(form.brand, {'id': 'brand', 'attr': {'class': 'form-input'}}) }}
                 </div>
 
                 <div class="form-group">

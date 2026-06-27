@@ -5,6 +5,7 @@ namespace src\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use src\Entity\Products;
+use src\Exceptions\FoodAlreadyRegistered;
 
 class ProductsRepository extends ServiceEntityRepository {
     public function __construct(ManagerRegistry $registry) {
@@ -119,5 +120,20 @@ class ProductsRepository extends ServiceEntityRepository {
 
     public function searchByFullText(string $search, int $limit = 20): array {
         return $this->fullTextSearch($search, $limit);
+    }
+
+    public function registerProduct(Products $product): void {
+        if ($this->checkIfProductIsDuplicated($product)) throw new FoodAlreadyRegistered();
+
+        $this->getEntityManager()->persist($product);
+        $this->getEntityManager()->flush();
+    }
+
+    private function checkIfProductIsDuplicated(Products $product): bool {
+        $registryFood = $this->findOneBy(['productName' => $product->getProductName()]);
+
+        return $registryFood &&
+                $registryFood->getMarket() == $product->getMarket() && 
+                $registryFood->getBrand() == $product->getBrand();
     }
 }
