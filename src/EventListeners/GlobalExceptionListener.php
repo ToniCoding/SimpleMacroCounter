@@ -9,15 +9,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Psr\Log\LoggerInterface;
 
 #[AsEventListener(event: 'kernel.exception', priority: -10)]
-class GlobalExceptionListener 
-{
-    public function __construct(
+class GlobalExceptionListener {
+    public function __construct (
         private UrlGeneratorInterface $urlGenerator,
         private RequestStack $requestStack,
         private LoggerInterface $logger,
         private string $environment,
     ) {}
 
+    /**
+     * Manages the exception thrown and acts in consequence to its context.
+     * @param ExceptionEvent $event The event of the exception being thrown.
+     * @return void
+     */
+    // The handler needs some improvements for better legibility and escalable exception handling.
     public function onKernelException(ExceptionEvent $event): void {
         if ($event->hasResponse()) {
             return;
@@ -26,15 +31,15 @@ class GlobalExceptionListener
         $exception = $event->getThrowable();
         $request = $event->getRequest();
         
-        if ($this->environment === 'dev') {
-            $this->logger->debug('[GLOBAL_HANDLER] Showing exception: ' . $exception::class);
-            return;
-        }
+        // if ($this->environment === 'dev') {
+        //     $this->logger->debug('[GLOBAL_HANDLER] Showing exception: ' . $exception::class);
+        //     return;
+        // }
 
         if ($exception instanceof \Symfony\Component\Security\Core\Exception\AccessDeniedException ||
             $exception instanceof \Symfony\Component\Security\Core\Exception\AuthenticationException) {
             
-            $this->logger->warning('[GLOBAL_HANDLER] Security exception: ' . $exception->getMessage());
+            $this->logger->error('[GLOBAL_HANDLER] Security exception: ' . $exception->getMessage());
             
             try {
                 $session = $this->requestStack->getSession();
@@ -43,11 +48,23 @@ class GlobalExceptionListener
             
             $url = $this->urlGenerator->generate('app_login');
             $event->setResponse(new RedirectResponse($url));
+
             return;
         }
         
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-            $this->logger->info('[GLOBAL_HANDLER] 404: ' . $request->getPathInfo());
+            $this->logger->error('[GLOBAL_HANDLER] 404: ' . $request->getPathInfo());
+            return;
+        }
+        
+        if ($exception instanceof \src\Exceptions\FoodAlreadyRegistered) {
+            $this->logger->error('[GLOBAL_HANDLER] The user tried to register a food that was previously registered.');
+
+            $session = $this->requestStack->getSession();
+            $session->set('registeringFoodError', $exception->getMessage());
+
+            $event->setResponse(new RedirectResponse('/foods'));
+
             return;
         }
 
@@ -72,6 +89,7 @@ class GlobalExceptionListener
     private function getUserMessage(\Throwable $exception): string {
         return match ($exception::class) {
             \src\Exceptions\WriteToDatabaseException::class => 'Failed to save to database. Please try again.',
+            \src\Exceptions\FoodAlreadyRegistered::class => 'The food is already registered.',
             \Doctrine\DBAL\Exception\UniqueConstraintViolationException::class => 'This record already exists.',
             default => 'An unexpected error occurred. Please try again later.'
         };
