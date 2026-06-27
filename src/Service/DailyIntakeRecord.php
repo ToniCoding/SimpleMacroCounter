@@ -81,7 +81,7 @@ class DailyIntakeRecord {
         return $this->userGoalsRepository->findGoalsRegistry($user);
     }
 
-    public function modifyMacroGoal(User $user, MacroSettingsDTO $macroSettingsDTO): void {
+    public function modifyMacroGoal(User $user, MacroSettingsDTO $macroSettingsDTO): bool {
         $validatedMacroData = [];
 
         $macroUpdates = [
@@ -114,11 +114,11 @@ class DailyIntakeRecord {
             }
         }
 
-        if (empty($validatedMacroData)) return;
+        if (empty($validatedMacroData)) return false;
 
         $this->logger->info('[DAILY_INTAKE_RECORD_SERVICE] Validated macro goal is: '. json_encode($validatedMacroData));
 
-        $this->userGoalsRepository->updateGoalRegistry($user, $validatedMacroData);
+        return $this->userGoalsRepository->updateGoalRegistry($user, $validatedMacroData);
     }
 
     private function getMinimumMacroValue(string $macro): ?int {

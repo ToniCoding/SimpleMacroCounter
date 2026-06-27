@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <title>History - SMC</title>
 </head>
@@ -27,23 +27,49 @@
                 </ul>
 
                 <button class="hamburger-menu" aria-label="Menú">
-                    <img src="{{ asset('img/menu.png') }}" alt="Menu" height="24" width="24">
+                    <img src="{{asset('svg/burguer_menu.svg')}}" alt="Burguer menu"
+                        style="width: 1.75em; height: 1.75em;">
                 </button>
 
                 <ul class="nav-mobile">
-                    <li><a href="/modifyMacros"><img src="{{ asset('img/vegetable.png') }}" height="32"
-                                width="32">Manual macros</a></li>
-                    <li><a href="/history"><img src="{{ asset('img/history_icon.png') }}" height="32"
-                                width="32">History</a></li>
-                    <li><a href="/foods"><img src="{{ asset('img/vegetable.png') }}" height="32" width="32">Register
-                            foods</a></li>
-                    <li><a href="/addfood"><img src="{{ asset('img/burger.png') }}" height="32" width="32">Register
-                            intake</a></li>
-                    <li><a href="/settings"><img src="{{ asset('img/settings_icon.png') }}" height="32"
-                                width="32">Settings</a>
+                    <li>
+                        <a href="/modifyMacros">
+                            <img src="{{asset('svg/carrot.svg')}}" alt="Carrot" style="width: 1.5em; height: 1.5em;">
+                            Manual macros
+                        </a>
                     </li>
-                    <li><a href="/logout"><img src="{{ asset('img/logout_icon.png') }}" height="32"
-                                width="32">Logout</a></li>
+                    <li>
+                        <a href="/history">
+                            <img src="{{asset('svg/history.svg')}}" alt="History" style="width: 1.5em; height: 1.5em;">
+                            History
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/foods">
+                            <img src="{{asset('svg/apple.svg')}}" alt="Apple" style="width: 1.5em; height: 1.5em;">
+                            Register foods
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/addfood">
+                            <img src="{{asset('svg/fork_and_knife.svg')}}" alt="Fork and knife"
+                                style="width: 1.5em; height: 1.5em;">
+                            Register intake
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/settings">
+                            <img src="{{asset('svg/settings.svg')}}" alt="Settings"
+                                style="width: 1.5em; height: 1.5em;">
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            <img src="{{asset('svg/logout.svg')}}" alt="Logout" style="width: 1.5em; height: 1.5em;">
+                            Logout
+                        </a>
+                    </li>
                 </ul>
             </div>
         </header>

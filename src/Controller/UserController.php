@@ -64,14 +64,14 @@ class UserController extends AbstractController {
                     return $this->redirect('login');
                 } 
             } catch (AgeNotAllowedException $ageEx) {
-                return $this->render('RegisterPageTemplate.twig', [
+                return $this->render('security/RegisterPageTemplate.twig.html', [
                     'form' => $form->createView(),
                     'error' => $ageEx->getMessage()
                 ]);
             }
         }
 
-        return $this->render('RegisterPageTemplate.twig', [
+        return $this->render('security/RegisterPageTemplate.twig.html', [
             'form' => $form->createView(),
             'error' => null
         ]);
@@ -128,7 +128,7 @@ class UserController extends AbstractController {
             }
         }
 
-        return $this->render('LoginPageTemplate.twig', [
+        return $this->render('LoginPageTemplate.twig.html', [
             'form' => $form->createView()
         ]);
     }

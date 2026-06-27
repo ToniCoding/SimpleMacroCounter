@@ -23,10 +23,12 @@ class SettingsPageController extends AbstractController {
         $macroSettingsForm->handleRequest($request);
 
         if ($macroSettingsForm->isSubmitted() && $macroSettingsForm->isValid()) {
-            $this->dailyIntakeRecord->modifyMacroGoal($user, $macroSettingsForm->getData());
+            if ($this->dailyIntakeRecord->modifyMacroGoal($user, $macroSettingsForm->getData())) {
+                return $this->redirect('home');
+            };
         }
 
-        return $this->render('SettingsTemplate.twig', [
+        return $this->render('SettingsTemplate.twig.html', [
             'form' => $macroSettingsForm,
             'page_title' => 'Settings - SMC',
             'error' => ''

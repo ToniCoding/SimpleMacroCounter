@@ -5,7 +5,17 @@ namespace src\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name: "products")]
+#[ORM\Table(
+        name: "products",
+        indexes: [
+            new ORM\Index(
+                name: "ft_product_name_market_brand",
+                columns: ["product_name", "market", "brand"],
+                flags: ["fulltext"]
+            )
+        ]
+    )
+]
 class Products {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -119,5 +129,20 @@ class Products {
     public function setFiber(float|string $fiber): self {
         $this->fiber = number_format((float) $fiber, 2, '.', '');
         return $this;
+    }
+
+    public function __toString(): string {
+        return \sprintf(
+            'Product[id=%d, productName=%s, market=%s, brand=%s, kcal=%d, protein=%.2f, carbs=%.2f, fats=%.2f, fiber=%.2f]',
+            $this->id ?? 0,
+            $this->productName,
+            $this->market,
+            $this->brand,
+            $this->kcal,
+            (float) $this->protein,
+            (float) $this->carbs,
+            (float) $this->fats,
+            (float) $this->fiber
+        );
     }
 }

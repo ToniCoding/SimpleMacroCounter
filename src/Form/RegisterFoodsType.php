@@ -2,7 +2,7 @@
 
 namespace src\Form;
 
-use src\DTO\FoodDTO;
+use src\DTO\ProductsDTO;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\{TextType, NumberType, ChoiceType};
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,7 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class RegisterFoodsType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
-            ->add('name', TextType::class)
+            ->add('productName', TextType::class)
+            ->add('brand', TextType::class)
             ->add('market', ChoiceType::class, [
                 'choices' => [
                     'Mercadona' => 'mercadona',
@@ -33,7 +34,7 @@ class RegisterFoodsType extends AbstractType {
 
     public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
-            'data_class' => FoodDTO::class,
+            'data_class' => ProductsDTO::class,
             'csrf_protection' => true,
             'csrf_field_name' => '_token'
         ]);

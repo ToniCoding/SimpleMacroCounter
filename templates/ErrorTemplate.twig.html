@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>New intake - SMC</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="logo">
+                <h3><a href="/">SimpleMacroCounter</a></h3>
+            </div>
+
+            <div class="navigation">
+                <ul class="nav-desktop">
+                    <li><a href="/modifyMacros">Manual macros</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/foods">Register foods</a></li>
+                    <li><a href="/addfood">Register intake</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+
+                <button class="hamburger-menu" aria-label="Menú">
+                    <img src="{{asset('svg/burguer_menu.svg')}}" alt="Burguer menu"
+                        style="width: 1.75em; height: 1.75em;">
+                </button>
+
+                <ul class="nav-mobile">
+                    <li>
+                        <a href="/modifyMacros">
+                            <img src="{{asset('svg/carrot.svg')}}" alt="Carrot" style="width: 1.5em; height: 1.5em;">
+                            Manual macros
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/history">
+                            <img src="{{asset('svg/history.svg')}}" alt="History" style="width: 1.5em; height: 1.5em;">
+                            History
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/foods">
+                            <img src="{{asset('svg/apple.svg')}}" alt="Apple" style="width: 1.5em; height: 1.5em;">
+                            Register foods
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/addfood">
+                            <img src="{{asset('svg/fork_and_knife.svg')}}" alt="Fork and knife"
+                                style="width: 1.5em; height: 1.5em;">
+                            Register intake
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/settings">
+                            <img src="{{asset('svg/settings.svg')}}" alt="Settings"
+                                style="width: 1.5em; height: 1.5em;">
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            <img src="{{asset('svg/logout.svg')}}" alt="Logout" style="width: 1.5em; height: 1.5em;">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h1>Error {{ errorCode }}</h1>
+            <p>{{ errorMessage }}</p>
+
+            <a href="{{ path('home') }}" class="btn btn-primary">
+                Volver al inicio
+            </a>
+        </main>
+
+    </div>
+
+    <script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
+    <script type="module" src="{{ asset('js/utils.js') }}"></script>
+    <script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
+    <script type="module" src="{{ asset('js/payloadCreator.js') }}"></script>
+</body>
+
+</html>

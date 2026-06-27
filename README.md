@@ -65,6 +65,20 @@ SMC follows a layered architecture:
 16. REST API implementation.
 
 ## Versions
+Version 1.0.1 - SMC #1 HotFix
+- Release date: 27/06/2026.
+- Backend added/modied: Yes. See release notes.
+- Frontend: Switched form PNG to SVG icons.
+
+Version 1.0.0 - SMC
+- Release date: 26/06/2026.
+- Backend added/modified: Yes.
+- Frontend: Remains the same.
+
+Version 0.7.0 - The Final Marks
+- Release date: 23/06/2026.
+- Backend added/modified: Yes.
+- Frontend: Remains the same.
 
 Version 0.6.0 - The Dishe'd 
 - Release date: 12/05/2026.
@@ -129,8 +143,8 @@ SimpleMacroCounter/
 ├── templates/
 │   └── modifyData
 │   └── security
-│   └── HomePageTemplate.twig
-│   └── RegisterPageTemplate.twig
+│   └── HomePageTemplate.twig.html
+│   └── RegisterPageTemplate.twig.html
 └── README.md
 └── RELEASE_NOTES.md
 ```
