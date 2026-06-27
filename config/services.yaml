@@ -13,6 +13,7 @@ parameters:
     food_pagination:max_products_per_page: 100
 
     history.default_shown_days: 7
+    history.max_shown_days: 180
 
 services:
     _defaults:
