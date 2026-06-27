@@ -5,7 +5,17 @@ namespace src\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name: "products")]
+#[ORM\Table(
+        name: "products",
+        indexes: [
+            new ORM\Index(
+                name: "ft_product_name_market_brand",
+                columns: ["product_name", "market", "brand"],
+                flags: ["fulltext"]
+            )
+        ]
+    )
+]
 class Products {
     #[ORM\Id]
     #[ORM\GeneratedValue]
