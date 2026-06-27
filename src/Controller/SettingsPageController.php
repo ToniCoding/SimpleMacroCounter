@@ -26,7 +26,7 @@ class SettingsPageController extends AbstractController {
             $this->dailyIntakeRecord->modifyMacroGoal($user, $macroSettingsForm->getData());
         }
 
-        return $this->render('SettingsTemplate.twig', [
+        return $this->render('SettingsTemplate.twig.html', [
             'form' => $macroSettingsForm,
             'page_title' => 'Settings - SMC',
             'error' => ''

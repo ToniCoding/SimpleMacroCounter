@@ -20,7 +20,7 @@ class ErrorPageController extends AbstractController {
 
         $userMessage = $lastException['user_message'] ?? 'Ha ocurrido un error inesperado';
         
-        return $this->render('ErrorTemplate.twig', [
+        return $this->render('ErrorTemplate.twig.html', [
             'errorMessage' => $userMessage,
             'errorCode' => $lastException['status_code'] ?? $lastException['code'] ?? 500,
             'debugMessage' => $this->getParameter('kernel.environment') === 'dev' 

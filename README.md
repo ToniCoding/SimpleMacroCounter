@@ -129,8 +129,8 @@ SimpleMacroCounter/
 ├── templates/
 │   └── modifyData
 │   └── security
-│   └── HomePageTemplate.twig
-│   └── RegisterPageTemplate.twig
+│   └── HomePageTemplate.twig.html
+│   └── RegisterPageTemplate.twig.html
 └── README.md
 └── RELEASE_NOTES.md
 ```

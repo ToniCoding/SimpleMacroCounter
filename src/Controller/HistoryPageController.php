@@ -28,7 +28,7 @@ class HistoryPageController extends AbstractController {
         $defaultHistoryDays = $this->params->get('history.default_shown_days');
         $numberOfDays = (int) $request->query->get('lastDays', $defaultHistoryDays);
 
-        return $this->render('HistoryPageTemplate.twig', [
+        return $this->render('HistoryPageTemplate.twig.html', [
             'page_title' => 'History - SMC',
             'historyData' => $this->getLastDaysHistory($numberOfDays),
             'days' => $numberOfDays

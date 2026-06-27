@@ -22,7 +22,7 @@ class AddFoodsPageController extends AbstractController {
 
         $catalogJson = json_encode($catalogData['data'], JSON_UNESCAPED_UNICODE);
 
-        return $this->render('AddFoodTemplate.twig', [
+        return $this->render('AddFoodTemplate.twig.html', [
             'foodCatalog' => $catalogJson,
             'foodCatalogPagination' => json_encode($catalogData['pagination'], JSON_UNESCAPED_UNICODE),
             'pagination' => $catalogData['pagination'],

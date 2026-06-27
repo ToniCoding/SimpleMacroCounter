@@ -29,7 +29,7 @@ class FoodsPageController extends AbstractController {
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('FoodManagementTemplate.twig', [
+        return $this->render('FoodManagementTemplate.twig.html', [
             'form' => $form,
             'page_title' => 'Register new food - SMC'
         ]);

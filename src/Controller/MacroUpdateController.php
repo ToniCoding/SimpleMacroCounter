@@ -27,7 +27,7 @@ class MacroUpdateController extends AbstractController {
             return $this->handleMacrosModification($macroDto);
         }
 
-        return $this->render('modifyData/ModifyMacrosTemplate.twig', [
+        return $this->render('modifyData/ModifyMacrosTemplate.twig.html', [
             'form' => $form,
             'page_title' => 'Modify macros - SMC',
         ]);
