@@ -1,9 +1,9 @@
 <?php
 
-namespace src\Controller;
+namespace App\Controller\Web;
 
-use src\Helpers\DateParser;
-use src\Service\UserMacrosRetrieve;
+use App\Helpers\DateParser;
+use App\Service\UserMacrosRetrieve;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

@@ -1,11 +1,11 @@
 <?php
 
-namespace src\Controller;
+namespace App\Controller\Web;
 
-use src\DTO\MacroDataDTO;
-use src\Exceptions\ExceededMacroLimitException;
-use src\Form\ModifyMacrosType;
-use src\Service\MacroIntakeUpdater;
+use App\DTO\MacroDataDTO;
+use App\Exceptions\ExceededMacroLimitException;
+use App\Form\ModifyMacrosType;
+use App\Service\MacroIntakeUpdater;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};

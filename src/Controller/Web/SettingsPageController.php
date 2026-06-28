@@ -1,10 +1,10 @@
 <?php
 
-namespace src\Controller;
+namespace App\Controller\Web;
 
-use src\DTO\MacroSettingsDTO;
-use src\Form\MacroGoalsSettingsType;
-use src\Service\DailyIntakeRecord;
+use App\DTO\MacroSettingsDTO;
+use App\Form\MacroGoalsSettingsType;
+use App\Service\DailyIntakeRecord;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response, RedirectResponse};

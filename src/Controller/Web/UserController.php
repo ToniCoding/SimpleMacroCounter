@@ -1,13 +1,13 @@
 <?php
 
-namespace src\Controller;
+namespace App\Controller\Web;
 
-use src\DTO\{RegisterUserDTO, LoggedUserDTO};
-use src\Entity\User;
-use src\Exceptions\AgeNotAllowedException;
-use src\Form\{LoginUserType, RegisterUserType};
-use src\Security\{AccessTokenHandler, AppAuthenticator};
-use src\Handlers\UserHandler;
+use App\DTO\{RegisterUserDTO, LoggedUserDTO};
+use App\Entity\User;
+use App\Exceptions\AgeNotAllowedException;
+use App\Form\{LoginUserType, RegisterUserType};
+use App\Security\{AccessTokenHandler, AppAuthenticator};
+use App\Handlers\UserHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
 

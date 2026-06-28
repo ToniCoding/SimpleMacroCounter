@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Controller;
+namespace App\Controller\Web;
 
-use src\Service\FoodRegistry;
+use App\Service\FoodRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};

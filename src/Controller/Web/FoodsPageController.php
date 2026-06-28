@@ -1,10 +1,10 @@
 <?php
 
-namespace src\Controller;
+namespace App\Controller\Web;
 
-use src\DTO\ProductsDTO;
-use src\Form\RegisterFoodsType;
-use src\Service\FoodRegistry;
+use App\DTO\ProductsDTO;
+use App\Form\RegisterFoodsType;
+use App\Service\FoodRegistry;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{RedirectResponse, Request, Response};
