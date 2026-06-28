@@ -1,12 +1,12 @@
 <?php
 
-namespace src\Service;
+namespace App\Service;
 
 use Psr\Log\LoggerInterface;
-use src\DTO\{MacroDataDTO, ProductsDTO};
-use src\Entity\{User, Food, Products};
-use src\Repository\{FoodsRepository, KcalsDailyRepository, ProductsRepository};
-use src\Helpers\CalorieCalculator;
+use App\DTO\{MacroDataDTO, ProductsDTO};
+use App\Entity\{User, Food, Products};
+use App\Repository\{FoodsRepository, KcalsDailyRepository, ProductsRepository};
+use App\Helpers\CalorieCalculator;
 
 class FoodRegistry {
     public function __construct(

@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Helpers;
+namespace App\Helpers;
 
-use src\Entity\{Food, Products};
+use App\Entity\{Food, Products};
 
 class CalorieCalculator {
     public function calorieCalc(Food|Products $food): int {

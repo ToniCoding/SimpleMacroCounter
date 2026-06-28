@@ -234,6 +234,7 @@ async function searchProductsApi(query, page = 1) {
 
         const formattedResults = result.data.map(p => [
             p.name,
+            p.brand,
             p.market,
             p.kcal,
             p.protein,

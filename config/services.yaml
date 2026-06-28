@@ -20,14 +20,14 @@ services:
         autowire: true
         autoconfigure: true
 
-    src\:
+    App\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    src\EventListeners\GlobalExceptionListener:
+    App\EventListeners\GlobalExceptionListener:
         arguments:
             $environment: '%kernel.environment%'
 

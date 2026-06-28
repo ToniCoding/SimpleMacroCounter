@@ -3,7 +3,7 @@
 // bin/console
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use src\Kernel;
+use App\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__).'/vendor/autoload.php';

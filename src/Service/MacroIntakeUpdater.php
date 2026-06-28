@@ -1,12 +1,12 @@
 <?php
 
-namespace src\Service;
+namespace App\Service;
 
 use Psr\Log\LoggerInterface;
-use src\DTO\MacroDataDTO;
-use src\Entity\User;
-use src\Exceptions\ExceededMacroLimitException;
-use src\Repository\KcalsDailyRepository;
+use App\DTO\MacroDataDTO;
+use App\Entity\User;
+use App\Exceptions\ExceededMacroLimitException;
+use App\Repository\KcalsDailyRepository;
 
 class MacroIntakeUpdater {
     public function __construct(

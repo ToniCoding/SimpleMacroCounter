@@ -1,14 +1,14 @@
 security:
   # How is the user password hashed.
   password_hashers:
-    src\Entity\User:
+    App\Entity\User:
       algorithm: auto
 
   # Class in charge of validating and creating the user identity.
   providers:
     app_user_provider:
       entity:
-        class: src\Entity\User
+        class: App\Entity\User
         property: username
 
   # Main firewall for the application. Interceptor for all requests before they arrive to the controller layer.
@@ -25,7 +25,7 @@ security:
         path: app_logout
         target: /login
       access_token:
-        token_handler: src\Security\AccessTokenHandler
+        token_handler: App\Security\AccessTokenHandler
         token_extractors:
           - 'header'
 

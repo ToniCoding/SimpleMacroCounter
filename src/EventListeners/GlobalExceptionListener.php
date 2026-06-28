@@ -1,6 +1,6 @@
 <?php
 
-namespace src\EventListeners;
+namespace App\EventListeners;
 
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\{RequestStack, RedirectResponse};
@@ -57,7 +57,7 @@ class GlobalExceptionListener {
             return;
         }
         
-        if ($exception instanceof \src\Exceptions\FoodAlreadyRegistered) {
+        if ($exception instanceof \App\Exceptions\FoodAlreadyRegistered) {
             $this->logger->error('[GLOBAL_HANDLER] The user tried to register a food that was previously registered.');
 
             $session = $this->requestStack->getSession();
@@ -88,8 +88,8 @@ class GlobalExceptionListener {
 
     private function getUserMessage(\Throwable $exception): string {
         return match ($exception::class) {
-            \src\Exceptions\WriteToDatabaseException::class => 'Failed to save to database. Please try again.',
-            \src\Exceptions\FoodAlreadyRegistered::class => 'The food is already registered.',
+            \App\Exceptions\WriteToDatabaseException::class => 'Failed to save to database. Please try again.',
+            \App\Exceptions\FoodAlreadyRegistered::class => 'The food is already registered.',
             \Doctrine\DBAL\Exception\UniqueConstraintViolationException::class => 'This record already exists.',
             default => 'An unexpected error occurred. Please try again later.'
         };

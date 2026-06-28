@@ -1,10 +1,10 @@
 <?php
 
-namespace src\Repository;
+namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use src\Entity\{User, UserGoals};
+use App\Entity\{User, UserGoals};
 
 class UserGoalsRepository extends ServiceEntityRepository {
     public function __construct(

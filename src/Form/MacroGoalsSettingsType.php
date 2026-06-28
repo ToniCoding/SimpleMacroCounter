@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Form;
+namespace App\Form;
 
-use src\DTO\MacroSettingsDTO;
+use App\DTO\MacroSettingsDTO;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

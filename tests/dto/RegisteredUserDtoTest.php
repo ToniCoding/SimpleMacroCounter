@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Validator\Validation;
 
-use src\DTO\RegisterUserDTO;
+use App\DTO\RegisterUserDTO;
 
 class RegisteredUserDtoTest extends TestCase {
     #[DataProvider('userProvider')]

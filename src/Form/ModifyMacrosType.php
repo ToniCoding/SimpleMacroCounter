@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Form;
+namespace App\Form;
 
-use src\DTO\MacroDataDTO;
+use App\DTO\MacroDataDTO;
 use Symfony\Component\Form\{AbstractType, Extension\Core\Type\ChoiceType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

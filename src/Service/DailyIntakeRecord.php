@@ -1,13 +1,13 @@
 <?php
 
-namespace src\Service;
+namespace App\Service;
 
 use Psr\Log\LoggerInterface;
-use src\DTO\MacroSettingsDTO;
-use src\Exceptions\UnrecognizedMacroException;
-use src\Exceptions\WriteToDatabaseException;
-use src\Repository\{UserGoalsRepository, KcalsDailyRepository};
-use src\Entity\{KcalsDaily, User, UserGoals};
+use App\DTO\MacroSettingsDTO;
+use App\Exceptions\UnrecognizedMacroException;
+use App\Exceptions\WriteToDatabaseException;
+use App\Repository\{UserGoalsRepository, KcalsDailyRepository};
+use App\Entity\{KcalsDaily, User, UserGoals};
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**

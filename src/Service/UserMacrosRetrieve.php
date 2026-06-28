@@ -1,14 +1,14 @@
 <?php
 
-namespace src\Service;
+namespace App\Service;
 
-use src\DTO\MacroDataDTO;
-use src\Entity\User;
-use src\Exceptions\NoRecordFoundException;
-use src\Repository\UserGoalsRepository;
-use src\Service\DailyIntakeRecord;
-use src\Repository\KcalsDailyRepository;
-use src\Helpers\DateParser;
+use App\DTO\MacroDataDTO;
+use App\Entity\User;
+use App\Exceptions\NoRecordFoundException;
+use App\Repository\UserGoalsRepository;
+use App\Service\DailyIntakeRecord;
+use App\Repository\KcalsDailyRepository;
+use App\Helpers\DateParser;
 
 class UserMacrosRetrieve
 {

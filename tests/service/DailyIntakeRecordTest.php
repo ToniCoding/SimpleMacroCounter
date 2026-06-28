@@ -5,15 +5,15 @@ namespace Smc\Tests\Service;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use src\DTO\MacroSettingsDTO;
-use src\Entity\KcalsDaily;
-use src\Entity\User;
-use src\Entity\UserGoals;
-use src\Exceptions\UnrecognizedMacroException;
-use src\Exceptions\WriteToDatabaseException;
-use src\Repository\KcalsDailyRepository;
-use src\Repository\UserGoalsRepository;
-use src\Service\DailyIntakeRecord;
+use App\DTO\MacroSettingsDTO;
+use App\Entity\KcalsDaily;
+use App\Entity\User;
+use App\Entity\UserGoals;
+use App\Exceptions\UnrecognizedMacroException;
+use App\Exceptions\WriteToDatabaseException;
+use App\Repository\KcalsDailyRepository;
+use App\Repository\UserGoalsRepository;
+use App\Service\DailyIntakeRecord;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class DailyIntakeRecordTest extends TestCase

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Validator\Validation;
 
-use src\DTO\FoodDTO;
+use App\DTO\FoodDTO;
 
 class FoodDtoTest extends TestCase {
     #[DataProvider('foodDataProvider')]

@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helpers;
+namespace App\Helpers;
 
 class DateParser {
     private const DATE_FORMAT = "d-m-Y";
