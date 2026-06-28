@@ -1,16 +1,18 @@
 <?php
 
-namespace src\Repository;
+namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-use src\Entity\{User, KcalsDaily};
-use src\DTO\MacroDataDTO;
+use App\Entity\{User, KcalsDaily};
+use App\DTO\MacroDataDTO;
+use Psr\Log\LoggerInterface;
 
 class KcalsDailyRepository extends ServiceEntityRepository {
     public function __construct(
         private ManagerRegistry $registry,
+        private LoggerInterface $logger
     ) {
         parent::__construct($registry, KcalsDaily::class);
     }
@@ -31,16 +33,17 @@ class KcalsDailyRepository extends ServiceEntityRepository {
     }
 
     public function findIntakeRegistryForDateRange(User $user, int $previousDays): array {
-        $yesterday = new \DateTimeImmutable('-1 day');
+        $yesterday = new \DateTimeImmutable('yesterday midnight');
         $from = $yesterday->modify("-$previousDays days");
+        $to = $yesterday->modify('+1 day');
 
         return $this->createQueryBuilder('kcals')
             ->where('kcals.user = :user')
             ->andWhere('kcals.date >= :from')
-            ->andWhere('kcals.date <= :to')
+            ->andWhere('kcals.date < :to')
             ->setParameter('user', $user)
             ->setParameter('from', $from)
-            ->setParameter('to', $yesterday)
+            ->setParameter('to', $to)
             ->orderBy('kcals.date', 'ASC')
             ->getQuery()
             ->getResult();
