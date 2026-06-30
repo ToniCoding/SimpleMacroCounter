@@ -4,16 +4,15 @@ namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class TodayProgressResponseDTO {
+class TodayProgressResponseDTO implements \JsonSerializable {
     public function __construct(
         #[Assert\NotBlank]
-        #[Assert\Type('int')]
-        #[Assert\PositiveOrZero]
-        private int $todayCalories,
+        #[Assert\Type('array')]
+        private array $todayMacrosProgress,
 
         #[Assert\NotBlank]
         #[Assert\Type('array')]
-        private array $todayMacros,
+        private array $todayUserMacroGrams,
 
         #[Assert\NotBlank]
         #[Assert\Type('int')]
@@ -21,38 +20,21 @@ class TodayProgressResponseDTO {
         private int $weeklyCalorieGoal,
 
         #[Assert\NotBlank]
-        #[Assert\Type('array')]
-        private array $weeklyMacroGoals,
-
-        #[Assert\NotBlank]
         #[Assert\Type('int')]
         #[Assert\PositiveOrZero]
         private int $weeklyCalorieConsumption,
 
         #[Assert\NotBlank]
-        #[Assert\Type('float')]
-        private float $weeklyGoalRisk,
-
-        #[Assert\NotBlank]
-        #[Assert\Type('string')]
-        #[Assert\AtLeastOneOf('gray, green, yellow, red')]
-        private string $weeklyGoalRiskColor
+        #[Assert\Type('array')]
+        private array $weeklyCalorieGoalRiskInfo,
     ) {}
 
-    public function getTodayCalories(): int {
-        return $this->todayCalories;
+    public function getTodayMacrosProgress(): array {
+        return $this->todayMacrosProgress;
     }
 
-    public function setTodayCalories(int $todayCalories): void {
-        $this->todayCalories = $todayCalories;
-    }
-
-    public function getTodayMacros(): array {
-        return $this->todayMacros;
-    }
-
-    public function setTodayMacros(array $todayMacros): void {
-        $this->todayMacros = $todayMacros;
+    public function setTodayMacrosProgress(array $todayMacrosProgress): void {
+        $this->todayMacrosProgress = $todayMacrosProgress;
     }
 
     public function getWeeklyCalorieGoal(): int {
@@ -63,12 +45,12 @@ class TodayProgressResponseDTO {
         $this->weeklyCalorieGoal = $weeklyCalorieGoal;
     }
 
-    public function getWeeklyMacroGoals(): array {
-        return $this->weeklyMacroGoals;
+    public function getTodayUserMacroGrams(): array {
+        return $this->todayUserMacroGrams;
     }
 
-    public function setWeeklyMacroGoals(array $weeklyMacroGoals): void {
-        $this->weeklyMacroGoals = $weeklyMacroGoals;
+    public function setTodayUserMacroGrams(array $todayUserMacroGrams): void {
+        $this->todayUserMacroGrams = $todayUserMacroGrams;
     }
 
     public function getWeeklyCalorieConsumption(): int {
@@ -79,19 +61,21 @@ class TodayProgressResponseDTO {
         $this->weeklyCalorieConsumption = $weeklyCalorieConsumption;
     }
 
-    public function getWeeklyGoalRisk(): float {
-        return $this->weeklyGoalRisk;
+    public function getWeeklyCalorieGoalRiskInfo(): array {
+        return $this->weeklyCalorieGoalRiskInfo;
     }
 
-    public function setWeeklyGoalRisk(float $weeklyGoalRisk): void {
-        $this->weeklyGoalRisk = $weeklyGoalRisk;
+    public function setWeeklyCalorieGoalRiskInfo(array $weeklyCalorieGoalRiskInfo): void {
+        $this->weeklyCalorieGoalRiskInfo = $weeklyCalorieGoalRiskInfo;
     }
 
-    public function getWeeklyGoalRiskColor(): string {
-        return $this->weeklyGoalRiskColor;
-    }
-
-    public function setWeeklyGoalRiskColor(string $weeklyGoalRiskColor): void {
-        $this->weeklyGoalRiskColor = $weeklyGoalRiskColor;
+    public function jsonSerialize(): array {
+        return [
+            'todayMacrosProgress' => $this->getTodayMacrosProgress(),
+            'todayUserMacroGrams' => $this->getTodayUserMacroGrams(),
+            'weeklyCalorieGoal' => $this->getWeeklyCalorieGoal(),
+            'weeklyCalorieConsumption' => $this->getWeeklyCalorieConsumption(),
+            'weeklyCalorieGoalRiskInfo' => $this->getWeeklyCalorieGoalRiskInfo()
+        ];
     }
 }

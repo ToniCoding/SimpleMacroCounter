@@ -109,7 +109,7 @@ class UserMacrosRetrieve
         ];
     }
 
-    public function getUserWeeklyGoal(User $user): int {
+    public function getUserWeeklyCalorieGoal(User $user): int {
         $goalRegistry = $this->userGoalsRepository->findOneBy(['user' => $user]);
 
         if (!$goalRegistry) {
