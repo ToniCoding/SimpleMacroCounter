@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Web;
+namespace App\Controller;
 
 use App\DTO\MacroDataDTO;
 use App\Exceptions\ExceededMacroLimitException;
