@@ -15,6 +15,10 @@ class TodayProgressResponseDTO implements \JsonSerializable {
         private array $todayUserMacroGrams,
 
         #[Assert\NotBlank]
+        #[Assert\Type('array')]
+        private array $dailyMacroGramsGoal,
+
+        #[Assert\NotBlank]
         #[Assert\Type('int')]
         #[Assert\PositiveOrZero]
         private int $weeklyCalorieGoal,
@@ -35,6 +39,14 @@ class TodayProgressResponseDTO implements \JsonSerializable {
 
     public function setTodayMacrosProgress(array $todayMacrosProgress): void {
         $this->todayMacrosProgress = $todayMacrosProgress;
+    }
+
+    public function getDailyMacroGramsGoal(): array {
+        return $this->dailyMacroGramsGoal;
+    }
+
+    public function setDailyMacroGramsGoal(array $dailyMacroGramsGoal): void {
+        $this->dailyMacroGramsGoal = $dailyMacroGramsGoal;
     }
 
     public function getWeeklyCalorieGoal(): int {
@@ -73,6 +85,7 @@ class TodayProgressResponseDTO implements \JsonSerializable {
         return [
             'todayMacrosProgress' => $this->getTodayMacrosProgress(),
             'todayUserMacroGrams' => $this->getTodayUserMacroGrams(),
+            'dailyMacroGramsGoal' => $this->getDailyMacroGramsGoal(),
             'weeklyCalorieGoal' => $this->getWeeklyCalorieGoal(),
             'weeklyCalorieConsumption' => $this->getWeeklyCalorieConsumption(),
             'weeklyCalorieGoalRiskInfo' => $this->getWeeklyCalorieGoalRiskInfo()

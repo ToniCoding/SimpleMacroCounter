@@ -74,6 +74,16 @@ class MacroDataDTO {
         $this->intent = $intent;
     }
 
+    public function __toArray(): array {
+        return [
+            "caloriesGoal" => $this->getCalories(),
+            "proteinGoal" => $this->getProtein(),
+            "carbGoal" => $this->getCarbs(),
+            "fatGoal" => $this->getFats(),
+            "fiberGoal" => $this->getFiber()
+        ];
+    }
+
     public function __toString() {
         return 'Calories: ' . $this->getCalories() .
         "\n\tProtein: " . $this->getProtein() .

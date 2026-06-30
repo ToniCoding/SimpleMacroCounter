@@ -6,6 +6,7 @@ use App\DTO\TodayProgressResponseDTO;
 use App\Entity\User;
 use App\Service\UserMacrosRetrieve;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Response, JsonResponse};
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomePageController extends AbstractController {
     public function __construct(
         private UserMacrosRetrieve $userMacrosRetrieve,
+        private ManagerRegistry $mgr
     ) {}
 
     #[Route(['/', '/home'], name: 'home', methods: 'GET')]
@@ -45,7 +47,10 @@ class HomePageController extends AbstractController {
     }
 
     #[Route(['/api/today-progress'], name: 'todayProgress', methods: 'GET')]
-    public function getTodayProgress(User $user): JsonResponse {
+    public function getTodayProgress(): JsonResponse {
+        $user = $this->mgr->getRepository(User::class);
+        $user = $user->find(1);
+
         try {
             $todayUserPercentageProgress = $this->userMacrosRetrieve->calculateUserProgress($user);
             $todayUserMacroGramsConsumed = $this->userMacrosRetrieve->getConsumedMacros($user);
@@ -59,6 +64,7 @@ class HomePageController extends AbstractController {
         $nutritionDto = new TodayProgressResponseDTO(
             todayMacrosProgress: $todayUserPercentageProgress,
             todayUserMacroGrams: $this->userMacrosRetrieve->getConsumedMacrosArr($user),
+            dailyMacroGramsGoal: $this->userMacrosRetrieve->getMacroGoals($user, true),
             weeklyCalorieGoal: $userWeeklyCalorieGoal,
             weeklyCalorieConsumption: $userWeeklyConsumedCalories,
             weeklyCalorieGoalRiskInfo: $this->userMacrosRetrieve->calculateWeeklyRisk($userWeeklyCalorieGoal, $userWeeklyConsumedCalories, $todayUserMacroGramsConsumed->getCalories())

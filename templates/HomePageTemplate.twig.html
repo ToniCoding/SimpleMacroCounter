@@ -27,7 +27,8 @@
                 </ul>
 
                 <button class="hamburger-menu" aria-label="Menú">
-                    <img src="{{asset('svg/burguer_menu.svg')}}" alt="Burguer menu" style="width: 1.75em; height: 1.75em;">
+                    <img src="{{asset('svg/burguer_menu.svg')}}" alt="Burguer menu"
+                        style="width: 1.75em; height: 1.75em;">
                 </button>
 
                 <ul class="nav-mobile">
@@ -51,13 +52,15 @@
                     </li>
                     <li>
                         <a href="/addfood">
-                            <img src="{{asset('svg/fork_and_knife.svg')}}" alt="Fork and knife" style="width: 1.5em; height: 1.5em;">
+                            <img src="{{asset('svg/fork_and_knife.svg')}}" alt="Fork and knife"
+                                style="width: 1.5em; height: 1.5em;">
                             Register intake
                         </a>
                     </li>
                     <li>
                         <a href="/settings">
-                            <img src="{{asset('svg/settings.svg')}}" alt="Settings" style="width: 1.5em; height: 1.5em;">
+                            <img src="{{asset('svg/settings.svg')}}" alt="Settings"
+                                style="width: 1.5em; height: 1.5em;">
                             Settings
                         </a>
                     </li>
@@ -72,9 +75,7 @@
         </header>
         <main class="content">
             <div class="text-content">
-                <p>Today you consumed <b>{{ calories }}</b> kcals. You are <b>{{ caloricProgress|replace({'-':''})
-                        }}</b>{% if calorieProgress >= 100 %} over {% else %} under {% endif %} your goal of {{
-                    calorieGoal }} calories (<i>{{ calorieProgress }}%</i>).</p>
+                <p id="caloricProgress"></p>
             </div>
             {% for message in app.flashes('registerFoodStatus') %}
             <div class="alert alert-success">
@@ -87,49 +88,18 @@
                 {{ message }}
             </div>
             {% endfor %}
-            <div class="text-content progress-wrappers">
-                <div class="progress-wrapper">
-                    <img src="{{asset('svg/strength.svg')}}" alt="Strength" style="width: 1.75em; height: 1.75em;">
-                    <div class="progress-track">
-                        <div class="progress-fill" data-progress="{{ proteinProgress }}"></div>
-                    </div>
-
-                    <span class="progress-text">{{ proteinGrams }}g / {{ proteinGoal }} <sup><i>goal</sup></i></span>
-                </div>
-                <div class="progress-wrapper">
-                    <img src="{{asset('svg/carbs.svg')}}" alt="Carbs" style="width: 1.75em; height: 1.75em;">
-                    <div class="progress-track">
-                        <div class="progress-fill" data-progress="{{ carbProgress }}"></div>
-                    </div>
-
-                    <span class="progress-text">{{ carbGrams }}g / {{ carbGoal }} <sup><i>goal</sup></i></span>
-                </div>
-                <div class="progress-wrapper">
-                    <img src="{{asset('svg/trans_fats.svg')}}" alt="Fats" style="width: 1.75em; height: 1.75em;">
-                    <div class="progress-track">
-                        <div class="progress-fill" data-progress="{{ fatProgress }}"></div>
-                    </div>
-
-                    <span class="progress-text">{{ fatGrams }}g / {{ fatGoal }} <sup><i>goal</sup></i></span>
-                </div>
-                <div class="progress-wrapper">
-                    <img src="{{asset('svg/wheat.svg')}}" alt="Wheat" style="width: 1.75em; height: 1.75em;">
-                    <div class="progress-track">
-                        <div class="progress-fill" data-progress="{{ fiberProgress }}"></div>
-                    </div>
-
-                    <span class="progress-text">{{ fiberGrams }}g / {{ fiberGoal }} <sup><i>goal</sup></i></span>
-                </div>
+            <div class="text-content progress-wrappers" id="progress-wrappers">
+                
             </div>
+
             <div class="text-content">
                 <div>
                     <span>
-                        <img src="{{asset('svg/piggy_bank.svg')}}" alt="Piggy bank" style="width: 1.75em; height: 1.75em;">
-                        Weekly balance: {{
-                        weeklyConsumption }} /
-                        <span style="color: {{ riskColor }}">
-                            {{ weeklyGoal }}
-                        </span>
+                        <img src="{{asset('svg/piggy_bank.svg')}}" alt="Piggy bank"
+                            style="width: 1.75em; height: 1.75em;">
+                        Weekly balance:
+                        <span id="weekly-consumption"></span> /
+                        <span id="weekly-goal"></span>
                         calories
                     </span>
                 </div>
@@ -137,12 +107,7 @@
         </main>
     </div>
 </body>
-<script>
-    document.querySelectorAll('.progress-fill').forEach(bar => {
-        let p = Math.min(bar.dataset.progress, 100);
-        bar.style.width = p + '%';
-    });
-</script>
 <script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
+<script type="module" src="{{ asset('js/homePagePopulate.js') }}"></script>
 
 </html>

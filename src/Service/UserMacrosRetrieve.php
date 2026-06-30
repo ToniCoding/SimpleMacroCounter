@@ -85,16 +85,20 @@ class UserMacrosRetrieve
         ];
     }
 
-    public function getMacroGoals(User $user): MacroDataDTO {
+    public function getMacroGoals(User $user, bool $asArray = false): array | MacroDataDTO {
         $userGoals = $this->dailyIntakeRecord->ensureOneMacroGoal($user);
+        $data =  new MacroDataDTO(
+                    (float) $userGoals->getProtein(),
+                    (float) $userGoals->getCarbs(),
+                    (float) $userGoals->getFats(),
+                    (float) $userGoals->getFiber(),
+                    (float) $userGoals->getCalories());
+        
+        if($asArray) {
+            return $data->__toArray();
+        }
 
-        return new MacroDataDTO(
-            (float) $userGoals->getProtein(),
-            (float) $userGoals->getCarbs(),
-            (float) $userGoals->getFats(),
-            (float) $userGoals->getFiber(),
-            (float) $userGoals->getCalories()
-        );
+        return $data;
     }
 
     public function getMacroGoalsArr(User $user): array {
