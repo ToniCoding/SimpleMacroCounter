@@ -8,7 +8,7 @@ use App\Form\ModifyMacrosType;
 use App\Service\MacroIntakeUpdater;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\{Routing\Annotation\Route, Serializer\SerializerInterface};
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -51,7 +51,7 @@ class MacroUpdateController extends AbstractController {
 
     // After adapting the web page to consume from this API, the handleMacrosModification will need a refactor to start working with user IDs or JWT.
     #[Route(['/api/modify-macros/{userId}'], name: "apiModifyMacros", methods: 'POST')]
-    public function updateWithNewMacros(Request $request, SerializerInterface $serializerInterface, ValidatorInterface $validatorInterface) {
+    public function updateWithNewMacros(Request $request, SerializerInterface $serializerInterface, ValidatorInterface $validatorInterface): JsonResponse {
         $requestBody = $request->getContent();
         
         try {
@@ -68,5 +68,7 @@ class MacroUpdateController extends AbstractController {
         if ($this->handleMacrosModification($mappedDto, true)) {
             return $this->json(['successMessage' => 'Successfully updated the macro-nutrient intake.'], 200);
         }
+
+        return $this->json(['errorMessage' => 'There was an error processing the request for updating the macro-nutrient update.'], 500);
     }
 }
