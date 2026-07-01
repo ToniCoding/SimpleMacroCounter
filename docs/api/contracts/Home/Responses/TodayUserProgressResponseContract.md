@@ -1,6 +1,6 @@
-# TodayProgressResponseDTO conctract.
+# TodayUserProgressResponse contract.
 
-This document defines the contract for the `TodayProgressResponseDTO`.
+This document defines the contract for the `TodayUserProgressResponse`.
 
 ## Versioning
 v1 - 28/06/2026 - Document created and contract defined.
@@ -11,6 +11,11 @@ v1 - 28/06/2026 - Document created and contract defined.
 | 28-06-2026 | N/A | V1.1 | N/A |
 
 ## Contract
+
+### Endpoint
+/api/today-progress
+
+### Structure
 The contract should respect the following JSON structure:
 
 ```JSON
@@ -40,6 +45,11 @@ The contract should respect the following JSON structure:
 	}
 }
 ```
+
+### Misc
+- **Response to:** Home/Requests/TodayUserProgressRequestContract.
+- **Requires auth:** Yes.
+- **Auth type:** JWT.
 
 ### Field description
 
