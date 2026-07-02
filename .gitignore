@@ -34,3 +34,6 @@ Thumbs.db
 # PHP Unit
 /phpunit.xml
 /.phpunit.cache/
+
+# Lexit JWT
+/config/jwt/*.pem
