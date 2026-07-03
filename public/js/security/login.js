@@ -12,7 +12,7 @@ document.getElementById('loginForm').addEventListener('submit', async(e) => {
 
     try {
         await auth.login(username, password);
-        window.location.href = 'google.com';
+        window.location.href = '/home';
     } catch (error) {
         console.error('Login attempt failed!');
     }
