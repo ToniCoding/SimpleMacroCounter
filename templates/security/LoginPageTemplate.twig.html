@@ -26,24 +26,28 @@
             </div>
             {% endif %}
 
-            <form method="post" id="loginForm">
+            <form method="post" action="{{ path('login_form') }}">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="username" required autofocus class="form-input">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" required class="form-input">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="_username" id="username" value="{{ last_username }}"
+                        autocomplete="username" required autofocus class="form-input">
                 </div>
 
-                <button type="submit" class="btn-submit" id="loginButton">Sign in</button>
-                <div id="loginError" class="error-message" style="display:none; color:red; margin-top:10px;"></div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="_password" id="password" class="form-input"
+                        autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn-submit">Sign in</button>
             </form>
 
-            <p>Don't have an account? Register <a href="{{ path('register_form') }}" style="color: skyblue">here</a>!</p>
+            <p>Don't have an account? Register <a href="{{ path('register_form') }}" style="color: skyblue">here</a>!
+            </p>
         </div>
     </div>
-    <script type="module" src="{{ asset('js/security/login.js') }}"></script>
 </body>
 
 </html>
