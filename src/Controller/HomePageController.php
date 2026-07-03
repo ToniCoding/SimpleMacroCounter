@@ -9,6 +9,7 @@ use App\Service\UserMacrosRetrieve;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Response, JsonResponse};
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class HomePageController extends AbstractController {
     public function __construct(
@@ -43,10 +44,14 @@ class HomePageController extends AbstractController {
             ...$macrosConsumed
         ]);
     }
-
-    // Just like the manual macro updater API endpoint, when adapting the API to work with JWT this function will need refactor.
+    
+    /**
+     * Provides information about the user progress for the day in progress.
+     * @param User $user - Current authenticated user.
+     * @return JsonResponse - Request user information.
+     */
     #[Route(['/api/today-progress'], name: 'todayProgress', methods: 'GET')]
-    public function getTodayProgress(User $user): JsonResponse {
+    public function getTodayProgress(#[CurrentUser] User $user): JsonResponse {
         try {
             $todayUserPercentageProgress = $this->userMacrosRetrieve->calculateUserProgress($user);
             $todayUserMacroGramsConsumed = $this->userMacrosRetrieve->getConsumedMacros($user);
