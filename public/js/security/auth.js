@@ -10,29 +10,7 @@
 class AuthService {
     constructor() {
         this.token = null;
-        this.refreshToken = null;
-        this.baseURL = '/api';
-    }
-
-    async login(username, password) {
-        try {
-            const response = await fetch(`${this.baseURL}/login_check`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-
-            if (!response.ok) {
-                throw new Error('Invalid credentials.');
-            }
-
-            const data = await response.json();
-            this.setToken(data.token);
-            return data;
-        } catch (error) {
-            console.error('Login failed:', error);
-            throw error;
-        }
+        this.baseURL = '';
     }
 
     setToken(token) {
@@ -45,16 +23,6 @@ class AuthService {
             this.token = localStorage.getItem('jwt_token');
         }
         return this.token;
-    }
-
-    logout() {
-        this.token = null;
-        localStorage.removeItem('jwt_token');
-        window.location.href = '/login';
-    }
-
-    isAuthenticated() {
-        return !!this.getToken();
     }
 
     getAuthHeaders() {
@@ -80,6 +48,12 @@ class AuthService {
         }
 
         return response;
+    }
+
+    logout() {
+        this.token = null;
+        localStorage.removeItem('jwt_token');
+        window.location.href = '/login';
     }
 }
 

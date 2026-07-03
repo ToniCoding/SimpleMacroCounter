@@ -3,7 +3,26 @@
  * making the software more dynamic. This is part of the innovation of SMC to make easier future development.
  */
 
+import { auth } from './security/auth.js';
+
 const caloricInformationMessage = "Today you consumed <b>{calories}</b> calories. You are <b>{remainingCalories} {over_under}</b> your goal of {calorieGoal} calories <i>({calorieProgress}%)</i>.";
+
+async function fetchJWT() {
+    try {
+        const response = await fetch('/generate-jwt', {
+            method: 'POST',
+            credentials: 'include'
+        });
+
+        if (!response.ok) throw new Error('Could not obtain JWT.');
+
+        const data = await response.json();
+        auth.setToken(data.token);
+        console.log('Obtained and saved JWT.');
+    } catch (error) {
+        console.error('Failed attempt to get JWT.', error);
+    }
+}
 
 /**
  * Consumes the API based on a given user ID.
@@ -14,24 +33,24 @@ async function getTodayProgress(userId) {
     const endpoint = '/api/today-progress';
 
     console.info("[HomePagePopulate] Sending request to get progress parameters.");
-    
-    return fetch(endpoint, {
-            method: "GET",
-            credentials: "include"
-    })
-        .then(async (res) => {
-            console.debug("[HomePagePopulate] Got response from endpoint.");
 
-            const rawResponse = await res.text();
+    try {
+        const response = await auth.fetch(endpoint, {
+            method: "GET"
+        });
 
-            try {
-                console.log(JSON.parse(rawResponse));
-                return JSON.parse(rawResponse);
-            } catch (ex) {
-                console.error("[HomePagePopulate] Error while parsing JSON response.");
-                return null;
-            }
-    })
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.debug("[HomePagePopulate] Data received:", data);
+
+        return data;
+    } catch (error) {
+        console.error("[HomePagePopulate] Error fetching data:", error);
+        return null;
+    }
 }
 
 /**
@@ -106,9 +125,9 @@ async function populateTracks(userId = 1) {
     if (progressWrappersContainer) {
         const wrappersHTML = createProgressWrappers(todayUserMacroGrams, dailyUserMacroGoal);
         progressWrappersContainer.innerHTML = wrappersHTML;
-        console.debug("[HomePagePopulate] Progress wrappers creados dinámicamente");
+        console.debug("[HomePagePopulate] Successfully created progress wrappers.");
     } else {
-        console.error("[HomePagePopulate] Contenedor #progress-wrappers no encontrado");
+        console.error("[HomePagePopulate] Progress wrapper container not found.");
         return;
     }
 
@@ -201,9 +220,10 @@ async function populateTracks(userId = 1) {
         weeklyGoal.style.color = weeklyCalorieRiskInfo.risk_color || 'inherit';
     }
 
-    console.debug("[HomePagePopulate] UI actualizada correctamente");
+    console.debug("[HomePagePopulate] UI rendering success.");
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    fetchJWT();
     populateTracks(1);
 });

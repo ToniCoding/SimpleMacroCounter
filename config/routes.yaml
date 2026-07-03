@@ -4,5 +4,7 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-api_login_check:
-    path: /api/login_check
+api_generate_jwt:
+    path: /generate-jwt
+    controller: App\Controller\JWTController::generateJWT
+    methods: POST

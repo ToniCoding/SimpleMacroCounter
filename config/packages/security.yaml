@@ -10,13 +10,10 @@ security:
                 property: username
 
     firewalls:
-        login:
-            pattern: ^/api/login
-            stateless: true
-            json_login:
-                check_path: /api/login_check
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        generate_jwt:
+            pattern: ^/api/generate-jwt$
+            stateless: false
+            security: true
 
         api:
             pattern: ^/api
@@ -34,13 +31,9 @@ security:
             logout:
                 path: app_logout
                 target: /login
-            access_token:
-                token_handler: App\Security\AccessTokenHandler
-                token_extractors:
-                    - 'header'
 
     access_control:
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/generate-jwt, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/(login|register), roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
