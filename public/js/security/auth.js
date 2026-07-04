@@ -43,11 +43,48 @@ class AuthService {
         });
 
         if (response.status === 401) {
-            this.logout();
-            throw new Error('Your session has expired.');
+            console.warn('Token expired. Renewing JWT.');
+            return this.handleExpiredToken(endpoint, options);
         }
 
         return response;
+    }
+
+    async handleExpiredToken(endpoint, options) {
+        try {
+            const refreshResponse = await fetch('/generate-jwt', {
+                method: 'POST',
+                credentials: 'include'
+            });
+
+            if (!refreshResponse.ok) {
+                throw new Error('Can not renew JWT.');
+            }
+
+            const data = await refreshResponse.json();
+            const newToken = data.token;
+
+            this.setToken(newToken);
+            console.log('Successfully renewed JWT.');
+
+            const headers = {
+                'Content-Type': 'application/json',
+                ...this.getAuthHeaders(),
+                ...options.headers
+            };
+
+            const retryResponse = await fetch(`${this.baseURL}${endpoint}`, {
+                ...options,
+                headers
+            });
+
+            return retryResponse;
+
+        } catch (error) {
+            console.error('Error renewing JWT:', error);
+            this.logout();
+            throw new Error('Expired session, try again.');
+        }
     }
 
     logout() {

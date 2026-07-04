@@ -83,41 +83,46 @@
             {% endfor %}
 
             <div class="form-container">
-                {{ form_start(form) }}
+                <form method="post" id="manualMacrosForm">
+                    <div class="form-group">
+                        <label for="protein">Protein</label>
+                        <input type="text" name="protein" class="form-input" id="protein">
+                    </div>
 
-                <div class="form-group">
-                    {{ form_label(form.protein) }}
-                    {{ form_widget(form.protein, { 'attr': {'class': 'form-input'} }) }}
-                </div>
+                    <div class="form-group">
+                        <label for="carbs">Carbohydrates</label>
+                        <input type="text" name="carbs" class="form-input" id="carbs">
+                    </div>
 
-                <div class="form-group">
-                    {{ form_label(form.carbs) }}
-                    {{ form_widget(form.carbs, { 'attr': {'class': 'form-input'} }) }}
-                </div>
+                    <div class="form-group">
+                        <label for="fats">Fats</label>
+                        <input type="text" name="fats" class="form-input" id="fats">
+                    </div>
 
-                <div class="form-group">
-                    {{ form_label(form.fats) }}
-                    {{ form_widget(form.fats, { 'attr': {'class': 'form-input'} }) }}
-                </div>
+                    <div class="form-group">
+                        <label for="fiber">Fiber</label>
+                        <input type="text" name="fiber" class="form-input" id="fiber">
+                    </div>
 
-                <div class="form-group">
-                    {{ form_label(form.fiber) }}
-                    {{ form_widget(form.fiber, { 'attr': {'class': 'form-input'} }) }}
-                </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="radio" name="intent" value="add" id="add" checked>
+                            Add
+                        </label>
+                        <label>
+                            <input type="radio" name="intent" value="reduce" id="reduce">
+                            Reduce
+                        </label>
+                    </div>
 
-                <div class="form-group">
-                    {{ form_label(form.intent) }}
-                    {{ form_widget(form.intent, { 'attr': {'class': 'form-input'} }) }}
-                </div>
-
-                <button type="submit" class="btn-submit">Update</button>
-
-                {{ form_end(form) }}
+                    <button class="btn-submit" id="submit">Update</button>
+                </form>
             </div>
         </main>
     </div>
 
     <script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
+    <script type="module" src="{{ asset('js/manualMacroUpdate.js') }}"></script>
 </body>
 
 </html>
