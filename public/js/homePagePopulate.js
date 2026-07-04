@@ -29,7 +29,7 @@ async function fetchJWT() {
  * @param {Number} userId - Used by the script main function that will be called with the user ID.
  * @returns - API response or null if error. 
  */
-async function getTodayProgress(userId) {
+async function getTodayProgress() {
     const endpoint = '/api/today-progress';
 
     console.info("[HomePagePopulate] Sending request to get progress parameters.");
@@ -225,5 +225,5 @@ async function populateTracks(userId = 1) {
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchJWT();
-    populateTracks(1);
+    populateTracks();
 });

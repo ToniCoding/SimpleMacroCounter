@@ -30,4 +30,3 @@ services:
     App\EventListeners\GlobalExceptionListener:
         arguments:
             $environment: '%kernel.environment%'
-
