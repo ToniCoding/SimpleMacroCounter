@@ -35,7 +35,7 @@ class DailyIntakeRecord {
 
         $this->logger->info('[DAILY_INTAKE_RECORD_SERVICE] Macro record for user not found. Registering one.');
 
-        $newMacroRecord = new KcalsDaily($user);
+        $newMacroRecord = new KcalsDaily(user: $user);
 
         $newMacroRecord->setKcals(0);
         $newMacroRecord->setProtein("0.00");

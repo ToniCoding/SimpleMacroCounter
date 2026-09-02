@@ -7,36 +7,35 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: "kcals_daily")]
 class KcalsDaily {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private ?int $id = null;
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "kcalsDailyRecords")]
+        #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
+        private User $user,
+        
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column(type: "integer")]
+        private ?int $id = null,
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "kcalsDailyRecords")]
-    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
-    private User $user;
+        #[ORM\Column(type: "datetime_immutable")]
+        private \DateTimeImmutable $date = new \DateTimeImmutable(),
 
-    #[ORM\Column(type: "datetime_immutable")]
-    private \DateTimeImmutable $date;
+        #[ORM\Column(type: "integer")]
+        private int $kcals = 0,
 
-    #[ORM\Column(type: "integer")]
-    private int $kcals;
+        #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+        private string $protein = '0.00',
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
-    private string $protein;
+        #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+        private string $carbs = '0.00',
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
-    private string $carbs;
+        #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+        private string $fats = '0.00',
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
-    private string $fats;
-
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
-    private string $fiber;
-
-    public function __construct(User $user) {
+        #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+        private string $fiber = '0.00'
+    ) {
         $this->user = $user;
-        $this->date = new \DateTimeImmutable();
     }
 
     public function getId(): ?int {

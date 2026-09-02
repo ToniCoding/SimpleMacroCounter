@@ -2,18 +2,19 @@
 
 namespace App\Service;
 
+use App\DTO\DailyIntakeDTO;
 use App\DTO\MacroDataDTO;
+use App\DTO\UserGoalsDTO;
 use App\Entity\User;
 use App\Exceptions\NoRecordFoundException;
 use App\Repository\UserGoalsRepository;
-use App\Service\DailyIntakeRecord;
+use App\Service\DailyIntakeRecordService;
 use App\Repository\KcalsDailyRepository;
 use App\Helpers\DateParser;
 
-class UserMacrosRetrieve
-{
+class UserMacrosRetrieve {
     public function __construct(
-        private DailyIntakeRecord $dailyIntakeRecord,
+        private DailyIntakeRecordService $dailyIntakeRecord,
         private KcalsDailyRepository $kcalsDailyRepository,
         private UserGoalsRepository $userGoalsRepository,
         private DateParser $dateParser
@@ -61,56 +62,12 @@ class UserMacrosRetrieve
         return $historyData;
     }
 
-    public function getConsumedMacros(User $user): MacroDataDTO {
-        $consumedMacros = $this->dailyIntakeRecord->ensureDailyIntakeRecord($user);
-
-        return new MacroDataDTO(
-            (float) $consumedMacros->getProtein(),
-            (float) $consumedMacros->getCarbs(),
-            (float) $consumedMacros->getFats(),
-            (float) $consumedMacros->getFiber(),
-            (float) $consumedMacros->getKcals()
-        );
+    public function getConsumedMacros(User $user): DailyIntakeDTO {
+        return $this->dailyIntakeRecord->ensureDailyIntakeRecord($user);
     }
 
-    public function getConsumedMacrosArr(User $user): array {
-        $consumedMacros = $this->dailyIntakeRecord->ensureDailyIntakeRecord($user);
-
-        return [
-            'proteinGrams' => (float) $consumedMacros->getProtein(),
-            'carbGrams' => (float) $consumedMacros->getCarbs(),
-            'fatGrams' => (float) $consumedMacros->getFats(),
-            'fiberGrams' => (float) $consumedMacros->getFiber(),
-            'calories' => (float) $consumedMacros->getKcals()
-        ];
-    }
-
-    public function getMacroGoals(User $user, bool $asArray = false): array | MacroDataDTO {
-        $userGoals = $this->dailyIntakeRecord->ensureOneMacroGoal($user);
-        $data =  new MacroDataDTO(
-                    (float) $userGoals->getProtein(),
-                    (float) $userGoals->getCarbs(),
-                    (float) $userGoals->getFats(),
-                    (float) $userGoals->getFiber(),
-                    (float) $userGoals->getCalories());
-        
-        if($asArray) {
-            return $data->__toArray();
-        }
-
-        return $data;
-    }
-
-    public function getMacroGoalsArr(User $user): array {
-        $userGoals = $this->dailyIntakeRecord->ensureOneMacroGoal($user);
-
-        return [
-            'proteinGoal' => (float) $userGoals->getProtein(),
-            'carbGoal' => (float) $userGoals->getCarbs(),
-            'fatGoal' => (float) $userGoals->getFats(),
-            'fiberGoal' => (float) $userGoals->getFiber(),
-            'caloriesGoal' => (float) $userGoals->getCalories()
-        ];
+    public function getMacroGoals(User $user): UserGoalsDTO {
+        return $this->dailyIntakeRecord->ensureOneMacroGoal($user);
     }
 
     public function getUserWeeklyCalorieGoal(User $user): int {

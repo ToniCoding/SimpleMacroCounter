@@ -44,7 +44,7 @@ class KcalsDailyRepository extends ServiceEntityRepository {
             ->setParameter('user', $user)
             ->setParameter('from', $from)
             ->setParameter('to', $to)
-            ->orderBy('kcals.date', 'ASC')
+            ->orderBy('kcals.date', 'DESC')
             ->getQuery()
             ->getResult();
     }

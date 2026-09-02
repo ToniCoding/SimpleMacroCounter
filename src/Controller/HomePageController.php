@@ -29,11 +29,6 @@ class HomePageController extends AbstractController {
             'jwtToken' => $jwtToken,
         ]);
     }
-
-    // #[Route(['/', '/home'], name: 'home', methods: 'GET')]
-    // public function home(): Response {
-    //     return $this->render('HomePageTemplate.twig.html');
-    // }
     
     /**
      * Provides information about the user progress for the day in progress.

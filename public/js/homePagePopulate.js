@@ -53,17 +53,17 @@ function createProgressWrappers(todayUserMacroGramsConsumed, dailyMacroGoals) {
     ];
 
     const consumed = {
-        protein: todayUserMacroGramsConsumed?.proteinGrams || 0,
-        carb: todayUserMacroGramsConsumed?.carbGrams || 0,
-        fat: todayUserMacroGramsConsumed?.fatGrams || 0,
-        fiber: todayUserMacroGramsConsumed?.fiberGrams || 0
+        protein: todayUserMacroGramsConsumed?.protein || 0,
+        carb: todayUserMacroGramsConsumed?.carbs || 0,
+        fat: todayUserMacroGramsConsumed?.fats || 0,
+        fiber: todayUserMacroGramsConsumed?.fiber || 0
     };
 
     const goals = {
-        protein: dailyMacroGoals?.proteinGoal || 0,
-        carb: dailyMacroGoals?.carbGoal || 0,
-        fat: dailyMacroGoals?.fatGoal || 0,
-        fiber: dailyMacroGoals?.fiberGoal || 0
+        protein: dailyMacroGoals?.protein || 0,
+        carb: dailyMacroGoals?.carbs || 0,
+        fat: dailyMacroGoals?.fats || 0,
+        fiber: dailyMacroGoals?.fiber || 0
     };
 
     return macroConfigs.map(({ name, svg }) => {
@@ -128,8 +128,8 @@ async function populateTracks(userId = 1) {
 
     const progress = {
         protein: todayUserMacroProgress.proteinProgress || 0,
-        carbs: todayUserMacroProgress.carbProgress || 0,
-        fats: todayUserMacroProgress.fatProgress || 0,
+        carbs: todayUserMacroProgress.carbsProgress || 0,
+        fats: todayUserMacroProgress.fatsProgress || 0,
         fiber: todayUserMacroProgress.fiberProgress || 0
     };
 
@@ -151,17 +151,17 @@ async function populateTracks(userId = 1) {
     };
 
     const grams = {
-        protein: todayUserMacroGrams.proteinGrams || 0,
-        carbs: todayUserMacroGrams.carbGrams || 0,
-        fats: todayUserMacroGrams.fatGrams || 0,
-        fiber: todayUserMacroGrams.fiberGrams || 0
+        protein: (todayUserMacroGrams.protein).toFixed(2) || 0,
+        carbs: (todayUserMacroGrams.carbs).toFixed(2) || 0,
+        fats: (todayUserMacroGrams.fats).toFixed(2) || 0,
+        fiber: (todayUserMacroGrams.fiber).toFixed(2) || 0
     };
 
     const goals = {
-        protein: dailyUserMacroGoal.proteinGoal || 0,
-        carbs: dailyUserMacroGoal.carbGoal || 0,
-        fats: dailyUserMacroGoal.fatGoal || 0,
-        fiber: dailyUserMacroGoal.fiberGoal || 0
+        protein: dailyUserMacroGoal.protein || 0,
+        carbs: dailyUserMacroGoal.carbs || 0,
+        fats: dailyUserMacroGoal.fats || 0,
+        fiber: dailyUserMacroGoal.fiber || 0
     };
 
     Object.keys(infoElements).forEach(key => {
@@ -175,12 +175,12 @@ async function populateTracks(userId = 1) {
     // ============================================
     const caloricProgress = document.getElementById("caloricProgress");
     if (caloricProgress) {
-        const calorieDifference = Number(todayUserMacroGrams.caloriesGrams) - Number(dailyUserMacroGoal.calorieGoal);
+        const calorieDifference = Number(todayUserMacroGrams.calories) - Number(dailyUserMacroGoal.calories);
         const caloricMessage = caloricInformationMessage
             .replace(/{calories}/g, todayUserMacroGrams.calories || 0)
             .replace(/{remainingCalories}/g, Math.abs(calorieDifference))
             .replace(/{over_under}/g, calorieDifference < 0 ? "under" : "over")
-            .replace(/{calorieGoal}/g, dailyUserMacroGoal.caloriesGoal || 0)
+            .replace(/{calorieGoal}/g, dailyUserMacroGoal.calories || 0)
             .replace(/{calorieProgress}/g, todayUserMacroProgress.calorieProgress || 0);
         caloricProgress.innerHTML = caloricMessage;
     }

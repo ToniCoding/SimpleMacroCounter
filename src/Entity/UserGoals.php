@@ -9,34 +9,30 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: "user_goals")]
 class UserGoals {
+    public function __construct(
+        #[ORM\Id]
+        #[ORM\OneToOne(targetEntity: User::class)]
+        #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
+        private User $user,
 
-    #[ORM\Id]
-    #[ORM\OneToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
-    private User $user;
+        #[ORM\Column(type: "integer")]
+        private int $calories,
 
-    #[ORM\Column(type: "integer")]
-    private int $calories;
+        #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+        private string $protein,
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
-    private string $protein;
+        #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+        private string $carbs,
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
-    private string $carbs;
+        #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+        private string $fats,
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
-    private string $fats;
+        #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
+        private string $fiber,
 
-    #[ORM\Column(type: "decimal", precision: 8, scale: 2)]
-    private string $fiber;
-
-    #[ORM\Column(type: "datetime")]
-    private \DateTime $dateTime;
-
-    public function __construct(User $user, \DateTime $dateTime) {
-        $this->user = $user;
-        $this->dateTime = $dateTime ?? new \DateTime();
-    }
+        #[ORM\Column(type: "datetime")]
+        private \DateTime $dateTime = new \DateTime()
+    ) {}
 
     public function getUser(): User {
         return $this->user;

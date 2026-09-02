@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\DTO\MacroSettingsDTO;
 use App\Entity\User;
 use App\Form\MacroGoalsSettingsType;
-use App\Service\DailyIntakeRecord;
+use App\Service\DailyIntakeRecordService;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response, RedirectResponse};
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SettingsPageController extends AbstractController {
     public function __construct(
-        private DailyIntakeRecord $dailyIntakeRecord,
+        private DailyIntakeRecordService $dailyIntakeRecord,
     ) {}
 
     #[Route('/settings', name: 'settings', methods: ['GET', 'POST'])]
@@ -25,7 +25,7 @@ class SettingsPageController extends AbstractController {
         $macroSettingsForm = $this->createForm(MacroGoalsSettingsType::class, new MacroSettingsDTO());
         $macroSettingsForm->handleRequest($request);
 
-        if ($macroSettingsForm->isSubmitted() && $macroSettingsForm->isValid()) {
+        if ($macroSettingsForm->isSubmitted() && $macroSettingsForm->isValid()) { // DATA OK
             if ($this->dailyIntakeRecord->modifyMacroGoal($user, $macroSettingsForm->getData())) {
                 return $this->redirect('home');
             };

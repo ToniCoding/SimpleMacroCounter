@@ -13,7 +13,7 @@ use App\Exceptions\UnrecognizedMacroException;
 use App\Exceptions\WriteToDatabaseException;
 use App\Repository\KcalsDailyRepository;
 use App\Repository\UserGoalsRepository;
-use App\Service\DailyIntakeRecord;
+use App\Service\DailyIntakeRecordService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class DailyIntakeRecordTest extends TestCase
@@ -23,7 +23,7 @@ class DailyIntakeRecordTest extends TestCase
     private $userGoalsRepository;
     private $params;
     private $loggerInterface;
-    private DailyIntakeRecord $service;
+    private DailyIntakeRecordService $service;
 
     protected function setUp(): void {
         $this->user = $this->createMock(User::class);

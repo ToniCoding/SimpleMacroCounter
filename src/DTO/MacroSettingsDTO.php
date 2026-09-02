@@ -62,6 +62,16 @@ class MacroSettingsDTO {
         $this->newCalories = $newCalories;
     }
 
+    public function __toArray() {
+        return [
+            'calories' => $this->getNewCalories(),
+            'protein' => $this->getNewProtein(),
+            'carbs' => $this->getNewCarbs(),
+            'fats' => $this->getNewFats(),
+            'fiber' => $this->getNewFiber()
+        ];
+    }
+
     public function __toString() {
         return 'Calories: ' . $this->getNewCalories() .
         "\n\tProtein: " . $this->getNewProtein() .
