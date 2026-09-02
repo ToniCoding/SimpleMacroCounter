@@ -4,12 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+    <script type="module" src="{{ asset('js/security/auth.js') }}"></script>
+    <script type="module" src="{{ asset('js/homePagePopulate.js') }}"></script>
+    <script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
+
     <title>Home - SMC</title>
 </head>
 
 <body>
+    <div id="app-config" data-jwt-token="{{ jwtToken }}" hidden></div>
     <div class="page">
         <header class="header">
             <div class="logo">
@@ -89,7 +96,7 @@
             </div>
             {% endfor %}
             <div class="text-content progress-wrappers" id="progress-wrappers">
-                
+
             </div>
 
             <div class="text-content">
@@ -107,8 +114,5 @@
         </main>
     </div>
 </body>
-<script type="module" src="{{ asset('js/security/auth.js') }}"></script>
-<script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
-<script type="module" src="{{ asset('js/homePagePopulate.js') }}"></script>
 
 </html>

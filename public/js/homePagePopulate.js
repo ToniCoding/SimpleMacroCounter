@@ -5,24 +5,9 @@
 
 import { auth } from './security/auth.js';
 
-const caloricInformationMessage = "Today you consumed <b>{calories}</b> calories. You are <b>{remainingCalories} {over_under}</b> your goal of {calorieGoal} calories <i>({calorieProgress}%)</i>.";
-
-async function fetchJWT() {
-    try {
-        const response = await fetch('/generate-jwt', {
-            method: 'POST',
-            credentials: 'include'
-        });
-
-        if (!response.ok) throw new Error('Could not obtain JWT.');
-
-        const data = await response.json();
-        auth.setToken(data.token);
-        console.log('Obtained and saved JWT.');
-    } catch (error) {
-        console.error('Failed attempt to get JWT.', error);
-    }
-}
+const caloricInformationMessage = 'Today you consumed <b>{calories}</b> calories. ' + 
+                                  'You are <b>{remainingCalories} {over_under}</b> your goal of {calorieGoal} ' +
+                                  'calories <i>({calorieProgress}%)</i>.';
 
 /**
  * Consumes the API based on a given user ID.
@@ -61,10 +46,10 @@ async function getTodayProgress() {
  */
 function createProgressWrappers(todayUserMacroGramsConsumed, dailyMacroGoals) {
     const macroConfigs = [
-        { name: "protein", svg: "strength", label: "Proteína" },
-        { name: "carbs", svg: "carbs", label: "Carbohidratos" },
-        { name: "fat", svg: "trans_fats", label: "Grasas" },
-        { name: "fiber", svg: "wheat", label: "Fibra" }
+        { name: "protein", svg: "strength", label: "Protein" },
+        { name: "carbs", svg: "carbs", label: "Carbs" },
+        { name: "fat", svg: "trans_fats", label: "Fats" },
+        { name: "fiber", svg: "wheat", label: "Fiber" }
     ];
 
     const consumed = {
@@ -190,7 +175,7 @@ async function populateTracks(userId = 1) {
     // ============================================
     const caloricProgress = document.getElementById("caloricProgress");
     if (caloricProgress) {
-        const calorieDifference = Number(todayUserMacroGrams.calories) - Number(dailyUserMacroGoal.caloriesGoal);
+        const calorieDifference = Number(todayUserMacroGrams.caloriesGrams) - Number(dailyUserMacroGoal.calorieGoal);
         const caloricMessage = caloricInformationMessage
             .replace(/{calories}/g, todayUserMacroGrams.calories || 0)
             .replace(/{remainingCalories}/g, Math.abs(calorieDifference))
@@ -224,6 +209,5 @@ async function populateTracks(userId = 1) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchJWT();
     populateTracks();
 });
