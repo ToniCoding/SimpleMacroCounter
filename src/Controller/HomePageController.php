@@ -38,13 +38,14 @@ class HomePageController extends AbstractController {
     #[Route(['/api/today-progress'], name: 'todayProgress', methods: 'GET')]
     public function getTodayProgress(#[CurrentUser] User $user): JsonResponse {
         $todayUserMacroGramsConsumed = $this->dailyIntakeRecordService->ensureDailyIntakeRecord($user);
+        $dailyMacroGoal = $this->dailyIntakeRecordService->ensureOneMacroGoal($user);
         $userWeeklyCalorieGoal = $this->macrosRetrieveService->getWeeklyCalorieGoal($user);
         $userWeeklyConsumedCalories = $this->macrosRetrieveService->getCaloriesConsumedForThisWeek($user);
 
         $nutritionDto = new TodayProgressResponseDTO(
             todayMacrosProgress: $this->macrosRetrieveService->calculateUserProgress($user),
             todayUserMacroGrams: $todayUserMacroGramsConsumed->__toArray(),
-            dailyMacroGramsGoal: $this->dailyIntakeRecordService->ensureOneMacroGoal($user)->__toArray(), 
+            dailyMacroGramsGoal: $dailyMacroGoal->__toArray(), 
             weeklyCalorieGoal: $userWeeklyCalorieGoal,
             weeklyCalorieConsumption: $userWeeklyConsumedCalories,
             weeklyCalorieGoalRiskInfo: $this->macrosRetrieveService->calculateWeeklyRisk($userWeeklyCalorieGoal, $userWeeklyConsumedCalories, $todayUserMacroGramsConsumed->getCalories())

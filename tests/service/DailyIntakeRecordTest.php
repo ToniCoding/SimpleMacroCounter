@@ -32,7 +32,7 @@ class DailyIntakeRecordTest extends TestCase
         $this->params = $this->createMock(ParameterBagInterface::class);
         $this->loggerInterface = $this->createMock(LoggerInterface::class);
 
-        $this->service = new DailyIntakeRecord(
+        $this->service = new DailyIntakeRecordService(
             $this->kcalsDailyRepository,
             $this->userGoalsRepository,
             $this->params,

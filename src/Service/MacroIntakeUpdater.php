@@ -11,7 +11,7 @@ use App\Repository\KcalsDailyRepository;
 class MacroIntakeUpdater {
     public function __construct(
         private KcalsDailyRepository $kcalsDailyRepository,
-        private UserMacrosRetrieve $userMacrosRetrieve,
+        private DailyIntakeRecordService $dailyIntakeRecordService,
         private LoggerInterface $logger
         ) {}
 
@@ -23,7 +23,7 @@ class MacroIntakeUpdater {
 
         $dataMacros = [$dataProtein, $dataCarbs, $dataFats, $dataFiber];
 
-        $currentMacros = $this->userMacrosRetrieve->getConsumedMacros($user);
+        $currentMacros = $this->dailyIntakeRecordService->ensureDailyIntakeRecord($user);
 
         $dataMacrosConsumedAsArray = [
             (float) $currentMacros->getProtein(),

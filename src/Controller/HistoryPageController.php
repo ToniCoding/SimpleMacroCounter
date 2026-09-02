@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Helpers\DateParser;
-use App\Service\UserMacrosRetrieve;
+use App\Service\MacrosRetrieveService;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -15,7 +15,7 @@ class HistoryPageController extends AbstractController {
     private int $maxHistoryDays;
 
     public function __construct(
-        private UserMacrosRetrieve $userMacrosRetrieve,
+        private MacrosRetrieveService $macrosRetrieveService,
         private DateParser $dateParser,
         private ParameterBagInterface $params
     ) {
@@ -39,6 +39,6 @@ class HistoryPageController extends AbstractController {
         if ($numberOfDays <= $this->defaultHistoryDays) $numberOfDays = $this->defaultHistoryDays;
         if ($numberOfDays > $this->maxHistoryDays) $numberOfDays = $this->maxHistoryDays;
 
-        return $this->userMacrosRetrieve->getDataFromPreviousDays($this->getUser(), $numberOfDays);
+        return $this->macrosRetrieveService->getDataFromPreviousDays($this->getUser(), $numberOfDays);
     }
 }
