@@ -13,6 +13,15 @@ class AuthService {
         this.authEndpoint = 'api/generate-jwt';
         this.token = null;
         this.baseURL = '';
+        this.initTokenFromSession();
+    }
+
+    initTokenFromSession() {
+        const configEl = document.getElementById('app-config');
+        
+        if (configEl && configEl.dataset.jwtToken) {
+            this.setToken(configEl.dataset.jwtToken);
+        }
     }
 
     /**
@@ -45,6 +54,7 @@ class AuthService {
     }
 
     /**
+     * --- DEPRECATED ---
      * Fetchs the JWT token for the user that is trying to log in and saves it in the client's local storage.
      * @param {string} username
      * @param {string} password
