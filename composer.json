@@ -32,7 +32,8 @@
         "symfony/property-access": "^7.4",
         "symfony/property-info": "^8.1",
         "symfony/serializer": "^8.0",
-        "lexik/jwt-authentication-bundle": "^3.2"
+        "lexik/jwt-authentication-bundle": "^3.2",
+        "symfony/monolog-bundle": "^3.11"
     },
     "autoload": {
         "psr-4": {

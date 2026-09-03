@@ -1,0 +1,69 @@
+# Monolog Configuration for SimpleMacroCounter
+#
+# Channels definition:
+# - deprecation: Dedicated channel for logging deprecation warnings separately.
+#
+# Environment Strategies:
+# - dev: Logs everything to rotating log files (max 10 files) to prevent high disk usage,
+#        while streaming non-verbose logs directly to stdout/console.
+# - test: Uses 'fingers_crossed' handler to buffer logs in memory and only flush to file
+#         when an error occurs (excluding common 404/405 HTTP status errors).
+# - prod: Uses 'fingers_crossed' handler with JSON format streaming to stderr. Ignores verbose
+#         framework events, SQL queries, and deprecations unless a critical error happens.
+
+monolog:
+    channels:
+        - deprecation
+
+when@dev:
+    monolog:
+        handlers:
+            main:
+                type: rotating_file
+                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                max_files: 10
+                level: debug
+                channels: ["!event"]
+            console:
+                type: console
+                process_psr_3_messages: false
+                channels: ["!event", "!doctrine", "!console"]
+
+when@test:
+    monolog:
+        handlers:
+            main:
+                type: fingers_crossed
+                action_level: error
+                handler: nested
+                excluded_http_codes: [404, 405]
+                channels: ["!event"]
+            nested:
+                type: stream
+                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                level: debug
+
+when@prod:
+    monolog:
+        handlers:
+            main:
+                type: fingers_crossed
+                action_level: error
+                handler: nested
+                excluded_http_codes: [404, 405]
+                channels: ["!event", "!doctrine", "!deprecation"]
+                buffer_size: 50 # Prevents memory leaks by capping buffered messages
+            nested:
+                type: stream
+                path: php://stderr
+                level: debug
+                formatter: monolog.formatter.json
+            console:
+                type: console
+                process_psr_3_messages: false
+                channels: ["!event", "!doctrine"]
+            deprecation:
+                type: stream
+                channels: [deprecation]
+                path: php://stderr
+                formatter: monolog.formatter.json
