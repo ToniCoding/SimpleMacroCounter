@@ -38,7 +38,7 @@ class SettingsPageController extends AbstractController {
         ]);
     }
 
-    #[Route('/api/settings', name: 'apiSettings', methods: 'POST')]
+    #[Route('/api/v1/settings', name: 'apiSettings', methods: 'POST')]
     public function applySettings(Request $request, SerializerInterface $serializerInterface, ValidatorInterface $validatorInterface, User $user): JsonResponse {
         $requestBody = $request->getContent();
         

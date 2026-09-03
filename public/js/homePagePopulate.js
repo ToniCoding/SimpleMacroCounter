@@ -15,7 +15,7 @@ const caloricInformationMessage = 'Today you consumed <b>{calories}</b> calories
  * @returns - API response or null if error. 
  */
 async function getTodayProgress() {
-    const endpoint = '/api/today-progress';
+    const endpoint = '/api/v1/today-progress';
 
     console.info("[HomePagePopulate] Sending request to get progress parameters.");
 

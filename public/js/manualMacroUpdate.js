@@ -3,7 +3,7 @@ import { auth } from './security/auth.js';
 const manualMacroUpdateForm = document.getElementById('manualMacrosForm');
 
 async function updateMacroIntake() {
-    const endpoint = '/api/modify-macros';
+    const endpoint = '/api/v1/modify-macros';
 
     const addRadio = document.getElementById('add');
     const selectedRadio = addRadio.checked ? 'add' : 'reduce';

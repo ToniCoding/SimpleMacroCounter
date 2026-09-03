@@ -35,7 +35,7 @@ class HomePageController extends AbstractController {
      * @param User $user - Current authenticated user.
      * @return JsonResponse - Request user information.
      */
-    #[Route(['/api/today-progress'], name: 'todayProgress', methods: 'GET')]
+    #[Route(['/api/v1/today-progress'], name: 'todayProgress', methods: 'GET')]
     public function getTodayProgress(#[CurrentUser] User $user): JsonResponse {
         $todayUserMacroGramsConsumed = $this->dailyIntakeRecordService->ensureDailyIntakeRecord($user);
         $dailyMacroGoal = $this->dailyIntakeRecordService->ensureOneMacroGoal($user);

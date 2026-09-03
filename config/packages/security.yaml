@@ -11,10 +11,10 @@ security:
 
     firewalls:
         generate_jwt:
-            pattern: ^/api/generate-jwt$
+            pattern: ^/api/v1/generate-jwt$
             stateless: true
             json_login:
-                check_path: /api/generate-jwt
+                check_path: /api/v1/generate-jwt
                 username_path: username
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
@@ -38,7 +38,7 @@ security:
                 target: /login
 
     access_control:
-        - { path: ^/api/generate-jwt, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/generate-jwt, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/(login|register), roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }

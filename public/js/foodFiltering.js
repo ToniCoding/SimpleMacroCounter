@@ -229,7 +229,7 @@ async function searchProductsApi(query, page = 1) {
     }
 
     try {
-        const response = await fetch(`/api/search-products?q=${encodeURIComponent(query)}&page=${page}`);
+        const response = await fetch(`/api/v1/search-products?q=${encodeURIComponent(query)}&page=${page}`);
         const result = await response.json();
 
         const formattedResults = result.data.map(p => [

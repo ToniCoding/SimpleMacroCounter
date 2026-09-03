@@ -13,7 +13,7 @@ v1 - 01/07/2026 - Document created and contract defined.
 ## Contract
 
 ### Endpoint
-/api/modify-macros/{userId}
+/api/v1/modify-macros/{userId}
 
 ### Structure
 {

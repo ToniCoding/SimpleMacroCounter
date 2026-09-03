@@ -50,7 +50,7 @@ class MacroUpdateController extends AbstractController {
     }
 
     // After adapting the web page to consume from this API, the handleMacrosModification will need a refactor to start working with user IDs or JWT.
-    #[Route(['/api/modify-macros'], name: "apiModifyMacros", methods: 'POST')]
+    #[Route(['/api/v1/modify-macros'], name: "apiModifyMacros", methods: 'POST')]
     public function updateWithNewMacros(Request $request, SerializerInterface $serializerInterface, ValidatorInterface $validatorInterface): JsonResponse {
         $requestBody = $request->getContent();
         

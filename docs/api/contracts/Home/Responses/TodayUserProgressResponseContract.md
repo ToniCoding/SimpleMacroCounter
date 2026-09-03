@@ -13,7 +13,7 @@ v1 - 28/06/2026 - Document created and contract defined.
 ## Contract
 
 ### Endpoint
-/api/today-progress
+/api/v1/today-progress
 
 ### Structure
 The contract should respect the following JSON structure:

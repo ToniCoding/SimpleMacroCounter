@@ -10,7 +10,7 @@
 
 class AuthService {
     constructor() {
-        this.authEndpoint = 'api/generate-jwt';
+        this.authEndpoint = 'api/v1/generate-jwt';
         this.token = null;
         this.baseURL = '';
         this.initTokenFromSession();

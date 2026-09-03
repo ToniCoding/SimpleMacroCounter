@@ -13,7 +13,7 @@ v1 - 01/07/2026 - Document created and contract defined.
 ## Contract
 
 ### Endpoint
-/api/today-progress
+/api/v1/today-progress
 
 ### Structure
 No body.

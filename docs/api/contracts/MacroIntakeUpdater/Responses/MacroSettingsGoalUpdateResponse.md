@@ -13,7 +13,7 @@ v1 - 02/07/2026 - Document created and contract defined.
 ## Contract
 
 ### Endpoint
-/api/settings
+/api/v1/settings
 
 ### Structure
 The contract should respect the following JSON structure:

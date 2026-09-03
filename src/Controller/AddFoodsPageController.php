@@ -61,7 +61,7 @@ class AddFoodsPageController extends AbstractController {
         ], 500); # This should be sending something in accordance to the error. TechDebt.
     }
 
-    #[Route('/api/search-products', name: 'api_search_products', methods: 'GET')]
+    #[Route('/api/v1/search-products', name: 'api_search_products', methods: 'GET')]
     public function searchProducts(Request $request, FoodRegistry $foodRegistry): JsonResponse {
         $query = $request->query->get('q', '');
         $page = (int) $request->query->get('page', 1);
