@@ -8,11 +8,16 @@ async function updateMacroIntake() {
     const addRadio = document.getElementById('add');
     const selectedRadio = addRadio.checked ? 'add' : 'reduce';
 
+    const protein = (document.getElementById('protein').value).replace(',', '.');
+    const carbs = (document.getElementById('carbs').value).replace(',', '.');
+    const fats = (document.getElementById('fats').value).replace(',', '.');
+    const fiber = (document.getElementById('fiber').value).replace(',', '.');
+
     const body = {
-        protein: (document.getElementById('protein').value) * 1,
-        carbs: (document.getElementById('carbs').value) * 1,
-        fats: (document.getElementById('fats').value) * 1,
-        fiber: (document.getElementById('fiber').value) * 1,
+        protein: protein * 1,
+        carbs: carbs * 1,
+        fats: fats * 1,
+        fiber: fiber * 1,
         intent: selectedRadio
     };
 
