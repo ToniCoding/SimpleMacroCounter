@@ -16,19 +16,28 @@ This are the release notes for the latest version of SMC where the new features,
 - **v0.7.0**: The Final Marks
 - **v1.0.0**: *(Special update) SMC*
     - **v1.0.1**: SMC #1 HotFix
+- **v1.1**: The Internal Frame *(current)*
 
 ## Current Project Version
 
 **Release description**
-First SMC hotfixing fixing some critical bugs observed after deployment to production environment, only bug fixing.
+In this release we have made a lot of internal changes to the code infrastructure such as decoupling the front-end from the back-end, fully implementing JWT and its adoption, increased logged information and more.
+
+**New**
+- [Critical] SMC REST API.
+- [Critical] Fully implemented JWT token.
+- [Critical] Symfony now generates a JWT through the PHP session from the home page.
+- [Critical] Full front-end and back-end decoupling.
+- New DTOs for the API adoption.
+- Adoption of API with JWT stateless authentication:
+    - Home page.
+    - Modify macros manually.
+
+**Changed**
+- Monolog is now a production package, matching production.
 
 **Fixed**
-- Added missing parameter for maximum days shown in history.
-- Added new SVG icons replacing previous ones.
-- Calorie calculator is now a class.
-- Global handler now processes the previous unhandled exception for already registrated products.
-- Product registering is now working with `Products` table instead of deprecated `Foods`.
-- After goal settings change, the app now redirects to the home instead of staying in the settings page.
+- Manually changing the macros with commas as delimiter for decimal values resulted in `401 Bad Request` error.
 
 ## Project milestones
 
