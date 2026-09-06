@@ -33,4 +33,9 @@ class DateParser {
         $nowDate = new \DateTimeImmutable($datetimeStr, new \DateTimeZone($timezone));
         return $nowDate->format(self::DATETIME_FORMAT);
     }
+
+    public function getCurrentWeekDay(): string {
+        $nowDate = new \DateTime('now');
+        return $nowDate->format('N');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Exceptions\NoRecordFoundException;
+use App\Helpers\DateParser;
 use App\Repository\{UserGoalsRepository, KcalsDailyRepository};
 use Psr\Log\LoggerInterface;
 
@@ -12,6 +13,7 @@ class MacrosRetrieveService {
         private DailyIntakeRecordService $dailyIntakeRecordService,
         private KcalsDailyRepository $kcalsDailyRepository,
         private UserGoalsRepository $userGoalsRepository,
+        private DateParser $dateParser,
         private LoggerInterface $log
     ) {}
 
@@ -118,6 +120,7 @@ class MacrosRetrieveService {
             7 => 1.3,
         ];
 
+        $currentDay = $this->dateParser->getCurrentWeekDay();
         $today = new \DateTime('now');
         $currentDay = (int) $today->format('N');
 
