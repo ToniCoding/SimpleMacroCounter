@@ -34,6 +34,7 @@ v2 - 06/09/2026 - Consolidated Request and Response contracts into a single docu
   "fiber": 100.00,
   "intent": "add"
 }
+```
 
 ## Response
 
