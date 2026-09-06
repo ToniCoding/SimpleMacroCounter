@@ -32,12 +32,17 @@ In this release we have made a lot of internal changes to the code infrastructur
 - Adoption of API with JWT stateless authentication:
     - Home page.
     - Modify macros manually.
+- Implemented a new unit test suite that tests all the four actual services of SMC.
 
 **Changed**
 - Monolog is now a production package, matching production.
 
 **Fixed**
 - Manually changing the macros with commas as delimiter for decimal values resulted in `401 Bad Request` error.
+
+**Documentation**
+- Combined requests and response contracts into a single document per endpoint.
+- Created `flows` to start adding documentation relative to every defined flow.
 
 ## Project milestones
 
