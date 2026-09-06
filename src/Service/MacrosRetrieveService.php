@@ -121,8 +121,6 @@ class MacrosRetrieveService {
         ];
 
         $currentDay = $this->dateParser->getCurrentWeekDay();
-        $today = new \DateTime('now');
-        $currentDay = (int) $today->format('N');
 
         $daysPassed = $currentDay - 1;
 
