@@ -120,24 +120,24 @@ class MacrosRetrieveService {
             7 => 1.3,
         ];
 
-        $currentDay = $this->dateParser->getCurrentWeekDay();
+        $currentDay = max(1, min(7, (int) $this->dateParser->getCurrentWeekDay()));
 
         $daysPassed = $currentDay - 1;
 
         $remainingBudget = $weeklyGoal - ($weeklyConsumption + $todayConsumption);
 
-        $daysPassed > 0
-            ? $averageDaily = $weeklyConsumption / $daysPassed
-            : $averageDaily = $weeklyGoal / 7;
+        $averageDaily = $daysPassed > 0
+            ? $weeklyConsumption / $daysPassed
+            : $weeklyGoal / 7;
 
         $expectedConsumption = 0;
 
-        for ($day = $currentDay; $day <= 7; $day++) {
+        for ($day = $currentDay + 1; $day <= 7; $day++) {
             $expectedConsumption += $weights[$day] * $averageDaily;
         }
 
         $remainingBudget <= 0
-            ? $risk = 999
+            ? $risk = 1.3
             : $risk = $expectedConsumption / $remainingBudget;
 
         $level = $this->getRiskLevel($risk);
