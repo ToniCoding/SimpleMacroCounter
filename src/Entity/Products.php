@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 #[ORM\Entity]
 #[ORM\Table(
@@ -45,6 +47,10 @@ class Products {
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private string $fiber;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'RESTRICT')]
+    private User $user;
 
     public function __construct() {
         $this->kcal = 0;
@@ -129,6 +135,10 @@ class Products {
     public function setFiber(float|string $fiber): self {
         $this->fiber = number_format((float) $fiber, 2, '.', '');
         return $this;
+    }
+
+    public function getUser(): User {
+        return $this->user;
     }
 
     public function __toString(): string {
