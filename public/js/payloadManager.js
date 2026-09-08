@@ -4,11 +4,11 @@
  * dynamically interact with the SMC API.
  */
 class PayloadManager {
-    #baseUrl = '/api/v1';
+    static #baseUrl = '/api/v1';
 
-    #availableMethods = ['get', 'post', 'put', 'delete', 'patch', 'options'];
+    static #availableMethods = ['get', 'post', 'put', 'delete', 'patch', 'options'];
 
-    #availableHeaders = {
+    static #availableHeaders = {
         'json_default': {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -29,13 +29,13 @@ class PayloadManager {
         })
     };
 
-    #availableEndpoints = {
+    static #availableEndpoints = {
         'register_product': `${this.#baseUrl}/register-food`,
         'modify_macros': `${this.#baseUrl}/modify-macros`,
         'settings': `${this.#baseUrl}/settings`
     }
 
-    #availablePayloads = {
+    static #availablePayloads = {
         'register_new_product': {
             product_name: null,
             product_brand: null,
@@ -58,7 +58,7 @@ class PayloadManager {
      * @param {any} object - The value to evaluate.
      * @returns {boolean} True if the value is a plain object, false otherwise.
      */
-    isObject(object) {
+    static isObject(object) {
         return (typeof object === 'object' && object != null && !Array.isArray(object));
     }
 
@@ -68,7 +68,7 @@ class PayloadManager {
      * @param {string} str - The string to test.
      * @returns {boolean} True if the string is valid JSON, false otherwise.
      */
-    isValidJson(str) {
+    static isValidJson(str) {
         if (typeof str !== 'string') return false;
 
         try {
@@ -88,7 +88,7 @@ class PayloadManager {
      * @returns {boolean} True if the payload passes validation.
      * @throws {Error} If the incoming data is not a valid object or schema is invalid.
      */
-    validateIncomingPayload(incomingData, selectedPayload) {
+    static validateIncomingPayload(incomingData, selectedPayload) {
         if (!this.isObject(incomingData)) {
             throw Error(`[PayloadManager] The incoming data is not an object.`);
         }
@@ -116,7 +116,7 @@ class PayloadManager {
      * @param {Object} incomingData - The source data to filter.
      * @returns {Object} A clean object containing only authorized properties.
      */
-    sanitizePayload(payloadTemplate, incomingData) {
+    static sanitizePayload(payloadTemplate, incomingData) {
         return Object.keys(payloadTemplate).reduce((cleanPayload, key) => {
             if (Object.hasOwn(incomingData, key)) {
                 cleanPayload[key] = incomingData[key];
@@ -134,7 +134,7 @@ class PayloadManager {
      * @returns {Object} The finalized, clean payload object ready for transmission.
      * @throws {Error} If the target payload identifier does not exist.
      */
-    payloadForger(payloadToForge, payloadInformation) {
+    static payloadForger(payloadToForge, payloadInformation) {
         let selectedPayload = null;
 
         switch (payloadToForge) {
@@ -165,7 +165,7 @@ class PayloadManager {
      * @returns {Object} An object representing the fully validated request parameters.
      * @throws {Error} If any parameter (method, endpoint, headers, or body) is invalid.
      */
-    requestForger(method, endpoint, headers, body) {
+    static requestForger(method, endpoint, headers, body) {
         const selectedMethod = method.toUpperCase();
         const selectedEndpoint = this.#availableEndpoints[endpoint];
         const selectedHeaders = this.#availableHeaders[headers];
@@ -198,7 +198,7 @@ class PayloadManager {
      * @param {Object} request - The structured request configuration object.
      * @returns {Promise<any>} A promise resolving to the parsed response body.
      */
-    requestSender(request) {
+    static requestSender(request) {
         console.info(`[PayloadManager] Sending ${request.method} request to ${request.endpoint}.`);
 
         const fetchOptions = {
@@ -216,7 +216,7 @@ class PayloadManager {
                 console.log('[PayloadManager] Response received from the selected endpoint.');
 
                 if (response.redirected || (response.status >= 300 && response.status < 400)) {
-                    console.notice('[PayloadManager] The response contains a redirection.');
+                    console.warn('[PayloadManager] The response contains a redirection.');
                 }
 
                 if (!response.ok) {
