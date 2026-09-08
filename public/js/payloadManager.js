@@ -1,9 +1,11 @@
 /**
- * The payload manager is a request sender and generator that will create, send and
- * process the requests and responses from the client. This script allows the front-end to
+ * @file payloadManager.js
+ * @description Serves as a request generator and sender that creates, sends, and processes 
+ * HTTP requests and responses from the client. This script allows the front-end to 
  * dynamically interact with the SMC API.
  */
-class PayloadManager {
+
+export class PayloadManager {
     static #baseUrl = '/api/v1';
 
     static #availableMethods = ['get', 'post', 'put', 'delete', 'patch', 'options'];
@@ -49,6 +51,14 @@ class PayloadManager {
         'register_new_intake': {
             product_id: null,
             product_consumed_grams: null
+        },
+
+        'modify_macros': {
+            protein: null,
+            carbs: null,
+            fats: null,
+            fiber: null,
+            intent: null
         }
     }
 
@@ -146,6 +156,10 @@ class PayloadManager {
                 selectedPayload = this.#availablePayloads.register_new_intake;
                 break;
 
+            case 'modify_macros':
+                selectedPayload = this.#availablePayloads.modify_macros;
+                break;
+
             default:
                 throw new Error(`[PayloadManager] The payload ${payloadToForge} doesn't exist.`);
         }
@@ -165,12 +179,17 @@ class PayloadManager {
      * @returns {Object} An object representing the fully validated request parameters.
      * @throws {Error} If any parameter (method, endpoint, headers, or body) is invalid.
      */
-    static requestForger(method, endpoint, headers, body) {
+    static requestForger(method, endpoint, headers, body, token = null) {
         const selectedMethod = method.toUpperCase();
         const selectedEndpoint = this.#availableEndpoints[endpoint];
-        const selectedHeaders = this.#availableHeaders[headers];
+        let selectedHeaders = this.#availableHeaders[headers];
 
-        if (!this.#availableMethods.includes(selectedMethod)) {
+        if (typeof selectedHeaders === 'function') {
+            if (!token) throw new Error(`[PayloadManager] The header ${headers} requires a token.`);
+            selectedHeaders = selectedHeaders(token);
+        }
+
+        if (!this.#availableMethods.includes(selectedMethod.toLowerCase())) {
             throw new Error(`[PayloadManager] The method ${selectedMethod} doesn't exist.`);
         }
         if (!selectedEndpoint) {
