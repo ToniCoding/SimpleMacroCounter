@@ -1,5 +1,5 @@
-import { PayloadManager } from './payloadManager.js';
-import { sanitizeNumber, sanitizeString } from './utils.js';
+import { PayloadManager } from '../utils/payloadManager.js';
+import { sanitizeNumber, sanitizeString } from '../utils/utils.js';
 
 async function registerNewProduct() {
     const productName = sanitizeString(document.getElementById('product_name').value);

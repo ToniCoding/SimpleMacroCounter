@@ -3,7 +3,7 @@
  * making the software more dynamic. This is part of the innovation of SMC to make easier future development.
  */
 
-import { auth } from './security/auth.js';
+import { auth } from '../security/auth.js';
 
 const caloricInformationMessage = 'Today you consumed <b>{calories}</b> calories. ' + 
                                   'You are <b>{remainingCalories} {over_under}</b> your goal of {calorieGoal} ' +

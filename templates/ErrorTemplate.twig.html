@@ -4,8 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+    <script type="module" src="{{ asset('js/functionalScripts/burguerMenu.js') }}"></script>
+    <script type="module" src="{{ asset('js/utils/utils.js') }}"></script>
+    <script type="module" src="{{ asset('js/api/foodFiltering.js') }}"></script>
+    <script type="module" src="{{ asset('js/utils/payloadCreator.js') }}"></script>
+    
     <title>New intake - SMC</title>
 </head>
 
@@ -85,10 +92,7 @@
 
     </div>
 
-    <script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
-    <script type="module" src="{{ asset('js/utils.js') }}"></script>
-    <script type="module" src="{{ asset('js/foodFiltering.js') }}"></script>
-    <script type="module" src="{{ asset('js/payloadCreator.js') }}"></script>
+
 </body>
 
 </html>

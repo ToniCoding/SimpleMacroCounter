@@ -1,5 +1,5 @@
-import { capitalize } from "./utils.js";
-import { createIntakePayload } from "./payloadCreator.js";
+import { capitalize } from "../utils/utils.js";
+import { createIntakePayload } from "../utils/payloadCreator.js";
 
 const foodCatalogEl = document.getElementById("foodCatalog");
 const searchInput = document.getElementById("search-bar-food");

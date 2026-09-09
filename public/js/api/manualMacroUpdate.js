@@ -5,7 +5,7 @@
  * using the PayloadManager, and securely submits the update request to the API.
  */
 
-import { PayloadManager } from './payloadManager.js';
+import { PayloadManager } from '../utils/payloadManager.js';
 
 const manualMacroUpdateForm = document.getElementById('manualMacrosForm');
 
