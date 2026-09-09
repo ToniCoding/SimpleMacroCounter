@@ -20,7 +20,7 @@ class FoodRegistry {
     public function createFood(ProductsDTO $productDTO, User $user): void {
         $this->logger->info('[FOOD_REGISTRY_SERVICE] Registering new Food.');
         
-        $product = new Products();
+        $product = new Products($user);
 
         $product->setProductName($productDTO->getProductName());
         $product->setBrand($productDTO->getBrand());

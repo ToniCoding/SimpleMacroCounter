@@ -4,8 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+    <script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
+    <script type="module" src="{{ asset('js/registerNewProduct.js') }}"></script>
     <title>{{ page_title }}</title>
 </head>
 
@@ -79,54 +83,51 @@
 
             {% set errorMessage = app.session.remove('registeringFoodError') %}
             {% if errorMessage %}
-                <div class="alert alert-danger" style="text-align: center;">{{ errorMessage }}</div>
+            <div class="alert alert-danger" style="text-align: center;">{{ errorMessage }}</div>
             {% endif %}
 
             <div class="form-container">
-                {{ form_start(form) }}
+                <form id="registerProductForm">
+                    <div class="form-group">
+                        <label for="product_name">Product name</label>
+                        <input type="text" id="product_name" class="form-input" placeholder="Pizza..." required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="productName">Product name</label>
-                    {{ form_widget(form.productName, {'id': 'productName', 'attr': {'class': 'form-input'}}) }}
-                </div>
+                    <div class="form-group">
+                        <label for="product_brand">Brand</label>
+                        <input type="text" id="product_brand" class="form-input" placeholder="Bosque Verde..." required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="brand">Brand</label>
-                    {{ form_widget(form.brand, {'id': 'brand', 'attr': {'class': 'form-input'}}) }}
-                </div>
+                    <div class="form-group">
+                        <label for="product_market">Market</label>
+                        <input type="text" id="product_market" class="form-input" placeholder="Lidl..." required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="market">Market</label>
-                    {{ form_widget(form.market, {'id': 'market', 'attr': {'class': 'form-input'}}) }}
-                </div>
+                    <div class="form-group">
+                        <label for="product_protein">Protein (per 100g)</label>
+                        <input type="number" step="0.1" min="0" id="product_protein" class="form-input" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="protein">Protein (per 100g)</label>
-                    {{ form_widget(form.protein, {'id': 'protein', 'attr': {'class': 'form-input'}}) }}
-                </div>
+                    <div class="form-group">
+                        <label for="product_carbs">Carbs (per 100g)</label>
+                        <input type="number" step="0.1" min="0" id="product_carbs" class="form-input" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="carbs">Carbs (per 100g)</label>
-                    {{ form_widget(form.carbs, {'id': 'carbs', 'attr': {'class': 'form-input'}}) }}
-                </div>
+                    <div class="form-group">
+                        <label for="product_fats">Fats (per 100g)</label>
+                        <input type="number" step="0.1" min="0" id="product_fats" class="form-input" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="fats">Fats (per 100g)</label>
-                    {{ form_widget(form.fats, {'id': 'fats', 'attr': {'class': 'form-input'}}) }}
-                </div>
+                    <div class="form-group">
+                        <label for="product_fiber">Fiber (per 100g)</label>
+                        <input type="number" step="0.1" min="0" id="product_fiber" class="form-input">
+                    </div>
 
-                <div class="form-group">
-                    <label for="fiber">Fiber (per 100g)</label>
-                    {{ form_widget(form.fiber, {'id': 'fiber', 'attr': {'class': 'form-input'}}) }}
-                </div>
-
-                <button type="submit" class="btn-submit">Submit</button>
-
-                {{ form_end(form) }}
+                    <button type="submit" class="btn-submit">Submit</button>
+                </form>
             </div>
         </main>
     </div>
-    <script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
 </body>
 
 </html>

@@ -38,14 +38,14 @@ export class PayloadManager {
     }
 
     static #availablePayloads = {
-        'register_new_product': {
-            product_name: null,
-            product_brand: null,
-            product_market: null,
-            product_protein: null,
-            product_carbs: null,
-            product_fats: null,
-            product_fiber: null
+        'register_product': {
+            productName: null,
+            market: null,
+            brand: null,
+            protein: null,
+            carbs: null,
+            fats: null,
+            fiber: null
         },
 
         'register_new_intake': {
@@ -149,7 +149,7 @@ export class PayloadManager {
 
         switch (payloadToForge) {
             case 'register_product':
-                selectedPayload = this.#availablePayloads.register_new_product;
+                selectedPayload = this.#availablePayloads.register_product;
                 break;
 
             case 'register_new_intake':
