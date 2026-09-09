@@ -49,7 +49,6 @@ class MacroUpdateController extends AbstractController {
         return true;
     }
 
-    // After adapting the web page to consume from this API, the handleMacrosModification will need a refactor to start working with user IDs or JWT.
     #[Route(['/api/v1/modify-macros'], name: "apiModifyMacros", methods: 'POST')]
     public function updateWithNewMacros(Request $request, SerializerInterface $serializerInterface, ValidatorInterface $validatorInterface): JsonResponse {
         $requestBody = $request->getContent();
@@ -66,7 +65,10 @@ class MacroUpdateController extends AbstractController {
         }
 
         if ($this->handleMacrosModification($mappedDto, true)) {
-            return $this->json(['successMessage' => 'Successfully updated the macro-nutrient intake.'], 200);
+            return $this->json([
+                'message' => 'Sucessfully updated the macro-nutrient intake!',
+                'redirect_url' => $this->generateUrl('home')
+            ], 200);
         }
 
         return $this->json(['errorMessage' => 'There was an error processing the request for updating the macro-nutrient update.'], 500);

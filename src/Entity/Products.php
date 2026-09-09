@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 
 #[ORM\Entity]
@@ -52,7 +51,8 @@ class Products {
     #[ORM\JoinColumn(nullable: false, onDelete: 'RESTRICT')]
     private User $user;
 
-    public function __construct() {
+    public function __construct(User $user) {
+        $this->user = $user;
         $this->kcal = 0;
         $this->protein = '0.00';
         $this->carbs = '0.00';

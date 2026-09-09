@@ -215,9 +215,10 @@ export class PayloadManager {
      * ensuring comprehensive traceability and error handling based on response status.
      * 
      * @param {Object} request - The structured request configuration object.
+     * @param {boolean} shouldFollowRedirection - Relocate the user if there is a re-direction present in the response.
      * @returns {Promise<any>} A promise resolving to the parsed response body.
      */
-    static requestSender(request) {
+static requestSender(request, shouldFollowRedirection = false) {
         console.info(`[PayloadManager] Sending ${request.method} request to ${request.endpoint}.`);
 
         const fetchOptions = {
@@ -230,37 +231,46 @@ export class PayloadManager {
         }
 
         return fetch(request.endpoint, fetchOptions)
-            .then(response => {
+            .then(async response => {
                 console.info('[PayloadManager] Sent.');
-                console.log('[PayloadManager] Response received from the selected endpoint.');
 
-                if (response.redirected || (response.status >= 300 && response.status < 400)) {
-                    console.warn('[PayloadManager] The response contains a redirection.');
+                const contentType = response.headers.get('content-type');
+                let responseData = null;
+
+                if (contentType && contentType.includes('application/json')) {
+                    responseData = await response.json();
+                } else {
+                    responseData = await response.text();
                 }
 
                 if (!response.ok) {
-                    return response.text().then(errorBody => {
-                        let errorMessage = `[PayloadManager] HTTP error status: ${response.status}`;
-                        
-                        if (errorBody) {
-                            errorMessage += `\n${errorBody}`;
-                        }
-
-                        throw new Error(errorMessage);
-                    });
+                    let errorMessage = `[PayloadManager] HTTP error status: ${response.status}`;
+                    if (responseData) {
+                        errorMessage += `\n${typeof responseData === 'object' ? JSON.stringify(responseData) : responseData}`;
+                    }
+                    throw new Error(errorMessage);
                 }
 
-                const contentType = response.headers.get('content-type');
+                const customResponse = {
+                    status: response.status,
+                    ok: response.ok,
+                    headers: response.headers,
+                    redirected: response.redirected,
+                    data: responseData
+                };
 
-                if (contentType && contentType.includes('application/json')) {
-                    return response.json();
+                console.debug('[PayloadManager] Response status:', customResponse.status);
+                console.debug('[PayloadManager] Response data:', customResponse.data);
+
+                if (shouldFollowRedirection && customResponse.status === 200 && customResponse.data && customResponse.data.redirect_url) {
+                    console.warn('[PayloadManager] The response contains a custom redirection. Following.');
+                    window.location.href = customResponse.data.redirect_url;
                 }
 
-                return response.text();
+                return customResponse;
             })
             .catch(error => {
                 console.error(`[PayloadManager] Request failed:\n${error.message}`);
-                
                 throw error;
             });
     }

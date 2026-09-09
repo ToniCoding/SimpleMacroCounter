@@ -1,10 +1,22 @@
-import { auth } from './security/auth.js';
+/**
+ * @file manualMacroUpdate.js
+ * @description Manages the manual macro adjustment form interface. It gathers user inputs 
+ * for macronutrients and the preferred action (adding or reducing), sanitizes the payload 
+ * using the PayloadManager, and securely submits the update request to the API.
+ */
+
+import { PayloadManager } from './payloadManager.js';
 
 const manualMacroUpdateForm = document.getElementById('manualMacrosForm');
 
-async function updateMacroIntake() {
-    const endpoint = '/api/v1/modify-macros';
-
+/**
+ * Collects input values from the macro adjustment form, converts them to proper numbers,
+ * sanitizes the data structure, and sends the authenticated request to the server.
+ * 
+ * @async
+ * @returns {Promise<Object|null>} The parsed server response if successful, or null if an error occurs.
+ */
+async function newUpdateMacroIntake() {
     const addRadio = document.getElementById('add');
     const selectedRadio = addRadio.checked ? 'add' : 'reduce';
 
@@ -21,23 +33,17 @@ async function updateMacroIntake() {
         intent: selectedRadio
     };
 
-    console.info("[ManualMacroUpdate] Sending:", body);
+    console.info("[ManualMacroUpdate] Sanitizing and forging:", body);
 
     try {
-        const response = await auth.fetch(endpoint, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        });
+        const sanitizedBody = PayloadManager.payloadForger('modify_macros', body);
+        const token = localStorage.getItem('jwt_token') || null; 
+        const forgedRequest = PayloadManager.requestForger('post', 'modify_macros', 'bearer_auth', sanitizedBody, token);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const data = await PayloadManager.requestSender(forgedRequest, true);
 
-        const data = await response.json();
         console.debug("[ManualMacroUpdate] Success:", data);
+
         return data;
     } catch (error) {
         console.error("[ManualMacroUpdate] Error:", error);
@@ -47,5 +53,5 @@ async function updateMacroIntake() {
 
 manualMacroUpdateForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    await updateMacroIntake();
+    newUpdateMacroIntake();
 });
