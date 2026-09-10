@@ -29,13 +29,20 @@ In this release we have made a lot of internal changes to the code infrastructur
 - [Critical] Symfony now generates a JWT through the PHP session from the home page.
 - [Critical] Full front-end and back-end decoupling.
 - New DTOs for the API adoption.
-- Adoption of API with JWT stateless authentication:
+- Complete adoption of API with JWT stateless authentication:
     - Home page.
     - Modify macros manually.
+    - History.
+    - Register foods.
+    - Register intake.
+    - Settings.
 - Implemented a new unit test suite that tests all the four actual services of SMC.
 
 **Changed**
 - Monolog is now a production package, matching production.
+- Deprecated `payloadCreator.js` for the new `payloadManager.js`.
+- The JavaScript scripts are now better organized.
+- Changed the endpoint for adding food intakes. Previous `addFood` --- Updated `add-food`.
 
 **Fixed**
 - Manually changing the macros with commas as delimiter for decimal values resulted in `401 Bad Request` error.
