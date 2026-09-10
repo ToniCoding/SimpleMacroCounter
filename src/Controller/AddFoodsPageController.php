@@ -32,7 +32,7 @@ class AddFoodsPageController extends AbstractController {
         ]);
     }
 
-    #[Route('/addfood', name: 'addFoodProcessing', methods: 'POST')]
+    #[Route('/api/v1/add-food', name: 'addFoodProcessing', methods: 'POST')]
     public function addFoodPost(Request $request, FoodRegistry $foodRegistry): JsonResponse {
         $user = $this->getUser();
 
@@ -51,7 +51,7 @@ class AddFoodsPageController extends AbstractController {
 
             return new JsonResponse([
                 'success' => true,
-                'redirect' => '/home'
+                'redirect_url' => '/home'
             ], 200);
         }
 

@@ -33,6 +33,8 @@ export class PayloadManager {
 
     static #availableEndpoints = {
         'register_product': `${this.#baseUrl}/register-food`,
+        'register_intake': `${this.#baseUrl}/add-food`,
+        'search_products': `${this.#baseUrl}/search-products`,
         'modify_macros': `${this.#baseUrl}/modify-macros`,
         'settings': `${this.#baseUrl}/settings`
     }
@@ -48,9 +50,9 @@ export class PayloadManager {
             fiber: null
         },
 
-        'register_new_intake': {
-            product_id: null,
-            product_consumed_grams: null
+        'register_intake': {
+            id: null,
+            grams: null
         },
 
         'modify_macros': {
@@ -152,8 +154,8 @@ export class PayloadManager {
                 selectedPayload = this.#availablePayloads.register_product;
                 break;
 
-            case 'register_new_intake':
-                selectedPayload = this.#availablePayloads.register_new_intake;
+            case 'register_intake':
+                selectedPayload = this.#availablePayloads.register_intake;
                 break;
 
             case 'modify_macros':
