@@ -1,0 +1,11 @@
+framework:
+    rate_limiter:
+        api_user_limiter:
+            policy: 'token_bucket'
+            limit: 60
+            rate: { interval: '1 minute', amount: 80 }
+            
+        api_ip_limiter:
+            policy: 'token_bucket'
+            limit: 20
+            rate: { interval: '1 minute', amount: 20 }

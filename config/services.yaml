@@ -30,3 +30,8 @@ services:
     App\EventListeners\GlobalExceptionListener:
         arguments:
             $environment: '%kernel.environment%'
+
+    App\EventListener\ApiRateLimiterListener:
+        arguments:
+            $apiUserLimiter: '@limiter.api_user_limiter'
+            $apiIpLimiter: '@limiter.api_ip_limiter'
