@@ -8,75 +8,75 @@ class MacroSettingsDTO {
     public function __construct(
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        private float $newProtein = 0,
+        private float $calories = 0,
+
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $protein = 0,
         
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        private float $newCarbs = 0,
+        private float $carbs = 0,
         
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        private float $newFats = 0,
+        private float $fats = 0,
         
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        private float $newFiber = 0,
-        
-        #[Assert\NotNull]
-        #[Assert\PositiveOrZero]
-        private float $newCalories = 0
+        private float $fiber = 0
     ) {}
 
-    public function getNewProtein(): int {
-        return $this->newProtein;
+    public function getProtein(): int {
+        return $this->protein;
     }
-    public function setNewProtein(int $newProtein): void {
-        $this->newProtein = $newProtein;
-    }
-
-    public function getNewCarbs(): int {
-        return $this->newCarbs;
-    }
-    public function setNewCarbs(int $newCarbs): void {
-        $this->newCarbs = $newCarbs;
+    public function setProtein(int $protein): void {
+        $this->protein = $protein;
     }
 
-    public function getNewFats(): int {
-        return $this->newFats;
+    public function getCarbs(): int {
+        return $this->carbs;
     }
-    public function setNewFats(int $newFats): void {
-        $this->newFats = $newFats;
-    }
-
-    public function getNewFiber(): int {
-        return $this->newFiber;
-    }
-    public function setNewFiber(int $newFiber): void {
-        $this->newFiber = $newFiber;
+    public function setCarbs(int $carbs): void {
+        $this->carbs = $carbs;
     }
 
-    public function getNewCalories(): int {
-        return $this->newCalories;
+    public function getFats(): int {
+        return $this->fats;
     }
-    public function setNewCalories(int $newCalories): void {
-        $this->newCalories = $newCalories;
+    public function setFats(int $fats): void {
+        $this->fats = $fats;
+    }
+
+    public function getFiber(): int {
+        return $this->fiber;
+    }
+    public function setFiber(int $fiber): void {
+        $this->fiber = $fiber;
+    }
+
+    public function getCalories(): int {
+        return $this->calories;
+    }
+    public function setCalories(int $calories): void {
+        $this->calories = $calories;
     }
 
     public function __toArray() {
         return [
-            'calories' => $this->getNewCalories(),
-            'protein' => $this->getNewProtein(),
-            'carbs' => $this->getNewCarbs(),
-            'fats' => $this->getNewFats(),
-            'fiber' => $this->getNewFiber()
+            'calories' => $this->getCalories(),
+            'protein' => $this->getProtein(),
+            'carbs' => $this->getCarbs(),
+            'fats' => $this->getFats(),
+            'fiber' => $this->getFiber()
         ];
     }
 
     public function __toString() {
-        return 'Calories: ' . $this->getNewCalories() .
-        "\n\tProtein: " . $this->getNewProtein() .
-        "\n\tCarbs: " . $this->getNewCarbs() .
-        "\n\tFats: " . $this->getNewFats() .
-        "\n\tFiber: " . $this->getNewFiber();
+        return 'Calories: ' . $this->getCalories() .
+        "\n\tProtein: " . $this->getProtein() .
+        "\n\tCarbs: " . $this->getCarbs() .
+        "\n\tFats: " . $this->getFats() .
+        "\n\tFiber: " . $this->getFiber();
     }
 }

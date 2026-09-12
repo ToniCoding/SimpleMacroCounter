@@ -8,6 +8,10 @@ class MacroDataDTO {
     public function __construct(
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
+        private float $calories = 0,
+        
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
         private float $protein = 0,
 
         #[Assert\NotNull]
@@ -21,10 +25,6 @@ class MacroDataDTO {
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
         private float $fiber = 0,
-
-        #[Assert\NotNull]
-        #[Assert\PositiveOrZero]
-        private float $calories = 0,
 
         #[Assert\NotNull]
         private string $intent = ''

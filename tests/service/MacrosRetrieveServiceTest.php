@@ -3,13 +3,11 @@
 namespace Smc\Tests\Service;
 
 use App\DTO\DailyIntakeDTO;
-use App\DTO\MacroSettingsDTO;
 use App\DTO\UserGoalsDTO;
 use App\Entity\KcalsDaily;
 use App\Entity\User;
 use App\Entity\UserGoals;
 use App\Exceptions\NoRecordFoundException;
-use App\Exceptions\WriteToDatabaseException;
 use App\Helpers\DateParser;
 use App\Repository\KcalsDailyRepository;
 use App\Repository\UserGoalsRepository;
@@ -50,31 +48,6 @@ class MacrosRetrieveServiceTest extends TestCase {
      *** Tests for calculateUserProgress method ***********
      ********************************************************
      */
-
-    // public function testCalculateUserProgress(): void {
-    //     $expectedArrayKeys = ['caloriesProgress', 'proteinProgress', 'carbsProgress', 'fatsProgress', 'fiberProgress'];
-        
-    //     $macroGramsConsumed = new DailyIntakeDTO(0, 0, 0, 0, 0);
-    //     $macroIntakeGoal = new UserGoalsDTO(0, 0, 0, 0, 0);
-
-    //     $this->dailyIntakeRecordService
-    //         -> expects($this->once())
-    //         -> method('ensureDailyIntakeRecord')
-    //         -> willReturn($macroGramsConsumed);
-
-    //     $this->dailyIntakeRecordService
-    //         -> expects($this->once())
-    //         -> method('ensureOneMacroGoal')
-    //         -> willReturn($macroIntakeGoal);
-
-    //     $testedMethodResult = $this->service->calculateUserProgress($this->user);
-
-    //     $this->assertCount(5, $testedMethodResult);
-
-    //     foreach ($expectedArrayKeys as $arrayKey) {
-    //         $this->assertArrayHasKey($arrayKey, $testedMethodResult);
-    //     }
-    // }
 
     public function testCalculateUserProgress(): void{
         $user = $this->createMock(User::class);

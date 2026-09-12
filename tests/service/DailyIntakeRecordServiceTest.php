@@ -221,11 +221,11 @@ class DailyIntakeRecordServiceTest extends TestCase {
     ): void {
         // Instantiate MacroSettingsDTO with correct argument order: (protein, carbs, fats, fiber, calories)
         $macroSettingsDto = new MacroSettingsDTO(
+            $calories ?? 0.0,
             $protein ?? 0.0,
             $carbs ?? 0.0,
             $fats ?? 0.0,
-            $fiber ?? 0.0,
-            $calories ?? 0.0
+            $fiber ?? 0.0
         );
 
         $minCalories = 1000.0;
@@ -270,7 +270,7 @@ class DailyIntakeRecordServiceTest extends TestCase {
     }
 
     public function testModifyMacroGoalReturnsFalseWhenDatabaseUpdateFails(): void {
-        $macroSettingsDto = new MacroSettingsDTO(180.0, 250.0, 70.0, 35.0, 2500.0);
+        $macroSettingsDto = new MacroSettingsDTO(2500.0, 180.0, 250.0, 70.0, 35.0);
 
         $this->userGoalsRepository
             ->expects($this->once())
@@ -285,7 +285,7 @@ class DailyIntakeRecordServiceTest extends TestCase {
     public function testModifyMacroGoalThrowsExceptionOnRepositoryFailure(): void {
         $this->expectException(WriteToDatabaseException::class);
 
-        $macroSettingsDto = new MacroSettingsDTO(180.0, 250.0, 70.0, 35.0, 2500.0);
+        $macroSettingsDto = new MacroSettingsDTO(2500.0, 180.0, 250.0, 70.0, 35.0);
 
         $this->userGoalsRepository
             ->expects($this->once())
