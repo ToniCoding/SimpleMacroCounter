@@ -111,13 +111,13 @@ class MacrosRetrieveService {
      */
     public function calculateWeeklyRisk(float $weeklyGoal, float $weeklyConsumption, float $todayConsumption = 0): array {
         $weights = [
-            1 => 1.0,
-            2 => 1.0,
-            3 => 1.0,
-            4 => 1.1,
-            5 => 1.2,
-            6 => 1.4,
-            7 => 1.3,
+            1 => 0.93,
+            2 => 0.93,
+            3 => 0.93,
+            4 => 0.98,
+            5 => 1.05,
+            6 => 1.15,
+            7 => 1.03,
         ];
 
         $currentDay = max(1, min(7, (int) $this->dateParser->getCurrentWeekDay()));
@@ -132,8 +132,14 @@ class MacrosRetrieveService {
 
         $expectedConsumption = 0;
 
-        for ($day = $currentDay + 1; $day <= 7; $day++) {
-            $expectedConsumption += $weights[$day] * $averageDaily;
+        for ($day = $currentDay; $day <= 7; $day++) {
+            $dayExpected = $weights[$day] * $averageDaily;
+
+            if ($day === $currentDay) {
+                $dayExpected = max(0, $dayExpected - $todayConsumption);
+            }
+
+            $expectedConsumption += $dayExpected;
         }
 
         $remainingBudget <= 0
@@ -160,10 +166,10 @@ class MacrosRetrieveService {
         if ($risk < 0.8) {
             return 'low';
         }
-        if ($risk < 1.0) {
+        if ($risk <= 1.12) { // Gives a ~12% buffer for normal early-week variance
             return 'medium';
         }
-        if ($risk < 1.2) {
+        if ($risk < 1.3) {
             return 'high';
         }
         return 'very_high';
