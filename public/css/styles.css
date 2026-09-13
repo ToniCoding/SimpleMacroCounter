@@ -113,6 +113,98 @@ a {
   transform: scale(1.1);
 }
 
+/* New navigation menu design */
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.nav-submenu {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 14rem; /* Increased to comfortably fit longer titles like MACRO TRACKING */
+}
+
+.nav-category-title {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  text-align: center;
+}
+
+.nav-submenu .nav-list {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 50;
+  background-color: rgba(17, 24, 39, 0.95); 
+  border-radius: 0px 0px 10px 10px;
+}
+
+.nav-submenu.has-dropdown.is-open .nav-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-list li {
+  border-bottom: none;
+}
+
+.nav-list a {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.nav-list img {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.nav-submenu.submenu-right .nav-list {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.nav-category-title:hover,
+.nav-category-title.selected {
+  background-color: rgba(31, 41, 55, 0.95);
+  color: #ffffff;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.nav-list a:hover,
+.nav-list a.selected {
+  background-color: rgba(31, 41, 55, 0.95);
+  color: #ffffff;
+}
+
 /* Hamburger menu */
 .hamburger-menu {
   display: none;
@@ -722,19 +814,19 @@ a {
 ========================= */
 
 @media (max-width: 768px) {
-    .food-market .market-name {
-        color: var(--text-muted);
-    }
+  .food-market .market-name {
+    color: var(--text-muted);
+  }
 
-    .food-market .brand-name {
-        color: var(--accent);
-        font-weight: bold;
-    }
+  .food-market .brand-name {
+    color: var(--accent);
+    font-weight: bold;
+  }
 
-    .food-market .separator {
-        color: var(--border-card);
-        margin: 0 4px;
-    }
+  .food-market .separator {
+    color: var(--border-card);
+    margin: 0 4px;
+  }
 }
 
 /* =========================
@@ -1041,6 +1133,14 @@ a {
   }
 }
 
-.risk-low { color: #10b981; }
-.risk-medium { color: #d97706; }
-.risk-high { color: #dc2626; }
+.risk-low {
+  color: #10b981;
+}
+
+.risk-medium {
+  color: #d97706;
+}
+
+.risk-high {
+  color: #dc2626;
+}
