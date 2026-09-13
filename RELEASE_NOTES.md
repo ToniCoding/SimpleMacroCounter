@@ -21,9 +21,11 @@ This are the release notes for the latest version of SMC where the new features,
 ## Current Project Version
 
 **Release description**
+
 In this release we have made a lot of internal changes to the code infrastructure such as decoupling the front-end from the back-end, fully implementing JWT and its adoption, increased logged information and more.
 
 **New**
+
 - [Critical] SMC REST API.
 - [Critical] Fully implemented JWT token.
 - [Critical] Symfony now generates a JWT through the PHP session from the home page.
@@ -37,59 +39,74 @@ In this release we have made a lot of internal changes to the code infrastructur
     - Register intake.
     - Settings.
 - Implemented a new unit test suite that tests all the four actual services of SMC.
+- Implemented navigation bar as a Twig component.
 
 **Changed**
+
 - Monolog is now a production package, matching production.
 - Deprecated `payloadCreator.js` for the new `payloadManager.js`.
 - The JavaScript scripts are now better organized.
 - Changed the endpoint for adding food intakes. Previous `addFood` --- Updated `add-food`.
+- Redesign of the desktop navigation bar.
 
 **Fixed**
+
 - Manually changing the macros with commas as delimiter for decimal values resulted in `401 Bad Request` error.
+- Fixed the risk algorithm showing on very high risk every monday.
+- Desktop and mobile navigation bars were showing at the same time with under 767px widths.
 
 **Documentation**
+
 - Combined requests and response contracts into a single document per endpoint.
 - Created `flows` to start adding documentation relative to every defined flow.
 
 ## Project milestones
 
 ### Generic macros and software foundation.
+
 Generic macro administration and calorie calculation is now possible following the project MVC pattern.\
 Reached on version 0.1.0.\
 Reach date: Tuesday, 29 July 2025.
 
 ### User creation and administration overhaul.
+
 The user can now register through UI and can be administrated at database level.\
 Reached on version 0.3.0\
 Reach date: Monday, 15 September 2025.
 
 ### User registration and login.
+
 Any user can now register and login through dedicated UI.\
 Reached on version 0.3.0\
 Reach date: Monday, 15 September 2025.
 
 ### User connected macros.
+
 Any user can know their daily macros and calorie intake.\
 Reached on version 0.3.0\
 Reach date: Sunday, 21 September 2025.
 
 ### Streaks
+
 Any user can know their current creatine and protein streak. The streak breaks if the user don't take it for more than 2 days.\
 Reached on version ---\
 Reach date: Not reached.
 
 ### Symfony and Doctrine implementation
+
 Implement a professional framework like Symfony and impelment the database management through Doctrine entities and utilities.\
 Reached on version 0.5.0\
 Reach date: Monday, 06 October 2025.
 
 ### Unit and integration testing
+
 Implement a test suite that can test the functionality of SMC.\
 Reached on version 0.6.1\
 Reach date: Sunday, 30 May 2026.
 
 ## Future improvements
-*Implement project structure validation.*\
-*Implement JWT for user tokens.*\
-*Improve and extensive use of logging system.*\
-*Improve the exception throwing and managing.*
+
+In this section, we describe the future improvements that are on the SMC roadmap.
+
+- *SMC Redesign.*
+- *Implement project structure and file permissons validation.*
