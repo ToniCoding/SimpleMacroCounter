@@ -591,7 +591,7 @@ a {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   html {
     font-size: 14px;
   }
@@ -810,26 +810,6 @@ a {
 }
 
 /* =========================
-   MARKET + BRAND STYLES (SOLO MÓVIL)
-========================= */
-
-@media (max-width: 768px) {
-  .food-market .market-name {
-    color: var(--text-muted);
-  }
-
-  .food-market .brand-name {
-    color: var(--accent);
-    font-weight: bold;
-  }
-
-  .food-market .separator {
-    color: var(--border-card);
-    margin: 0 4px;
-  }
-}
-
-/* =========================
    SEARCH
 ========================= */
 
@@ -947,17 +927,50 @@ a {
   color: var(--text-muted);
 }
 
-/* =========================
-   MOBILE TABLE SWITCH
-========================= */
+.foodTableMobile {
+  display: none;
+}
 
 .foodTableMobile {
   display: none;
 }
 
-@media (max-width: 768px) {
+.risk-low {
+  color: #10b981;
+}
 
-  /* ===== ROW BASE ===== */
+.risk-medium {
+  color: #d97706;
+}
+
+.risk-high {
+  color: #dc2626;
+}
+
+@media (max-width: 767px) {
+  /* ===== NAVIGATION OVERRIDE ===== */
+  .nav-container {
+    display: none !important;
+  }
+
+  /* ===== LAYOUT & TABLE OVERRIDES ===== */
+  .intake-right {
+    display: none !important;
+  }
+
+  .foodTable {
+    display: none !important;
+  }
+
+  .foodTableMobile {
+    display: block !important;
+  }
+
+  .intake-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ===== FOOD ROW BASE ===== */
   .food-row {
     background: var(--card-bg);
     border: 2px solid var(--border-card);
@@ -998,6 +1011,20 @@ a {
     color: var(--text-muted);
   }
 
+  .food-market .market-name {
+    color: var(--text-muted);
+  }
+
+  .food-market .brand-name {
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  .food-market .separator {
+    color: var(--border-card);
+    margin: 0 4px;
+  }
+
   .food-kcal {
     text-align: right;
     font-weight: bold;
@@ -1011,6 +1038,7 @@ a {
     padding: 0.75rem;
     border-top: 1px solid var(--border-card);
     background: rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.2s ease;
   }
 
   .food-row.active .food-row-details {
@@ -1039,11 +1067,9 @@ a {
     width: 100%;
     padding: 0.75rem 1rem;
     margin-bottom: 0.75rem;
-
     background: var(--base);
     border: 2px solid var(--border-card);
     border-radius: 10px;
-
     color: var(--main-text);
     font-size: 1rem;
     text-align: center;
@@ -1060,87 +1086,25 @@ a {
     padding: 0.75rem;
     border: none;
     border-radius: 10px;
-
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
-
     font-weight: bold;
     cursor: pointer;
-
     transition: transform 0.15s ease, opacity 0.15s ease;
   }
 
   .select-btn:active {
     transform: scale(0.98);
   }
-
-  /* ===== SMALL UX POLISH ===== */
-  .food-row-details {
-    animation: fadeIn 0.2s ease;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 }
 
-/* =========================
-   HIDE MOBILE LIST ON DESKTOP
-========================= */
-
-.foodTableMobile {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .foodTable {
-    display: none;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
   }
-
-  .foodTableMobile {
-    display: block;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-}
-
-/* =========================
-   MOBILE UX OVERRIDE ONLY
-========================= */
-
-@media (max-width: 768px) {
-
-  .intake-right {
-    display: none !important;
-  }
-
-  .foodTable {
-    display: none !important;
-  }
-
-  .foodTableMobile {
-    display: block !important;
-  }
-
-  .intake-layout {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-.risk-low {
-  color: #10b981;
-}
-
-.risk-medium {
-  color: #d97706;
-}
-
-.risk-high {
-  color: #dc2626;
 }
