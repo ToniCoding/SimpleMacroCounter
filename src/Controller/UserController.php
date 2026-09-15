@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\DTO\{RegisterUserDTO, LoggedUserDTO, UserRegisterRequestDTO};
 use App\Entity\User;
 use App\Exceptions\AgeNotAllowedException;
-use App\Form\{LoginUserType, RegisterUserType};
-use App\Security\{AccessTokenHandler, AppAuthenticator};
+use App\Exceptions\AlreadyRegisteredUsernameException;
+use App\Exceptions\InvalidEmailProviderException;
+use App\Form\LoginUserType;
+use App\Security\AppAuthenticator;
 use App\Handlers\UserHandler;
 
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +34,6 @@ use Symfony\Component\Routing\Annotation\Route;
  * @see AccessTokenHandler Manages token creation and validation
  *
  * @property UserHandler $userHandler
- * @property AccessTokenHandler $accessTokenHandler
  * @property EntityManagerInterface $entityManager
  * @property UserAuthenticatorInterface $userAuthenticatorInterface
  *
@@ -41,55 +43,54 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController {
     public function __construct(
         private UserHandler $userHandler,
-        private AccessTokenHandler $accessTokenHandler,
         private EntityManagerInterface $entityManager,
         private UserAuthenticatorInterface $userAuthenticatorInterface,
         private AppAuthenticator $appAuthenticator
     ) {}
-
-    /**
-     * Process the user registration by rendering and processing the register form.
-     * @param Request $request
-     * @return Response | RedirectResponse
-     */
-    // #[Route('/register', name: 'register_form', methods: ['GET', 'POST'])]
-    // public function registerUser(Request $request): Response | RedirectResponse {
-    //     $userDTO = new RegisterUserDTO();
-        
-    //     $form = $this->createForm(RegisterUserType::class, $userDTO);
-    //     $form->handleRequest($request);
-        
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $userDTO = $form->getData();
-    //         try {
-    //             if ($this->userHandler->handle('register', $userDTO)) {
-    //                 return $this->redirect('login');
-    //             } 
-    //         } catch (AgeNotAllowedException $ageEx) {
-    //             return $this->render('security/RegisterPageTemplate.twig.html', [
-    //                 'form' => $form->createView(),
-    //                 'error' => $ageEx->getMessage()
-    //             ]);
-    //         }
-    //     }
-
-    //     return $this->render('security/RegisterPageTemplate.twig.html', [
-    //         'form' => $form->createView(),
-    //         'error' => null
-    //     ]);
-    // }
 
     #[Route('/register', name: 'register_form', methods: ['GET'])]
     public function registerForm(): Response {
         return $this->render('security/RegisterPageTemplate.twig.html');
     }
 
-    // Llamar a la función que aporta el Passport y redirigir a la home.
+    /**
+     * Validates and registers a new user based on the payload sent to the API endpoint.
+     * 
+     * @param UserRegisterRequestDTO $userRegisterRequest The request payload mapped and validated automatically from the request body.
+     * @param UserService $userService The user service handling business logic, validation, and persistence.
+     * @return JsonResponse Returns a JSON response containing the newly created user data with HTTP 201 (Created) 
+     * on success, or an appropriate error response (HTTP 400/409) if business rules fail.
+     */
     #[Route('/api/v1/register', name: 'user_register', methods: ['POST'])]
     public function register(
-        #[MapRequestPayload] UserRegisterRequestDTO $userRegisterRequest
-    ) {
+        #[MapRequestPayload] UserRegisterRequestDTO $userRegisterRequest,
+        UserService $userService
+    ): JsonResponse {
+        try {
+            $user = $userService->register($userRegisterRequest);
 
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'Usuario registrado con éxito',
+                'data' => [
+                    'id' => $user->getId(),
+                    'username' => $user->getUserIdentifier(),
+                    'email' => $user->getEmail(),
+                ]
+            ], Response::HTTP_CREATED);
+
+        } catch (AlreadyRegisteredUsernameException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'El nombre de usuario ya está en uso.',
+            ], Response::HTTP_CONFLICT);
+
+        } catch (InvalidEmailProviderException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'El dominio del correo electrónico no es válido.',
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
