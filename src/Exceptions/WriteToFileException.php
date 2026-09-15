@@ -12,14 +12,14 @@ class WriteToFileException extends Exception {
     public function __toString(): string {
         $previousInfo = '';
         if ($this->getPrevious()) {
-            $previousInfo = sprintf(
+            $previousInfo = \sprintf(
                 "\nPrevious exception: [%s] %s",
                 get_class($this->getPrevious()),
                 $this->getPrevious()->getMessage()
             );
         }
 
-        return sprintf(
+        return \sprintf(
             "[%s] %s in %s:%d%s\nStack trace:\n%s",
             __CLASS__,
             $this->getMessage(),
