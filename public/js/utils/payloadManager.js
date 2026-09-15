@@ -32,6 +32,7 @@ export class PayloadManager {
     };
 
     static #availableEndpoints = {
+        'register_user': `${this.#baseUrl}/register`,
         'register_product': `${this.#baseUrl}/register-food`,
         'register_intake': `${this.#baseUrl}/add-food`,
         'search_products': `${this.#baseUrl}/search-products`,
@@ -40,6 +41,13 @@ export class PayloadManager {
     }
 
     static #availablePayloads = {
+        'register_user': {
+            username: null,
+            password: null,
+            email: null,
+            age: null
+        },
+
         'register_product': {
             productName: null,
             market: null,
@@ -150,6 +158,10 @@ export class PayloadManager {
         let selectedPayload = null;
 
         switch (payloadToForge) {
+            case 'register_user':
+                selectedPayload = this.#availablePayloads.register_user;
+                break;
+
             case 'register_product':
                 selectedPayload = this.#availablePayloads.register_product;
                 break;
