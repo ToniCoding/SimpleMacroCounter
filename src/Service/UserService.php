@@ -49,6 +49,7 @@ class UserService {
         $registeredUser->setRoles(['ROLE_USER']);
         $registeredUser->setEmail($userRegisterRequestDTO->getEmail());
         $registeredUser->setAge($userRegisterRequestDTO->getAge());
+        $registeredUser->setTimezone('Europe/Madrid');
 
         $this->entityManagerInterface->persist($registeredUser);
         $this->entityManagerInterface->flush();
