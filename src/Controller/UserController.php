@@ -71,7 +71,7 @@ class UserController extends AbstractController {
 
             return new JsonResponse([
                 'status' => 'success',
-                'message' => 'Usuario registrado con éxito',
+                'message' => 'Successfully registered the user.',
                 'data' => [
                     'id' => $user->getId(),
                     'username' => $user->getUserIdentifier(),
@@ -82,13 +82,13 @@ class UserController extends AbstractController {
         } catch (AlreadyRegisteredUsernameException $e) {
             return new JsonResponse([
                 'status' => 'error',
-                'message' => 'El nombre de usuario ya está en uso.',
+                'message' => 'Username already in use.',
             ], Response::HTTP_CONFLICT);
 
         } catch (InvalidEmailProviderException $e) {
             return new JsonResponse([
                 'status' => 'error',
-                'message' => 'El dominio del correo electrónico no es válido.',
+                'message' => 'Invalid email domain.',
             ], Response::HTTP_BAD_REQUEST);
         }
     }
