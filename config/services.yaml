@@ -15,6 +15,19 @@ parameters:
     history.default_shown_days: 7
     history.max_shown_days: 180
 
+    user.valid_email_domains:
+        - gmail.com
+        - outlook.com
+        - hotmail.com
+        - yahoo.com
+        - icloud.com
+        - live.com
+        - hotmail.es
+        - outlook.es
+        - yahoo.es
+        - proton.me
+        - protonmail.com
+
 services:
     _defaults:
         autowire: true
