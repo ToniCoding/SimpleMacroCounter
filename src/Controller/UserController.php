@@ -72,6 +72,7 @@ class UserController extends AbstractController {
             return new JsonResponse([
                 'status' => 'success',
                 'message' => 'Successfully registered the user.',
+                'redirect_url' => '/login',
                 'data' => [
                     'id' => $user->getId(),
                     'username' => $user->getUserIdentifier(),
@@ -101,51 +102,51 @@ class UserController extends AbstractController {
      * @param Request $request
      * @return JsonResponse|Response
      */
-    #[Route('/login', name: 'login_form', methods: ['GET', 'POST'])]
-    public function loginUser(Request $request): Response | JsonResponse | RedirectResponse {
-        $user = $this->getUser();
+    // #[Route('/login', name: 'login_form', methods: ['GET', 'POST'])]
+    // public function loginUser(Request $request): Response | JsonResponse | RedirectResponse {
+    //     $user = $this->getUser();
 
-        if ($user !== null) {
-            $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
+    //     if ($user !== null) {
+    //         $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
 
-            return $this->json([
-                'message' => 'Login successful',
-                'token' => $accessToken->getValue(),
-                'expires_at' => $accessToken->getExpiresAt()
-            ], 200);
-        }
+    //         return $this->json([
+    //             'message' => 'Login successful',
+    //             'token' => $accessToken->getValue(),
+    //             'expires_at' => $accessToken->getExpiresAt()
+    //         ], 200);
+    //     }
 
-        $userDTO = new LoggedUserDTO();
+    //     $userDTO = new LoggedUserDTO();
 
-        $form = $this->createForm(LoginUserType::class, $userDTO);
-        $form->handleRequest($request);
+    //     $form = $this->createForm(LoginUserType::class, $userDTO);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userDTO = $form->getData();
-            $loginSuccess = $this->userHandler->handle('login', null, $userDTO);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $userDTO = $form->getData();
+    //         $loginSuccess = $this->userHandler->handle('login', null, $userDTO);
 
-            if (!$loginSuccess) {
-                return $this->json([
-                    'error' => 'Invalid credentials'
-                ], 401);
-            }
+    //         if (!$loginSuccess) {
+    //             return $this->json([
+    //                 'error' => 'Invalid credentials'
+    //             ], 401);
+    //         }
 
-            $user = $this->entityManager->getRepository(User::class)
-                ->findOneBy(['username' => $userDTO->getUsername()]);
+    //         $user = $this->entityManager->getRepository(User::class)
+    //             ->findOneBy(['username' => $userDTO->getUsername()]);
 
-            $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
+    //         $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
 
-            if ($accessToken) {
-                return $this->userAuthenticatorInterface->authenticateUser(
-                    $user,
-                    $this->appAuthenticator,
-                    $request
-                );
-            }
-        }
+    //         if ($accessToken) {
+    //             return $this->userAuthenticatorInterface->authenticateUser(
+    //                 $user,
+    //                 $this->appAuthenticator,
+    //                 $request
+    //             );
+    //         }
+    //     }
 
-        return $this->render('LoginPageTemplate.twig.html', [
-            'form' => $form->createView()
-        ]);
-    }
+    //     return $this->render('LoginPageTemplate.twig.html', [
+    //         'form' => $form->createView()
+    //     ]);
+    // }
 }
