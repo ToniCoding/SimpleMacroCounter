@@ -2,52 +2,56 @@
 
 namespace App\Controller;
 
-use App\DTO\{RegisterUserDTO, LoggedUserDTO, UserRegisterRequestDTO};
-use App\Entity\User;
-use App\Exceptions\AgeNotAllowedException;
-use App\Exceptions\AlreadyRegisteredUsernameException;
-use App\Exceptions\InvalidEmailProviderException;
-use App\Form\LoginUserType;
+use App\DTO\UserRegisterRequestDTO;
+use App\Exceptions\{AlreadyRegisteredUsernameException, InvalidEmailProviderException};
 use App\Security\AppAuthenticator;
-use App\Handlers\UserHandler;
 
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\HttpFoundation\{RedirectResponse, JsonResponse, Request, Response};
+use Symfony\Component\Security\Http\Authentication\{AuthenticationUtils, UserAuthenticatorInterface};
+use Symfony\Component\HttpFoundation\{JsonResponse, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * === USER DOMAIN CONTROLLER ===
- * 
- * Controller responsible for rendering and processing everything related
- * to the user experience, including registration and login workflows.
+ * Controller responsible for rendering user views (login and registration forms) 
+ * and managing user registration via API endpoints, integrating with Symfony's 
+ * native stateful authentication and session management.
  *
- * @package App\Controller\User
+ * @package App\Controller
  *
  * @author ToniCoding
  *
- * @see UserHandler Handles user-related business logic
- * @see AccessTokenHandler Manages token creation and validation
+ * @see UserService Handles user registration and validation rules
  *
- * @property UserHandler $userHandler
  * @property EntityManagerInterface $entityManager
  * @property UserAuthenticatorInterface $userAuthenticatorInterface
+ * @property AppAuthenticator $appAuthenticator
  *
- * @uses UserHandler
- * @uses AccessTokenHandler
+ * @uses UserService
  */
+
 class UserController extends AbstractController {
+    /**
+     * Initializes the user controller with its required dependencies.
+     * 
+     * @param EntityManagerInterface $entityManager Manages entity persistence and database operations.
+     * @param UserAuthenticatorInterface $userAuthenticatorInterface Handles programmatic user authentication.
+     * @param AppAuthenticator $appAuthenticator Custom application authentication handler.
+     */
     public function __construct(
-        private UserHandler $userHandler,
         private EntityManagerInterface $entityManager,
         private UserAuthenticatorInterface $userAuthenticatorInterface,
         private AppAuthenticator $appAuthenticator
     ) {}
 
+    /**
+     * Renders the user registration page view.
+     * 
+     * @return Response Returns the rendered registration template.
+     */
     #[Route('/register', name: 'register_form', methods: ['GET'])]
     public function registerForm(): Response {
         return $this->render('security/RegisterPageTemplate.twig.html');
@@ -95,58 +99,20 @@ class UserController extends AbstractController {
     }
 
     /**
-     * Process the login user process by rendering and processing the login form.
-     * It also creates and returns an access token to the user that will be required from all
-     * the SMC endpoints and extracted by the Symfony extractor, check reference.
-     * Ref: config/packages/security.yaml
-     * @param Request $request
-     * @return JsonResponse|Response
+     * Renders the login page view or redirects authenticated users to the home page.
+     * 
+     * @param AuthenticationUtils $authenticationUtils Utility to retrieve authentication errors and the last entered username.
+     * @return Response Returns a redirect response if already logged in, or the rendered login template containing errors and last username.
      */
-    // #[Route('/login', name: 'login_form', methods: ['GET', 'POST'])]
-    // public function loginUser(Request $request): Response | JsonResponse | RedirectResponse {
-    //     $user = $this->getUser();
+    #[Route(path: '/login', name: 'user_login', methods: ['GET', 'POST'])]
+    public function login(AuthenticationUtils $authenticationUtils): Response {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
 
-    //     if ($user !== null) {
-    //         $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
-
-    //         return $this->json([
-    //             'message' => 'Login successful',
-    //             'token' => $accessToken->getValue(),
-    //             'expires_at' => $accessToken->getExpiresAt()
-    //         ], 200);
-    //     }
-
-    //     $userDTO = new LoggedUserDTO();
-
-    //     $form = $this->createForm(LoginUserType::class, $userDTO);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $userDTO = $form->getData();
-    //         $loginSuccess = $this->userHandler->handle('login', null, $userDTO);
-
-    //         if (!$loginSuccess) {
-    //             return $this->json([
-    //                 'error' => 'Invalid credentials'
-    //             ], 401);
-    //         }
-
-    //         $user = $this->entityManager->getRepository(User::class)
-    //             ->findOneBy(['username' => $userDTO->getUsername()]);
-
-    //         $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
-
-    //         if ($accessToken) {
-    //             return $this->userAuthenticatorInterface->authenticateUser(
-    //                 $user,
-    //                 $this->appAuthenticator,
-    //                 $request
-    //             );
-    //         }
-    //     }
-
-    //     return $this->render('LoginPageTemplate.twig.html', [
-    //         'form' => $form->createView()
-    //     ]);
-    // }
+        return $this->render('security/LoginPageTemplate.twig.html', [
+            'last_username' => $authenticationUtils->getLastUsername(),
+            'error' => $authenticationUtils->getLastAuthenticationError(),
+        ]);
+    }
 }

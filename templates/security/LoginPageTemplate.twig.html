@@ -15,18 +15,10 @@
             <h1 class="page-title">Login to continue</h1>
 
             {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                <div class="alert alert-danger">{{ error.messageKey }}</div>
             {% endif %}
 
-            {% if app.user %}
-            <div class="form-group">
-                <p>You are logged in as {{ app.user.userIdentifier }}.</p>
-                <p><a href="{{ path('app_logout') }}" style="color: skyblue">Logout</a> or go back to <a
-                        href="{{ path('home') }}" style="color: skyblue">home</a>.</p>
-            </div>
-            {% endif %}
-
-            <form method="post" action="{{ path('login_form') }}">
+            <form method="post" action="{{ path('user_login') }}">
                 <div class="form-group">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" name="_username" id="username" value="{{ last_username }}"
@@ -37,6 +29,12 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" name="_password" id="password" class="form-input"
                         autocomplete="current-password" required>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Remember me
+                    </label>
                 </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">

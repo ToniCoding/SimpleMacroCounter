@@ -29,16 +29,20 @@ security:
             pattern: ^/
             stateless: false
             form_login:
-                login_path: app_login
-                check_path: app_login
+                login_path: /login
+                check_path: /login
                 enable_csrf: true
                 default_target_path: home
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # One week.
+                path: /
             logout:
-                path: app_logout
+                path: /logout
                 target: /login
 
     access_control:
-        - { path: ^/api/v1/generate-jwt, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/(generate-jwt|register), roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/(login|register), roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
