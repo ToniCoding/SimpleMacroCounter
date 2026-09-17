@@ -27,13 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const response = await PayloadManager.requestSender(requestConfig);
 
-            console.log('[Register] ¡Usuario registrado con éxito!', response.data);
+            console.log('[Register] ¡Successfully registered new user.', response.data);
             
-            // Opcional: Redirigir al usuario o mostrar un mensaje de éxito
-            // window.location.href = '/login';
-
         } catch (error) {
-            console.error('[Register] Error en el proceso de registro:', error.message);
+            console.error('[Register] Error while registering the new user:', error.message);
         }
     });
 });
