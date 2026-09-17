@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\DTO\UserRegisterRequestDTO;
 use App\Exceptions\{AlreadyRegisteredUsernameException, InvalidEmailProviderException};
-use App\Security\AppAuthenticator;
 
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +27,6 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @property EntityManagerInterface $entityManager
  * @property UserAuthenticatorInterface $userAuthenticatorInterface
- * @property AppAuthenticator $appAuthenticator
  *
  * @uses UserService
  */
@@ -39,12 +37,10 @@ class UserController extends AbstractController {
      * 
      * @param EntityManagerInterface $entityManager Manages entity persistence and database operations.
      * @param UserAuthenticatorInterface $userAuthenticatorInterface Handles programmatic user authentication.
-     * @param AppAuthenticator $appAuthenticator Custom application authentication handler.
      */
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserAuthenticatorInterface $userAuthenticatorInterface,
-        private AppAuthenticator $appAuthenticator
     ) {}
 
     /**
