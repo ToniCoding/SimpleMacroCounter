@@ -8,10 +8,28 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse};
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller responsible for managing the food catalog display, food intake registration, 
+ * and full-text product search functionalities.
+ */
 class AddFoodsPageController extends AbstractController {
+    
+    /**
+     * Initializes the controller with the application parameter bag.
+     * 
+     * @param ParameterBagInterface $params Parameter bag to access global application parameters.
+     */
     public function __construct(
         private ParameterBagInterface $params
     ) {}
+
+    /**
+     * Renders the add food catalog view with pagination and market filtering.
+     * 
+     * @param Request $request The incoming HTTP request containing query parameters.
+     * @param FoodRegistry $foodRegistry Service to retrieve product catalog data.
+     * @return Response Returns the rendered template containing the paginated food catalog.
+     */
     #[Route('/addfood', name: 'addFoodCatalog', methods: 'GET')]
     public function addfood(Request $request, FoodRegistry $foodRegistry): Response {
         $page = (int) $request->query->get('pagination', 1);
@@ -32,6 +50,13 @@ class AddFoodsPageController extends AbstractController {
         ]);
     }
 
+    /**
+     * REST API endpoint to process and register a user's food intake submission.
+     * 
+     * @param Request $request The incoming HTTP request containing JSON payload data.
+     * @param FoodRegistry $foodRegistry Service to handle food intake registration.
+     * @return JsonResponse Returns a JSON response with status codes (200, 400, or 500).
+     */
     #[Route('/api/v1/add-food', name: 'addFoodProcessing', methods: 'POST')]
     public function addFoodPost(Request $request, FoodRegistry $foodRegistry): JsonResponse {
         $user = $this->getUser();
@@ -61,6 +86,13 @@ class AddFoodsPageController extends AbstractController {
         ], 500); # This should be sending something in accordance to the error. TechDebt.
     }
 
+    /**
+     * REST API endpoint to search products by full-text query with pagination support.
+     * 
+     * @param Request $request The incoming HTTP request containing search query parameters.
+     * @param FoodRegistry $foodRegistry Service to perform full-text product searches.
+     * @return JsonResponse Returns a JSON response containing search results and pagination details.
+     */
     #[Route('/api/v1/search-products', name: 'api_search_products', methods: 'GET')]
     public function searchProducts(Request $request, FoodRegistry $foodRegistry): JsonResponse {
         $query = $request->query->get('q', '');

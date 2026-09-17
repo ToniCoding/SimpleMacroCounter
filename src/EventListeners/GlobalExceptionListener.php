@@ -8,8 +8,21 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Event listener responsible for globally handling application exceptions, logging errors, 
+ * and redirecting users or providing fallback responses based on exception types.
+ */
 #[AsEventListener(event: 'kernel.exception', priority: -10)]
 class GlobalExceptionListener {
+    
+    /**
+     * Initializes the listener with required routing, request stack, logger, and environment configuration.
+     * 
+     * @param UrlGeneratorInterface $urlGenerator Generator to create target redirection URLs.
+     * @param RequestStack $requestStack Stack to access the current session and request context.
+     * @param LoggerInterface $logger Logger service to record exception details.
+     * @param string $environment The current application environment (e.g., dev, prod).
+     */
     public function __construct (
         private UrlGeneratorInterface $urlGenerator,
         private RequestStack $requestStack,
@@ -18,9 +31,9 @@ class GlobalExceptionListener {
     ) {}
 
     /**
-     * Manages the exception thrown and acts in consequence to its context.
-     * @param ExceptionEvent $event The event of the exception being thrown.
-     * @return void
+     * Manages thrown exceptions and acts according to their context and type.
+     * 
+     * @param ExceptionEvent $event The event containing the thrown exception.
      */
     // The handler needs some improvements for better legibility and escalable exception handling.
     public function onKernelException(ExceptionEvent $event): void {
@@ -86,6 +99,12 @@ class GlobalExceptionListener {
         ]);
     }
 
+    /**
+     * Maps a given exception to a user-friendly error message string.
+     * 
+     * @param \Throwable $exception The exception to evaluate.
+     * @return string Returns the descriptive user-facing error message.
+     */
     private function getUserMessage(\Throwable $exception): string {
         return match ($exception::class) {
             \App\Exceptions\WriteToDatabaseException::class => 'Failed to save to database. Please try again.',

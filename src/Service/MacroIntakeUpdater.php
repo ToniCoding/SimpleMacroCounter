@@ -8,13 +8,34 @@ use App\Entity\User;
 use App\Exceptions\ExceededMacroLimitException;
 use App\Repository\KcalsDailyRepository;
 
+/**
+ * Service responsible for validating, calculating calories for, and updating 
+ * a user's daily macronutrient intake records.
+ */
 class MacroIntakeUpdater {
+    
+    /**
+     * Initializes the service with the required repository, intake record service, and logger.
+     * 
+     * @param KcalsDailyRepository $kcalsDailyRepository Repository for managing daily kcal and macro entities.
+     * @param DailyIntakeRecordService $dailyIntakeRecordService Service to ensure and manage daily intake records.
+     * @param LoggerInterface $logger Logger service to record actions and errors.
+     */
     public function __construct(
         private KcalsDailyRepository $kcalsDailyRepository,
         private DailyIntakeRecordService $dailyIntakeRecordService,
         private LoggerInterface $logger
         ) {}
 
+    /**
+     * Validates macronutrient limits, computes total calories, and updates the user's daily intake.
+     * 
+     * @param User $user The user whose macro intake is being updated.
+     * @param MacroDataDTO $macroDataDTO The DTO containing the macronutrient values and intent.
+     * @param string $intent The operation intent (e.g., 'add' or 'reduce').
+     * @return bool Returns true on successful update, false otherwise.
+     * @throws ExceededMacroLimitException If macro limits are exceeded or reduction rules are violated.
+     */
     public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent = 'add'): bool {
         $dataProtein = (float) $macroDataDTO->getProtein();
         $dataCarbs = (float) $macroDataDTO->getCarbs();
