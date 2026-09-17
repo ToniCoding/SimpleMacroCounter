@@ -26,10 +26,11 @@ In this release we have made a lot of internal changes to the code infrastructur
 
 **New**
 
-- [Critical] SMC REST API.
-- [Critical] Fully implemented JWT token.
-- [Critical] Symfony now generates a JWT through the PHP session from the home page.
-- [Critical] Full front-end and back-end decoupling.
+- **[Critical]** SMC REST API.
+- **[Critical]** Fully implemented JWT token.
+- **[Critical]** User registration and login redo.
+- **[Critical]** Symfony now generates a JWT through the PHP session from the home page.
+- **[Critical]** Full front-end and back-end decoupling.
 - New DTOs for the API adoption.
 - Complete adoption of API with JWT stateless authentication:
     - Home page.
@@ -48,6 +49,13 @@ In this release we have made a lot of internal changes to the code infrastructur
 - The JavaScript scripts are now better organized.
 - Changed the endpoint for adding food intakes. Previous `addFood` --- Updated `add-food`.
 - Redesign of the desktop navigation bar.
+- Converted navigation bar to a common component in `templates/partails/NavigationBar.twig.html`.
+- Minor changes to login form Twig template.
+- Deleted unused code:
+    - AppAuthenticator.
+    - Previous logger.
+    - Database scripts.
+    - Deprecated security controller.
 
 **Fixed**
 

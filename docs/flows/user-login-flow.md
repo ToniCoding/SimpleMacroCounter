@@ -1,56 +1,78 @@
-# User Login Flow Documentation
+# User Login Flow Documentation - SimpleMacroCounter (SMC)
 
 ## 1. Overview & Objectives
 
-This document outlines the authentication lifecycle in SMC, detailing the entire process from the initial user request to session creation, JWT generation, and full authentication across both the stateful web application and the stateless REST API.
+This document outlines the authentication and request-handling lifecycle in **SimpleMacroCounter (SMC)**, detailing the process from credential submission to session creation, JWT generation, API rate limiting, and global exception management across both stateful web views and decoupled REST endpoints.
+
+---
 
 ## 2. Authentication Architecture
 
-SMC employs a hybrid security architecture combining two complementary mechanisms managed through Symfony's security framework:
+SMC implements a hybrid security architecture using Symfony's security framework:
 
-* **Web Access (Stateful):** Handled via standard sessions initialized upon successful form login. It is protected by CSRF tokens and managed by the `main` firewall.
-* **API Access (Stateless):** Secured via JSON Web Tokens (JWT). Tokens are generated upon authentication and are mandatory for consuming protected `/api` endpoints behind the dedicated `api` firewall.
+* **Web Access (Stateful):** Managed via standard sessions initialized through form submissions, protected by CSRF tokens and handled under the `main` firewall.
+* **API Access (Stateless):** Secured via JSON Web Tokens (JWT). Tokens are validated across all protected `/api/v1/` routes governed by custom listeners, request payload mapping, and rate-limiting rules.
 
-This hybrid approach bridges traditional server-rendered web applications with modern decoupled API consumption, balancing session security with fast, stateless data exchanges.
+---
 
-## 3. Login Flow Phasing
+## 3. Authentication & Request Flow Phasing
 
-### Phase 1: Request & Form Validation
-The client submits credentials via the login interface (`POST /login`). Symfony captures the request and maps it to the `LoggedUserDTO` through form validation constraints (`LoginUserType`).
+### Phase 1: Request Submission & Payload Mapping
 
-### Phase 2: Credential Verification
-The `UserHandler` verifies the submitted credentials against the database entity (`App\Entity\User`). Passwords are verified securely using Symfony's automatic hashing configuration (`password_hashers`).
+* **Web Requests:** Clients submit form credentials or data payloads handled through Symfony form types and controllers (e.g., `SettingsPageController`, `MacroUpdateController`, `FoodsPageController`).
+* **API Requests:** Payloads are ingested via JSON, mapped to strongly-typed DTOs using Symfony's serializer or `#[MapRequestPayload]`, and validated via `ValidatorInterface`.
 
-### Phase 3: Session & Token Generation
-Upon successful verification, the `UserAuthenticatorInterface` authenticates the user into the stateful session (`main` firewall). Simultaneously, the `AccessTokenHandler` provisions a JWT token context containing user metadata and expiration metrics.
+### Phase 2: Rate Limiting & Security Interception (`ApiRateLimiterListener`)
 
-### Phase 4: Response Dispatch & Token Storage
-The backend completes the authentication sequence—either dispatching a session redirect to the home view or returning a JSON response containing the generated token and expiration details for client-side storage and subsequent API requests.
+* Incoming requests prefixed with `/api/` are intercepted by `ApiRateLimiterListener`.
+* The listener evaluates whether the requester is authenticated (using `TokenStorageInterface`) or anonymous:
+* **Authenticated Users:** Evaluated against the user-specific rate limiter (`apiUserLimiter`).
+* **Anonymous Users:** Evaluated against the IP-based rate limiter (`apiIpLimiter`).
+
+
+* If thresholds are exceeded, a `429 Too Many Requests` JSON response is returned along with standard rate-limiting headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After`).
+
+### Phase 3: Credential Verification & Session/Token Generation
+
+* Submitted credentials or tokens are verified against database user entities (`App\Entity\User`).
+* Passwords leverage Symfony's secure hashing configurations (`password_hashers`).
+* Successful authentication establishes the stateful session or provisions the appropriate access token context for subsequent API interactions.
+
+### Phase 4: Global Exception & Error Handling (`GlobalExceptionListener`)
+
+* Uncaught exceptions or security violations during the request lifecycle are caught by `GlobalExceptionListener` (priority `-10`).
+* **Security Exceptions:** Authentication or access denied exceptions log the error, flash a session notice, and trigger a redirect to the login route.
+* **Domain Exceptions:** Specific application exceptions (such as `FoodAlreadyRegistered` or intake limits) map to designated user feedback loops and redirect responses.
+* **Unhandled Exceptions:** Logged with trace details while rendering a safe user-facing error response via `app_error`.
+
+---
 
 ## 4. Error Handling & HTTP Status Codes
 
-* **`200 OK`**: Successful authentication, returning session redirection or JSON payload with the JWT token.
-* **`302 Found`**: Standard web redirection upon login state changes.
-* **`401 Unauthorized`**: Returned when credentials are invalid, missing, or when an expired/invalid JWT is presented to protected API routes.
+* **`200 OK`**: Successful request execution or token provisioning.
+* **`302 Found`**: Redirection triggered by state changes, security requirements, or domain exception flows (e.g., redirecting back to `/foods` or `/home`).
+* **`400 Bad Request`**: Triggered by invalid JSON payloads, serialization failures, or DTO validation violations.
+* **`401 Unauthorized`**: Returned when credentials fail or when invalid/expired tokens are presented to protected API routes.
+* **`429 Too Many Requests`**: Enforced by `ApiRateLimiterListener` when request thresholds are breached.
+* **`500 Internal Server Error`**: Fallback status for unexpected processing errors during intake or persistence operations.
 
-## 5. Security & Rate Limiting
+---
 
-The security layer is configured via `config/packages/security.yaml` with the following enforcement rules:
+## 5. Security & Rate Limiting Configuration
 
-* **Password Hashing:** Uses Symfony's `auto` hasher algorithm for secure entity storage (`App\Entity\User`).
+* **Password Hashing:** Uses Symfony's secure hashing framework for `App\Entity\User` entities.
 * **Firewall Isolation:**
-  * `generate_jwt`: Stateless endpoint (`/api/v1/generate-jwt`) using JSON login handling.
-  * `api`: Stateless firewall protecting all routes prefixed with `/api` using JWT authentication.
-  * `main`: Stateful firewall protecting general routes (`/`) utilizing form login with CSRF protection explicitly enabled (`enable_csrf: true`).
-* **Access Control Rules:**
-  * Public access is granted to `/api/v1/generate-jwt` and login/register routes.
-  * All other `/api` routes require full authentication (`IS_AUTHENTICATED_FULLY`).
-  * Root and general application paths require `ROLE_USER`.
+* **API Firewall:** Enforces stateless rules and token verification across `/api/v1/` endpoints.
+* **Main Firewall:** Protects stateful web views with form login and explicit CSRF protection.
 
-## 6. Sequence Diagram
 
-1. The user loads the login page (`GET /login`) and submits credentials via the form (`POST /login`).
-2. Symfony Security intercepts the request, and the `UserController` delegates credential validation to the `UserHandler`.
-3. If credentials match the database entity, the user is authenticated, and a stateful session is established via `UserAuthenticatorInterface`.
-4. The `AccessTokenHandler` generates the corresponding access token linked to the user badge.
-5. The client receives the response, authenticating session access while client-side scripts capture and store the JWT for future API endpoint consumption.
+* **Access Control:** Public access is restricted to login and public API registration endpoints; protected endpoints require explicit user roles (`ROLE_USER` / `IS_AUTHENTICATED_FULLY`).
+
+---
+
+## 6. Request Lifecycle Summary
+
+1. The client sends a request (Web `GET`/`POST` or API `/api/v1/`).
+2. `ApiRateLimiterListener` inspects `/api/` paths and enforces consumption limits.
+3. Controllers (`FoodsPageController`, `MacroUpdateController`, `SettingsPageController`, etc.) process payloads via DTO mapping and delegate business logic to dedicated services (`FoodRegistry`, `MacroIntakeUpdater`, `DailyIntakeRecordService`).
+4. Any thrown exceptions are caught and processed by `GlobalExceptionListener` to ensure uniform logging, session flashes, and safe HTTP redirects or JSON error responses.
