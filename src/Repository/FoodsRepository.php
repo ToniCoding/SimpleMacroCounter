@@ -1,12 +1,12 @@
 <?php
 
-namespace src\Repository;
+namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-use src\Entity\{AllowedMarkets, Food};
-use src\Exceptions\{FoodAlreadyRegistered, FoodNotFound, MarketNotAllowed};
+use App\Entity\{AllowedMarkets, Food};
+use App\Exceptions\{FoodAlreadyRegistered, FoodNotFound, MarketNotAllowed};
 
 class FoodsRepository extends ServiceEntityRepository {
     public function __construct(ManagerRegistry $registry) {

@@ -1,44 +1,56 @@
 <?php
 
-namespace src\Controller;
+namespace App\Controller;
 
-use src\Service\UserMacrosRetrieve;
+use App\DTO\UserMacros\Response\TodayProgressResponseDTO;
+use App\Entity\User;
+use App\Service\{DailyIntakeRecordService, MacrosRetrieveService};
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{JsonResponse, Response};
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 class HomePageController extends AbstractController {
     public function __construct(
-        private UserMacrosRetrieve $userMacrosRetrieve,
+        private MacrosRetrieveService $macrosRetrieveService,
+        private DailyIntakeRecordService $dailyIntakeRecordService
     ) {}
 
-    #[Route(['/', '/home'], name: 'home', methods: 'GET')]
-    public function home(): Response {
+    #[Route(['/', '/home'], name: 'home', methods: ['GET'])]
+    public function home(JWTTokenManagerInterface $jwtManager): Response {
         $user = $this->getUser();
 
-        $userProgress = $this->userMacrosRetrieve->calculateUserProgress($user);
-        $userGoals = $this->userMacrosRetrieve->getMacroGoalsArr($user);
-        $macrosConsumed = $this->userMacrosRetrieve->getConsumedMacrosArr($user);
-        $weeklyGoal = $this->userMacrosRetrieve->getUserWeeklyGoal($user);
-        $weeklyConsumption = $this->userMacrosRetrieve->getCaloriesConsumedForCurrentWeek($user);
-        
-        $weeklyGoalDanger = $this->userMacrosRetrieve->calculateWeeklyRisk($weeklyGoal, $weeklyConsumption, $macrosConsumed['calories']);
-        $weeklyRisk = str_replace('_', ' ', ucfirst($weeklyGoalDanger['risk']));
-        $riskColor = $weeklyGoalDanger['risk_color'];
+        $jwtToken = $jwtManager->create($user);
 
         return $this->render('HomePageTemplate.twig.html', [
-            'message' => 'Welcome to SMC',
-            'caloricProgress' => $userGoals['caloriesGoal'] - $macrosConsumed['calories'],
-            'caloriesConsumed' => $macrosConsumed['calories'],
-            'calorieGoal' => $userGoals['caloriesGoal'],
-            'weeklyGoal' => $weeklyGoal,
-            'weeklyConsumption' => $weeklyConsumption,
-            'weeklyRisk' => $weeklyRisk,
-            'riskColor' => $riskColor,
-            ...$userProgress,
-            ...$userGoals,
-            ...$macrosConsumed
+            'jwtToken' => $jwtToken,
         ]);
+    }
+    
+    /**
+     * Provides information about the user progress for the day in progress.
+     * @param User $user - Current authenticated user.
+     * @return JsonResponse - Request user information.
+     */
+    #[Route(['/api/v1/today-progress'], name: 'todayProgress', methods: 'GET')]
+    public function getTodayProgress(#[CurrentUser] User $user): JsonResponse {
+        $todayUserMacroGramsConsumed = $this->dailyIntakeRecordService->ensureDailyIntakeRecord($user);
+        $dailyMacroGoal = $this->dailyIntakeRecordService->ensureOneMacroGoal($user);
+        $userWeeklyCalorieGoal = $this->macrosRetrieveService->getWeeklyCalorieGoal($user);
+        $userWeeklyConsumedCalories = $this->macrosRetrieveService->getCaloriesConsumedForThisWeek($user);
+
+        $nutritionDto = new TodayProgressResponseDTO(
+            todayMacrosProgress: $this->macrosRetrieveService->calculateUserProgress($user),
+            todayUserMacroGrams: $todayUserMacroGramsConsumed->__toArray(),
+            dailyMacroGramsGoal: $dailyMacroGoal->__toArray(), 
+            weeklyCalorieGoal: $userWeeklyCalorieGoal,
+            weeklyCalorieConsumption: $userWeeklyConsumedCalories,
+            weeklyCalorieGoalRiskInfo: $this->macrosRetrieveService->calculateWeeklyRisk($userWeeklyCalorieGoal, $userWeeklyConsumedCalories, $todayUserMacroGramsConsumed->getCalories())
+        );
+
+        return $this->json($nutritionDto);
     }
 }

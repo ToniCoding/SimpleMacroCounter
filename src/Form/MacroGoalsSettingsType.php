@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Form;
+namespace App\Form;
 
-use src\DTO\MacroSettingsDTO;
+use App\DTO\MacroSettingsDTO;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,11 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class MacroGoalsSettingsType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
-            ->add('newCalories', IntegerType::class)
-            ->add('newProtein', IntegerType::class)
-            ->add('newCarbs', IntegerType::class)
-            ->add('newFats', IntegerType::class)
-            ->add('newFiber', IntegerType::class);
+            ->add('calories', IntegerType::class)
+            ->add('protein', IntegerType::class)
+            ->add('carbs', IntegerType::class)
+            ->add('fats', IntegerType::class)
+            ->add('fiber', IntegerType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void {

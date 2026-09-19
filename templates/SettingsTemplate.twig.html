@@ -4,8 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+    <script type="module" src="{{ asset('js/functionalScripts/burguerMenu.js') }}"></script>
+
     <title>Settings - SMC</title>
 </head>
 
@@ -14,64 +18,7 @@
     <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
     <header class="header">
-        <div class="logo">
-            <h3><a href="/">SimpleMacroCounter</a></h3>
-        </div>
-
-        <div class="navigation">
-            <ul class="nav-desktop">
-                <li><a href="/modifyMacros">Manual macros</a></li>
-                <li><a href="/history">History</a></li>
-                <li><a href="/foods">Register foods</a></li>
-                <li><a href="/addfood">Register intake</a></li>
-                <li><a href="/settings">Settings</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
-
-            <button class="hamburger-menu" aria-label="Menú">
-                <img src="{{asset('svg/burguer_menu.svg')}}" alt="Burguer menu" style="width: 1.75em; height: 1.75em;">
-            </button>
-
-            <ul class="nav-mobile">
-                <li>
-                    <a href="/modifyMacros">
-                        <img src="{{asset('svg/carrot.svg')}}" alt="Carrot" style="width: 1.5em; height: 1.5em;">
-                        Manual macros
-                    </a>
-                </li>
-                <li>
-                    <a href="/history">
-                        <img src="{{asset('svg/history.svg')}}" alt="History" style="width: 1.5em; height: 1.5em;">
-                        History
-                    </a>
-                </li>
-                <li>
-                    <a href="/foods">
-                        <img src="{{asset('svg/apple.svg')}}" alt="Apple" style="width: 1.5em; height: 1.5em;">
-                        Register foods
-                    </a>
-                </li>
-                <li>
-                    <a href="/addfood">
-                        <img src="{{asset('svg/fork_and_knife.svg')}}" alt="Fork and knife"
-                            style="width: 1.5em; height: 1.5em;">
-                        Register intake
-                    </a>
-                </li>
-                <li>
-                    <a href="/settings">
-                        <img src="{{asset('svg/settings.svg')}}" alt="Settings" style="width: 1.5em; height: 1.5em;">
-                        Settings
-                    </a>
-                </li>
-                <li>
-                    <a href="/logout">
-                        <img src="{{asset('svg/logout.svg')}}" alt="Logout" style="width: 1.5em; height: 1.5em;">
-                        Logout
-                    </a>
-                </li>
-            </ul>
-        </div>
+        {% include 'partials/NavigationBar.twig.html' %}
     </header>
     <div class="content">
         <div class="form-container">
@@ -79,28 +26,28 @@
 
             {{ form_start(form) }}
             <div class="form-group">
-                <label for="newCalories">New calories goal</label>
-                {{ form_widget(form.newCalories, {'id': 'newCalories', 'attr': {'class': 'form-input'}}) }}
+                <label for="calories">New calories goal</label>
+                {{ form_widget(form.calories, {'id': 'calories', 'attr': {'class': 'form-input'}}) }}
             </div>
 
             <div class="form-group">
-                <label for="newProtein">New protein goal</label>
-                {{ form_widget(form.newProtein, {'id': 'newProtein', 'attr': {'class': 'form-input'}}) }}
+                <label for="protein">New protein goal</label>
+                {{ form_widget(form.protein, {'id': 'protein', 'attr': {'class': 'form-input'}}) }}
             </div>
 
             <div class="form-group">
-                <label for="newCarbs">New carbs goal</label>
-                {{ form_widget(form.newCarbs, {'id': 'newCarbs', 'attr': {'class': 'form-input'}}) }}
+                <label for="carbs">New carbs goal</label>
+                {{ form_widget(form.carbs, {'id': 'carbs', 'attr': {'class': 'form-input'}}) }}
             </div>
 
             <div class="form-group">
-                <label for="newFats">New fats goal</label>
-                {{ form_widget(form.newFats, {'id': 'newFats', 'attr': {'class': 'form-input'}}) }}
+                <label for="fats">New fats goal</label>
+                {{ form_widget(form.fats, {'id': 'fats', 'attr': {'class': 'form-input'}}) }}
             </div>
 
             <div class="form-group">
-                <label for="newFiber">New fiber goal</label>
-                {{ form_widget(form.newFiber, {'id': 'newFiber', 'attr': {'class': 'form-input'}}) }}
+                <label for="fiber">New fiber goal</label>
+                {{ form_widget(form.fiber, {'id': 'fiber', 'attr': {'class': 'form-input'}}) }}
             </div>
 
             <button type="submit" class="btn-submit">Modify</button>
@@ -108,6 +55,4 @@
         </div>
     </div>
 </body>
-<script type="module" src="{{ asset('js/burguerMenu.js') }}"></script>
-
 </html>

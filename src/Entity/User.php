@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\{ArrayCollection, Collection};
@@ -20,17 +20,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Column(type: "string", length: 255)]
     private string $password;
 
-    #[ORM\Column(type: "string", length: 255)]
-    private string $userAlias;
-
     #[ORM\Column(type: "string", length: 255, unique: true)]
     private string $email;
 
+    #[ORM\Column]
+    private array $roles = [];
+
     #[ORM\Column(type: "integer")]
     private int $age;
-
-    #[ORM\Column(type: "string", length: 10)]
-    private string $status;
 
     #[ORM\Column(type: "datetime_immutable")]
     private \DateTimeImmutable $createdTime;
@@ -47,9 +44,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Food::class)]
     private Collection $foods;
 
-    public function __construct(\DateTimeImmutable $createdTime, string $status) {
-        $this->createdTime = $createdTime;
-        $this->status = $status;
+    public function __construct() {
+        $this->createdTime = new \DateTimeImmutable();
         $this->kcalsDailyRecords = new ArrayCollection();
     }
 
@@ -73,14 +69,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
         $this->password = $password;
     }
 
-    public function getUserAlias(): string {
-        return $this->userAlias;
-    }
-
-    public function setUserAlias(string $userAlias): void {
-        $this->userAlias = $userAlias;
-    }
-
     public function getEmail(): string {
         return $this->email;
     }
@@ -89,20 +77,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
         $this->email = $email;
     }
 
+    public function getRoles(): array {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): static {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
     public function getAge(): int {
         return $this->age;
     }
 
     public function setAge(int $age): void {
         $this->age = $age;
-    }
-
-    public function getStatus(): string {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): void {
-        $this->status = $status;
     }
 
     public function getCreatedTime(): \DateTimeImmutable {
@@ -136,10 +126,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
         return $this->username;
     }
 
-    public function getRoles(): array {
-        return ['ROLE_USER'];
-    }
-
     public function setTimezone(string $timezone): void {
         $this->timezone = $timezone;
     }
@@ -159,7 +145,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
             'User[id=%s, username=%s, alias=%s, email=%s, age=%d, created=%s, lastLogin=%s]',
             $this->id ?? 'null',
             $this->username,
-            $this->userAlias,
+            $this->roles,
             $this->email,
             $this->age,
             $this->createdTime->format('Y-m-d'),

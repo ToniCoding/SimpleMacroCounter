@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helpers;
+namespace App\Helpers;
 
 class DateParser {
     private const DATE_FORMAT = "d-m-Y";
@@ -32,5 +32,10 @@ class DateParser {
     public function convertToTimeZone(string $datetimeStr = 'now', string $timezone = 'Europe/Madrid'): string {
         $nowDate = new \DateTimeImmutable($datetimeStr, new \DateTimeZone($timezone));
         return $nowDate->format(self::DATETIME_FORMAT);
+    }
+
+    public function getCurrentWeekDay(): string {
+        $nowDate = new \DateTime('now');
+        return $nowDate->format('N');
     }
 }

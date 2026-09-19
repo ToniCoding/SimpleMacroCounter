@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Form;
+namespace App\Form;
 
-use src\DTO\RegisterUserDTO;
+use App\DTO\RegisterUserDTO;
 
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\{TextType, PasswordType, EmailType, IntegerType};

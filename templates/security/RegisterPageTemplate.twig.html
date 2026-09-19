@@ -10,42 +10,33 @@
 </head>
 
 <body>
-    {% if error %}
-    <div class="alert alert-danger">{{ error }}</div>
-    {% endif %}
-
     <div class="content">
         <div class="form-container">
             <h1 class="page-title">Register</h1>
 
-            {{ form_start(form) }}
-            <div class="form-group">
-                <label for="username">Username</label>
-                {{ form_widget(form.username, {'id': 'username', 'attr': {'class': 'form-input'}}) }}
-            </div>
+            <form action="{{ path('user_register') }}" method="POST" id="register-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="form-input" required>
+                </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                {{ form_widget(form.password, {'id': 'password', 'attr': {'class': 'form-input'}}) }}
-            </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" required>
+                </div>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                {{ form_widget(form.email, {'id': 'email', 'attr': {'class': 'form-input'}}) }}
-            </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
 
-            <div class="form-group">
-                <label for="alias">Alias</label>
-                {{ form_widget(form.alias, {'id': 'alias', 'attr': {'class': 'form-input'}}) }}
-            </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" class="form-input">
+                </div>
 
-            <div class="form-group">
-                <label for="age">Age</label>
-                {{ form_widget(form.age, {'id': 'age', 'attr': {'class': 'form-input'}}) }}
-            </div>
-
-            <button type="submit" class="btn-submit">Submit</button>
-            {{ form_end(form) }}
+                <button type="submit" class="btn-submit">Submit</button>
+            </form>
         </div>
     </div>
 </body>

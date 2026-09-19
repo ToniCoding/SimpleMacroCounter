@@ -1,0 +1,70 @@
+<div class="logo">
+    <h3><a href="/">SimpleMacroCounter</a></h3>
+</div>
+
+<div class="navigation">
+    <nav class="nav-container">
+        <div class="nav-submenu has-dropdown">
+            <span class="nav-category-title" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">Macro
+                Tracking</span>
+            <ul class="nav-list">
+                <li><a href="/addfood"><img src="{{ asset('svg/fork_and_knife.svg') }}" alt="Log meal icon">Log meal</a></li>
+                <li><a href="/history"><img src="{{ asset('svg/history.svg') }}" alt="History icon">History</a></li>
+                <li><a href="/foods"><img src="{{ asset('svg/carrot.svg') }}" alt="New food icon">New food item</a></li>
+                <li><a href="/modifyMacros"><img src="{{ asset('svg/apple.svg') }}" alt="Manual adjustment icon">Manual adjustment</a></li>
+            </ul>
+        </div>
+        <div class="nav-submenu has-dropdown submenu-right">
+            <span class="nav-category-title" role="button" tabindex="0" aria-haspopup="true"
+                aria-expanded="false">Profile</span>
+            <ul class="nav-list">
+                <li><a href="/settings"><img src="{{ asset('svg/settings.svg') }}" alt="Settings icon">Settings</a></li>
+                <li><a href="/logout"><img src="{{ asset('svg/logout.svg') }}" alt="Logout icon">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <button class="hamburger-menu" aria-label="Menú">
+        <img src="{{asset('svg/burguer_menu.svg')}}" alt="Burguer menu" style="width: 1.75em; height: 1.75em;">
+    </button>
+
+    <ul class="nav-mobile">
+        <li>
+            <a href="/modifyMacros">
+                <img src="{{asset('svg/carrot.svg')}}" alt="Carrot" style="width: 1.5em; height: 1.5em;">
+                Manual macros
+            </a>
+        </li>
+        <li>
+            <a href="/history">
+                <img src="{{asset('svg/history.svg')}}" alt="History" style="width: 1.5em; height: 1.5em;">
+                History
+            </a>
+        </li>
+        <li>
+            <a href="/foods">
+                <img src="{{asset('svg/apple.svg')}}" alt="Apple" style="width: 1.5em; height: 1.5em;">
+                Register foods
+            </a>
+        </li>
+        <li>
+            <a href="/addfood">
+                <img src="{{asset('svg/fork_and_knife.svg')}}" alt="Fork and knife"
+                    style="width: 1.5em; height: 1.5em;">
+                Register intake
+            </a>
+        </li>
+        <li>
+            <a href="/settings">
+                <img src="{{asset('svg/settings.svg')}}" alt="Settings" style="width: 1.5em; height: 1.5em;">
+                Settings
+            </a>
+        </li>
+        <li>
+            <a href="/logout">
+                <img src="{{asset('svg/logout.svg')}}" alt="Logout" style="width: 1.5em; height: 1.5em;">
+                Logout
+            </a>
+        </li>
+    </ul>
+</div>

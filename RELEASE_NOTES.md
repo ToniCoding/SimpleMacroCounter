@@ -16,59 +16,105 @@ This are the release notes for the latest version of SMC where the new features,
 - **v0.7.0**: The Final Marks
 - **v1.0.0**: *(Special update) SMC*
     - **v1.0.1**: SMC #1 HotFix
+- **v1.1**: The Internal Frame *(current)*
 
 ## Current Project Version
 
 **Release description**
-First SMC hotfixing fixing some critical bugs observed after deployment to production environment, only bug fixing.
+
+In this release we have made a lot of internal changes to the code infrastructure such as decoupling the front-end from the back-end, fully implementing JWT and its adoption, increased logged information and more.
+
+**New**
+
+- **[Critical]** SMC REST API.
+- **[Critical]** Fully implemented JWT token.
+- **[Critical]** User registration and login redo.
+- **[Critical]** Symfony now generates a JWT through the PHP session from the home page.
+- **[Critical]** Full front-end and back-end decoupling.
+- New DTOs for the API adoption.
+- Complete adoption of API with JWT stateless authentication:
+    - Home page.
+    - Modify macros manually.
+    - History.
+    - Register foods.
+    - Register intake.
+    - Settings.
+- Implemented a new unit test suite that tests all the four actual services of SMC.
+- Implemented navigation bar as a Twig component.
+
+**Changed**
+
+- Monolog is now a production package, matching production.
+- Deprecated `payloadCreator.js` for the new `payloadManager.js`.
+- The JavaScript scripts are now better organized.
+- Changed the endpoint for adding food intakes. Previous `addFood` --- Updated `add-food`.
+- Redesign of the desktop navigation bar.
+- Converted navigation bar to a common component in `templates/partails/NavigationBar.twig.html`.
+- Minor changes to login form Twig template.
+- Deleted unused code:
+    - AppAuthenticator.
+    - Previous logger.
+    - Database scripts.
+    - Deprecated security controller.
 
 **Fixed**
-- Added missing parameter for maximum days shown in history.
-- Added new SVG icons replacing previous ones.
-- Calorie calculator is now a class.
-- Global handler now processes the previous unhandled exception for already registrated products.
-- Product registering is now working with `Products` table instead of deprecated `Foods`.
-- After goal settings change, the app now redirects to the home instead of staying in the settings page.
+
+- Manually changing the macros with commas as delimiter for decimal values resulted in `401 Bad Request` error.
+- Fixed the risk algorithm showing on very high risk every monday.
+- Desktop and mobile navigation bars were showing at the same time with under 767px widths.
+
+**Documentation**
+
+- Combined requests and response contracts into a single document per endpoint.
+- Created `flows` to start adding documentation relative to every defined flow.
 
 ## Project milestones
 
 ### Generic macros and software foundation.
+
 Generic macro administration and calorie calculation is now possible following the project MVC pattern.\
 Reached on version 0.1.0.\
 Reach date: Tuesday, 29 July 2025.
 
 ### User creation and administration overhaul.
+
 The user can now register through UI and can be administrated at database level.\
 Reached on version 0.3.0\
 Reach date: Monday, 15 September 2025.
 
 ### User registration and login.
+
 Any user can now register and login through dedicated UI.\
 Reached on version 0.3.0\
 Reach date: Monday, 15 September 2025.
 
 ### User connected macros.
+
 Any user can know their daily macros and calorie intake.\
 Reached on version 0.3.0\
 Reach date: Sunday, 21 September 2025.
 
 ### Streaks
+
 Any user can know their current creatine and protein streak. The streak breaks if the user don't take it for more than 2 days.\
 Reached on version ---\
 Reach date: Not reached.
 
 ### Symfony and Doctrine implementation
+
 Implement a professional framework like Symfony and impelment the database management through Doctrine entities and utilities.\
 Reached on version 0.5.0\
 Reach date: Monday, 06 October 2025.
 
 ### Unit and integration testing
+
 Implement a test suite that can test the functionality of SMC.\
 Reached on version 0.6.1\
 Reach date: Sunday, 30 May 2026.
 
 ## Future improvements
-*Implement project structure validation.*\
-*Implement JWT for user tokens.*\
-*Improve and extensive use of logging system.*\
-*Improve the exception throwing and managing.*
+
+In this section, we describe the future improvements that are on the SMC roadmap.
+
+- *SMC Redesign.*
+- *Implement project structure and file permissons validation.*

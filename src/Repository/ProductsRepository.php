@@ -1,11 +1,11 @@
 <?php
 
-namespace src\Repository;
+namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use src\Entity\Products;
-use src\Exceptions\FoodAlreadyRegistered;
+use App\Entity\Products;
+use App\Exceptions\FoodAlreadyRegistered;
 
 class ProductsRepository extends ServiceEntityRepository {
     public function __construct(ManagerRegistry $registry) {

@@ -1,135 +1,114 @@
 <?php
 
-namespace src\Controller;
+namespace App\Controller;
 
-use src\DTO\{RegisterUserDTO, LoggedUserDTO};
-use src\Entity\User;
-use src\Exceptions\AgeNotAllowedException;
-use src\Form\{LoginUserType, RegisterUserType};
-use src\Security\{AccessTokenHandler, AppAuthenticator};
-use src\Handlers\UserHandler;
+use App\DTO\UserRegisterRequestDTO;
+use App\Exceptions\{AlreadyRegisteredUsernameException, InvalidEmailProviderException};
 
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\HttpFoundation\{RedirectResponse, JsonResponse, Request, Response};
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Security\Http\Authentication\{AuthenticationUtils, UserAuthenticatorInterface};
+use Symfony\Component\HttpFoundation\{JsonResponse, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * === USER DOMAIN CONTROLLER ===
- * 
- * Controller responsible for rendering and processing everything related
- * to the user experience, including registration and login workflows.
+ * Controller responsible for rendering user views (login and registration forms) 
+ * and managing user registration via API endpoints, integrating with Symfony's 
+ * native stateful authentication and session management.
  *
- * @package App\Controller\User
+ * @package App\Controller
  *
  * @author ToniCoding
  *
- * @see UserHandler Handles user-related business logic
- * @see AccessTokenHandler Manages token creation and validation
+ * @see UserService Handles user registration and validation rules
  *
- * @property UserHandler $userHandler
- * @property AccessTokenHandler $accessTokenHandler
  * @property EntityManagerInterface $entityManager
  * @property UserAuthenticatorInterface $userAuthenticatorInterface
  *
- * @uses UserHandler
- * @uses AccessTokenHandler
+ * @uses UserService
  */
+
 class UserController extends AbstractController {
+    /**
+     * Initializes the user controller with its required dependencies.
+     * 
+     * @param EntityManagerInterface $entityManager Manages entity persistence and database operations.
+     * @param UserAuthenticatorInterface $userAuthenticatorInterface Handles programmatic user authentication.
+     */
     public function __construct(
-        private UserHandler $userHandler,
-        private AccessTokenHandler $accessTokenHandler,
         private EntityManagerInterface $entityManager,
         private UserAuthenticatorInterface $userAuthenticatorInterface,
-        private AppAuthenticator $appAuthenticator) {}
+    ) {}
 
     /**
-     * Process the user registration by rendering and processing the register form.
-     * @param Request $request
-     * @return Response | RedirectResponse
+     * Renders the user registration page view.
+     * 
+     * @return Response Returns the rendered registration template.
      */
-    #[Route('/register', name: 'register_form', methods: ['GET', 'POST'])]
-    public function registerUser(Request $request): Response | RedirectResponse {
-        $userDTO = new RegisterUserDTO();
-        
-        $form = $this->createForm(RegisterUserType::class, $userDTO);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userDTO = $form->getData();
-            try {
-                if ($this->userHandler->handle('register', $userDTO)) {
-                    return $this->redirect('login');
-                } 
-            } catch (AgeNotAllowedException $ageEx) {
-                return $this->render('security/RegisterPageTemplate.twig.html', [
-                    'form' => $form->createView(),
-                    'error' => $ageEx->getMessage()
-                ]);
-            }
-        }
-
-        return $this->render('security/RegisterPageTemplate.twig.html', [
-            'form' => $form->createView(),
-            'error' => null
-        ]);
+    #[Route('/register', name: 'register_form', methods: ['GET'])]
+    public function registerForm(): Response {
+        return $this->render('security/RegisterPageTemplate.twig.html');
     }
 
     /**
-     * Process the login user process by rendering and processing the login form.
-     * It also creates and returns an access token to the user that will be required from all
-     * the SMC endpoints and extracted by the Symfony extractor, check reference.
-     * Ref: config/packages/security.yaml
-     * @param Request $request
-     * @return JsonResponse|Response
+     * Validates and registers a new user based on the payload sent to the API endpoint.
+     * 
+     * @param UserRegisterRequestDTO $userRegisterRequest The request payload mapped and validated automatically from the request body.
+     * @param UserService $userService The user service handling business logic, validation, and persistence.
+     * @return JsonResponse Returns a JSON response containing the newly created user data with HTTP 201 (Created) 
+     * on success, or an appropriate error response (HTTP 400/409) if business rules fail.
      */
-    #[Route('/login', name: 'login_form', methods: ['GET', 'POST'])]
-    public function loginUser(Request $request): Response | JsonResponse | RedirectResponse {
-        $user = $this->getUser();
+    #[Route('/api/v1/register', name: 'user_register', methods: ['POST'])]
+    public function register(
+        #[MapRequestPayload] UserRegisterRequestDTO $userRegisterRequest,
+        UserService $userService
+    ): JsonResponse {
+        try {
+            $user = $userService->register($userRegisterRequest);
 
-        if ($user !== null) {
-            $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'Successfully registered the user.',
+                'redirect_url' => '/login',
+                'data' => [
+                    'id' => $user->getId(),
+                    'username' => $user->getUserIdentifier(),
+                    'email' => $user->getEmail(),
+                ]
+            ], Response::HTTP_CREATED);
 
-            return $this->json([
-                'message' => 'Login successful',
-                'token' => $accessToken->getValue(),
-                'expires_at' => $accessToken->getExpiresAt()
-            ], 200);
+        } catch (AlreadyRegisteredUsernameException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'Username already in use.',
+            ], Response::HTTP_CONFLICT);
+
+        } catch (InvalidEmailProviderException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'Invalid email domain.',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Renders the login page view or redirects authenticated users to the home page.
+     * 
+     * @param AuthenticationUtils $authenticationUtils Utility to retrieve authentication errors and the last entered username.
+     * @return Response Returns a redirect response if already logged in, or the rendered login template containing errors and last username.
+     */
+    #[Route(path: '/login', name: 'user_login', methods: ['GET', 'POST'])]
+    public function login(AuthenticationUtils $authenticationUtils): Response {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
         }
 
-        $userDTO = new LoggedUserDTO();
-
-        $form = $this->createForm(LoginUserType::class, $userDTO);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userDTO = $form->getData();
-            $loginSuccess = $this->userHandler->handle('login', null, $userDTO);
-
-            if (!$loginSuccess) {
-                return $this->json([
-                    'error' => 'Invalid credentials'
-                ], 401);
-            }
-
-            $user = $this->entityManager->getRepository(User::class)
-                ->findOneBy(['username' => $userDTO->getUsername()]);
-
-            $accessToken = $this->accessTokenHandler->setUserBadgeIn($user);
-
-            if ($accessToken) {
-                return $this->userAuthenticatorInterface->authenticateUser(
-                    $user,
-                    $this->appAuthenticator,
-                    $request
-                );
-            }
-        }
-
-        return $this->render('LoginPageTemplate.twig.html', [
-            'form' => $form->createView()
+        return $this->render('security/LoginPageTemplate.twig.html', [
+            'last_username' => $authenticationUtils->getLastUsername(),
+            'error' => $authenticationUtils->getLastAuthenticationError(),
         ]);
     }
 }

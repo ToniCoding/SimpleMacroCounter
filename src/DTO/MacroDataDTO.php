@@ -1,11 +1,15 @@
 <?php
 
-namespace src\DTO;
+namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 class MacroDataDTO {
     public function __construct(
+        #[Assert\NotNull]
+        #[Assert\PositiveOrZero]
+        private float $calories = 0,
+        
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
         private float $protein = 0,
@@ -21,10 +25,6 @@ class MacroDataDTO {
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
         private float $fiber = 0,
-
-        #[Assert\NotNull]
-        #[Assert\PositiveOrZero]
-        private float $calories = 0,
 
         #[Assert\NotNull]
         private string $intent = ''
@@ -72,6 +72,16 @@ class MacroDataDTO {
 
     public function setIntent(string $intent): void {
         $this->intent = $intent;
+    }
+
+    public function __toArray(): array {
+        return [
+            "caloriesGoal" => $this->getCalories(),
+            "proteinGoal" => $this->getProtein(),
+            "carbGoal" => $this->getCarbs(),
+            "fatGoal" => $this->getFats(),
+            "fiberGoal" => $this->getFiber()
+        ];
     }
 
     public function __toString() {

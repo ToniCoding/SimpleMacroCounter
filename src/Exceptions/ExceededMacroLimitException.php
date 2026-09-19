@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Exceptions;
+namespace App\Exceptions;
 
 use Exception;
 
@@ -10,7 +10,7 @@ class ExceededMacroLimitException extends Exception {
     }
 
     public function __toString(): string {
-        return sprintf(
+        return \sprintf(
             "[%s] %s in %s:%d\nStack trace:\n%s",
             __CLASS__,
             $this->getMessage(),

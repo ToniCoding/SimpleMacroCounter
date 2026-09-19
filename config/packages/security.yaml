@@ -1,35 +1,48 @@
 security:
-  # How is the user password hashed.
-  password_hashers:
-    src\Entity\User:
-      algorithm: auto
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
 
-  # Class in charge of validating and creating the user identity.
-  providers:
-    app_user_provider:
-      entity:
-        class: src\Entity\User
-        property: username
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
 
-  # Main firewall for the application. Interceptor for all requests before they arrive to the controller layer.
-  firewalls:
-    main:
-      pattern: ^/
-      stateless: false
-      form_login:
-        login_path: app_login
-        check_path: app_login
-        enable_csrf: true
-        default_target_path: home
-      logout:
-        path: app_logout
-        target: /login
-      access_token:
-        token_handler: src\Security\AccessTokenHandler
-        token_extractors:
-          - 'header'
+    firewalls:
+        generate_jwt:
+            pattern: ^/api/v1/generate-jwt$
+            stateless: true
+            json_login:
+                check_path: /api/v1/generate-jwt
+                username_path: username
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-  # Manage access permissions for users based on their roles.
-  access_control:
-    - { path: ^/(login|register), roles: PUBLIC_ACCESS }
-    - { path: ^/, roles: ROLE_USER }
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
+        main:
+            pattern: ^/
+            stateless: false
+            form_login:
+                login_path: /login
+                check_path: /login
+                enable_csrf: true
+                default_target_path: home
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # One week.
+                path: /
+            logout:
+                path: /logout
+                target: /login
+
+    access_control:
+        - { path: ^/api/v1/(generate-jwt|register), roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/(login|register), roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: ROLE_USER }
