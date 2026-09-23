@@ -69,6 +69,14 @@ export class PayloadManager {
             fats: null,
             fiber: null,
             intent: null
+        },
+
+        'modify_goal_settings': {
+            calories: null,
+            protein: null,
+            carbs: null,
+            fats: null,
+            fiber: null
         }
     }
 
@@ -172,6 +180,10 @@ export class PayloadManager {
 
             case 'modify_macros':
                 selectedPayload = this.#availablePayloads.modify_macros;
+                break;
+
+            case 'modify_goal_settings':
+                selectedPayload =this.#availablePayloads.modify_goal_settings;
                 break;
 
             default:
