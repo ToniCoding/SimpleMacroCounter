@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\DTO\UserData\Request\UserRegisterRequestDTO;
 use App\Entity\User;
-use App\Exceptions\{AlreadyRegisteredUsernameException, InvalidEmailProviderException};
+use App\Exceptions\{AlreadyRegisteredEmailException, AlreadyRegisteredUsernameException, InvalidEmailProviderException};
 use App\Repository\{UserRepository};
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -31,10 +31,16 @@ class UserService {
         $registeredUser = new User();
 
         $username = $userRegisterRequestDTO->username;
+        $email = $userRegisterRequestDTO->email;
 
         if ($this->userRepository->checkIfUserExistsByUsername($username)) {
             $this->log->error("[USER_SERVICE] User tried registering $username but is already registered.");
             throw new AlreadyRegisteredUsernameException();
+        }
+
+        if ($this->userRepository->checkIfUserExistsByEmail($email)) {
+            $this->log->error("[USER_SERVICE] User tried registering $email but is already registered.");
+            throw new AlreadyRegisteredEmailException();
         }
 
         if (!$this->verifyEmailBannedDomains($userRegisterRequestDTO->email)) {

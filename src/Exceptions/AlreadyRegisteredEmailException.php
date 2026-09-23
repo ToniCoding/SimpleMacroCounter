@@ -4,9 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 
-class AlreadyRegisteredUsernameException extends Exception {
+class AlreadyRegisteredEmailException extends Exception {
     public function __construct() {
-        parent::__construct('The username is already registered.');
+        parent::__construct('The email is already registered.');
     }
 
     public function __toString(): string {
