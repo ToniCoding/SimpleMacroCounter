@@ -8,31 +8,15 @@ class LoggedUserDTO {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Type('string')]
-        private string $username = '',
+        public readonly string $username = '',
 
         #[Assert\NotBlank]
         #[Assert\Type('string')]
-        private string $password = ''
+        public readonly string $password = ''
     ) {}
 
-    public function getUsername(): string {
-        return $this->username;
-    }
-
-    public function setUsername(string $newUsername): void {
-        $this->username = $newUsername;
-    }
-
-    public function getPassword(): string {
-        return $this->password;
-    }
-
-    public function setPassword(string $newPassword): void {
-        $this->password = $newPassword;
-    }
-
     public function toString(): string {
-        return 'Username: ' . $this->getUsername() .
-        "\n\tPassword: " . $this->getPassword();
+        return 'Username: ' . $this->username .
+        "\n\tPassword: " . $this->password;
     }
 }
