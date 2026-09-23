@@ -240,6 +240,8 @@ static requestSender(request, shouldFollowRedirection = false) {
             headers: request.headers,
         };
 
+        const allowedRedirectResponseStatus = [200, 201, 202];
+
         if (request.method !== 'GET' && request.method !== 'HEAD' && request.body) {
             fetchOptions.body = JSON.stringify(request.body);
         }
@@ -276,7 +278,12 @@ static requestSender(request, shouldFollowRedirection = false) {
                 console.debug('[PayloadManager] Response status:', customResponse.status);
                 console.debug('[PayloadManager] Response data:', customResponse.data);
 
-                if (shouldFollowRedirection && customResponse.status === 200 && customResponse.data && customResponse.data.redirect_url) {
+                if (
+                    shouldFollowRedirection
+                    && allowedRedirectResponseStatus.includes(customResponse.status)
+                    && customResponse.data
+                    && customResponse.data.redirect_url
+                ) {
                     console.warn('[PayloadManager] The response contains a custom redirection. Following.');
                     window.location.href = customResponse.data.redirect_url;
                 }
