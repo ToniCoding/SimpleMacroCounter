@@ -4,18 +4,16 @@ namespace App\Controller;
 
 use App\DTO\MacroDataDTO;
 use App\Exceptions\ExceededMacroLimitException;
-use App\Form\ModifyMacrosType;
 use App\Service\MacroIntakeUpdater;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
-use Symfony\Component\{Routing\Annotation\Route, Serializer\SerializerInterface};
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\{JsonResponse, Response};
+use Symfony\Component\{HttpKernel\Attribute\MapRequestPayload, Routing\Annotation\Route, Serializer\SerializerInterface};
 
 /**
- * Controller responsible for managing macronutrient updates through 
- * both traditional web form submissions and REST API endpoints.
+ * Controller responsible for managing macronutrient updates through REST API endpoints.
  */
+
 class MacroUpdateController extends AbstractController {
     
     /**
@@ -30,22 +28,11 @@ class MacroUpdateController extends AbstractController {
     /**
      * Handles web form rendering and submission for modifying user macronutrients.
      * 
-     * @param Request $request The incoming HTTP request.
-     * @return Response Returns the rendered template or redirects on successful submission.
+     * @return Response Returns the rendered template.
      */
-    #[Route(['/modifyMacros', '/modifymacros'], name: 'modifyMacros', methods: ['GET', 'POST'])]
-    public function modifyMacros(Request $request): Response {
-        $macroDto = new MacroDataDTO();
-        $form = $this->createForm(ModifyMacrosType::class, $macroDto);
-
-        $form->handleRequest($request);
-
-        if ($request->isMethod('POST') && $form->isSubmitted()) {
-            return $this->handleMacrosModification($macroDto, false);
-        }
-
+    #[Route(['/modifyMacros', '/modifymacros'], name: 'modifyMacros', methods: 'GET')]
+    public function modifyMacros(): Response {
         return $this->render('modifyData/ModifyMacrosTemplate.twig.html', [
-            'form' => $form,
             'page_title' => 'Modify macros - SMC',
         ]);
     }
@@ -75,27 +62,13 @@ class MacroUpdateController extends AbstractController {
     /**
      * REST API endpoint for updating macronutrients via JSON payloads.
      * 
-     * @param Request $request The incoming HTTP request containing the JSON payload.
-     * @param SerializerInterface $serializerInterface Serializer to map JSON content to the DTO.
-     * @param ValidatorInterface $validatorInterface Validator to check DTO constraints.
      * @return JsonResponse Returns a JSON response with status codes (200, 400, or 500).
      */
     #[Route(['/api/v1/modify-macros'], name: "apiModifyMacros", methods: 'POST')]
-    public function updateWithNewMacros(Request $request, SerializerInterface $serializerInterface, ValidatorInterface $validatorInterface): JsonResponse {
-        $requestBody = $request->getContent();
-        
-        try {
-            $mappedDto = $serializerInterface->deserialize($requestBody, MacroDataDTO::class, 'json');
-        } catch (\Exception $ex) {
-            return $this->json(['errorMessage' => $ex->getMessage()], 400);
-        }
-
-        $dtoErrors = $validatorInterface->validate($mappedDto);
-        if (\count($dtoErrors) > 0) {
-            return $this->json(['errorMessage' => (string) $dtoErrors], 400);
-        }
-
-        if ($this->handleMacrosModification($mappedDto, true)) {
+    public function updateWithNewMacros(
+        #[MapRequestPayload] MacroDataDTO $macroDataDto
+    ): JsonResponse {
+        if ($this->handleMacrosModification($macroDataDto, true)) {
             return $this->json([
                 'message' => 'Sucessfully updated the macro-nutrient intake!',
                 'redirect_url' => $this->generateUrl('home')
