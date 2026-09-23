@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 forgedPayload
             );
 
-            const response = await PayloadManager.requestSender(requestConfig);
+            const response = await PayloadManager.requestSender(requestConfig, true);
 
             console.log('[Register] ¡Successfully registered new user.', response.data);
             
