@@ -17,56 +17,37 @@ This are the release notes for the latest version of SMC where the new features,
 - **v1.0.0**: *(Special update) SMC*
     - **v1.0.1**: SMC #1 HotFix
 - **v1.1**: The Internal Frame *(current)*
+    - **v1.1.1**: SMC #2 HotFix
 
 ## Current Project Version
 
 **Release description**
 
-In this release we have made a lot of internal changes to the code infrastructure such as decoupling the front-end from the back-end, fully implementing JWT and its adoption, increased logged information and more.
+This release serves as a crucial hotfix addressing several production issues, alongside important code refactoring, infrastructure optimizations, and bug fixes to stabilize core features such as user registration, settings management, and authentication pathways.
 
 **New**
 
-- **[Critical]** SMC REST API.
-- **[Critical]** Fully implemented JWT token.
-- **[Critical]** User registration and login redo.
-- **[Critical]** Symfony now generates a JWT through the PHP session from the home page.
-- **[Critical]** Full front-end and back-end decoupling.
-- New DTOs for the API adoption.
-- Complete adoption of API with JWT stateless authentication:
-    - Home page.
-    - Modify macros manually.
-    - History.
-    - Register foods.
-    - Register intake.
-    - Settings.
-- Implemented a new unit test suite that tests all the four actual services of SMC.
-- Implemented navigation bar as a Twig component.
+- Integrated `MapRequestPayload` across API controllers to streamline request mapping.
 
 **Changed**
 
-- Monolog is now a production package, matching production.
-- Deprecated `payloadCreator.js` for the new `payloadManager.js`.
-- The JavaScript scripts are now better organized.
-- Changed the endpoint for adding food intakes. Previous `addFood` --- Updated `add-food`.
-- Redesign of the desktop navigation bar.
-- Converted navigation bar to a common component in `templates/partails/NavigationBar.twig.html`.
-- Minor changes to login form Twig template.
-- Deleted unused code:
-    - AppAuthenticator.
-    - Previous logger.
-    - Database scripts.
-    - Deprecated security controller.
+- Replaced Symfony form helpers in `SettingsTemplate.twig.html` with native HTML elements to resolve Twig `TemplateWrapper` unwrap errors.
+- Cleaned up the Settings controller by removing unused POST logic and residual rendering code.
+- Updated `config/packages/framework.yaml` to explicitly enable the serializer and configure native `flock` file locking.
+- Optimized Monolog logging strategies and channels in `config/packages/monolog.yaml` across development, test, and production environments.
+- Refactored API DTOs using property promotion and `readonly` properties, removing redundant getters and setters.
 
 **Fixed**
 
-- Manually changing the macros with commas as delimiter for decimal values resulted in `401 Bad Request` error.
-- Fixed the risk algorithm showing on very high risk every monday.
-- Desktop and mobile navigation bars were showing at the same time with under 767px widths.
+- Fixed frontend user registration by correctly positioning `registerNewUser.js` in `public/js/utils/` and properly configuring form submission with `preventDefault` and the `shouldFollowRedirection` flag.
+- Resolved a bug where registering with an already existing email address incorrectly returned a `200 OK` status.
+- Corrected a namespace and configuration typo in service definitions for EventListeners.
+- Fixed Lexik JWT authentication setup in `config/packages/lexik_jwt_authentication.yaml` by updating private and public key paths using `%kernel.project_dir%` and defining an explicit pass phrase to prevent environment variable resolution failures in production.
+- Wired up the settings API endpoint in the Twig template while preserving exact element IDs, names, and CSS classes.
 
 **Documentation**
 
-- Combined requests and response contracts into a single document per endpoint.
-- Created `flows` to start adding documentation relative to every defined flow.
+- No specific documentation updates included in this hotfix release.
 
 ## Project milestones
 
