@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\DTO\UserRegisterRequestDTO;
+use App\DTO\UserData\Request\UserRegisterRequestDTO;
 use App\Exceptions\{AlreadyRegisteredUsernameException, InvalidEmailProviderException};
 
 use App\Service\UserService;
