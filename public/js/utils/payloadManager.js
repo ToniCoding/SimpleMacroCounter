@@ -69,6 +69,14 @@ export class PayloadManager {
             fats: null,
             fiber: null,
             intent: null
+        },
+
+        'modify_goal_settings': {
+            calories: null,
+            protein: null,
+            carbs: null,
+            fats: null,
+            fiber: null
         }
     }
 
@@ -174,6 +182,10 @@ export class PayloadManager {
                 selectedPayload = this.#availablePayloads.modify_macros;
                 break;
 
+            case 'modify_goal_settings':
+                selectedPayload =this.#availablePayloads.modify_goal_settings;
+                break;
+
             default:
                 throw new Error(`[PayloadManager] The payload ${payloadToForge} doesn't exist.`);
         }
@@ -240,6 +252,8 @@ static requestSender(request, shouldFollowRedirection = false) {
             headers: request.headers,
         };
 
+        const allowedRedirectResponseStatus = [200, 201, 202];
+
         if (request.method !== 'GET' && request.method !== 'HEAD' && request.body) {
             fetchOptions.body = JSON.stringify(request.body);
         }
@@ -276,7 +290,12 @@ static requestSender(request, shouldFollowRedirection = false) {
                 console.debug('[PayloadManager] Response status:', customResponse.status);
                 console.debug('[PayloadManager] Response data:', customResponse.data);
 
-                if (shouldFollowRedirection && customResponse.status === 200 && customResponse.data && customResponse.data.redirect_url) {
+                if (
+                    shouldFollowRedirection
+                    && allowedRedirectResponseStatus.includes(customResponse.status)
+                    && customResponse.data
+                    && customResponse.data.redirect_url
+                ) {
                     console.warn('[PayloadManager] The response contains a custom redirection. Following.');
                     window.location.href = customResponse.data.redirect_url;
                 }

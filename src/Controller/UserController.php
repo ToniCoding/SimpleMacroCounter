@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\DTO\UserRegisterRequestDTO;
-use App\Exceptions\{AlreadyRegisteredUsernameException, InvalidEmailProviderException};
+use App\DTO\UserData\Request\UserRegisterRequestDTO;
+use App\Exceptions\{AlreadyRegisteredEmailException, AlreadyRegisteredUsernameException, InvalidEmailProviderException};
 
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -84,6 +84,12 @@ class UserController extends AbstractController {
             return new JsonResponse([
                 'status' => 'error',
                 'message' => 'Username already in use.',
+            ], Response::HTTP_CONFLICT);
+
+        } catch (AlreadyRegisteredEmailException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'Email already in use.',
             ], Response::HTTP_CONFLICT);
 
         } catch (InvalidEmailProviderException $e) {

@@ -43,13 +43,13 @@ class FoodRegistry {
         
         $product = new Products($user);
 
-        $product->setProductName($productDTO->getProductName());
-        $product->setBrand($productDTO->getBrand());
-        $product->setMarket($productDTO->getMarket());
-        $product->setProtein((float) $productDTO->getProtein());
-        $product->setCarbs((float) $productDTO->getCarbs());
-        $product->setFats((float) $productDTO->getFats());
-        $product->setFiber((float) $productDTO->getFiber());
+        $product->setProductName($productDTO->productName);
+        $product->setBrand($productDTO->brand);
+        $product->setMarket($productDTO->market);
+        $product->setProtein((float) $productDTO->protein);
+        $product->setCarbs((float) $productDTO->carbs);
+        $product->setFats((float) $productDTO->fats);
+        $product->setFiber((float) $productDTO->fiber);
         $product->setKcal($this->calorieCalculator->calorieCalc($product));
         
 
@@ -212,11 +212,11 @@ class FoodRegistry {
 
         $macroDTO = new MacroDataDTO();
 
-        $macroDTO->setProtein((float) $food->getProtein() * $consumedMultiplier);
-        $macroDTO->setCarbs((float) $food->getCarbs() * $consumedMultiplier);
-        $macroDTO->setFats((float) $food->getFats() * $consumedMultiplier);
-        $macroDTO->setFiber((float) $food->getFiber() * $consumedMultiplier);
-        $macroDTO->setCalories((float) $this->calorieCalculator->calorieCalc($food) * $consumedMultiplier);
+        $macroDTO->protein = (float) $food->getProtein() * $consumedMultiplier;
+        $macroDTO->carbs = (float) $food->getCarbs() * $consumedMultiplier;
+        $macroDTO->fats = (float) $food->getFats() * $consumedMultiplier;
+        $macroDTO->fiber = (float) $food->getFiber() * $consumedMultiplier;
+        $macroDTO->calories = (float) $this->calorieCalculator->calorieCalc($food) * $consumedMultiplier;
 
         return $macroDTO;
     }

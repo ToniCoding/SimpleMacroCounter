@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use App\DTO\UserRegisterRequestDTO;
+use App\DTO\UserData\Request\UserRegisterRequestDTO;
 use App\Entity\User;
-use App\Exceptions\{AlreadyRegisteredUsernameException, InvalidEmailProviderException};
+use App\Exceptions\{AlreadyRegisteredEmailException, AlreadyRegisteredUsernameException, InvalidEmailProviderException};
 use App\Repository\{UserRepository};
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -30,25 +30,31 @@ class UserService {
     public function register(UserRegisterRequestDTO $userRegisterRequestDTO): User {
         $registeredUser = new User();
 
-        $username = $userRegisterRequestDTO->getUsername();
+        $username = $userRegisterRequestDTO->username;
+        $email = $userRegisterRequestDTO->email;
 
         if ($this->userRepository->checkIfUserExistsByUsername($username)) {
             $this->log->error("[USER_SERVICE] User tried registering $username but is already registered.");
             throw new AlreadyRegisteredUsernameException();
         }
 
-        if (!$this->verifyEmailBannedDomains($userRegisterRequestDTO->getEmail())) {
+        if ($this->userRepository->checkIfUserExistsByEmail($email)) {
+            $this->log->error("[USER_SERVICE] User tried registering $email but is already registered.");
+            throw new AlreadyRegisteredEmailException();
+        }
+
+        if (!$this->verifyEmailBannedDomains($userRegisterRequestDTO->email)) {
             $this->log->error("[USER_SERVICE] User tried to use an invalid email provider.");
             throw new InvalidEmailProviderException();
         }
 
-        $hashedPassword = $this->userPasswordHasherInterface->hashPassword($registeredUser, $userRegisterRequestDTO->getPassword());
+        $hashedPassword = $this->userPasswordHasherInterface->hashPassword($registeredUser, $userRegisterRequestDTO->password);
         
         $registeredUser->setUsername($username);
         $registeredUser->setPassword($hashedPassword);
         $registeredUser->setRoles(['ROLE_USER']);
-        $registeredUser->setEmail($userRegisterRequestDTO->getEmail());
-        $registeredUser->setAge($userRegisterRequestDTO->getAge());
+        $registeredUser->setEmail($userRegisterRequestDTO->email);
+        $registeredUser->setAge($userRegisterRequestDTO->age);
         $registeredUser->setTimezone('Europe/Madrid');
 
         $this->entityManagerInterface->persist($registeredUser);

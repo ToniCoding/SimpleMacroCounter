@@ -14,11 +14,20 @@ class UserRepository extends ServiceEntityRepository {
     }
 
     /**
-     * Checks if an user exists based on an email.
+     * Checks if an user exists based on an username.
      * @param string $username The username to be checked.
      * @return bool True if the user already exists, false if not.
      */
     public function checkIfUserExistsByUsername(string $username): bool {
         return $this->findOneBy(['username' => $username]) !== null;
+    }
+
+    /**
+     * Checks if an user exists based on an email.
+     * @param string $email The email to be checked.
+     * @return bool True if the user already exists, false if not.
+     */
+    public function checkIfUserExistsByEmail(string $email): bool {
+        return $this->findOneBy(['email' => $email]) !== null;
     }
 }

@@ -52,18 +52,13 @@ when@prod:
                 handler: nested
                 excluded_http_codes: [404, 405]
                 channels: ["!event", "!doctrine", "!deprecation"]
-                buffer_size: 50 # Prevents memory leaks by capping buffered messages
+                buffer_size: 50
             nested:
                 type: stream
-                path: php://stderr
+                path: "%kernel.logs_dir%/prod.log"
                 level: debug
                 formatter: monolog.formatter.json
             console:
                 type: console
                 process_psr_3_messages: false
                 channels: ["!event", "!doctrine"]
-            deprecation:
-                type: stream
-                channels: [deprecation]
-                path: php://stderr
-                formatter: monolog.formatter.json
