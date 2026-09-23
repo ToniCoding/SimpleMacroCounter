@@ -14,45 +14,45 @@
 </head>
 
 <body>
-    {% if error %}
-    <div class="alert alert-danger">{{ error }}</div>
-    {% endif %}
     <header class="header">
         {% include 'partials/NavigationBar.twig.html' %}
     </header>
     <div class="content">
-        <div class="form-container">
-            <h1 class="page-title">Modify macro-nutrient intake goals</h1>
+        <div class="content">
+            <div class="form-container">
+                <h1 class="page-title">Modify macro-nutrient intake goals</h1>
 
-            {{ form_start(form) }}
-            <div class="form-group">
-                <label for="calories">New calories goal</label>
-                {{ form_widget(form.calories, {'id': 'calories', 'attr': {'class': 'form-input'}}) }}
+                <form id="macroGoalsForm">
+                    <div class="form-group">
+                        <label for="calories">New calories goal</label>
+                        <input type="number" id="calories" name="calories" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="protein">New protein goal</label>
+                        <input type="number" id="protein" name="protein" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="carbs">New carbs goal</label>
+                        <input type="number" id="carbs" name="carbs" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fats">New fats goal</label>
+                        <input type="number" id="fats" name="fats" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fiber">New fiber goal</label>
+                        <input type="number" id="fiber" name="fiber" class="form-input">
+                    </div>
+
+                    <button type="submit" class="btn-submit">Modify</button>
+                </form>
             </div>
-
-            <div class="form-group">
-                <label for="protein">New protein goal</label>
-                {{ form_widget(form.protein, {'id': 'protein', 'attr': {'class': 'form-input'}}) }}
-            </div>
-
-            <div class="form-group">
-                <label for="carbs">New carbs goal</label>
-                {{ form_widget(form.carbs, {'id': 'carbs', 'attr': {'class': 'form-input'}}) }}
-            </div>
-
-            <div class="form-group">
-                <label for="fats">New fats goal</label>
-                {{ form_widget(form.fats, {'id': 'fats', 'attr': {'class': 'form-input'}}) }}
-            </div>
-
-            <div class="form-group">
-                <label for="fiber">New fiber goal</label>
-                {{ form_widget(form.fiber, {'id': 'fiber', 'attr': {'class': 'form-input'}}) }}
-            </div>
-
-            <button type="submit" class="btn-submit">Modify</button>
-            {{ form_end(form) }}
         </div>
     </div>
 </body>
+
 </html>
