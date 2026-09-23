@@ -48,7 +48,7 @@ class HomePageController extends AbstractController {
             dailyMacroGramsGoal: $dailyMacroGoal->__toArray(), 
             weeklyCalorieGoal: $userWeeklyCalorieGoal,
             weeklyCalorieConsumption: $userWeeklyConsumedCalories,
-            weeklyCalorieGoalRiskInfo: $this->macrosRetrieveService->calculateWeeklyRisk($userWeeklyCalorieGoal, $userWeeklyConsumedCalories, $todayUserMacroGramsConsumed->getCalories())
+            weeklyCalorieGoalRiskInfo: $this->macrosRetrieveService->calculateWeeklyRisk($userWeeklyCalorieGoal, $userWeeklyConsumedCalories, $todayUserMacroGramsConsumed->calories)
         );
 
         return $this->json($nutritionDto);

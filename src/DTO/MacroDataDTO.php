@@ -8,26 +8,26 @@ class MacroDataDTO {
     public function __construct(
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        public readonly float $calories = 0,
+        public float $calories = 0,
         
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        public readonly float $protein = 0,
+        public float $protein = 0,
 
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        public readonly float $carbs = 0,
+        public float $carbs = 0,
 
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        public readonly float $fats = 0,
+        public float $fats = 0,
 
         #[Assert\NotNull]
         #[Assert\PositiveOrZero]
-        public readonly float $fiber = 0,
+        public float $fiber = 0,
 
         #[Assert\NotNull]
-        public readonly string $intent = ''
+        public string $intent = ''
     ) {}
 
     public function __toArray(): array {

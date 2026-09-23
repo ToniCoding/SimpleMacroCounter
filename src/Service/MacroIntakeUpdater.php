@@ -37,20 +37,20 @@ class MacroIntakeUpdater {
      * @throws ExceededMacroLimitException If macro limits are exceeded or reduction rules are violated.
      */
     public function updateMacroIntake(User $user, MacroDataDTO $macroDataDTO, string $intent = 'add'): bool {
-        $dataProtein = (float) $macroDataDTO->getProtein();
-        $dataCarbs = (float) $macroDataDTO->getCarbs();
-        $dataFats = (float) $macroDataDTO->getFats();
-        $dataFiber = (float) $macroDataDTO->getFiber();
+        $dataProtein = (float) $macroDataDTO->protein;
+        $dataCarbs = (float) $macroDataDTO->carbs;
+        $dataFats = (float) $macroDataDTO->fats;
+        $dataFiber = (float) $macroDataDTO->fiber;
 
         $dataMacros = [$dataProtein, $dataCarbs, $dataFats, $dataFiber];
 
         $currentMacros = $this->dailyIntakeRecordService->ensureDailyIntakeRecord($user);
 
         $dataMacrosConsumedAsArray = [
-            (float) $currentMacros->getProtein(),
-            (float) $currentMacros->getCarbs(),
-            (float) $currentMacros->getFats(),
-            (float) $currentMacros->getFiber()
+            (float) $currentMacros->protein,
+            (float) $currentMacros->carbs,
+            (float) $currentMacros->fats,
+            (float) $currentMacros->fiber
         ];
 
         if (array_any($dataMacros, fn($v) => (float) $v > 400)) {
@@ -73,12 +73,11 @@ class MacroIntakeUpdater {
             }
         }
 
-        $macroDataDTO->setCalories(
+        $macroDataDTO->calories =
             $dataProtein * 4 +
             $dataFats * 9 +
             $dataCarbs * 4 +
-            $dataFiber * 2
-        );
+            $dataFiber * 2;
 
         $this->logger->info('[MACRO_INTAKE_UPDATER_SERVICE] Macro data to use: ' . $macroDataDTO->__toString());
 
