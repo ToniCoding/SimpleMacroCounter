@@ -1,0 +1,252 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="navigation-container">
+    <div class="logo-container">
+        <a href="#">
+            <h1>SimpleMacroCounter</h1>
+            <span>Est. 2025</span>
+        </a>
+    </div>
+
+    <nav class="nav-menu">
+        <ul class="nav-list">
+            <li class="nav-item has-dropdown">
+                <a href="#">Macro Tracking</a>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="#">Log meal</a></li>
+                        <li><a href="#">New food item</a></li>
+                        <li><a href="#">Manual adjustment</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a href="#">Friends</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#">History</a>
+            </li>
+
+            <li class="nav-item has-dropdown">
+                <a href="#">Profile</a>
+                <div class="dropdown-menu dropdown-menu--right">
+                    <ul>
+                        <li><a href="#">Nutrition data</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#" class="logout-link">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<style>
+    @font-face {
+        font-family: dm-sans;
+        src: url('../../public/ttf/DMSans.ttf');
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #0b1329;
+        color: #e2e8f0;
+        font-family: 'dm-sans';
+        overflow-x: hidden;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* 
+    ***************************************************
+    *** Main containers
+    ***************************************************
+    */
+    .navigation-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.5rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-bottom: 3px solid rgba(167, 165, 165, 0.1);
+    }
+
+    .logo-container a {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .logo-container a:hover {
+        color: #9cbeea;
+    }
+
+    .logo-container h1 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .logo-container span {
+        color: #94a3b8;
+        font-size: 0.85rem;
+        font-style: italic;
+    }
+
+    /* 
+    ***************************************************
+    *** Main navigation
+    ***************************************************
+    */
+    .nav-list {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .nav-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+    .nav-item > a {
+        display: inline-flex;
+        align-items: center;
+        padding: 1rem 0.25rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        transition: color 0.3s ease-in-out;
+    }
+    
+    .nav-item > a:hover {
+        color: #9cbeea;
+    }
+
+    
+
+    /* 
+    ***************************************************
+    *** Dropdown menus
+    ***************************************************
+    */
+    .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 3px);
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        min-width: 210px;
+        padding: 0;
+        background-color: #0b1329;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        z-index: 100;
+        
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    }
+
+    .nav-list .has-dropdown:last-child {
+        position: static;
+    }
+
+    .dropdown-menu--right {
+        left: auto;
+        right: 0;
+        top: calc(100% + 3px);
+        border-top-right-radius: 0;
+    }
+
+    .has-dropdown:hover > .dropdown-menu,
+    .has-dropdown:focus-within > .dropdown-menu,
+    .has-dropdown.is-open > .dropdown-menu {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .dropdown-menu ul {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .dropdown-menu a {
+        display: block;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: #9cbeea;
+    }
+
+    .dropdown-menu a.logout-link:hover {
+        background-color: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+    }
+
+    .nav-item > a.dropdown-selected,
+    .dropdown-menu a.dropdown-selected {
+        color: #9cbeea;
+    }
+
+    .dropdown-menu a.dropdown-selected {
+        background-color: rgba(255, 255, 255, 0.08);
+        font-weight: 600;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+    const dropdownToggles = document.querySelectorAll('.nav-menu > ul > li > a');
+
+    dropdownToggles.forEach(toggle => {
+        const parentLi = toggle.parentElement;
+        const dropdown = parentLi.querySelector('.dropdown-menu');
+
+        if (dropdown) {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                document.querySelectorAll('.nav-menu > ul > li.is-active').forEach(item => {
+                    if (item !== parentLi) {
+                        item.classList.remove('is-active');
+                    }
+                });
+
+                parentLi.classList.toggle('is-active');
+            });
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav-menu')) {
+            document.querySelectorAll('.nav-menu > ul > li.is-active').forEach(item => {
+                item.classList.remove('is-active');
+            });
+        }
+    });
+});
+</script>
